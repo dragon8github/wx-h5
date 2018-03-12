@@ -1,0 +1,186 @@
+@charset 'utf-8';
+
+$base-font-size: 75px; //design iphone6: 375px * 2 / 10 = 75px; --design
+// $base-font-size: 32px; //design iphone3gs: 320px / 10 = 32px
+// $base-font-size: 64px; //design iphone4/5: 320px * 2 / 10 = 64px
+// $base-font-size: 124.2px; //design iphone6: 414px * 3 / 10 = 124.2px;
+
+@function pxToRem($px) {
+    @return  $px / $base-font-size * 1rem;
+}
+
+@mixin size($width, $height) {
+    width: pxToRem($width);
+    height: pxToRem($height);
+}
+
+@mixin ycenter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@mixin xcenter {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@mixin center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin flex ($x: false, $y: false, $direction: false) {
+    display: flex;
+
+    @if $x {
+        @if $x == s or $x == start {
+            justify-content: flex-start;
+        } @else if $x == c or $x == center {
+            justify-content: center;
+        } @else if $x == e or $x == end {
+            justify-content: flex-end;
+        } @else if $x == a or $x == around {
+            justify-content: space-around;
+        } @else if $x == b or $x == between {
+            justify-content: space-between;
+        } @else { 
+            justify-content: $x;
+        }
+    }
+
+    @if $y {
+        @if $y == s or $y == start {
+            align-items: flex-start;
+        } @else if $y == c or $y == center {
+            align-items: center;
+        } @else if $y == e or $y == end {
+            align-items: flex-end;
+        }  @else if  $y == stretch or $y == full or $y == f {
+            align-items: stretch;
+        }  @else if $y == baseline or $y == base or $y == b or $y == line or $y == l {
+            align-items: baseline;
+        } @else { 
+            align-items: $y;
+        }
+    }
+
+    @if $direction {
+        @if $direction == c or $direction == col {
+            flex-direction: column;
+        } @else {
+            flex-direction: $direction;
+        }
+    }
+}
+
+@mixin fullbg ($width, $height, $url) {
+    width: pxToRem($width);
+    height: pxToRem($height);
+    background: url($url) center / 100% no-repeat content-box;
+}
+
+@mixin bg ($width, $height, $url) {
+    width: pxToRem($width);
+    height: pxToRem($height);
+    background: url($url) center / 100% 100% no-repeat;
+    display: inline-block;
+}
+
+@mixin pxToPx($name,$px) {
+    #{$name}: round($px / 2) * 1px;
+    [data-dpr="2"] & {
+        #{$name}: $px * 1px;
+    }
+    // for mx3
+    [data-dpr="2.5"] & {
+        #{$name}: round($px * 2.5 / 2) * 1px; //因为设计稿是2倍稿，所以要除以2
+    }
+    // for xiaomi note
+    [data-dpr="2.75"] & {
+        #{$name}: round($px * 2.75 / 2) * 1px;
+    }
+    [data-dpr="3"] & {
+        #{$name}: round($px * 3 / 2 ) * 1px;
+    }
+    // for sumsang note4
+    [data-dpr="4"] & {
+        #{$name}: $px * 2px;
+    }
+}
+
+
+//border 
+@mixin border($pos, $color) {
+    content: "";
+    position: absolute;
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    
+    @if $pos=='top'{
+        #{$pos}: 0px;
+        left: 0px;
+        right: 0px;
+        border-#{$pos}: 1px solid $color;
+        transform: scaleY(.5);
+        -webkit-transform: scaleY(.5);
+    } @else if $pos=='bottom' {
+         #{$pos}: 0px;
+        left: 0px;
+        right: 0px;
+        border-#{$pos}: 1px solid $color;
+        transform: scaleY(.5);
+        -webkit-transform: scaleY(.5);            
+    } @else {
+        top: 0px;
+        bottom: 0px;
+        #{$pos}: 0px;
+        border-#{$pos}: 1px solid $color;
+        transform: scaleX(.5);
+        -webkit-transform: scaleX(.5);
+    }   
+}
+
+@mixin line($height, $color, $direction: row) {
+    @if $direction == row {
+        position: relative;
+        height: pxToRem($height);
+
+        &::after {
+            @include border(bottom, $color);
+            @include ycenter;
+            height: pxToRem(1px);
+        }
+    } @else if $direction == c or $direction == col or $direction == columns {
+        position: relative;
+        height: pxToRem($height);
+
+        &::after {
+            @include border(left, $color);
+            width: pxToRem(1px);
+        }
+    }
+}
+
+@mixin f20 {
+    font-size: pxToRem(20px);
+}
+
+@mixin f24 {
+    font-size: pxToRem(24px);
+}
+
+@mixin f28 {
+    font-size: pxToRem(28px);
+}
+
+@mixin f32 {
+    font-size: pxToRem(32px);
+}
+
+@mixin f38 {
+    font-size: pxToRem(38px);
+}

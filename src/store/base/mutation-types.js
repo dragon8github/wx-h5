@@ -1,0 +1,2 @@
+export const SET_FETCH_COUNT = 'SET_FETCH_COUNT'
+

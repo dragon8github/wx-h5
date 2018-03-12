@@ -1,0 +1,233 @@
+<template>
+    <div class="CarSellBuy">
+        <div class="banner">
+            <div class="banner_text">当前最高出价</div>
+            <div class="banner__money">265,000 <span class="banner__money--yuan">元</span></div>
+            <div class="banner__price">起拍价： ¥ 65,000</div>
+        </div>
+        <div class="navbar">
+            <div class="navbar__block">
+                <div class="navbar__text">保证金</div>
+                <div class="navbar__money">¥ 5,000</div>
+            </div>
+            <div class="navbar__line"></div>
+            <div class="navbar__block">
+                <div class="navbar__text">评估价</div>
+                <div class="navbar__money">¥ 125,000</div>
+            </div>
+        </div>
+        <div class="time">
+            <div class="time__text">拍卖时间：</div>
+            <div class="time__section">2018/02/23 - 2018/02/28</div>
+        </div>
+        <div class="form">
+                <div class="form__left">
+                    <div class="form__addtext">出价金额<span class="form__addtext--yuan">（元 / 次）</span></div>
+                    <div class="form__addmoney">5,000</div>
+                </div>
+
+                <div class="form__right">
+                    <div class="form__addtext">加价幅度<span class="form__addtext--yuan">（元）</span></div>
+                    <div class="InputNumber">
+                        <a class="InputNumber__reduce"></a>
+                        <input type="text" class="InputNumber__input" v-model='input_money'>
+                        <a class="InputNumber__add"></a>
+                    </div>
+                    <div class="form__overtop">出价须高于 ¥ 23,000</div>
+                </div>
+
+        </div>
+        <div class="btn">
+            <button class="btn--primary">报 名</button>
+        </div>
+    </div>
+</template>
+
+<script>
+ import mtField from '@components/field/field2.vue'
+export default {
+
+  name: 'CarSellBuy',
+
+  data () {
+    return {
+        input_money: '23,000'
+    }
+  },
+  components: {
+    mtField
+  }
+} 
+</script>
+
+<style lang="scss" scoped>
+@import "~@sass/_variables";
+@import "~@sass/_func";
+
+
+.banner {
+    @include flex(a, c, c);
+    height: pxToRem(302px);
+    background-color: #0e6ae7;
+    color: #fff;
+    padding: pxToRem(45px) 0;
+
+    .banner_text {
+        font-size: pxToRem(28px);
+    }
+
+    .banner__money {
+        font-size: pxToRem(80px);
+    }
+
+    .banner__money--yuan {
+        font-size: pxToRem(28px);
+    }
+
+    .banner__price {
+        font-size: pxToRem(36px);
+    }
+}
+
+.navbar {
+    @include flex(a, c);
+    height: pxToRem(110px);
+    background-color: #075dd3;
+
+    .navbar__block {
+        text-align: center;
+        flex: 1;
+    }
+
+    .navbar__line {
+        @include line(66px, #fff, col)
+    }
+
+    .navbar__text {
+        color: #b9c8ee;
+        font-size: pxToRem(28px);
+        margin-bottom: pxToRem(8px);
+    }
+
+    .navbar__money {
+         color: #ffffff;
+         font-size: pxToRem(32px);
+    }
+}
+
+.time {
+    @include flex(b, s, c);
+    height: pxToRem(140px);
+    margin-bottom: pxToRem(10px);
+    background-color: #fff;
+    padding: pxToRem(20px) pxToRem(30px);
+
+    .time__text {
+        color: #222222;
+        font-size: pxToRem(32px);
+    }
+
+    .time__section {
+        color: #0e6ae7;
+        font-size: pxToRem(32px);
+    }
+}
+
+
+.form {
+    @include flex(b, c);
+    padding: pxToRem(30px) pxToRem(30px);
+    background: #fff;
+
+    .form__left {
+        align-self: flex-start;
+        height: pxToRem(200px);
+    }
+
+    .form__addtext {
+        font-size: pxToRem(32px);
+        color: #828282;        
+    }
+
+    .form__addmoney {
+        font-size: pxToRem(48px);
+        color: #1c1c1c;
+        margin-top: pxToRem(35px);
+    }
+
+    .form__addtext--yuan {
+        font-size: pxToRem(24px);
+        color: #828282;
+    }
+
+    .form__right {
+        @include flex(b,s,c);
+        height: pxToRem(200px);
+    }
+
+    .InputNumber {
+        @include flex(c,c);
+    }
+
+    .InputNumber__reduce {
+        @include size(82px, 82px);
+        border: solid pxToRem(2px) #ebebeb;
+        position: relative;
+
+        &::after {
+            @include bg(33px, 2px, '~@assets/-.png');
+            @include center;
+            content: '';
+            position: absolute;
+        }
+    }
+
+    .InputNumber__add {
+        @include size(82px, 82px);
+        border: solid pxToRem(2px) #ebebeb;
+        position: relative;
+
+        &::after {
+            @include bg(33px, 33px, '~@assets/+.png');
+            @include center;
+            content: '';
+            position: absolute;
+        }
+    }
+
+    .InputNumber__input {
+        @include size(240px, 82px);
+        border: solid pxToRem(2px) #ebebeb;
+        background: #fff;
+        font-size: pxToRem(48px);
+        text-align: center;
+        margin: auto pxToRem(5px);
+    }
+
+    .form__overtop {
+        color: #df2323;
+        font-size: pxToRem(28px);
+    }
+}
+
+
+.btn {
+   @include flex(center);
+   margin: pxToRem(38px) 0 pxToRem(63px);
+
+   .btn--primary {
+       margin: auto;
+       width: pxToRem(690px);
+       height: pxToRem(100px);
+       background-color: #0e6ae7;
+       border-radius: pxToRem(6px);
+       text-align: center;
+       line-height: pxToRem(100px);
+       color: #fff;
+       font-size: pxToRem(32px);
+       border: 0;
+   }
+}
+
+
+</style>

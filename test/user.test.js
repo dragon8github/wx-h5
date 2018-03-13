@@ -1,44 +1,50 @@
-var api = require('./utils').api;
+var xdapi = require('./utils').xdapi;
 
-describe.only('注册', () => {
-  it.only('发送验证码', done => {
-    api.SmsSend({
-        TelNo: '13713332652'
+describe('注册', () => {
+  it('发送验证码', done => {
+    xdapi.wechat_SmsSend({
+        TelNo: '13713332652',
+        Type: '1'  
     }).then(data=>{
-        if (data) {
+        if (data.ReturnCode == 1) {
+            // 测试环境不会发送验证码，但这个值就是验证码
+            console.log(data.Data) 
             done()
         } else {
-            throw new Error('发送验证码失败：');
+            throw new Error('发送验证码失败：' + data.ReturnMessage);
         }
     })
   })
 
   it('注册', done => {
-    api.Register({
-        TelNo: '13713332652',  // 账号
-        Password: '123456',  // 密码
-        ValidateCode: '123456',  // 验证码
+    xdapi.wechat_Register({
+        TelNo: '13713332652',           // 账号
+        Password: '123456.a',             // 密码
+        ValidateCode: '186743',         // 验证码
         ExtensionTelNo: '13713332652',  // 推荐手机号
+        Type: 'wechat_pulic',           // 注册方式是微信
     }).then(data=>{
-        if (data) {
+        if (data.ReturnCode == 1) {
+            console.log(data)
             done()
         } else {
-            throw new Error('注册失败：');
+            throw new Error('注册失败：' + data.ReturnMessage);
         }
     })
   })
 })
 
 describe('登陆', () => {
-  it('登陆', done => {
-    api.Login({
+  it.only('登陆', done => {
+    xdapi.wechat_Login({
         UserName: '13713332652',  // 账号
-        Pwd: '123456',  // 密码
+        Pwd: '123456.a',          // 密码
     }).then(data=>{
-        if (data) {
+        if (data.ReturnCode == 1) {
+            console.log(data);
             done()
         } else {
-            throw new Error('登陆失败：');
+            throw new Error('登陆失败：' + data.ReturnMessage);
         }
     })
   })
@@ -46,30 +52,34 @@ describe('登陆', () => {
 
 
 describe('找回密码', () => {
+  it('发送验证码', done => {
+    xdapi.wechat_SmsSend({
+          TelNo: '15014854228',
+          Type: '2'  
+      }).then(data=>{
+          if (data.ReturnCode == 1) {
+              // 测试环境不会发送验证码，但这个值就是验证码
+              console.log(data.Data) 
+              done()
+          } else {
+              throw new Error('发送验证码失败：' + data.ReturnMessage);
+          }
+      })
+  })
+
   it('找回密码', done => {
-    api.FindPwd({
-        TelNo: '13713332652',  // 账号
-        ValidateCode: '123456',  // 验证码
+    xdapi.wechat_FindPwd({
+        TelNo: '15014854228',    // 账号
+        ValidateCode: '154176',  // 验证码
+        Password: '123456@a'     // 新密码
     }).then(data=>{
-        if (data) {
+            console.log(data);
+
+        if (data.ReturnCode == 1) {
             done()
         } else {
             throw new Error('找回密码失败：');
         }
     })
-  })
-
-  // TODO： 修改密码这个接口中，只传入新密码和旧密码就可以了吗？不需要别的用户信息参数？
-  it('修改密码', done => {
-        api.ChangePassword({
-            OldPwd: '123456',  // 旧密码
-            NewPassWord: '123456',  // 新密码
-        }).then(data=>{
-            if (data) {
-                done()
-            } else {
-                throw new Error('修改密码失败：');
-            }
-        })
   })
 })

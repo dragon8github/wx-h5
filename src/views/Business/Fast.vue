@@ -64,30 +64,52 @@
                 this.type = 'house'
             },
             go () {
-                if (!this.user.trim()) {
-                     return Toast('姓名不能为空')
-                } else if (this.user.trim().length > 16) {
-                     return Toast('姓名不能大于16位')
+                this.city = this.city.trim()
+                this.user = this.user.trim()
+                this.phone = this.phone.trim()
+
+                if (!this.city) {
+                  this.$router.push('/cityselect');
+                  return Toast('请选择城市')
                 }
 
-                if (!/^1\d{10}$/.test(phoneNumber)) {
+                if (!this.user) {
+                    return Toast('姓名不能为空')
+                } else if (this.user.length > 16) {
+                    return Toast('姓名不能大于16位')
+                }
+
+                if (!/^1\d{10}$/.test(this.phone)) {
                      return Toast('请输入正确的手机号码')
                 }
 
-                if (this.type == 'car') {
-                     Loader.show("正在提交车易贷业务...");
-                     window.setTimeout(_=> {
-                        this.$router.push("Status")
-                     } , 1500)
-                } else {
-                     Loader.show("正在提交房速贷业务...");
-                     window.setTimeout(_=> {
-                        this.$router.push("Status")
-                     } , 1500)
-                }
+                this.fast();
             },
             cityselect () {
                 this.$router.push('/cityselect')
+            },
+            fast () {
+                let _type = this.type === 'house' ? '1' : '2'
+                let _typetext = this.type === 'house' ? "正在提交房速贷业务..." : "正在提交车易贷业务...";
+
+                Loader.show(_typetext);
+                this.api.wechat_FastApplyFor({
+                    BusinessType: _type,          
+                    Location: {
+                        City: this.city,   
+                        Latitude:'0',      
+                        Longitude: '0',    
+                    },
+                    RealName: this.user,            // 真实姓名
+                    TelNo: this.phone               // 电话号码
+                }, true).then(data=>{
+                      Loader.hideAll()
+                      if (data.ReturnCode == 1) {
+                          this.$router.push("Status")
+                      } else {
+                          Toast(data.ReturnMessage);
+                      }
+                })
             }
         },
         watch: {
@@ -102,9 +124,6 @@
         components: {
             mtField,
             mtButton
-        },
-        beforeMount (){
-
         }
   }
 </script>

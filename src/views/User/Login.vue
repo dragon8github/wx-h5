@@ -3,7 +3,7 @@
        <div class="form">
             <mt-field topLabel = '手机号' :errTopLabel = 'user_errTopLabel' type = "number"   placeholder = '请输入用户名/手机号'   v-model = 'user' :maxlength = '11'></mt-field>
             <mt-field topLabel = '密码'   :errTopLabel = 'pwd_errTopLabel'  type = "password" placeholder = '请输入密码'  v-model = 'pwd'  :maxlength = '16'></mt-field> 
-            <mt-button :text="'登 录'" :disable="user === '' || pwd === ''" @click="go"></mt-button>
+            <mt-button :text="'登 录'" :disable = "user == '' || pwd == ''" @click="go"></mt-button>
        </div>
 
        <div class="bottom-text">
@@ -23,7 +23,7 @@
         name: 'Login',
         data () {
             return {
-              user:'',
+              user: '',
               pwd: '',
               user_errTopLabel: '',
               pwd_errTopLabel: ''
@@ -48,10 +48,12 @@
                   this.pwd_errTopLabel = ''
               }
 
+              Loader.show('正在登录...')
               this.api.wechat_Login({
                   UserName: this.uer,  // 账号
                   Pwd: this.pwd,       // 密码
-              }).then(data=>{
+              }, true).then(data=>{
+                  Loader.hideAll();
                   if (data.ReturnCode == 1) {
                       this.$router.push(this.$store.state.wantTo)
                   } else {
@@ -69,6 +71,9 @@
         components: {
             mtField,
             mtButton
+        },
+        beforeMount () {
+          console.log(this.user === '' || this.pwd === '')
         }
   }
 </script>

@@ -61,10 +61,8 @@
     name: 'CarBusinessInfo',
     methods: {
       LinkToQuickenLoans () {
-        this.$router.push({
-            name: 'Login', 
-            params: {type: 'car'} 
-        })
+        this.$store.state.wantTo = "/fast/car";
+        this.$router.push('register');
       }
     }
   }

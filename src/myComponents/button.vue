@@ -1,6 +1,6 @@
 <template>
   <div>
-      <button class="button" @click="handleClick" :disabled="disabled" >
+      <button class="button" @click="handleClick" :disable="disable">
           {{ this.text }}
       </button>
   </div>
@@ -11,14 +11,11 @@ export default {
     name: 'mybutton',
     methods: {
         handleClick(evt) {
-          this.$emit('click', evt);
-        },
-        px2rem (v) {
-            return window.px2rem(v)
+          if (!this.disable)  this.$emit('click', evt);
         }
     },
     props: {
-        disabled: Boolean,
+        disable: Boolean,
         text: String
     }
 };

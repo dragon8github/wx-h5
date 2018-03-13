@@ -13,6 +13,8 @@ const HouseBusinessInfo = r => require.ensure([], () => r(require('@/views/Busin
 const Status            = r => require.ensure([], () => r(require('@/views/Business/Status')), 'Status')
 // 城市选择页面
 const CitySelect        = r => require.ensure([], () => r(require('@/views/Business/CitySelect')), 'CitySelect')
+// 关于我们
+const About             = r => require.ensure([], () => r(require('@/views/Business/About')), 'About')
 
 // 登录
 const Login     = r => require.ensure([], () => r(require('@/views/User/Login')), 'Login')
@@ -78,11 +80,13 @@ let router =  new Router({
     routes: [
         // { path: '/', redirect: '/Fast'},
 
+        { path: '/Fast/:type?',        name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
         { path: '/Fast',               name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
         { path: '/CarBusinessInfo',    name: 'CarBusinessInfo',    meta: { title: '一点车贷' }, component: CarBusinessInfo },
         { path: '/HouseBusinessInfo',  name: 'HouseBusinessInfo',  meta: { title: '一点房贷' }, component: HouseBusinessInfo },
         { path: '/Status',             name: 'Status',             meta: { title: '申请结果' }, component: Status },
         { path: '/CitySelect',         name: 'CitySelect',         meta: { title: '选择城市' }, component: CitySelect },
+        { path: '/About',              name: 'About',              meta: { title: '关于我们' }, component: About },
 
         { path: '/Login',      name: 'Login',     meta: { title: '登录' },      component: Login },
         { path: '/Register',   name: 'Register',  meta: { title: '注册' },      component: Register },

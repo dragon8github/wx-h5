@@ -19,7 +19,8 @@
                 </mt-field>
             </div>
 
-            <button class="button" :class="{disable: user === '' || pwd === ''}" @click="go">注 册</button>
+            <mt-button :text="'注 册'" :disable = "user == '' || pwd == ''" @click="go"></mt-button>
+
        </div>
        <div class="already"> 已有账号，<a class="goToLogin" @click="goToLogin">马上登录</a> </div>
        <div class="bottom-text"> 注册即表示您已同意 <a class="goToPro" @click="goToPro">《团贷网信贷服务协议》</a> </div>
@@ -31,78 +32,99 @@
   import Toast        from '@components/toast/index.js'
   import Loader       from '@components/loader/index.js'
   import getvalidate  from '@myComponents/getvalidate'
+  import mtButton  from '@myComponents/button.vue'
+
 
   export default {
-        name: 'Register',
-        data () {
-            return {
-                user:'',
-                pwd: '',
-                validate: '',
-                invite: '',
-                user_errTopLabel:'',
-                pwd_errTopLabel:'',
-                validate_errTopLabel:'',
-                hide_validate: false
-            }
-        },
-        methods: {
-            go () {
-                if (this.user.trim() === '') {
-                    return this.user_errTopLabel = '请输入用户名/手机号'
-                } else if (!/^1\d{10}$/.test(this.user.trim())) {
-                    return this.user_errTopLabel = '手机号码格式错误'
-                } else {
-                    this.user_errTopLabel = ''
-                }
-
-                if (this.pwd.trim() === '') {
-                    return this.pwd_errTopLabel = '密码不能为空'
-                } else if (!/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/.test(this.pwd) || this.pwd.length < 6 || this.pwd.length > 16) {
-                    return this.pwd_errTopLabel = '须含字母和数字6-16个字符，支持特殊符号'
-                } else {
-                    this.pwd_errTopLabel = ''
-                }
-
-                if (/[^A-Za-z0-9]/.test(this.validate)) {
-                    return this.validate_errTopLabel = '6位数字或英文'
-                } else {
-                    this.validate_errTopLabel = ''
-                }
-
-                // 邀请人手机号码验证
-                // 1、交互，错误的提示
-                // 2、是否要检查手机号码的用户是否存在，不存在的话返回错误信息
-
-                Loader.show("注册中...")
-                window.setTimeout(_ => {
-                    this.$router.push({
-                        name: 'Fast', 
-                        params: {type: this.$route.params.type || 'car'} 
-                    })
-                }, 2000)
-            },
-            getCode (cb) {
-                Loader.show("正在获取验证码")
-                window.setTimeout(_ => {
-                    Loader.hideAll()
-                    cb()
-                }, 2000)
-            },
-            goToLogin () {
-                this.$router.push('Login')
-            },
-            goToPro () {
-                this.$router.push('RegProtocol')
-            },
-            fade () {
-                this.hide_validate = !this.hide_validate
-            }
-        },
-        components: {
-            mtField,
-            getvalidate,
+    name: 'Register',
+    data () {
+        return {
+            user:'',
+            pwd: '',
+            validate: '',
+            invite: '',
+            user_errTopLabel:'',
+            pwd_errTopLabel:'',
+            validate_errTopLabel:'',
+            hide_validate: false
         }
+    },
+    methods: {
+        go () {
+            if (this.user.trim() === '') {
+                return this.user_errTopLabel = '请输入用户名/手机号'
+            } else if (!/^1\d{10}$/.test(this.user.trim())) {
+                return this.user_errTopLabel = '手机号码格式错误'
+            } else {
+                this.user_errTopLabel = ''
+            }
+
+            if (this.pwd.trim() === '') {
+                return this.pwd_errTopLabel = '密码不能为空'
+            } else if (!/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/.test(this.pwd) || this.pwd.length < 6 || this.pwd.length > 16) {
+                return this.pwd_errTopLabel = '须含字母和数字6-16个字符，支持特殊符号'
+            } else {
+                this.pwd_errTopLabel = ''
+            }
+
+            if (/[^A-Za-z0-9]/.test(this.validate)) {
+                return this.validate_errTopLabel = '6位数字或英文'
+            } else {
+                this.validate_errTopLabel = ''
+            }
+
+            // 邀请人手机号码验证
+            // 1、交互，错误的提示
+            // 2、是否要检查手机号码的用户是否存在，不存在的话返回错误信息
+            Loader.show('注册中...')
+            this.api.wechat_SmsSend({
+                     TelNo: this.user,             // 账号
+                     Password: this.pwd,           // 密码
+                     ValidateCode: this.validate,  // 验证码
+                     ExtensionTelNo: this.invite,  // 推荐手机号
+                     Type: 'wechat_pulic'          // 注册方式是微信
+            }, true).then(data=>{
+                Loader.hideAll();
+                if (data.ReturnCode == 1) {
+                    Toast('注册成功');
+                    this.$router.push(this.$store.state.wantTo)
+                } else {
+                    Toast(data.ReturnMessage);
+                }
+            })
+        },
+        getCode (cb) {
+            Loader.show("正在获取验证码")
+            this.api.wechat_SmsSend({
+                    TelNo: this.user,
+                    Type: '1'  
+            }).then(data => {
+                Loader.hideAll();
+                if (data.ReturnCode == 1) {
+                    Toast("验证码已发送")
+                } else {
+                    Toast('发送验证码失败：' + data.ReturnMessage);
+                }
+            })
+        },
+        goToLogin () {
+            this.$router.push('Login')
+        },
+        goToPro () {
+            this.$router.push('RegProtocol')
+        },
+        fade () {
+            this.hide_validate = !this.hide_validate
+        }
+    },
+    components: {
+        mtField,
+        getvalidate,
+        mtButton
+    },
+    beforeMount () {
+
+    }
   }
 </script>
 

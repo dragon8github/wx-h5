@@ -62,10 +62,8 @@
     name: 'HouseBusinessInfo',
     methods: {
       LinkToQuickenLoans () {
-        this.$router.push({
-            name: 'Login', 
-            params: {type: 'house'} 
-        })
+        this.$store.state.wantTo = "/fast/house";
+        this.$router.push('register');
       }
     }
   }

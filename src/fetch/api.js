@@ -15,23 +15,18 @@ if (typeof(Proxy) == 'function') {
       }
   })
 } else {
-    let api_arr = ['YiDianStaging_TCBankLogin',
-                   'YiDianStaging_AnswerQuestion',
-                   'YiDianStaging_GetIdentityVerificationCode',
-                   'YiDianStaging_GetCreditInfo',
-                   'YiDianStaging_GetProgress',
-                   'YiDianStaging_GetBankLoginVerifyCode',
-                   'YiDianStaging_RegistPersonIdentity',
-                   'YiDianStaging_GetRegistMobileCode',
-                   'YiDianStaging_RegistAccount',
-                   'YiDianStaging_GetPasswordVerifyCode',
-                   'YiDianStaging_GetPasswordPersonIdentity',
-                   'YiDianStaging_GetPasswordMobileCode',
-                   'YiDianStaging_ResetPassword',
-                   'YiDianStaging_ResetPasswordAnswerQuestion',
-                   'YiDianStaging_MobileOperatorVerify',
-                   'YiDianStaging_MobileSMSVerify',
-                   'YiDianStaging_MobileOperatorLogin']
+    let api_arr = [
+                    'wechat_Login',
+                    'wechat_SmsSend',
+                    'wechat_SmsSend',
+                    'wechat_SmsSend',
+                    'wechat_Register',
+                    'wechat_SmsSend',
+                    'wechat_FindPwd',
+                    'wechat_FastApplyFor',
+                    'wechat_BorrowingRecord',
+                    'wechat_GetRepayingList',
+                  ]
     for (let [index,ele] of api_arr.entries()) {
         api[ele] = (data, isQuiet = false) => { 
           // 后端的格式要求：如果data只有一个数据的时候，那么不需要写key

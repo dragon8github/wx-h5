@@ -1,22 +1,5 @@
 var xdapi = require('./utils').xdapi;
 
-
-describe('登陆', () => {
-  it.only('登陆', done => {
-        xdapi.wechat_Login({
-            UserName: '13713332657',  // 账号
-            Pwd: '123456.a',          // 密码
-        }).then(data=>{
-            if (data.ReturnCode == 1) {
-                console.log(data);
-                done()
-            } else {
-                throw new Error('登陆失败：' + data.ReturnMessage);
-            }
-        })
-  })
-})
-
 describe('发送验证码', () => {
     it('发送注册验证码', done => {
         xdapi.wechat_SmsSend({
@@ -48,6 +31,22 @@ describe('发送验证码', () => {
         })
     })
 });
+
+describe('登陆', () => {
+  it.only('登陆', done => {
+        xdapi.wechat_Login({
+            UserName: '13713332657',  // 账号
+            Pwd: '123456.a',          // 密码
+        }).then(data=>{
+            if (data.ReturnCode == 1) {
+                console.log(data);
+                done()
+            } else {
+                throw new Error('登陆失败：' + data.ReturnMessage);
+            }
+        })
+  })
+})
 
 describe('注册', () => {
   it('注册', done => {

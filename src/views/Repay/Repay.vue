@@ -139,7 +139,17 @@
 
         },
         beforeMount () {
-
+            this.api.wechat_GetRepayingList({
+                  PageIndex: '1',  // 页数
+                  PageSize: '10'   // 数量
+            }).then(data=>{
+                if (data.ReturnCode == 1) {
+                    console.log(data);
+                } else {
+                    console.log(data);
+                    Toast(data.ReturnMessage);
+                }
+            })
         }
   }
 </script>

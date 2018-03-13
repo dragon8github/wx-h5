@@ -76,7 +76,7 @@ const CarSellNotice   = r => require.ensure([], () => r(require('@/views/Protoco
 
 let router =  new Router({
     routes: [
-        { path: '/', redirect: '/Fast'},
+        // { path: '/', redirect: '/Fast'},
 
         { path: '/Fast',               name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
         { path: '/CarBusinessInfo',    name: 'CarBusinessInfo',    meta: { title: '一点车贷' }, component: CarBusinessInfo },

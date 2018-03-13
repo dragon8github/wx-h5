@@ -1,11 +1,13 @@
-var api = require('./utils').api;
+var carapi = require('./utils').carapi;
 
 describe('读取车辆拍卖信息', () => {
-  it('读取车辆拍卖信息', done => {
-    api.BorrowingRecord({
-        AuctionState: 0  //0.审批未通过 1.审批通过[去掉]
+  it.only('读取车辆拍卖信息', done => {
+    carapi.selectAuctionsPage({
+         page: 1,
+         limit:2
     }).then(data=>{
-        if (data) {
+        if (data.code) {
+            console.log(data);
             done()
         } else {
             throw new Error('读取车辆拍卖信息：');

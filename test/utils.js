@@ -43,7 +43,7 @@ const carpost = (api, data) => {
         return data.json()
     }).then(json => {
         // 拼接form请求参数，然后返回，方便调试
-        json.form = form;
+        json.form = data;
         return json;
     })
 }

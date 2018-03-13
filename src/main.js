@@ -18,9 +18,6 @@ window.Promise = require('promise')
 // 加载API
 Vue.use(api)
 
-// 加载jsbridge
-Vue.use(Bridge)
-
 // vue初始化
 let initial = () => {
     new Vue({
@@ -33,7 +30,9 @@ let initial = () => {
 }
 
 // 将核心数据放入store中
-store.dispatch('setAppData', {test: window.test}).then(() => {
+store.dispatch('setAppData', {openid: window.openid, isLogin: window.isLogin}).then(() => {
     // vue初始化
     initial()
+    // 跳转页面
+    if (window.goUrl) router.push(window.goUrl);
 })

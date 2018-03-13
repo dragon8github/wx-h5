@@ -10,7 +10,18 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+        '/api': {
+           // 我要请求的地址
+           target: 'http://172.16.200.104:8084/apitest/api/wechat/doold',  
+           //是否跨域 
+           changeOrigin: true, 
+           // 重写地址 
+           pathRewrite: {
+             '^/api': '/api'
+           }
+       }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -43,7 +54,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: '/',
 
     /**
      * Source Maps

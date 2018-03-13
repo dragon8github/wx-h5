@@ -1,8 +1,8 @@
 <template>
  <div id="Login">
        <div class="form">
-            <mt-field topLabel = '手机号'     :errTopLabel = 'user_errTopLabel' type = "number"   placeholder = '请输入用户名/手机号'   v-model = 'user' :maxlength = '11'></mt-field>
-            <mt-field topLabel = '请输入密码' :errTopLabel = 'pwd_errTopLabel'  type = "password" placeholder = '请输入密码'  v-model = 'pwd'  :maxlength = '16'></mt-field> 
+            <mt-field topLabel = '手机号' :errTopLabel = 'user_errTopLabel' type = "number"   placeholder = '请输入用户名/手机号'   v-model = 'user' :maxlength = '11'></mt-field>
+            <mt-field topLabel = '密码'   :errTopLabel = 'pwd_errTopLabel'  type = "password" placeholder = '请输入密码'  v-model = 'pwd'  :maxlength = '16'></mt-field> 
             <mt-button :text="'登 录'" :disable="user === '' || pwd === ''" @click="go"></mt-button>
        </div>
 
@@ -23,8 +23,8 @@
         name: 'Login',
         data () {
             return {
-              user:'13713332652',
-              pwd: 'admin',
+              user:'',
+              pwd: '',
               user_errTopLabel: '',
               pwd_errTopLabel: ''
             }
@@ -48,20 +48,16 @@
                   this.pwd_errTopLabel = ''
               }
 
-              // 不确定剩余次数后端会不会给我。最好是会，不然只靠本机缓存处理是不理想的。
-              return msg.confirm("您还剩下4次机会，密码错误次数超过5次，账户会被冻结", "密码错误").then(()=>{
-                  
-              }).catch(() => {
-
-              });
-
-              Loader.show("登录中...")
-              window.setTimeout(_ => {
-                  this.$router.push({
-                      name: 'Fast', 
-                      params: {type: this.$route.params.type || 'car'} 
-                  })
-              }, 2000)
+              this.api.wechat_Login({
+                  UserName: this.uer,  // 账号
+                  Pwd: this.pwd,       // 密码
+              }).then(data=>{
+                  if (data.ReturnCode == 1) {
+                      this.$router.push(this.$store.state.wantTo)
+                  } else {
+                      Toast(data.ReturnMessage);
+                  }
+              })
             },      
             goForgetPwd () {
                 this.$router.push('ForgetPwd')

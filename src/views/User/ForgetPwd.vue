@@ -20,8 +20,8 @@ import getvalidate  from '@myComponents/getvalidate'
         name: 'ForgetPwd',
         data () {
             return {
-              user:'13713332652',
-              validate: '123456',
+              user:'',
+              validate: '',
               user_errTopLabel:'',
               validate_errTopLabel:'',
             }

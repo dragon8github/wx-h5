@@ -1,15 +1,8 @@
 let state = {
     AppData: {
-        Ip : '',
-        SystemName : '', 
-        Version : '',
-        city: '',
-        nickname: '',
-        image: '',
-        phone: '',
-        id: '',
+        UserId: 'c9872aac-13b5-43f5-b889-796da5da963b',
         isLogin: false,
-        wantTo: ''
+        phone: ''
     }
 }
 

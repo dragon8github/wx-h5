@@ -2,7 +2,7 @@
  <div id="ResetPwd">
        <div class="form">
             <mt-field topLabel = '设置新密码' :errTopLabel='pwd_validate'  type = "password" placeholder = '请输入6位数字或字母' v-model = 'pwd'  :maxlength = '11'></mt-field>
-            <mt-field topLabel = '确认新密码' :errTopLabel='pwd2_validate' type = "password" placeholder = '请输入确认密码'     v-model = 'pwd2' :maxlength = '16'></mt-field> 
+            <mt-field topLabel = '确认新密码' :errTopLabel='pwd2_validate' type = "password" placeholder = '请输入确认密码'      v-model = 'pwd2' :maxlength = '16'></mt-field> 
             <button class="button" :class="{disable: pwd === '' || pwd2 === ''}" @click="go">提交更新</button>
        </div>
  </div>

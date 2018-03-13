@@ -36,10 +36,10 @@
         name: 'Register',
         data () {
             return {
-                user:'13713332652',
-                pwd: 'admin',
-                validate: '123456',
-                invite: '13713332652',
+                user:'',
+                pwd: '',
+                validate: '',
+                invite: '',
                 user_errTopLabel:'',
                 pwd_errTopLabel:'',
                 validate_errTopLabel:'',

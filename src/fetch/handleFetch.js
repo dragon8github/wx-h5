@@ -10,41 +10,6 @@ import Loader from '@components/loader/index.js'
 import store from '../store/index.js';
 // Fetch兼容插件
 import 'whatwg-fetch'
-// 源生交互桥梁
-import Bridge from './../bridge'
-let bridge = Bridge.Bridge
-
-/**
- * helper methods
- * 解密函数
- */
-let decodeFunc = data => {
-    // 使用async 和 await 必须配合使用Promise
-    return new Promise((resolve, reject) => {
-        bridge.exec('Decode', response => {
-            resolve(response)
-        }, err => {
-            console.log("解密错误", err)
-            reject(err)
-        }, data)
-    });
-}
-
-/**
- * helper methods
- * 加密函数
- */
-let EncodeFunc = data => {
-    // 使用async 和 await 必须配合使用Promise
-    return new Promise((resolve, reject) => {
-        bridge.exec('Encode', response => {
-            resolve(response)
-        }, err => {
-            console.log("加密错误", err)
-            reject(err)
-        }, data)
-    });
-}
 
 /**
  * helper methods
@@ -61,27 +26,10 @@ const checkStatus = async(response) => {
     } else {
       // 服务器响应异常
       Toast('网络异常:' + response.status)
-      var error = new Error(response.statusText)
-      error.response = response
-      throw error
+      throw new Error(response.statusText)
     }
 }
 
-/**
- * helper methods
- * 检查是否需要解密
- */
-const checkDecode = async(json) => {
-    // 生产环境下，需要对数据进行解密 && false
-    // 注意点：这里通过await返回的_json，其实是一个普通的Object。可以通过window.alert(JSON.stringify(_json))进行测试
-    // 但由于Promise的特性，当我在函数中return出去之后。外部接受到的实际上是一个Promose对象
-    // 调用者必须通过使用.then(data=>{}).catch(err=>{})来操作Promose
-    if (process.env.NODE_ENV === 'production') { 
-        json = await decodeFunc(json) 
-    }
-
-    return json
-}
 
 /**
  * helper methods
@@ -142,22 +90,14 @@ const throwError = (err) => {
  * isQuiet 为 treu 时表示偷偷的运行，不显示loading图.某些业务需要偷偷进行的
  */
 const handleFetch = async(params, isQuiet = false) => {
-    // 默认配置，这里是source参数是方便后端同事观察数据
+    // 默认配置
     let header = { headers: { "Content-Type": "application/x-www-form-urlencoded"} }
 
-    // 合并对象，拼接默认配置，如果有属性冲突的情况，后面的参数会替换前面的重复参数;也就是参数越往后，权限越大。
-    // 并且第一个参数会变成合并后的值。所以一定要小心使用Object.assign
+    // 拼接默认配置，
     let option = Object.assign(params, header)
 
     // 将公共参数合并到body属性中去
     let body = Object.assign(option.body, store.getters.AppData)
-
-
-    // 在真机环境下，需要调用移动端的加密函数.
-    // 请注意，传入的body必须是object对象
-    if (process.env.NODE_ENV === 'production') {
-        body = await EncodeFunc(body)
-    }
 
     // 在进行fetch请求时，body参数必须字符串化.
     option.body = JSON.stringify(body)
@@ -165,10 +105,10 @@ const handleFetch = async(params, isQuiet = false) => {
     // 请求数量++
     store.dispatch('set_fetch_count', '+')
 
-    // 是否偷偷运行？ 
+    // 是否显示loading？
     // 默认开启了loading，并且启动了超时限制。
     // 如果 isQuiet 为true时，不启动loading
-    if (!isQuiet) {
+    if (isQuiet === false) {
         // 开始倒计时
         store.dispatch('startTimer')
         // 打开蒙版loading
@@ -179,7 +119,7 @@ const handleFetch = async(params, isQuiet = false) => {
     const url = process.env.NODE_ENV === 'development' ?  '/api' : Constants.API_SERVER
 
     // 一切准备就绪，开始HTTP请求.请注意返回的是Promise对象.调用者必须通过使用.then(data=>{}).catch(err=>{})来操作Promose
-    return window.fetch(url, option).then(checkStatus).then(checkDecode).then(checkRepLog).catch(throwError);
+    return window.fetch(url, option).then(checkStatus).then(checkRepLog).catch(throwError);
 }
 
 /**

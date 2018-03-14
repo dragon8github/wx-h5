@@ -4,8 +4,10 @@ describe('读取车辆拍卖信息', () => {
   it.only('读取车辆拍卖信息', done => {
     carapi.selectAuctionsPage({
          page: 1,
-         limit:2
+         limit: 10,
+         Type: '1'     // 1.即将拍卖，2进行中，3.拍卖完成
     }).then(data=>{
+        console.log(data);
         if (data.code) {
             console.log(data);
             done()

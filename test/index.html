@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    
+    <script>
+        $.ajax({
+            type: 'post',
+			contentType: "application/json; charset=utf-8",
+            url: 'http://10.110.1.145:30677/open/carAuction/selectAuctionsPage',
+            data:JSON.stringify({
+                page: 1,
+				Limit:2,
+				Type: '1'
+			}),
+            success: data => {
+                console.log(data)
+            }
+        })
+    </script>
+</body>
+</html>

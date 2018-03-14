@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <transition :name="transitionName" @afterLeave="clearTransition">
-        <router-view class="view"></router-view>
+        <keep-alive include="Fast">
+            <router-view class="view"></router-view>
+        </keep-alive> 
     </transition>
   </div>
 </template>

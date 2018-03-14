@@ -124,6 +124,9 @@
         components: {
             mtField,
             mtButton
+        },
+        activated () {
+            this.city = this.$store.state.city
         }
   }
 </script>

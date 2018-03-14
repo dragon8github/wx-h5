@@ -47,7 +47,7 @@
         <i class="eye" :class="{open: eyeopen}" v-if="type === 'password'" @click="pwdclick"></i>
 
         <!-- 取消按钮 -->
-        <i class="clearText" v-if="clearText && (type == 'text' || type == 'number') " @click="clearTextClick"></i>
+        <i class="clearText" v-if="currentValue && clearText && (type == 'text' || type == 'number') " @click="clearTextClick"></i>
 
         <!-- 自定义右侧图标 -->
         <slot name="icon"></slot>

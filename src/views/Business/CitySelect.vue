@@ -9,12 +9,12 @@
     <p class="title">热门选择</p>
     <div class="list">
         <ul class="list-ul" @click="selectHot">
-          <li>广州市</li>
           <li>东莞市</li>
           <li>深圳市</li>
-          <li>佛山市</li>
-          <li>上海市</li>
+          <li>广州市</li>
           <li>惠州市</li>
+          <li>上海市</li>
+          <li>佛山市</li>
         </ul>
     </div>
 
@@ -28,9 +28,12 @@
 </template>
 
 <script>
-  import indexList from '@components/index-list'
+  import indexList   from '@components/index-list'
   import listSection from '@components/index-section'
-  import cell from '@components/cell'
+  import cell        from '@components/cell'
+  import Toast       from '@components/toast/index.js'
+  import Loader      from '@components/loader/index.js'
+
   export default {
         name: 'CitySelect',
         data () {
@@ -44,19 +47,27 @@
                
             },
             reset () {
-
+              if (this.is_weixn()) {
+                Loader.show('正在为你获取定位...')
+              }
             },
             selectItem (e, data) {
-              this.selected = data.title;
               this.$store.state.city = data.title
               this.$router.back()
             },
             selectHot (e) {
               if (e.target.nodeName === 'LI') {
-                  this.selected = e.target.innerText
                   this.$store.state.city = e.target.innerText
                   this.$router.back()
               }
+            },
+            is_weixn(){
+                var ua = navigator.userAgent.toLowerCase();
+                if(ua.match(/MicroMessenger/i)=="micromessenger") {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         },
         components: {

@@ -34,7 +34,10 @@
         },
         methods: {
             go () {
-              if (this.user.trim() === '') {
+              this.user = this.user.trim();
+              this.pwd = this.pwd.trim();
+
+              if (this.user === '') {
                   return this.user_errTopLabel = '请输入用户名/手机号'
               } else if (!/^1\d{10}$/.test(this.user.trim())) {
                   return this.user_errTopLabel = '用户名或手机号不存在'
@@ -42,8 +45,15 @@
                    this.user_errTopLabel = ''
               }
 
-              if (this.pwd.trim() === '') {
-                  return this.pwd_errTopLabel = '密码不能为空'
+              var reg = /[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/;
+              if (this.pwd == null || this.pwd == "") {
+                return this.pwd_errTopLabel = "密码不能为空。";
+              } else if (this.pwd.length < 6) {
+                return this.pwd_errTopLabel = "密码不能小于6个字符。";
+              } else if (this.pwd.length > 16) {
+                return this.pwd_errTopLabel = "密码不能超过16个字符。";
+              } else if (!reg.test(this.pwd)) {
+                return this.pwd_errTopLabel = "须含字母和数字6-16个字符，支持特殊符号";
               } else {
                   this.pwd_errTopLabel = ''
               }

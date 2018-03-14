@@ -14,7 +14,7 @@ const xdpost = (api, data) => {
     let form = {
         MethodName: api,
         Data : data,
-        UserId: 'c9872aac-13b5-43f5-b889-796da5da963b'
+        UserId: '55afe48f-0079-4198-ad88-687d949410a3'
     }
 
     return fetch(XDAPI_SERVER, {
@@ -60,8 +60,15 @@ const carapi =  new Proxy({}, {
 })
 
 
+// 报错专用
+const Toast = function (text) {
+    throw new Error(text)
+}
+
+
 module.exports = {
     xdapi,
-    carapi
+    carapi,
+    Toast
 }
 

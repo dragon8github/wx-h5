@@ -32,7 +32,7 @@
   import Toast        from '@components/toast/index.js'
   import Loader       from '@components/loader/index.js'
   import getvalidate  from '@myComponents/getvalidate'
-  import mtButton  from '@myComponents/button.vue'
+  import mtButton     from '@myComponents/button.vue'
 
 
   export default {
@@ -77,7 +77,7 @@
             // 1、交互，错误的提示
             // 2、是否要检查手机号码的用户是否存在，不存在的话返回错误信息
             Loader.show('注册中...')
-            this.api.wechat_SmsSend({
+            this.api.wechat_Register({
                      TelNo: this.user,             // 账号
                      Password: this.pwd,           // 密码
                      ValidateCode: this.validate,  // 验证码
@@ -94,6 +94,12 @@
             })
         },
         getCode (cb) {
+            if (this.user.trim() === '') {
+                return Toast('请先输入用户名/手机号')
+            } else if (!/^1\d{10}$/.test(this.user.trim())) {
+                return Toast('手机号码格式错误，请重新确认')
+            }
+            
             Loader.show("正在获取验证码")
             this.api.wechat_SmsSend({
                     TelNo: this.user,
@@ -101,7 +107,8 @@
             }).then(data => {
                 Loader.hideAll();
                 if (data.ReturnCode == 1) {
-                    Toast("验证码已发送")
+                    Toast("验证码已发送，请注意查收。")
+                    cb()
                 } else {
                     Toast('发送验证码失败：' + data.ReturnMessage);
                 }

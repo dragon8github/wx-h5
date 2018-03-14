@@ -26,6 +26,7 @@ if (typeof(Proxy) == 'function') {
                     'wechat_FastApplyFor',
                     'wechat_BorrowingRecord',
                     'wechat_GetRepayingList',
+                    'wechat_CheckFindPwdCode',
                   ]
     for (let [index,ele] of api_arr.entries()) {
         api[ele] = (data, isQuiet = false) => { 

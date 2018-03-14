@@ -49,8 +49,8 @@
         name: 'Fast',
         data () {
             return {
-               user: '李钊鸿',
-               phone: '13713332652',
+               user: '',
+               phone: '',
                x: this.$route.params.type === 'house' ? '100%' : 0,
                type: this.$route.params.type || 'car',
                city: this.$store.state.city

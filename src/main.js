@@ -15,6 +15,8 @@ Fastclick.attach(document.body)
 // 兼容三星
 window.Promise = require('promise')
 
+console.log(api);
+
 // 加载API
 Vue.use(api)
 

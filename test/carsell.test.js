@@ -18,13 +18,14 @@ describe('读取车辆拍卖信息selectAuctionsPage', () => {
   })
 })
 
-describe('更新拍卖交易记录接口BorrowingRecord', () => {
-  it('更新拍卖交易记录接口BorrowingRecord', done => {
-    api.BorrowingRecord({
-        PriceID: '',  // 拍卖ID
-        UserName: '', // 用户姓名
-        UserID: '',   // 身份证号码
-        Amount : '',  // 出价金额
+describe('更新拍卖交易记录接口updateAuctions', () => {
+  it('更新拍卖交易记录接口updateAuctions', done => {
+    api.updateAuctions({
+        PriceID: '',   // 拍卖ID
+        UserName: '',  // 用户姓名
+        UserID: '',    // 身份证号码
+        Telephone: '', // 手机号码
+        Amount : '',   // 出价金额
     }).then(data=>{
         if (data) {
             done()
@@ -35,11 +36,14 @@ describe('更新拍卖交易记录接口BorrowingRecord', () => {
   })
 })
 
-describe('读取准入竞价用户信息BorrowingRecord', () => {
-  it('读取准入竞价用户信息BorrowingRecord', done => {
-    api.BorrowingRecord({
-        PriceID: '',  // 拍卖ID
-        Telephone: '' // 联系方式
+describe('读取准入竞价用户信息selectBiddersPage', () => {
+  it('读取准入竞价用户信息selectBiddersPage', done => {
+    api.selectBiddersPage({
+        PriceID: '',   // 拍卖ID
+        Telephone: '', // 联系方式
+        page: '',      // 当前页
+        Limit: '',     // 每页条数
+        Type: ''       // 查询类型
     }).then(data=>{
         if (data) {
             done()
@@ -50,9 +54,9 @@ describe('读取准入竞价用户信息BorrowingRecord', () => {
   })
 })
 
-describe('读取拍卖最高价BorrowingRecord', () => {
-  it('读取拍卖最高价BorrowingRecord', done => {
-    api.BorrowingRecord({
+describe('读取拍卖最高价selectMaxOfferPriceByAuctionId', () => {
+  it('读取拍卖最高价selectMaxOfferPriceByAuctionId', done => {
+    api.selectMaxOfferPriceByAuctionId({
         PriceID: '',  // 拍卖ID
     }).then(data=>{
         if (data) {
@@ -79,9 +83,9 @@ describe('拍卖记录查询selectAuctionReg', () => {
   })
 })
 
-describe('拍卖报名BorrowingRecord', () => {
-  it.only('拍卖报名BorrowingRecord', done => {
-    api.BorrowingRecord({
+describe('拍卖报名auctionSign', () => {
+  it.only('拍卖报名auctionSign', done => {
+    api.auctionSign({
         priceID: '',    // 拍卖ID     
         userName: '',   // 用户名     
         userId: '',     // 身份证     

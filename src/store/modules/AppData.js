@@ -1,8 +1,6 @@
 let state = {
     AppData: {
-        openId: '55afe48f-0079-4198-ad88-687d949410a3',
-        isLogin: false,
-        phone: ''
+        openId: ''
     }
 }
 

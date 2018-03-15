@@ -24,3 +24,6 @@ export let forgetPwdPhone = ''
 
 // 修改密码的验证码
 export let forgetPwdValidate = ''
+
+// token
+export let token = 'token'

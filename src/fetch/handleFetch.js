@@ -91,7 +91,7 @@ const throwError = (err) => {
  */
 const handleFetch = async(api, params, isQuiet = false) => {
     // 默认配置
-    let header = { headers: { "Content-Type": "application/json" }}
+    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token }}
 
     // 拼接默认配置，
     let option = Object.assign(params, header)

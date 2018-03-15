@@ -30,7 +30,7 @@ let initial = () => {
 }
 
 // 将核心数据放入store中
-store.dispatch('setAppData', {openid: window.openid, isLogin: window.isLogin}).then(() => {
+store.dispatch('setAppData', {openId: window.openId || '6ad7f9ce-ad0e-457a-a608-6cd5ac67eca7', isLogin: window.isLogin || false}).then(() => {
     // vue初始化
     initial()
     // 跳转页面

@@ -1,34 +1,40 @@
 <template>
- <div id="Borrow">
-        <div class="Borrow-Item" v-for="(item, index) in mockData">
-            <div class="Borrow-Item-head">
-                <div class="Borrow-icon car"></div>
-                <div class="Borrow-right">
-                    <div class="Borrow-name">{{ type2name(item.type) }}</div>
-                    <div class="Borrow-info">
-                        <span class="Borrow-time">申请日期：{{ item.time }}</span>
-                        <span class="Borrow-approve" v-if="item.status != 'cancel'"><a @click="go(item.businessId)">{{ process2name(item.process) }}</a></span>
+<div>
+    <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :_bottomDisabled="bottomDisabled">
+        <div id="Borrow" slot="body">
+            <div class="Borrow-Item" v-for="(item, index) in mockData">
+                <div class="Borrow-Item-head">
+                    <div class="Borrow-icon car"></div>
+                    <div class="Borrow-right">
+                        <div class="Borrow-name">{{ type2name(item.type) }}</div>
+                        <div class="Borrow-info">
+                            <span class="Borrow-time">申请日期：{{ item.time }}</span>
+                            <span class="Borrow-approve" v-if="item.status != 'cancel'"><a @click="go(item.businessId)">{{ process2name(item.process) }}</a></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="Borrow-Item-body">
-                <ul class="Borrow-Item-body-ul">
-                    <li>借款金额： {{ money2money(item.money) }}</li>
-                    <li>借款期限： {{ limit2limit(item.limit) }}</li>
-                    <li>还款方式： {{ pattern2pattern(item.pattern) }}</li>
-                </ul>
-                <i class="Borrow-statusicon" :class="status2icon(item.status)"></i>
-                <a class="cancelbtn" v-if="item.status == 'wait' && item.process != 'reject'" @click="gocancel(item.businessId, index)">取消</a>
+                <div class="Borrow-Item-body">
+                    <ul class="Borrow-Item-body-ul">
+                        <li>借款金额： {{ money2money(item.money) }}</li>
+                        <li>借款期限： {{ limit2limit(item.limit) }}</li>
+                        <li>还款方式： {{ pattern2pattern(item.pattern) }}</li>
+                    </ul>
+                    <i class="Borrow-statusicon" :class="status2icon(item.status)"></i>
+                    <a class="cancelbtn" v-if="item.status == 'wait' && item.process != 'reject'" @click="gocancel(item.businessId, index)">取消</a>
+                </div>
             </div>
         </div>
- </div>
+    </panel>
+</div>
 </template>
+
 
 <script>
   import mtField from '@components/field/field.vue'
   import Toast   from '@components/toast/index.js'
   import Loader  from '@components/loader/index.js'
   import msg     from '@components/messagebox/messagebox.js'
+  import panel   from '@myComponents/panel.vue'
 
   export default {
         name: 'Borrow',
@@ -40,13 +46,20 @@
                     {businessId: 'CYD20170912001', type: 'house', time: '2017-06-16', limit: '12', pattern: '等额本息', money: '100000', status: 'wait',   process: 'wait'},
                     {businessId: 'CYD20170912001', type: 'house', time: '2017-06-16', limit: '12', pattern: '等额本息', money: '100000', status: 'wait',   process: 'reject'},
                     {businessId: 'CYD20170912001', type: 'house', time: '2017-06-16', limit: '',   pattern: '',         money: '',       status: 'wait',   process: 'wait'}
-                ]
+                ],
+                // 数据源是否为空
+                isEmpty: false,
+                // 是否接口已经不能提供更多的数据了
+                bottomDisabled: true,
             }
         },
         watch: {
 
         },
         methods: {
+            loadTop (cb) {
+                window.setTimeout(cb, 1000);
+            },
             type2name (type) {
                 switch (type) {
                     case 'car':    return '一点车贷'
@@ -99,19 +112,20 @@
             }
         },
         components: {
+            panel
         },
         beforeMount () {
-          this.api.borrowingRecord({
-                pageIndex: '1',  // 页数
-                pageSize: '10'   // 数量
-          }).then(data=>{
-              if (data.ReturnCode == 0) {
-                  console.log(data);
-              } else {
-                  console.log(data);
-                  Toast(data.msg);
-              }
-          })
+          // this.api.borrowingRecord({
+          //       pageIndex: '1',  // 页数
+          //       pageSize: '10'   // 数量
+          // }).then(data=>{
+          //     if (data.ReturnCode == 0) {
+          //         console.log(data);
+          //     } else {
+          //         console.log(data);
+          //         Toast(data.msg);
+          //     }
+          // })
         }
   }
 </script>
@@ -123,7 +137,7 @@
 
 #Borrow {
    background: #f2f2f2;
-   margin: 0 pxToRem(30px) pxToRem(100px) pxToRem(30px);
+   margin: 0 pxToRem(30px) pxToRem(30px) pxToRem(30px);
    height: auto;
 }
 

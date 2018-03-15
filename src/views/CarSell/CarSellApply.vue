@@ -64,10 +64,10 @@ export default {
   data () {
     return {
         bank: this.$store.state.bank,
-        username: '李钊鸿',
-        id: '445222199307100337',
-        phone: '13713332652',
-        card: '6221888200060448957'
+        username: '',
+        id: '',
+        phone: '',
+        card: ''
     }
   },
   components: {

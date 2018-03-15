@@ -1,36 +1,42 @@
 <template>
-   <div id="Repay">
-       <div class="Repay-Item" v-for="(item, index) in mockData" @click="go(item.businessId)">
-            <i class="right-icon" :class="type2icon(item.type)"></i>
-            <div class="Repay-Item-Warp">
-                <p class="bunsinessId">业务编号：{{ item.businessId }}</p>
-                <div class="Repay-Item-Warp-Center">
-                    <p class="shouldrepay">{{ status2shouldrepay(item.status) }}</p>
-                    <p class="money" :class="status2Color(item.status)">{{ moneystatus2text(item.money, item.status) }}</p>
-                    <p class="timer">{{ status2time(item.type, item.status, item.time) }}</p>
-                    <p class="line"  v-if="item.order == null"></p>
-                    <p class="info"  v-if="item.status != 'plan'"  @click.stop="goHistory(item.businessId)"><a>{{ status2gotext(item.status) }}</a></p>
+<div>
+   <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :_bottomDisabled="bottomDisabled">
+       <div id="Repay" slot="body">
+           <div class="Repay-Item" v-for="(item, index) in mockData" @click="go(item.businessId)">
+                <i class="right-icon" :class="type2icon(item.type)"></i>
+                <div class="Repay-Item-Warp">
+                    <p class="bunsinessId">业务编号：{{ item.businessId }}</p>
+                    <div class="Repay-Item-Warp-Center">
+                            <p class="shouldrepay">{{ status2shouldrepay(item.status) }}</p>
+                            <p class="money" :class="status2Color(item.status)">{{ moneystatus2text(item.money, item.status) }}</p>
+                            <p class="timer">{{ status2time(item.type, item.status, item.time) }}</p>
+                            <p class="line"  v-if="item.order == null"></p>
+                            <p class="info"  v-if="item.status != 'plan'"  @click.stop="goHistory(item.businessId)"><a>{{ status2gotext(item.status) }}</a></p>
 
-                    <div class="manyorder" v-for="(item2, index2) in item.order">
-                        <div class="manyorder-row">
-                            <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
-                            <div class="manyorder-money" :class="{red: item2.status == 'over'}">{{ ordermoneystatus2ordermoneytext(item2.money, item2.status) }}</div>
-                        </div>
-                        <div class="manyorder-row">
-                            <div class="manyorder-timer">请在{{ item2.time }}前还款</div>
-                            <div class="manyorder-info" @click.stop="goHistory(item.businessId)">{{ status2gotext(item2.status) }}</div>
-                        </div>
+                            <div class="manyorder" v-for="(item2, index2) in item.order">
+                                <div class="manyorder-row">
+                                    <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
+                                    <div class="manyorder-money" :class="{red: item2.status == 'over'}">{{ ordermoneystatus2ordermoneytext(item2.money, item2.status) }}</div>
+                                </div>
+                                <div class="manyorder-row">
+                                    <div class="manyorder-timer">请在{{ item2.time }}前还款</div>
+                                    <div class="manyorder-info" @click.stop="goHistory(item.businessId)">{{ status2gotext(item2.status) }}</div>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
-   </div>
+   </panel> 
+</div>
 </template>
 
 <script>
   import mtField from '@components/field/field.vue'
   import Toast   from '@components/toast/index.js'
   import Loader  from '@components/loader/index.js'
+  import panel   from '@myComponents/panel.vue'
+
   export default {
         name: 'Repay',
         data () {
@@ -54,10 +60,17 @@
                     {businessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{businessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'finish'}, {businessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]},
                     // 房速贷展期（还款计划）（已逾期）      
                     {businessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{businessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'over'},   {businessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]}
-                ]
+                ],
+                // 数据源是否为空
+                isEmpty: false,
+                // 是否接口已经不能提供更多的数据了
+                bottomDisabled: true,
             }
         },
         methods: {
+            loadTop (cb) {
+                window.setTimeout(cb, 1000);
+            },
             // 根据业务类型返回右上角的图标
             type2icon (type) {
                 switch (type) {
@@ -136,20 +149,20 @@
             }
         },
         components: {
-
+            panel
         },
         beforeMount () {
-            this.api.getRepayingList({
-                  pageIndex: '1',  // 页数
-                  pageSize: '10'   // 数量
-            }).then(data=>{
-                if (data.ReturnCode == 0) {
-                    console.log(data);
-                } else {
-                    console.log(data);
-                    Toast(data.msg);
-                }
-            })
+            // this.api.getRepayingList({
+            //       pageIndex: '1',  // 页数
+            //       pageSize: '10'   // 数量
+            // }).then(data=>{
+            //     if (data.ReturnCode == 0) {
+            //         console.log(data);
+            //     } else {
+            //         console.log(data);
+            //         Toast(data.msg);
+            //     }
+            // })
         }
   }
 </script>
@@ -160,7 +173,7 @@
 
 #Repay {
    background: #f2f2f2;
-   margin:0 pxToRem(30px) pxToRem(100px) pxToRem(30px);
+   margin:0 pxToRem(30px) pxToRem(30px) pxToRem(30px);
    height: auto;
 }
 

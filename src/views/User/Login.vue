@@ -59,15 +59,15 @@
               }
 
               Loader.show('正在登录...')
-              this.api.wechat_Login({
-                  UserName: this.uer,  // 账号
-                  Pwd: this.pwd,       // 密码
+              this.api.login({
+                  userName: this.uer,  // 账号
+                  pwd: this.pwd,       // 密码
               }, true).then(data=>{
                   Loader.hideAll();
-                  if (data.ReturnCode == 1) {
+                  if (data.ReturnCode == 0) {
                       this.$router.push(this.$store.state.wantTo)
                   } else {
-                      Toast(data.ReturnMessage);
+                      Toast(data.msg);
                   }
               })
             },      

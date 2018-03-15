@@ -93,21 +93,21 @@
                 let _typetext = this.type === 'house' ? "正在提交房速贷业务..." : "正在提交车易贷业务...";
 
                 Loader.show(_typetext);
-                this.api.wechat_FastApplyFor({
-                    BusinessType: _type,          
-                    Location: {
-                        City: this.city,   
-                        Latitude:'0',      
-                        Longitude: '0',    
+                this.api.fastApplyFor({
+                    businessType: _type,          
+                    location: {
+                        city: this.city,   
+                        latitude:'0',      
+                        longitude: '0',    
                     },
-                    RealName: this.user,            // 真实姓名
-                    TelNo: this.phone               // 电话号码
+                    realName: this.user,            // 真实姓名
+                    telNo: this.phone               // 电话号码
                 }, true).then(data=>{
                       Loader.hideAll()
-                      if (data.ReturnCode == 1) {
+                      if (data.ReturnCode == 0) {
                           this.$router.push("Status")
                       } else {
-                          Toast(data.ReturnMessage);
+                          Toast(data.msg);
                       }
                 })
             }

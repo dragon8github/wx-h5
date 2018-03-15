@@ -77,19 +77,19 @@
             // 1、交互，错误的提示
             // 2、是否要检查手机号码的用户是否存在，不存在的话返回错误信息
             Loader.show('注册中...')
-            this.api.wechat_Register({
-                     TelNo: this.user,             // 账号
-                     Password: this.pwd,           // 密码
-                     ValidateCode: this.validate,  // 验证码
-                     ExtensionTelNo: this.invite,  // 推荐手机号
-                     Type: 'wechat_pulic'          // 注册方式是微信
+            this.api.register({
+                     telNo: this.user,             // 账号
+                     password: this.pwd,           // 密码
+                     validateCode: this.validate,  // 验证码
+                     extensionTelNo: this.invite,  // 推荐手机号
+                     type: 'wechat_pulic'          // 注册方式是微信
             }, true).then(data=>{
                 Loader.hideAll();
-                if (data.ReturnCode == 1) {
+                if (data.ReturnCode == 0) {
                     Toast('注册成功');
                     this.$router.push(this.$store.state.wantTo)
                 } else {
-                    Toast(data.ReturnMessage);
+                    Toast(data.msg);
                 }
             })
         },
@@ -101,16 +101,16 @@
             }
             
             Loader.show("正在获取验证码")
-            this.api.wechat_SmsSend({
-                    TelNo: this.user,
-                    Type: '1'  
+            this.api.smsSend({
+                    telNo: this.user,
+                    type: '1'  
             }).then(data => {
                 Loader.hideAll();
-                if (data.ReturnCode == 1) {
+                if (data.ReturnCode == 0) {
                     Toast("验证码已发送，请注意查收。")
                     cb()
                 } else {
-                    Toast('发送验证码失败：' + data.ReturnMessage);
+                    Toast('发送验证码失败：' + data.msg);
                 }
             })
         },

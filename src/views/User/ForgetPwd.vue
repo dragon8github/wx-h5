@@ -45,17 +45,17 @@ import mtButton     from '@myComponents/button.vue'
                     this.validate_errTopLabel = ''
                 }
 
-                this.api.wechat_CheckFindPwdCode({
-                    TelNo: this.user,
+                this.api.checkFindPwdCode({
+                    telNo: this.user,
                     code: this.validate,
-                    Type: '2'
+                    type: '2'
                 }).then(data=>{
-                    if (data.ReturnCode == 1) {
+                    if (data.ReturnCode == 0) {
                         this.$store.state.forgetPwdPhone = this.user
                         this.$store.state.forgetPwdValidate = this.validate
                         this.$router.push('/resetpwd')
                     } else {
-                        Toast(data.ReturnMessage);
+                        Toast(data.msg);
                     }
                 })
             },
@@ -67,16 +67,16 @@ import mtButton     from '@myComponents/button.vue'
                  }
 
                 Loader.show("正在获取验证码")
-                this.api.wechat_SmsSend({
-                    TelNo: this.user,
-                    Type: '2'  
+                this.api.smsSend({
+                    telNo: this.user,
+                    type: '2'  
                 }, true).then(data=>{
                     Loader.hideAll()
-                    if (data.ReturnCode == 1) {
+                    if (data.ReturnCode == 0) {
                         Toast("验证码已发送，请注意查收。")
                         cb()
                     } else {
-                        Toast(data.ReturnMessage);
+                        Toast(data.msg);
                     }
                 })
             },

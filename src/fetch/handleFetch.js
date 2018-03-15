@@ -89,15 +89,15 @@ const throwError = (err) => {
  * 发送请求
  * isQuiet 为 treu 时表示偷偷的运行，不显示loading图.某些业务需要偷偷进行的
  */
-const handleFetch = async(params, isQuiet = false) => {
+const handleFetch = async(api, params, isQuiet = false) => {
     // 默认配置
-    let header = { headers: { "Content-Type": "application/x-www-form-urlencoded"} }
+    let header = { headers: { "Content-Type": "application/json" }}
 
     // 拼接默认配置，
     let option = Object.assign(params, header)
 
-    // 将公共参数合并到body属性中去
-    let body = Object.assign(option.body, store.getters.AppData)
+    // 将公共参数合并到body属性中去，后面的参数会覆盖前面的参数
+    let body = Object.assign(store.getters.AppData, option.body)
 
     // 在进行fetch请求时，body参数必须字符串化.
     option.body = JSON.stringify(body)
@@ -114,9 +114,9 @@ const handleFetch = async(params, isQuiet = false) => {
         // 打开蒙版loading
         Loader.show('加载中...')
     }
-
+    
     // 开发环境使用代理地址请求数据
-    const url = process.env.NODE_ENV === 'development' ?  '/api' : Constants.API_XD_SERVER
+    const url = process.env.NODE_ENV === 'development' ?  '/api/' + api : Constants.API_WX_SERVER + api
 
     // 一切准备就绪，开始HTTP请求.请注意返回的是Promise对象.调用者必须通过使用.then(data=>{}).catch(err=>{})来操作Promose
     return window.fetch(url, option).then(checkStatus).then(checkRepLog).catch(throwError);
@@ -127,8 +127,8 @@ const handleFetch = async(params, isQuiet = false) => {
  * 发送post请求
  * 如果isQuiet 为 true 的话，则不开启loading。悄悄偷偷摸摸在后台运行
  */
-const postData = (params, isQuiet = false) => {
-    return handleFetch({method: 'POST', body: params }, isQuiet)
+const postData = (api, params, isQuiet = false) => {
+    return handleFetch(api, {method: 'POST', body: params }, isQuiet)
 }
 
 export default {

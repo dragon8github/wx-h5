@@ -101,15 +101,15 @@
         components: {
         },
         beforeMount () {
-          this.api.wechat_BorrowingRecord({
-                PageIndex: '1',  // 页数
-                PageSize: '10'   // 数量
+          this.api.borrowingRecord({
+                pageIndex: '1',  // 页数
+                pageSize: '10'   // 数量
           }).then(data=>{
-              if (data.ReturnCode == 1) {
+              if (data.ReturnCode == 0) {
                   console.log(data);
               } else {
                   console.log(data);
-                  Toast(data.ReturnMessage);
+                  Toast(data.msg);
               }
           })
         }

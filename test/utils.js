@@ -2,6 +2,14 @@ const fetch = require('node-fetch')
 const XDAPI_SERVER = 'http://172.16.200.104:8084/apitest/api/wechat/doold'
 const CARAPI_SERVER = 'http://10.110.1.145:30677/open/carAuction/'
 const WX_SERVER = 'http://192.168.14.29:31006/xindai/'
+// const uuid =  (function guid() {
+//         function S4() {
+//            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+//         }
+//         return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+// })();
+
+const uuid = 'da05b57a-ccc6-f043-fc7c-a6604f3d4a66'
 
 const xdpost = (api, data) => {
    // 后端的格式要求：如果data只有一个数据的时候，那么不需要写key
@@ -15,7 +23,7 @@ const xdpost = (api, data) => {
     let form = {
         MethodName: api,
         Data : data,
-        UserId: '55afe48f-0079-4198-ad88-687d949410a3'
+        UserId: uuid
     }
 
     return fetch(XDAPI_SERVER, {
@@ -28,7 +36,7 @@ const xdpost = (api, data) => {
         return data.json()
     }).then(json => {
         // 拼接form请求参数，然后返回，方便调试
-        json.form = form;
+        json.form = JSON.stringify(data);
         return json;
     })
 }
@@ -44,7 +52,7 @@ const carpost = (api, data) => {
         return data.json()
     }).then(json => {
         // 拼接form请求参数，然后返回，方便调试
-        json.form = data;
+        json.form = JSON.stringify(data);
         return json;
     })
 }
@@ -52,19 +60,18 @@ const carpost = (api, data) => {
 
 const wxpost = (api, data) => {
    // 拼接一下参数
-   data = Object.assign({}, {openId: '55afe48f-0079-4198-ad88-687d949410a3'}, data);
+   data = Object.assign({}, {openId: uuid}, data);
    return fetch(WX_SERVER + api, {
         method: 'POST',
         headers: {'Content-Type': 'application/json;charset=UTF-8'},
         // 使用application/json请求，body参数必须是字符串
-        body: data
+        body: JSON.stringify(data)
     }).then(data => {
         // json()方法可以返回json对象数据，是必用的套路
         return data.json()
     }).then(json => {
         // 拼接form请求参数，然后返回，方便调试
-        json.form = data;
-        console.log(json)
+        json.form = JSON.stringify(data);
         return json;
     })
 }

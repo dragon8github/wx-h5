@@ -47,13 +47,8 @@ export const pxToPx = ({getters}, v) => {
   return v * getters.dataDpr / 2
 }
 
-// 设置征信报告的html,这时候的征信报告是无法使用的，必须使用decode的html
-export const set_html = ({commit, state}, v) => {
-  state.html = v
+// 存储token
+export const token = ({commit, state}, v) => {
+  state.token = v
 }
-
-export const set_dehtml = ({commit, state}, v) => {
-  state.dehtml = v
-}
-
 

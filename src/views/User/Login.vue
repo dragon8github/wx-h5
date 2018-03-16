@@ -62,10 +62,15 @@
               this.xdapi.login({
                   userName: this.uer,  // 账号
                   pwd: this.pwd,       // 密码
-              }, true).then(data=>{
+              }, true).then(data => {
                   Loader.hideAll();
                   if (data.ReturnCode == 0) {
-                      this.$router.push(this.$store.state.wantTo)
+                      // 将核心数据放入store中
+                      store.dispatch('tokne', {token: data.token}).then(() => {
+                          window.localStorage.setItem('isLogin', 1)
+                          // 跳转到预先要去的地址
+                          this.$router.push(this.$store.state.wantTo)
+                      })
                   } else {
                       Toast(data.msg);
                   }

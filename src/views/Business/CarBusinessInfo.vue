@@ -61,8 +61,7 @@
     name: 'CarBusinessInfo',
     methods: {
       LinkToQuickenLoans () {
-        this.$store.state.wantTo = "/fast/car";
-        this.$router.push('register');
+        this.$router.push('/fast')
       }
     }
   }

@@ -33,6 +33,31 @@ const checkStatus = async(response) => {
 
 /**
  * helper methods
+ * 检查是否有登录权限
+ */
+const checkLog = json => {
+    // 如果请求数量已经为0，那么关闭loader.并且重置fetchCount
+    if (store.state.fetchCount <= 0) {
+        // 重置fetchCount
+        store.dispatch('set_fetch_zero')
+        // 关闭loader
+        Loader.hide()
+    }
+
+    // 如果状态码为205的话，说明需要重新登录了
+    if (json.ReturnCode == 205) {
+        msg.alert('登录状态失效，请退出后重新登录账号！', '警告').then(() => {
+           // 退出登录并且回到登录页API
+           window.router.push('/login')
+        })
+    }
+
+    return json
+}
+
+
+/**
+ * helper methods
  * 检查是否重复登录
  */
 const checkRepLog = json => {
@@ -59,6 +84,8 @@ const checkRepLog = json => {
 
     return json
 }
+
+
 
 /**
  * helper methods
@@ -119,7 +146,7 @@ const handleFetch = async(api, params, isQuiet = false) => {
     const url = process.env.NODE_ENV === 'development' ?  '/api/' + api : Constants.API_WX_SERVER + api
 
     // 一切准备就绪，开始HTTP请求.请注意返回的是Promise对象.调用者必须通过使用.then(data=>{}).catch(err=>{})来操作Promose
-    return window.fetch(url, option).then(checkStatus).then(checkRepLog).catch(throwError);
+    return window.fetch(url, option).then(checkStatus).then(checkLog).catch(throwError);
 }
 
 /**

@@ -62,7 +62,6 @@
     name: 'HouseBusinessInfo',
     methods: {
       LinkToQuickenLoans () {
-        this.$store.state.wantTo = "/fast/house";
         this.$router.push('register');
       }
     }

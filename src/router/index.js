@@ -1,6 +1,7 @@
-import Vue from 'vue'
+import Vue    from 'vue'
 import Router from 'vue-router'
-import Loader  from '@components/loader/index.js'
+import Loader from '@components/loader/index.js'
+import store  from './store'
 Vue.use(Router)
 
 // 快速贷款
@@ -135,7 +136,33 @@ var setTitle = title => {
     document.body.appendChild(i);
 }
 
+// 以下界面是进入时要判断是否登录的，如果没有的话，那么就跳转到Login页面
+const needLoginPage = [
+    // 快速申请
+    'fast', 
+    // 我的借款 / 我的借款详情
+    'borrow', 'borrowinfo',
+    // 我的还款 / 我的还款详情
+    'repay', 'repayinfo',
+    // 汽车拍卖，竞买历史 / 汽车拍卖，竞买历史详情
+    'carsellhistory', 'carsellhistoryinfo',
+    // 报名竞买
+    'carsellbuy',
+    // 汽车拍卖报名
+    'carsellapply'
+]
+
 router.beforeEach((to, from, next) => {
+    // 如果用户要前往需要登录的地方并且没有登录的话。
+    // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
+    // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去。
+    if (needLoginPage.indexOf(to.name.toLocaleLowerCase()) >= 0 && window.localStorage.getItem('isLogin') != 1) {
+        // 设置用户想去的地址，这样在注册和登录之后。可以直接前往目的地。
+        store.state.wantTo = to.path
+        // 跳转到登录页面
+        return router.push('/login')
+    }
+
     // 滚动之前，先弹回顶部
     window.scrollTo(0, 0)
     // 放行页面

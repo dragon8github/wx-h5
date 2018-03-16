@@ -17,7 +17,7 @@
 
         <tabcontainer  v-model="selected" swipeable>
             <tabcontaineritem  id="tab-container1" >
-              <panel :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_bottomDisabled = "tag['1']['bottomDisabled']">
+              <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_bottomDisabled = "tag['1']['bottomDisabled']">
                   <div slot="body">
                      <item v-for="(item,index) in tag['1']['list']" 
                            :key="index"
@@ -34,7 +34,7 @@
             </tabcontaineritem>
 
             <tabcontaineritem id="tab-container2">
-              <panel :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_bottomDisabled = "tag['2']['bottomDisabled']">
+              <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_bottomDisabled = "tag['2']['bottomDisabled']">
                   <div slot="body">
                       <item v-for="(item,index) in tag['2']['list']" 
                             :key="index"
@@ -51,7 +51,7 @@
             </tabcontaineritem>
 
             <tabcontaineritem id="tab-container3">
-              <panel :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_bottomDisabled = "tag['3']['bottomDisabled']">
+              <panel ref="pannel3" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_bottomDisabled = "tag['3']['bottomDisabled']">
                   <div slot="body">
                       <item v-for="(item,index) in tag['3']['list']" 
                             :key="index"
@@ -92,7 +92,8 @@
  import tabcontaineritem from '@components/tabContainerItem/tabContainerItem.vue'
 
  import Toast from '@components/toast/index.js'
-
+ // 路由
+ import Router from 'vue-router'
 
 /**
  * 注意：type其实就是tag
@@ -136,19 +137,47 @@ export default {
   },
   methods: {
     loadTop (cb) {
-        window.setTimeout(cb, 1000);
+        // 据我所知，下拉刷新需要重置一下搜索条件。
+        this.resetWhere()
+        this.getData(_=>{
+            this.currTag.list = _.data
+        }, _=>{
+            Toast(_.msg)
+            cb && cb()
+        })
     },
     getData (success_cb, err_cb) {
         this.carapi.selectAuctionsPage(this.where).then(data => {
            if (data.returnCode == 0) {
+              // 当请求数据不为空的时候，重置展示状态
+              if (data.data.length > 0) {
+                currTag.bottomDisabled = false;
+                currTag.isEmpty = false;
+              }
               success_cb && success_cb(data)
            } else {
-              err_cb && err_cb(data.msg ? data : { msg: '网络异常'})
+              err_cb && err_cb(data.msg ? data : { msg: '网络异常' })
            }
        })
     },
     loadBottom (cb) {
-        cb && cb();   
+        // 兼容一种特殊情况,只在多个tag且用户操作过急的情况才可能发生
+        if (this.$refs[`pannel${this.currTag.index}`].loading === false) {
+          this.$refs[`pannel${this.oldTag}`].$el.scrollTop = 0
+          return cb && cb()
+        }
+        // 页面索引++
+        this.where.page++;
+        this.getData(_ => {
+            // 如果请求数据为空，那就禁止【上拉加载更多】，展示【没有更多数据啦~】
+            if (_.data.length === 0) tag.bottomDisabled = true;
+            this.currTag.list.push(..._.data)
+            cb && cb()
+        }, _ => {
+            // 这个还不太好弄，如果说你处于下拉状态，只是关闭还没有用。因为还是会不断的触发下拉。这是一个bug。需要改正。
+            Toast(_.msg)
+            cb && cb()
+        })
     },
     resetWhere () {
         this.where = {

@@ -1,7 +1,7 @@
 import Vue    from 'vue'
 import Router from 'vue-router'
 import Loader from '@components/loader/index.js'
-import store  from './store'
+import store  from '../store'
 Vue.use(Router)
 
 // 快速贷款

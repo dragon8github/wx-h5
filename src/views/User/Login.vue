@@ -88,7 +88,6 @@
             mtButton
         },
         beforeMount () {
-          console.log(this.user === '' || this.pwd === '')
         }
   }
 </script>

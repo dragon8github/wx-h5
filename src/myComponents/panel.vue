@@ -138,14 +138,14 @@ export default {
             // 没有关闭上拉加载开关 并且 开启上拉加载更多功能的时候
             if (!this._bottomDisabled && this.Bottom) {
                 // 跳过首次加载带来的bug
-                // if (this.isFirstloadData) return this.isFirstloadData = false
+                if (this.isFirstloadData) return this.isFirstloadData = false
                 // 加载loading图
                 this.loading = true;
                 // 滚动到底部
                 this.$nextTick(_ => { this.$refs.wrapper.scrollTop = this.$refs.wrapper.scrollHeight })
                 // 这个setTimeout 仅仅为了视觉体验
                 setTimeout(() => {
-                    console.log(123);
+                    console.log('bottom');
                     this.loading = false;  
                     // 执行外部传递进来的_loadBottom函数，通常是异步加载数据，
                     this._loadBottom(() => {

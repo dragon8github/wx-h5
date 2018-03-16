@@ -1,8 +1,7 @@
 <template>
     <div class="CarSellHistoryItem" @click="goInfo(id)">
         <div class="CarSellHistoryItem__left">
-                <img class="CarSellHistoryItem__image" src="~@assets/carsell/cardemo.png">
-            <!-- <img class="CarSellHistoryItem__image" :src="image"> -->
+                <img class="CarSellHistoryItem__image" :src="'http://xiaodaioa.oss-cn-beijing.aliyuncs.com/' + image">
         </div>
         <div class="CarSellHistoryItem__right">
             <div class="carinfo">
@@ -38,8 +37,8 @@ export default {
     maindata:   { type: Object, default: {} },
     image:  { type: String, default: '' },
     name:   { type: String, default: '' },
-    money:  { type: String, default: '' },
-    time:   { type: String, default: '' },
+    money:  { type: String | Number, default: '' },
+    time:   { type: String | Number, default: '' },
     city:   { type: String, default: '' },
     id:     { type: String, default: '' },
   },

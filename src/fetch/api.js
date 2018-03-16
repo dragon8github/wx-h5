@@ -2,7 +2,7 @@ import * as Constants from './constants'
 import ajax from './handleFetch.js'
 
 // 信贷API主体
-let wdapi = {}
+let xdapi = {}
 // 信贷API列表
 const xd_api_list =  [
     // 登录
@@ -41,9 +41,9 @@ const car_api_list = [
     'auctionSign',
 ]
 
-// Proxy ：这样我访问wdapi.fuck('shift')的时候，fuck就会作为key传过来，而shift就会作为data传过来。
+// Proxy ：这样我访问xdapi.fuck('shift')的时候，fuck就会作为key传过来，而shift就会作为data传过来。
 if (typeof(Proxy) == 'function') {
-    wdapi = new Proxy({}, {
+    xdapi = new Proxy({}, {
         get: (target, key, receiver) => (data, isQuiet = false) => { 
             return ajax.postData('xindai/' + key, data, isQuiet)
         }
@@ -57,12 +57,12 @@ if (typeof(Proxy) == 'function') {
 // 兼容不支持Proxy的情况，直接将所有API塞入数组中
 } else {
     for (let [index,ele] of xd_api_list.entries()) {
-        wdapi[ele] = (data, isQuiet = false) => { 
+        xdapi[ele] = (data, isQuiet = false) => { 
           return post('xindai/' + ele, data, isQuiet)
       }
     }
     for (let [index,ele] of car_api_list.entries()) {
-        wdapi[ele] = (data, isQuiet = false) => { 
+        xdapi[ele] = (data, isQuiet = false) => { 
           return post('carAction/' + ele, data, isQuiet)
       }
     }
@@ -74,10 +74,10 @@ if (typeof(Proxy) == 'function') {
  * 2、直接import使用,主要是兼容无法使用Vue实例的场景
  */
 export default {
-  wdapi,
+  xdapi,
   carapi,
   install (Vue) {
-    Vue.prototype.wdapi = wdapi
+    Vue.prototype.xdapi = xdapi
     Vue.prototype.carapi = carapi
   }
 }

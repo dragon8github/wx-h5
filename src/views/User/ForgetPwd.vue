@@ -45,7 +45,7 @@ import mtButton     from '@myComponents/button.vue'
                     this.validate_errTopLabel = ''
                 }
 
-                this.api.checkFindPwdCode({
+                this.xdapi.checkFindPwdCode({
                     telNo: this.user,
                     code: this.validate,
                     type: '2'
@@ -67,7 +67,7 @@ import mtButton     from '@myComponents/button.vue'
                  }
 
                 Loader.show("正在获取验证码")
-                this.api.smsSend({
+                this.xdapi.smsSend({
                     telNo: this.user,
                     type: '2'  
                 }, true).then(data=>{

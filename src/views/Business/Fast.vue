@@ -93,7 +93,7 @@
                 let _typetext = this.type === 'house' ? "正在提交房速贷业务..." : "正在提交车易贷业务...";
 
                 Loader.show(_typetext);
-                this.api.fastApplyFor({
+                this.xdapi.fastApplyFor({
                     businessType: _type,          
                     location: {
                         city: this.city,   

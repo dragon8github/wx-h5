@@ -113,6 +113,19 @@ export default {
     loadTop (cb) {
         window.setTimeout(cb, 1000);
     },
+    getData () {
+        // this.xdapi.getRepayingList({
+        //       pageIndex: '1',  // 页数
+        //       pageSize: '10'   // 数量
+        // }).then(data=>{
+        //     if (data.ReturnCode == 0) {
+        //         console.log(data);
+        //     } else {
+        //         console.log(data);
+        //         Toast(data.msg);
+        //     }
+        // })
+    },
     loadBottom (cb) {
          this.currTag.list.push(
              { image: '', name: '奔驰B级车 B 200 时尚型奔驰B级车 B 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
@@ -145,6 +158,9 @@ export default {
     }
   },
   beforeMount () {
+
+  },
+  activated () {
 
   }
 }

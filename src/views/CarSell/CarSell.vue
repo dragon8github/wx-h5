@@ -21,12 +21,13 @@
                   <div slot="body">
                      <item v-for="(item,index) in tag[0]['list']" 
                            :key="index"
+                           :maindata="item"
                            :image="item.image"
-                           :name="item.name"
-                           :money="item.money"
-                           :time="item.time"
+                           :name="item.VehicleBrand"
+                           :money="item.StartPrice"
+                           :time="item.EtartPriceDate"
                            :city="item.city"
-                           :id="item.id">
+                           :id="item.priceID">
                      </item>
                   </div>
               </panel>
@@ -37,12 +38,13 @@
                   <div slot="body">
                       <item v-for="(item,index) in tag[1]['list']" 
                             :key="index"
+                            :maindata="item"
                             :image="item.image"
-                            :name="item.name"
-                            :money="item.money"
-                            :time="item.time"
+                            :name="item.VehicleBrand"
+                            :money="item.StartPrice"
+                            :time="item.EndBidTime"
                             :city="item.city"
-                            :id="item.id">
+                            :id="item.priceID">
                       </item>
                   </div>
               </panel>
@@ -53,12 +55,13 @@
                   <div slot="body">
                       <item v-for="(item,index) in tag[2]['list']" 
                             :key="index"
+                            :maindata="item"
                             :image="item.image"
-                            :name="item.name"
-                            :money="item.money"
-                            :time="item.time"
+                            :name="item.VehicleBrand"
+                            :money="item.StartPrice"
+                            :time="item.EndBidTime"
                             :city="item.city"
-                            :id="item.id">
+                            :id="item.priceID">
                       </item>
                   </div>
               </panel>
@@ -96,7 +99,7 @@ export default {
         selected: 'tab-container0',
         search: '',
         where: {
-              tag: 0,          // 标签页[0：已竞买，1：已报名]
+              tag: 0,          // 标签页[1.即将拍卖，2进行中，3.拍卖完成]
               type: '',        // 型号
               business_id: '', // 拍卖编号
               page_index: 1,   // 分页索引，从1开始
@@ -104,24 +107,72 @@ export default {
         },
         tag: {
             '0':{ isSearch:false, isEmpty: false, isLoading: false, LoadingTimer: 0, list:[
-               { image: '', name: '奔驰B级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-              { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-              { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-              { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-              { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' }, ], bottomDisabled: true, index: 0},
+                { image: '', VehicleBrand: '奔驰B级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EtartPriceDate: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EtartPriceDate: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EtartPriceDate: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EtartPriceDate: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EtartPriceDate: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' }, ], bottomDisabled: true, index: 0},
             '1':{ isSearch:false, isEmpty:false,isLoading: false, LoadingTimer: 0, list:[
-                 { image: '', name: '奔驰B级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' }], bottomDisabled: false, index: 1},
+                { image: '', VehicleBrand: '奔驰B级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' }], bottomDisabled: false, index: 1},
             '2':{ isSearch:false, isEmpty:false,isLoading: false, LoadingTimer: 0, list:[
-                 { image: '', name: '奔驰B级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' },
-                { image: '', name: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', money: '15,000', time: '2018/03/20', city: '东莞市', id: 'HTPM201702281234' }], bottomDisabled: false, index: 1}
+                { image: '', VehicleBrand: '奔驰B级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' },
+                { image: '', VehicleBrand: '奔驰A级车 A 200 时尚型奔驰B级车 A 200 时尚型', StartPrice: '15,000', EndBidTime: '2018/03/20', VehicleTerritory: '东莞市', priceID: 'HTPM201702281234' }], bottomDisabled: false, index: 1}
         },
+        myData: [{
+              "priceID": "c9552579-aa68-44f6-8bdd-f9ab9767c2fc",
+              "bond": 324,
+              "priceincrease": 500,
+              "startPriceDate": 1519610400000,
+              "starBidTime": 1519783200000,
+              "endBidTime": 1519869600000,
+              "conStartDate": 1519783200000,
+              "conEndDate": 1519869600000,
+              "vieStartDate": 1519783200000,
+              "vieEndDatee": null,
+              "vie": null,
+              "contact": null,
+              "paymentTime": 1520737200000,
+              "tranType": "债权转让",
+              "pickupMethod": "门店自提",
+              "paymentMethod": "竞买成功后，尾款线下支付",
+              "bidRule": null,
+              "disposalUnit": "234234",
+              "contacts": "4234",
+              "telephone": "13798587542",
+              "account": "23423",
+              "bank": "234234",
+              "cardNo": "1385652546254254854",
+              "vehicleBrand": "SDF",
+              "carproduction": "国产",
+              "carColour": "ASD",
+              "carModel": "ASDF",
+              "displacement": "3.00L",
+              "engineNumber": "fg59567845hj",
+              "frameNumber": "asdfasd867856",
+              "cehicleTerritory": null,
+              "useProperty": null,
+              "insuranceDate": 1519833600000,
+              "inspectionDate": 1509465600000,
+              "mileage": 8222,
+              "registerDate": 1509552000000,
+              "mortgageState": "抵押",
+              "tools": "23423423",
+              "taxation": null,
+              "transactionMode": null,
+              "position": null,
+              "files": "23423423",
+              "remarks": null,
+              "startPrice": 34234,
+              "illegal": null,
+              "etartPriceDate": 1519869600000
+        }],
         oldTag: null
     }
   },
@@ -142,6 +193,19 @@ export default {
   methods: {
     loadTop (cb) {
         window.setTimeout(cb, 1000);
+    },
+    getData () {
+        // this.xdapi.getRepayingList({
+        //       pageIndex: '1',  // 页数
+        //       pageSize: '10'   // 数量
+        // }).then(data=>{
+        //     if (data.ReturnCode == 0) {
+        //         console.log(data);
+        //     } else {
+        //         console.log(data);
+        //         Toast(data.msg);
+        //     }
+        // })
     },
     loadBottom (cb) {
          this.currTag.list.push(
@@ -176,6 +240,9 @@ export default {
   },
   beforeMount () {
     
+  },
+  activated () {
+
   }
 }
 </script>

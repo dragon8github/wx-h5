@@ -2,16 +2,16 @@
 <div>
    <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :_bottomDisabled="bottomDisabled">
        <div id="Repay" slot="body">
-           <div class="Repay-Item" v-for="(item, index) in mockData" @click="go(item.businessId)">
+           <div class="Repay-Item" v-for="(item, index) in mockData" @click="go(item.BusinessId)">
                 <i class="right-icon" :class="type2icon(item.type)"></i>
                 <div class="Repay-Item-Warp">
-                    <p class="bunsinessId">业务编号：{{ item.businessId }}</p>
+                    <p class="bunsinessId">业务编号：{{ item.BusinessId }}</p>
                     <div class="Repay-Item-Warp-Center">
                             <p class="shouldrepay">{{ status2shouldrepay(item.status) }}</p>
                             <p class="money" :class="status2Color(item.status)">{{ moneystatus2text(item.money, item.status) }}</p>
                             <p class="timer">{{ status2time(item.type, item.status, item.time) }}</p>
                             <p class="line"  v-if="item.order == null"></p>
-                            <p class="info"  v-if="item.status != 'plan'"  @click.stop="goHistory(item.businessId)"><a>{{ status2gotext(item.status) }}</a></p>
+                            <p class="info"  v-if="item.status != 'plan'"  @click.stop="goHistory(item.BusinessId)"><a>{{ status2gotext(item.status) }}</a></p>
 
                             <div class="manyorder" v-for="(item2, index2) in item.order">
                                 <div class="manyorder-row">
@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="manyorder-row">
                                     <div class="manyorder-timer">请在{{ item2.time }}前还款</div>
-                                    <div class="manyorder-info" @click.stop="goHistory(item.businessId)">{{ status2gotext(item2.status) }}</div>
+                                    <div class="manyorder-info" @click.stop="goHistory(item.BusinessId)">{{ status2gotext(item2.status) }}</div>
                                 </div>
                             </div>
                     </div>
@@ -43,24 +43,41 @@
             return {
                 mockData: [
                     // 车易贷
-                    {businessId: 'CYD20170912001', money: '1745.40',  type: 'car',             status: 'normal', time: '2017/06/28'},
+                    {BusinessId: 'CYD20170912001', money: '1745.40',  type: 'car',             status: 'normal', time: '2017/06/28'},
                     // 车易贷展期  
-                    {businessId: 'CYD20170912345', money: '1745.40',  type: 'carsinglezhanqi', status: 'normal', time: '2017/06/28'}, 
+                    {BusinessId: 'CYD20170912345', money: '1745.40',  type: 'carsinglezhanqi', status: 'normal', time: '2017/06/28'}, 
                     // 车易贷展期（逾期）  
-                    {businessId: 'CYD20170912315', money: '1745.40',  type: 'carsinglezhanqi', status: 'over',   time: '2017/06/28'},
+                    {BusinessId: 'CYD20170912315', money: '1745.40',  type: 'carsinglezhanqi', status: 'over',   time: '2017/06/28'},
                     // 房速贷已展期  
-                    {businessId: 'CYD20170912345', money: '',         type: 'house',           status: 'alreadyzhanqi'},
+                    {BusinessId: 'CYD20170912345', money: '',         type: 'house',           status: 'alreadyzhanqi'},
                     // 房速贷（本期已还清）        
-                    {businessId: 'CYD20170912578', money: '',         type: 'house',           status: 'termfinish'},
+                    {BusinessId: 'CYD20170912578', money: '',         type: 'house',           status: 'termfinish'},
                     // 房速贷（已结清）      
-                    {businessId: 'CYD20170912315', money: '',         type: 'house',           status: 'allfinish'},
+                    {BusinessId: 'CYD20170912315', money: '',         type: 'house',           status: 'allfinish'},
                     // 车易贷（还款计划）        
-                    {businessId: 'CYD20170912345', money: '2745.40',  type: 'houseplan',       status: 'plan',   order: [{businessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'normal'}, {businessId: 'CYD20170122345', time: '2017/07/28', money: '1000', status: 'normal'} ]},
+                    {BusinessId: 'CYD20170912345', money: '2745.40',  type: 'houseplan',       status: 'plan',   order: [{BusinessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'normal'}, {BusinessId: 'CYD20170122345', time: '2017/07/28', money: '1000', status: 'normal'} ]},
                     // 房速贷展期（还款计划）      
-                    {businessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{businessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'finish'}, {businessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]},
+                    {BusinessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{BusinessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'finish'}, {BusinessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]},
                     // 房速贷展期（还款计划）（已逾期）      
-                    {businessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{businessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'over'},   {businessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]}
+                    {BusinessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{BusinessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'over'},   {BusinessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]}
                 ],
+                myData: [{
+                    "BusinessId": "TDC10120140103425B",
+                    "OrgBusinessId": "TDC10120140103425B",
+                    "BusinessType": "房速贷非标准件",
+                    "HasDeffer": false,
+                    "IsOver": false,
+                    "Tip": null,
+                    "Plans": [{
+                        "No": "03",
+                        "AfterId": "1-03",
+                        "Date": "2014-09-02 00:00:00",
+                        "TotalAmount": 975990,
+                        "Status": "逾期",
+                        "HasDeffer": false,
+                        "IsOver": false
+                    }]
+                }],
                 // 数据源是否为空
                 isEmpty: false,
                 // 是否接口已经不能提供更多的数据了
@@ -68,8 +85,34 @@
             }
         },
         methods: {
+            getTip (IsOver, HasDeffer) {
+                if (data.IsOver) {
+                    return data.HasDeffer ? "已展期" : "已结清";
+                }
+                return null;
+            },
+            getAllMoney (plans) {
+                var money = 0;
+                for (var i = plans.length - 1; i >= 0; i--) {
+                    money = plans[i].TotalAmount
+                }
+                return money;
+            },
             loadTop (cb) {
                 window.setTimeout(cb, 1000);
+            },
+            getData () {
+                // this.xdapi.getRepayingList({
+                //       pageIndex: '1',  // 页数
+                //       pageSize: '10'   // 数量
+                // }).then(data=>{
+                //     if (data.ReturnCode == 0) {
+                //         console.log(data);
+                //     } else {
+                //         console.log(data);
+                //         Toast(data.msg);
+                //     }
+                // })
             },
             // 根据业务类型返回右上角的图标
             type2icon (type) {
@@ -141,28 +184,45 @@
                 }
             },
             // 查看详情
-            go (businessId) {
+            go (BusinessId) {
                 this.$router.push('RepayInfo')
             },
-            goHistory (businessId) {
+            goHistory (BusinessId) {
                 this.$router.push('RepayHistory')
-            }
+            },
+            date2date (time) {
+                var oldTime = (new Date(time)).getTime();
+                var curTime = new Date(oldTime).format("yyyy-MM-dd");
+                return curTime
+            },
         },
         components: {
             panel
         },
         beforeMount () {
-            // this.api.getRepayingList({
-            //       pageIndex: '1',  // 页数
-            //       pageSize: '10'   // 数量
-            // }).then(data=>{
-            //     if (data.ReturnCode == 0) {
-            //         console.log(data);
-            //     } else {
-            //         console.log(data);
-            //         Toast(data.msg);
-            //     }
-            // })
+           Date.prototype.format = function(fmt) { 
+                var o = { 
+                   "M+" : this.getMonth()+1,                 //月份 
+                   "d+" : this.getDate(),                    //日 
+                   "h+" : this.getHours(),                   //小时 
+                   "m+" : this.getMinutes(),                 //分 
+                   "s+" : this.getSeconds(),                 //秒 
+                   "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+                   "S"  : this.getMilliseconds()             //毫秒 
+               }; 
+               if(/(y+)/.test(fmt)) {
+                       fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+               }
+                for(var k in o) {
+                   if(new RegExp("("+ k +")").test(fmt)){
+                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                    }
+                }
+               return fmt; 
+           }
+        },
+        activated () {
+          
         }
   }
 </script>

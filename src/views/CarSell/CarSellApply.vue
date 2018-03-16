@@ -23,7 +23,7 @@
         <div class="form">
             <mt-field label="姓名："     placeholder="请输入姓名" v-model="username" :maxlength = '20'></mt-field>
             <mt-field label="身份证号：" placeholder="填写有效身份证信息" v-model="id" :maxlength = '18'></mt-field>
-            <mt-field label="手机号码："  v-model="phone" readonly></mt-field>
+            <mt-field label="手机号码：" v-model="phone" readonly></mt-field>
             <mt-field label="转账银行：" placeholder="请选择转账银行" @click="goBankSelect" v-model="bank" readonly>
                 <div class="form__bank--arrow"></div>
             </mt-field>

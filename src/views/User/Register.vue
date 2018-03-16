@@ -77,7 +77,7 @@
             // 1、交互，错误的提示
             // 2、是否要检查手机号码的用户是否存在，不存在的话返回错误信息
             Loader.show('注册中...')
-            this.api.register({
+            this.xdapi.register({
                      telNo: this.user,             // 账号
                      password: this.pwd,           // 密码
                      validateCode: this.validate,  // 验证码
@@ -101,7 +101,7 @@
             }
             
             Loader.show("正在获取验证码")
-            this.api.smsSend({
+            this.xdapi.smsSend({
                     telNo: this.user,
                     type: '1'  
             }).then(data => {

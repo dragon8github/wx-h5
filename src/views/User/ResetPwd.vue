@@ -44,7 +44,7 @@ import msg       from '@components/messagebox/messagebox.js'
                     this.pwd2_validate = ''
                 }
 
-                this.api.findPwd({
+                this.xdapi.findPwd({
                         telNo: this.$store.state.forgetPwdPhone,    // 账号
                         password: this.pwd,          // 密码
                         validateCode: this.$store.state.forgetPwdValidate,  // 验证码

@@ -194,7 +194,7 @@ export default {
   data () {
     return {
         isCash: false,
-        d: {},
+        d: this.$store.state.CarInfoData.CarInfoData.data,
         TopAmount: 0, // 当前最高价，需要读取API来获取的。TODO: 那么默认应该填什么呢？
     }
   },
@@ -233,7 +233,7 @@ export default {
     }
   },
   beforeMount () {
-      console.log(this.$route.params.id)
+      console.log(this.$route.params.id, this.$store.state.CarInfoData.CarInfoData.data)
   }
 }
 </script>

@@ -59,7 +59,7 @@
               }
 
               Loader.show('正在登录...')
-              this.api.login({
+              this.xdapi.login({
                   userName: this.uer,  // 账号
                   pwd: this.pwd,       // 密码
               }, true).then(data=>{

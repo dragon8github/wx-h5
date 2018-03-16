@@ -13,6 +13,8 @@ import siteMap from './modules/siteMap'
 import requestTimer from './modules/requestTimer'
 import transition from './modules/transition'
 import status from './modules/status'
+import BorrowInfo from './modules/BorrowInfo'
+import CarInfoData from './modules/CarInfoData'
 
 
 Vue.use(Vuex)
@@ -22,6 +24,8 @@ const store = new Vuex.Store({
         AppData,
         siteMap,
         requestTimer,
+        BorrowInfo,
+        CarInfoData,
         status,
         transition: {
             namespaced: true,

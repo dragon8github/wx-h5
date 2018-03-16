@@ -11,7 +11,7 @@
                 </div>
                 <div class="carinfo__center">
                     <div class="carinfo__price">
-                        我的竞拍价：
+                        起拍价：
                         <span class="carinfo__moneysymbol">¥</span>
                         <span class="carinfo__money">{{ money }}</span>
                     </div>
@@ -35,6 +35,7 @@ export default {
     }
   },
   props: {
+    maindata:   { type: Object, default: {} },
     image:  { type: String, default: '' },
     name:   { type: String, default: '' },
     money:  { type: String, default: '' },
@@ -44,11 +45,14 @@ export default {
   },
   methods: {
     goInfo () {
-        if (this.$route.name.trim() === 'CarSellHistory') {
-            this.$router.push(`/CarSellHistoryInfo/${this.id}`)
-        } else {
-            this.$router.push(`/CarSellInfo/${this.id}`)
-        }
+        this.$store.dispatch('setCarInfoData', { data: this.maindata }).then(_ => {
+            // 前期为了迅速，我把他们分开来了。后期再融合在一起吧
+            if (this.$route.name.trim() === 'CarSellHistory') {
+                this.$router.push(`/CarSellHistoryInfo/${this.id}`)
+            } else {
+                this.$router.push(`/CarSellInfo/${this.id}`)
+            }
+        })
     }
   }
 }

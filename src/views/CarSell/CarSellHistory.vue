@@ -24,7 +24,7 @@
                            :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                            :name="item.vehicleBrand"
                            :money="item.startPrice"
-                           :endttime="item.etartPriceDate"
+                           :endtime="item.etartPriceDate"
                            :city="item.vcehicleTerritory">
                      </item>
                   </div>
@@ -40,7 +40,7 @@
                             :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                             :name="item.vehicleBrand"
                             :money="item.startPrice"
-                            :endttime="item.etartPriceDate"
+                            :endtime="item.etartPriceDate"
                             :city="item.vcehicleTerritory">
                       </item>
                   </div>

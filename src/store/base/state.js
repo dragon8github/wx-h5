@@ -26,4 +26,4 @@ export let forgetPwdPhone = ''
 export let forgetPwdValidate = ''
 
 // token
-export let token = ''
+export let token = window.localStorage.getItem('token')

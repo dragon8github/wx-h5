@@ -28,8 +28,8 @@ const checkStatus = async(response) => {
             const token = response.headers.get('token');
             // 将核心数据放入store中
             return store.dispatch('set_token', token).then(_ => {
-                // 设置登录缓存
-                window.localStorage.setItem('isLogin', 1)
+                // 设置token缓存
+                window.localStorage.setItem('token', token)
                 // 返回Promise 
                 return response.json()
             })
@@ -60,7 +60,8 @@ const checkLogin = json => {
     // 如果状态码为205的话，说明需要重新登录了
     if (json.returnCode == 205) {
         msg.alert('登录状态失效，请重新登录账号！', '警告').then(() => {
-           window.localStorage.setItem('isLogin', 0)
+           // 删除登录缓存
+           window.localStorage.removeItem('token')
            // 设置去路
            store.dispatch('set_wantTo', router.currentRoute.fullPath).then(_=>{
                 router.push('/login')

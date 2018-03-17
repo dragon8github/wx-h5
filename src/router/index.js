@@ -157,7 +157,7 @@ router.beforeEach((to, from, next) => {
     // 如果用户要前往需要登录的地方并且没有登录的话。
     // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
     // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去。
-    if (needLoginPage.indexOf(to.name.toLocaleLowerCase()) >= 0 && window.localStorage.getItem('isLogin') != 1) {
+    if (needLoginPage.indexOf(to.name.toLocaleLowerCase()) >= 0 && !window.localStorage.getItem('token')) {
         Toast('请先登录 o(*≧▽≦)ツ')
         // 设置去路
         return store.dispatch('set_wantTo', to.path).then(_=>{

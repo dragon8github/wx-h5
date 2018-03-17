@@ -48,7 +48,12 @@ export const pxToPx = ({getters}, v) => {
 }
 
 // 存储token
-export const token = ({commit, state}, v) => {
+export const set_token = ({commit, state}, v) => {
   state.token = v
+}
+
+// 设置用户需要前往的地址
+export const set_wantTo = ({commit, state}, v) => {
+  state.wantTo = v
 }
 

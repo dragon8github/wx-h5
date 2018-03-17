@@ -65,7 +65,6 @@
               }, true).then(data => {
                   Loader.hideAll();
                   if (data.returnCode == 0) {
-                      window.localStorage.setItem('isLogin', 1)
                       // 跳转到预先要去的地址
                       this.$router.push(this.$store.state.wantTo)
                   } else {

@@ -86,7 +86,7 @@
             }, true).then(data=>{
                 Loader.hideAll();
                 if (data.returnCode == 0) {
-                    Toast('注册成功');
+                    Toast('恭喜你，o(*≧▽≦)ツ 注册成功！');
                     this.$router.push(this.$store.state.wantTo)
                 } else {
                     Toast(data.msg);

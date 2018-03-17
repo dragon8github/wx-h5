@@ -8,6 +8,8 @@ import msg from '@components/messagebox/messagebox.js'
 import Loader from '@components/loader/index.js'
 // 状态管理工具vuex
 import store from '../store/index.js';
+// 路由工具
+import router from '../router/index.js'
 // Fetch兼容插件
 import 'whatwg-fetch'
 
@@ -25,14 +27,15 @@ const checkStatus = async(response) => {
         if (response.url.indexOf('login') >= 0 || response.url.indexOf('register') >= 0) {
             const token = response.headers.get('token');
             // 将核心数据放入store中
-            store.dispatch('tokne', {token}).then(() => {
-                // 返回Promise, TODO
+            return store.dispatch('set_token', token).then(_ => {
+                // 设置登录缓存
+                window.localStorage.setItem('isLogin', 1)
+                // 返回Promise 
                 return response.json()
             })
-        } else {
-            // 返回Promise 
-            return response.json()
         }
+        // 返回Promise 
+        return response.json()
     } else {
       // 服务器响应异常
       Toast('网络异常:' + response.status)
@@ -56,10 +59,12 @@ const checkLogin = json => {
 
     // 如果状态码为205的话，说明需要重新登录了
     if (json.returnCode == 205) {
-        msg.alert('登录状态失效，请退出后重新登录账号！', '警告').then(() => {
+        msg.alert('登录状态失效，请重新登录账号！', '警告').then(() => {
            window.localStorage.setItem('isLogin', 0)
-           // 退出登录并且回到登录页API
-           window.router.push('/login')
+           // 设置去路
+           store.dispatch('set_wantTo', router.currentRoute.fullPath).then(_=>{
+                router.push('/login')
+           })
         })
         throw new Error('登录状态失效，请退出后重新登录账号！')
     } else {
@@ -70,7 +75,7 @@ const checkLogin = json => {
 
 /**
  * helper methods
- * 检查是否重复登录
+ * 检查是否重复登录（暂无使用）
  */
 const checkRepLog = json => {
 

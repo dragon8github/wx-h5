@@ -31,9 +31,6 @@ let initial = () => {
 
 // 将核心数据放入store中
 store.dispatch('setAppData', {openId: window.openId || '6ad7f9ce-ad0e-457a-a608-6cd5ac67eca7'}).then(() => {
-    window.router = router;
     // vue初始化
     initial()
-    // 跳转页面
-    if (window.goUrl) router.push(window.goUrl);
 })

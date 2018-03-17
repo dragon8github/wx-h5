@@ -34,14 +34,14 @@ export default {
     }
   },
   props: {
-    maindata:   { type: Object, default: {} },
-    image:  { type: String, default: '' },
-    name:   { type: String, default: '' },
-    money:  { type: String | Number, default: '' },
-    time:   { type: String | Number, default: '' },
-    city:   { type: String, default: '' },
-    id:     { type: String, default: '' },
-  },
+    maindata: { type: Object | Array, default: {} },
+    image:    { type: String, default: '' },
+    name:     { type: String, default: '' },
+    money:    { type: String | Number, default: '' },
+    time:     { type: String | Number, default: '' },
+    city:     { type: String, default: '' },
+    id:       { type: String, default: '' },
+  },  
   methods: {
     goInfo () {
         this.$store.dispatch('setCarInfoData', { data: this.maindata }).then(_ => {

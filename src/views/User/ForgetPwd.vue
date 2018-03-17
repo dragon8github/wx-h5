@@ -23,7 +23,7 @@ import mtButton     from '@myComponents/button.vue'
         name: 'ForgetPwd',
         data () {
             return {
-              user:'',
+              user: this.$store.state.phone,
               validate: '',
               user_errTopLabel:'',
               validate_errTopLabel:'',
@@ -45,11 +45,7 @@ import mtButton     from '@myComponents/button.vue'
                     this.validate_errTopLabel = ''
                 }
 
-                this.xdapi.checkFindPwdCode({
-                    telNo: this.user,
-                    code: this.validate,
-                    type: '2'
-                }).then(data=>{
+                this.xdapi.checkFindPwdCode({telNo: this.user, code: this.validate, type: '2'}).then(data => {
                     if (data.returnCode == 0) {
                         this.$store.state.phone = this.user
                         this.$store.state.forgetPwdValidate = this.validate

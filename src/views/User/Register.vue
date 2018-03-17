@@ -39,7 +39,7 @@
     name: 'Register',
     data () {
         return {
-            user:'',
+            user: this.$store.state.phone,
             pwd: '',
             validate: '',
             invite: '',
@@ -86,11 +86,14 @@
             }, true).then(data=>{
                 Loader.hideAll();
                 if (data.returnCode == 0) {
-                    Toast('恭喜你，o(*≧▽≦)ツ 注册成功！');
-                    // 设置phone的缓存
-                    window.localStorage.setItem('phone', this.user)
-                    // 跳转到用户想去的地方
-                    this.$router.push(this.$store.state.wantTo)
+                    // 设置手机到store
+                    this.$store.dispatch('set_phone', this.user).then(_=>{
+                        Toast('恭喜你，o(*≧▽≦)ツ 注册成功！');
+                        // 设置phone的缓存
+                        window.localStorage.setItem('phone', this.user)
+                        // 跳转到用户想去的地方
+                        this.$router.push(this.$store.state.wantTo)
+                    })
                 } else {
                     Toast(data.msg);
                 }

@@ -23,7 +23,7 @@
         name: 'Login',
         data () {
             return {
-              user: '',
+              user: this.$store.state.phone,
               pwd: '',
               user_errTopLabel: '',
               pwd_errTopLabel: ''
@@ -65,10 +65,13 @@
               }, true).then(data => {
                   Loader.hideAll();
                   if (data.returnCode == 0) {
-                      // 设置phone的缓存
-                      window.localStorage.setItem('phone', this.user)
-                      // 跳转到预先要去的地址
-                      this.$router.push(this.$store.state.wantTo)
+                      // 设置手机到store
+                      this.$store.dispatch('set_phone', this.user).then(_=>{
+                          // 设置phone的缓存
+                          window.localStorage.setItem('phone', this.user)
+                          // 跳转到预先要去的地址
+                          this.$router.push(this.$store.state.wantTo)
+                      })
                   } else {
                       Toast(data.msg);
                   }

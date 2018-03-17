@@ -24,7 +24,9 @@ const checkStatus = async(response) => {
     // 判断请求状态
     if (response.status >= 200 && response.status < 300) {
         // 如果是登录、注册、忘记密码的话，会返回一个token，我们把它加入到store中，并且每次登录都带在我的header中
-        if (['login', 'findpwd', 'register'].indexOf(response.url.toLocaleLowerCase()) >= 0) {
+        if (response.url.toLocaleLowerCase().indexOf('login') >= 0 || 
+            response.url.toLocaleLowerCase().indexOf('register') >= 0 ||
+            response.url.toLocaleLowerCase().indexOf('register') >= 0) {
             const token = response.headers.get('token');
             // 将核心数据放入store中
             return store.dispatch('set_token', token).then(_ => {

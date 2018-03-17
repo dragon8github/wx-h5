@@ -66,7 +66,7 @@ export default {
         bank: this.$store.state.bank,
         username: '',
         id: '',
-        phone: '',
+        phone: this.$store.state.phone,
         card: ''
     }
   },

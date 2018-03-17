@@ -226,6 +226,7 @@ export default {
 .CarSellInfo {
     height: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 .CarSellInfo__banner {

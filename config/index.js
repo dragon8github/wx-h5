@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
         '/api': {
            // 我要请求的地址
-           target: 'http://192.168.14.29:31006/',  
+           target: 'http://172.16.200.110:31006/',  
            //是否跨域 
            changeOrigin: true, 
            // 重写地址 

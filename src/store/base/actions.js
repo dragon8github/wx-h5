@@ -57,3 +57,7 @@ export const set_wantTo = ({commit, state}, v) => {
   state.wantTo = v
 }
 
+// 存储用户的手机号码
+export const set_phone = ({commit, state}, v) => {
+  state.phone = v
+}

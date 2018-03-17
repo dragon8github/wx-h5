@@ -12,22 +12,21 @@
                 <i class="search__icon"></i>
                 <input type="text" class="search__input" placeholder="请输入品牌/型号" v-model="search" />
             </div>
-            <div class="search__right"> 搜索 </div>
+            <div class="search__right" @click="searchFn"> 搜索 </div>
         </div>
 
         <tabcontainer  v-model="selected" swipeable>
             <tabcontaineritem  id="tab-container1" >
               <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_bottomDisabled = "tag['1']['bottomDisabled']">
                   <div slot="body">
-                     <item v-for="(item,index) in tag['1']['list']" 
-                           :key="index"
+                     <item v-for="(item,index) in tag['1']['list']" :key="index"                           
+                           :id="item.businessId"
                            :maindata="item"
-                           :image="item.docUrl"
+                           :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                            :name="item.vehicleBrand"
                            :money="item.startPrice"
-                           :time="item.etartPriceDate"
-                           :city="item.city"
-                           :id="item.priceID">
+                           :starttime="item.startPriceDate"
+                           :city="item.vcehicleTerritory">
                      </item>
                   </div>
               </panel>
@@ -36,15 +35,14 @@
             <tabcontaineritem id="tab-container2">
               <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_bottomDisabled = "tag['2']['bottomDisabled']">
                   <div slot="body">
-                      <item v-for="(item,index) in tag['2']['list']" 
-                            :key="index"
+                      <item v-for="(item,index) in tag['2']['list']" :key="index"                            
+                            :id="item.businessId"
                             :maindata="item"
-                            :image="item.docUrl"
+                            :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                             :name="item.vehicleBrand"
                             :money="item.startPrice"
-                            :time="item.endBidTime"
-                            :city="item.city"
-                            :id="item.priceID">
+                            :starttime="item.startPriceDate"
+                            :city="item.vcehicleTerritory">
                       </item>
                   </div>
               </panel>
@@ -53,27 +51,18 @@
             <tabcontaineritem id="tab-container3">
               <panel ref="pannel3" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_bottomDisabled = "tag['3']['bottomDisabled']">
                   <div slot="body">
-                      <item v-for="(item,index) in tag['3']['list']" 
-                            :key="index"
+                      <item v-for="(item,index) in tag['3']['list']" :key="index"                            
+                            :id="item.businessId"
                             :maindata="item"
-                            :image="item.docUrl"
+                            :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                             :name="item.vehicleBrand"
                             :money="item.startPrice"
-                            :time="item.endBidTime"
-                            :city="item.city"
-                            :id="item.priceID">
+                            :city="item.vcehicleTerritory">
                       </item>
                   </div>
               </panel>
             </tabcontaineritem>
         </tabcontainer>
-
-        
-        <!-- <div class="nodata">
-            <img class="nodata__image" src="~@assets/carsell/nodata.png" />
-            <div class="nodata__text">你还没有拍卖数据</div>
-            <div class="nodata__text">快去汽车拍卖看看吧</div>
-        </div> -->
     </div>
 </template>
 
@@ -138,23 +127,42 @@ export default {
       }
   },
   methods: {
+    searchFn () {
+        this.resetWhere();
+        this.where.vehicleBrand = this.search
+        this.where.carModel = this.search
+
+        this.currTag.list = []
+        this.getData(_ => {
+            this.currTag.list = _.data
+            if (!this.currTag.list.length) {
+              this.currTag.isEmpty = true
+            }
+        }, _ => {
+            Toast(_.msg);
+            this.currTag.isEmpty = true
+        })
+    },
     loadTop (cb) {
         // 据我所知，下拉刷新需要重置一下搜索条件。
         this.resetWhere()
         this.getData(_ => {
             this.currTag.list = _.data
+            cb && cb()
         }, _=>{
             Toast(_.msg)
             cb && cb()
         })
     },
-    getData (success_cb, err_cb) {
-        this.carapi.selectAuctionsPage(this.where).then(data => {
+    getData (success_cb, err_cb, isQuite = true) {
+        this.carapi.selectAuctionsPage(this.where, isQuite).then(data => {
            if (data.returnCode == 0) {
               // 当请求数据不为空的时候，重置展示状态
               if (data.data.length > 0) {
                 this.currTag.bottomDisabled = false;
                 this.currTag.isEmpty = false;
+              } else {
+                this.currTag.isEmpty = true;
               }
               success_cb && success_cb(data)
            } else {
@@ -218,7 +226,7 @@ export default {
           this.currTag.list = _.data
        }, _ => {
           Toast(_.msg)
-       })
+       }, false)
   },
   activated () {
 
@@ -237,7 +245,7 @@ export default {
 .search {
     @include flex(b, center);
     padding: 0 pxToRem(30px);
-    margin-top: pxToRem(10px);
+    margin: pxToRem(10px) 0;
     background: #fff;
     font-size: pxToRem(32px);
     height: pxToRem(98px);

@@ -1,7 +1,7 @@
 <template>
     <div class="CarSellHistoryItem" @click="goInfo(id)">
         <div class="CarSellHistoryItem__left">
-                <img class="CarSellHistoryItem__image" :src="'http://xiaodaioa.oss-cn-beijing.aliyuncs.com/' + image">
+                <img class="CarSellHistoryItem__image" :src="getImg()">
         </div>
         <div class="CarSellHistoryItem__right">
             <div class="carinfo">
@@ -10,11 +10,12 @@
                 </div>
                 <div class="carinfo__center">
                     <div class="carinfo__price">
-                        起拍价：
+                        <span v-html="moneyText"></span>
                         <span class="carinfo__moneysymbol">¥</span>
                         <span class="carinfo__money">{{ money }}</span>
                     </div>
-                    <div class="carinfo__time">{{ time }} 截止</div>
+                    <div class="carinfo__time" v-if="endtime">{{ endtime }} 截止</div>
+                    <div class="carinfo__time" v-if="starttime">{{ starttime }} 开拍</div>
                 </div>
                 <div class="carinfo__bottom">
                     <div class="carinfo__city">{{ city }}</div>
@@ -30,17 +31,28 @@ export default {
   name: 'callsellitem',
   data () {
     return {
-
+        moneyText: (this.endtime || this.starttime) ? '起拍价：' : '成交价：<p></p>'
     }
   },
   props: {
+    // 整个数据集
     maindata: { type: Object | Array, default: {} },
-    image:    { type: String, default: '' },
-    name:     { type: String, default: '' },
-    money:    { type: String | Number, default: '' },
-    time:     { type: String | Number, default: '' },
-    city:     { type: String, default: '' },
+    // 拍卖编号
     id:       { type: String, default: '' },
+    // 图片一张
+    image:    { type: String, default: '' },
+    // 汽车名字
+    name:     { type: String, default: '' },
+    // 起拍价 / 成交价
+    money:    { type: String | Number, default: '' },
+    // 开拍时间，可以为空，如果是成交单的话
+    starttime:{ type: String | Number, default: '' },
+    // 截止时间，拍卖历史需要，可以为空
+    endtime:  { type: String | Number, default: '' },
+    // 汽车属地
+    city:     { type: String, default: '' },
+    // 订单是否完成，
+    finish:   { type: Boolean, default: false}
   },  
   methods: {
     goInfo () {
@@ -52,6 +64,14 @@ export default {
                 this.$router.push(`/CarSellInfo/${this.id}`)
             }
         })
+    },
+    getImg (src) {
+        if (this.image) {
+            return 'http://xiaodaioa.oss-cn-beijing.aliyuncs.com/' + this.image;
+        } else {
+            // TODO 默认汽车的图片
+            return ''
+        }
     }
   }
 }

@@ -91,7 +91,9 @@
  import tabcontainer from '@components/tabcontainer/tabcontainer.vue'
  import tabcontaineritem from '@components/tabContainerItem/tabContainerItem.vue'
 
+ // Toast组件
  import Toast from '@components/toast/index.js'
+
  // 路由
  import Router from 'vue-router'
 
@@ -114,9 +116,9 @@ export default {
               carModel: '',     // 车辆型号
         },
         tag: {
-            '1':{ isSearch:false, isEmpty: false, bottomDisabled: false,  index: 1, list:[]},
-            '2':{ isSearch:false, isEmpty: false, bottomDisabled: false, index: 2, list:[]},
-            '3':{ isSearch:false, isEmpty: false, bottomDisabled: false, index: 3, list:[]}
+            '1':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[] },
+            '2':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[] },
+            '3':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[] }
         },
         oldTag: null
     }
@@ -139,7 +141,7 @@ export default {
     loadTop (cb) {
         // 据我所知，下拉刷新需要重置一下搜索条件。
         this.resetWhere()
-        this.getData(_=>{
+        this.getData(_ => {
             this.currTag.list = _.data
         }, _=>{
             Toast(_.msg)
@@ -162,7 +164,7 @@ export default {
     },
     loadBottom (cb) {
         // 兼容一种特殊情况,只在多个tag且用户操作过急的情况才可能发生
-        if (this.$refs[`pannel${this.currTag.index}`].loading === false) {
+        if (this.$refs[`pannel${this.where.type}`].loading === false) {
           this.$refs[`pannel${this.oldTag}`].$el.scrollTop = 0
           return cb && cb()
         }
@@ -202,9 +204,9 @@ export default {
 
          // 选项卡改变的时候，肯定需要进行fetch的，但如果原本的tag有值的话，那么就不需要更新了。先这样简单处理。
          // 这个页面，最好也加入active，就算更新出了问题，那也是以后的解决方案。
-         if (this.tag[this.currTag].list.length == 0) {
+         if (this.currTag.list.length == 0) {
              this.getData(_ => {
-                this.tag[this.currTag].list = _
+                this.currTag.list = _.data
              }, _ => {
                 Toast(_.msg)
              })

@@ -327,7 +327,7 @@ export default {
 }
 
 .carRule__rows {
-    @include flex(start);
+    @include flex(start, center);
     color: #222222;
     font-size: pxToRem(28px);
 

@@ -1,7 +1,7 @@
 // 异步请求的数量
 export let fetchCount = 0
 
-// 页面X轴专用的监听器
+// 页面X轴监听器
 export let translateX = 0
 
 // 页面Y的监听器
@@ -20,7 +20,7 @@ export let localcity = ''
 export let wantTo = ''
 
 // 修改密码的手机号码
-export let forgetPwdPhone = ''
+export let phone = ''
 
 // 修改密码的验证码
 export let forgetPwdValidate = ''

@@ -65,6 +65,8 @@
               }, true).then(data => {
                   Loader.hideAll();
                   if (data.returnCode == 0) {
+                      // 设置phone的缓存
+                      window.localStorage.setItem('phone', this.user)
                       // 跳转到预先要去的地址
                       this.$router.push(this.$store.state.wantTo)
                   } else {

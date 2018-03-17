@@ -32,13 +32,13 @@
 
             <div class="carRule">
                 <div class="carRule__rows">
-                    <div class="carRule__rowsleft">交易类型：</div> <div class="carRule__rowsright">{{ getTranType() }}</div>
+                    <div class="carRule__rowsleft">交易类型：</div> <div class="carRule__rowsright">{{ d.tranType }}</div>
                 </div>
                 <div class="carRule__rows">
-                    <div class="carRule__rowsleft">取货方式：</div> <div class="carRule__rowsright">{{ getPickupMethod() }}</div>
+                    <div class="carRule__rowsleft">取货方式：</div> <div class="carRule__rowsright">{{ d.pickupMethod }}</div>
                 </div>
                 <div class="carRule__rows">
-                    <div class="carRule__rowsleft">支付方式：</div> <div class="carRule__rowsright">{{ getPaymentMethod() }}</div>
+                    <div class="carRule__rowsleft">支付方式：</div> <div class="carRule__rowsright">{{ d.paymentMethod }}</div>
                 </div>
                 <div class="carRule__rows">
                     <div class="carRule__rowsleft">竞价规则：</div> <div class="carRule__rowsright">{{ d.bidRule }}</div>
@@ -149,7 +149,7 @@
                </div>
 
                <div class="subject__last">
-                   <div class="subject__lasttitle">备注：</div>
+                   <div class="subject__lasttitle">{{ d.remarks ? '备注：' : '' }}</div>
                    <div class="subject__lasttext">{{ d.remarks }}</div>
                </div>
             </div>
@@ -158,26 +158,26 @@
                     <div class="buyneedknow__title buyneedknow--bold "> 竞买公告 </div>
                     <div>
                         <p class="buyneedknow--indent">竞拍前请务必遵照《竞买公告》的要求，进行实地看样、调查标的物信息（如过户要求、 违章情况等）、 了解竞买资质、 支付方式等内容。</p>
-                        <p><span class="buyneedknow--bold">我方将于{{ d.starBidTime }}至 {{ d.endBidTime }}止进行公开竞买活动，</span> 现公告如下：</p>
-                        <p class="buyneedknow--indent">一、 竞买标的： 车牌号： XXX； 车辆型号： {{ d.carModel }}； 车辆识别代号： XXX； 发动机号： {{ d.engineNumber  }}； 初次登记日期：{{ d.registerDate   }}； 行驶总里程： {{ d.mileage }}KM。</p>
+                        <p><span class="buyneedknow--bold">我方将于 {{ d.starBidTime }} 至 {{ d.endBidTime }} 止进行公开竞买活动，</span> 现公告如下：</p>
+                        <p class="buyneedknow--indent">一、 竞买标的： 车牌号： {{ d.licensePlateNumber }}； 车辆型号： {{ d.carModel }}； 车辆识别代号： XXX； 发动机号： {{ d.engineNumber  }}； 初次登记日期：{{ d.registerDate   }}； 行驶总里程： {{ d.mileage }}KM。</p>
                         <p>竞买起始价： {{ d.startPrice }}万元， 增价幅度{{ d.priceincrease }}元（ 或整倍数）。</p>
                         <p class="buyneedknow--indent">二、 竞买人条件： 凡具备完全民事行为能力的公民、 法人和其他组织均可参加竞买。</p>
                         <p class="buyneedknow--indent">竞买人应当具备完全民事行为能力， 法律、 行政法规和司法解释对买受人资格或者条件有特殊规定的， 竞买人应当具备规定的资格或者条件。 如为限购地区车辆请自行确定是否具有相关资格。</p>
                         <p class="buyneedknow--indent">因不符合条件参加竞买的， 由竞买人自行承担相应的责任。</p>
-                        <p class="buyneedknow--indent"><span class="buyneedknow--bold">三、 咨询、 集中展示看样的时间与方式： 自{{ d.conStartDate }}起至{{ d.conEndDate }}止接受咨询（ 双休日、 节假日除外）。 有意看样者请于{{ d.vieEndDate }}前到达以下地点进行看样。</span></p>
+                        <p class="buyneedknow--indent"><span class="buyneedknow--bold">三、 咨询、 集中展示看样的时间与方式： 自 {{ d.conStartDate }} 起至 {{ d.conEndDate }} 止接受咨询（ 双休日、 节假日除外）。 有意看样者请于{{ d.vieEndDate }}前到达以下地点进行看样。</span></p>
                         <p>集中看样地点：{{ d.vie }}</p>
                         <p class="buyneedknow--indent">四、 标的物以实物现状为准， 我方不承担竞买标的瑕疵保证。 特别提醒， 有意者请亲自实地看样， 未看样的竞买人视为对本标的实物现状的确认， 由竞买人自行承担相应责任。</p>
                         <p class="buyneedknow--indent">五、 竞拍前请与相关人员确认标的物的情况， 参与竞拍行为视为对标的物的确认， 由竞买人自行承担相应责任。</p>
-                        <p class="buyneedknow--indent"> <span class="buyneedknow--bold">六、 本标的物竞得者应将竞买款在X年X月X日X时前缴入我方指定账户(户名： {{d.account}}  开户银行：{{ d.bank }}  账号： {{ d.cardNo }})。</span></p>
+                        <p class="buyneedknow--indent"> <span class="buyneedknow--bold">六、 本标的物竞得者应将竞买款在 {{ d.paymentEndTime }} 前缴入我方指定账户（户名：{{ d.account }}  开户银行：{{ d.bank }}  账号： {{ d.cardNo }}）。</span></p>
                         <p class="buyneedknow--indent">七、 竞买成交买受人付清全部竞买价款后， 凭相关证件自行至标的物所在地接收车辆， 过户手续及风险请竞买人在竞买前自行到相关职能部门咨询确认， 过户费用由买受人自行承担。</p>
                         <p class="buyneedknow--indent">竞买人在竞价前请务必再仔细阅读我方发布的的竞价须知。</p>
-                        <p> 标的物详情咨询电话：{{ d.telephone }} <br> 联系地址： {{ d.contact  }} </p>
+                        <p> 标的物详情咨询电话：{{ d.telephone }} <br> 联系地址： {{ d.contact }} </p>
                         <p class="buyneedknow--right">X年X月X日</p>
                     </div>
             </div>
             
             <div class="btnblock">
-                <button class="btn btn--primary">{{ isCash ? '报名交保证金': '我 要 竞 买' }}</button>
+                <button class="btn btn--primary" @click="go">{{ isCash ? '报名交保证金': '我 要 竞 买' }}</button>
             </div>
         </div>
     </div>
@@ -204,36 +204,25 @@ export default {
     swipeitem
   },
   methods: {
+    go () {
+
+    },
     goCarSellNeedKnow () {
       this.$router.push('/CarSellNeedKnow')
     },
     goCarSellNotice () {
       this.$router.push('/CarSellNotice')
     },
-    getTranType (TranType) {
-        if (this.d.tranType == 0) {
-            return '债权转让'
-        } else if (this.d.tranType == 1) {
-            return '交易过户'
-        }
-    },
-    getPickupMethod (PickupMethod) {
-        if (this.d.pickupMethod == 0) {
-            return '门店自提'
-        } else if (this.d.pickupMethod == 1) {
-            return '运费自付'
-        }
-    },
-    getPaymentMethod () {
-        if (this.d.paymentMethod == 0) {
-            return '竞买成功后，尾款线下支付'
-        } else if (this.d.paymentMethod == 1) {
-            return '竞买成功后，尾款'
-        }
-    }
   },
   beforeMount () {
       console.log(this.$route.params.id, this.$store.state.CarInfoData.CarInfoData.data)
+
+      this.carapi.selectBiddersPage({
+          PriceID: this.$route.params.id,
+
+      }).then(_=>{
+
+      })
   }
 }
 </script>
@@ -369,7 +358,7 @@ export default {
 }
 
 .carRule__rows {
-    @include flex(start);
+    @include flex(start, center);
     color: #222222;
     font-size: pxToRem(28px);
 
@@ -478,6 +467,7 @@ export default {
 
     .buyneedknow--indent {
         text-indent: pxToRem(50px);
+        word-break: break-all;
     }
 
     .buyneedknow--right {

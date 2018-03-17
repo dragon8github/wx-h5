@@ -51,7 +51,7 @@ import mtButton     from '@myComponents/button.vue'
                     type: '2'
                 }).then(data=>{
                     if (data.returnCode == 0) {
-                        this.$store.state.forgetPwdPhone = this.user
+                        this.$store.state.phone = this.user
                         this.$store.state.forgetPwdValidate = this.validate
                         this.$router.push('/resetpwd')
                     } else {

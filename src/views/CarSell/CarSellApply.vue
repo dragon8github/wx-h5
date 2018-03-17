@@ -2,23 +2,23 @@
     <div class="CarSellApply">
         <div class="banner">
             <div class="banner_text">保证金</div>
-            <div class="banner__money">500 <span class="banner__money--yuan">元</span></div>
-            <div class="banner__price">起拍价： ¥ 265,000</div>
+            <div class="banner__money">{{ d.bond }} <span class="banner__money--yuan">元</span></div>
+            <div class="banner__price">起拍价： ¥ {{ d.startPrice }}</div>
         </div>
         <div class="navbar">
             <div class="navbar__block">
                 <div class="navbar__text">评估价</div>
-                <div class="navbar__money">¥ 265,000</div>
+                <div class="navbar__money">¥ {{ d.lastEvaluationAmount }}</div>
             </div>
             <div class="navbar__line"></div>
             <div class="navbar__block">
                 <div class="navbar__text">加价幅度</div>
-                <div class="navbar__money">¥ 5,000</div>
+                <div class="navbar__money">¥ {{ d.priceincrease }}</div>
             </div>
         </div>
         <div class="time">
             <div class="time__text">拍卖时间：</div>
-            <div class="time__section">2018/02/23 - 2018/02/28</div>
+            <div class="time__section">{{ d.startPriceDate }} - {{ d.etartPriceDate }}</div>
         </div>
         <div class="form">
             <mt-field label="姓名："     placeholder="请输入姓名" v-model="username" :maxlength = '20'></mt-field>
@@ -37,12 +37,12 @@
 
 
             <div class="warm__panel">
-                <div class="warm__text">请在<span class="warm__text--blue"> 2018/02/28 </span>前将<span class="warm__text--blue"> 5000元 </span>保证金打到如下账号，以获取竞拍资格，转账请备注注册账号和竞买车辆。如竞拍失败，保证金将如数退还。 </div>
+                <div class="warm__text">请在<span class="warm__text--blue"> {{ d.paymentEndTime }} </span>前将<span class="warm__text--blue"> {{ d.bond }}元 </span>保证金打到如下账号，以获取竞拍资格，转账请备注注册账号和竞买车辆。如竞拍失败，保证金将如数退还。 </div>
                 <div class="warm__line"></div>
                 <div class="warm__address"> 
-                    单位名称： 广东鸿特信息咨询有限公司<br>
-                    开户行： 中国建设银行股份有限公司东莞宏伟路支行<br>
-                    账号： 44050177020000000193
+                    单位名称： {{ d.account }}<br>
+                    开户行： {{ d.bank }}<br>
+                    账号： {{ d.cardNo }}
                 </div>
             </div>
         </div>
@@ -105,6 +105,20 @@ export default {
           return Toast('请输入正确的银行卡号')
         }
 
+        this.carapi.auctionSign({
+            priceID: this.d.priceID,
+            userName: this.userName,
+            userId: this.id,
+            telePhone: this.phone
+        }).then(_ => {
+            console.log(_);
+            if ( _.returnCode == 0 ) {
+                this.$router.push('/CarSellApplyStatus')
+            } else {
+                Toast(_.msg)
+            }
+        })
+
     },
     cardkeyup (v) {
         var op = "";  
@@ -121,6 +135,9 @@ export default {
   },
   beforeMount () {
         this.cardkeyup(this.card);
+        if (!this.$store.state.CarInfoData.CarInfoData.data) {
+            this.$router.push('/carsell')
+        }
   }
 } 
 </script>

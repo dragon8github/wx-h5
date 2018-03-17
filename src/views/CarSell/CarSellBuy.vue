@@ -2,32 +2,32 @@
     <div class="CarSellBuy">
         <div class="banner">
             <div class="banner_text">当前最高出价</div>
-            <div class="banner__money">265,000 <span class="banner__money--yuan">元</span></div>
-            <div class="banner__price">起拍价： ¥ 65,000</div>
+            <div class="banner__money">{{ max_money }} <span class="banner__money--yuan">元</span></div>
+            <div class="banner__price">起拍价： ¥ {{ d.startPrice }}</div>
         </div>
         <div class="navbar">
             <div class="navbar__block">
                 <div class="navbar__text">保证金</div>
-                <div class="navbar__money">¥ 5,000</div>
+                <div class="navbar__money">¥ {{ d.bond }}</div>
             </div>
             <div class="navbar__line"></div>
             <div class="navbar__block">
                 <div class="navbar__text">评估价</div>
-                <div class="navbar__money">¥ 125,000</div>
+                <div class="navbar__money">¥ {{ d.lastEvaluationAmount }}</div>
             </div>
         </div>
         <div class="time">
             <div class="time__text">拍卖时间：</div>
-            <div class="time__section">2018/02/23 - 2018/02/28</div>
+            <div class="time__section">{{ d.startPriceDate }} - {{ d.etartPriceDate }}</div>
         </div>
         <div class="form">
                 <div class="form__left">
-                    <div class="form__addtext">出价金额<span class="form__addtext--yuan">（元 / 次）</span></div>
-                    <div class="form__addmoney">5,000</div>
+                    <div class="form__addtext">加价幅度<span class="form__addtext--yuan">（元 / 次）</span></div>
+                    <div class="form__addmoney">{{ d.priceincrease }}</div>
                 </div>
 
                 <div class="form__right">
-                    <div class="form__addtext">加价幅度<span class="form__addtext--yuan">（元）</span></div>
+                    <div class="form__addtext">出价金额<span class="form__addtext--yuan">（元）</span></div>
                     <div class="InputNumber">
                         <a class="InputNumber__reduce"></a>
                         <input type="text" class="InputNumber__input" v-model='input_money'>
@@ -45,17 +45,32 @@
 
 <script>
  import mtField from '@components/field/field2.vue'
+ import Toast from '@components/toast/index.js'
+
 export default {
 
   name: 'CarSellBuy',
 
   data () {
     return {
-        input_money: '23,000'
+        input_money: 0,
+        max_money: 0,
+        d: this.$store.state.CarInfoData.CarInfoData.data,  // 汽车详情
     }
   },
   components: {
     mtField
+  },
+  beforeMount () {
+        this.carapi.selectMaxOfferPriceByAuctionId({
+            priceID: this.d.priceID
+        }).then(_=>{
+            if (_.returnCode == 0) {
+                console.log(_)
+            } else {
+                Toast(_.msg)
+            }
+        })
   }
 } 
 </script>

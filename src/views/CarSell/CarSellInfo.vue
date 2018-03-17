@@ -14,17 +14,17 @@
             <div class="carMain">
                 <div class="carMain__type">{{ d.vehicleBrand }}</div>
                 <div class="carMain__id">拍卖编号：{{ d.businessId }}</div>
-                <div class="carMain__start">起拍价：¥{{ d.startPrice }}</div>
+                <div class="carMain__start">起拍价：¥ {{ d.startPrice }}</div>
                 <div class="carMain__maxtext">当前最高出价：</div>
-                <div class="carMain__maxmoney">¥{{ TopAmount  }}</div>
-                <div class="carMain__time"> 拍卖时间：{{ d.startPriceDate }}-{{ d.etartPriceDate }} </div>
+                <div class="carMain__maxmoney">¥ {{ TopAmount  }}</div>
+                <div class="carMain__time"> 拍卖时间：{{ d.startPriceDate }} - {{ d.etartPriceDate }} </div>
                 <div class="carMain__line"></div>
                 <div class="carMain__money">
                     <div class="carMain__moneytop">
                         <div class="carMain__ensure">保证金：¥  {{ d.bond }} </div>
                         <div>加价幅度：¥ {{ d.priceincrease }}</div>
                     </div>
-                    <div>评估价：¥ 16,000</div>
+                    <div>评估价：¥  {{ d.lastEvaluationAmount }}</div>
                 </div>
             </div>
 
@@ -210,12 +210,14 @@ export default {
           }).then(_=>{
             if ( _.returnCode == 0 ) {
                 // 如果数组为空，说明用户没有交保证金
+
+                // TODO 估计弄反。
                 if (_.data.length == 0) {
-                  // 缴纳保证金：否，跳转报名
-                  this.$router.push('/carsellapply')
-                } else {
                   // 缴纳保证金：是，跳转竞买
                   this.$router.push('/carsellbuy')
+                } else {
+                   // 缴纳保证金：否，跳转报名
+                   this.$router.push('/carsellapply')
                 }
             } else {
                 Toast("获取拍卖状态失败：" + _.msg)

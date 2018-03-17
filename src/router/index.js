@@ -103,16 +103,16 @@ let router =  new Router({
         { path: '/RepayStatus',  name: 'RepayStatus',  meta: { title: '还款成功' },  component: RepayStatus },
         { path: '/RepayHistory', name: 'RepayHistory', meta: { title: '还款记录' },  component: RepayHistory },
 
-        { path: '/CarSell',                   name: ' CarSell',            meta: { title: '汽车拍卖' },          component: CarSell },
-        { path: '/CarSellInfo/:id',           name: ' CarSellInfo',        meta: { title: '汽车详情' },          component: CarSellInfo },
-        { path: '/CarSellHistoryInfo/:id',    name: ' CarSellHistoryInfo', meta: { title: '汽车详情' },          component: CarSellHistoryInfo },
-        { path: '/CarSellApply',              name: ' CarSellApply',       meta: { title: '汽车拍卖报名' },      component: CarSellApply },
-        { path: '/CarSellApplyStatus',        name: ' CarSellApplyStatus', meta: { title: '报名拍卖状态' },      component: CarSellApplyStatus },
-        { path: '/CarSellHistory',            name: ' CarSellHistory',     meta: { title: '汽车拍卖历史记录' },  component: CarSellHistory },
-        { path: '/CarSellBuy',                name: ' CarSellBuy',         meta: { title: '报名竞买' },          component: CarSellBuy },
-        { path: '/CarSellBuySuccess',         name: ' CarSellBuySuccess',  meta: { title: '提交结果' },          component: CarSellBuySuccess },
-        { path: '/BankSelect',                name: ' BankSelect',         meta: { title: '选择银行' },          component: BankSelect },
-        { path: '/ErrorPage',                 name: ' ErrorPage',          meta: { title: '提交结果' },          component: ErrorPage },
+        { path: '/CarSell',                 name: ' CarSell',            meta: { title: '汽车拍卖' },          component: CarSell },
+        { path: '/CarSellInfo/:id?',        name: ' CarSellInfo',        meta: { title: '汽车详情' },          component: CarSellInfo },
+        { path: '/CarSellHistoryInfo/:id?', name: ' CarSellHistoryInfo', meta: { title: '汽车详情' },          component: CarSellHistoryInfo },
+        { path: '/CarSellApply',            name: ' CarSellApply',       meta: { title: '汽车拍卖报名' },      component: CarSellApply },
+        { path: '/CarSellApplyStatus',      name: ' CarSellApplyStatus', meta: { title: '报名拍卖状态' },      component: CarSellApplyStatus },
+        { path: '/CarSellHistory',          name: ' CarSellHistory',     meta: { title: '汽车拍卖历史记录' },  component: CarSellHistory },
+        { path: '/CarSellBuy',              name: ' CarSellBuy',         meta: { title: '报名竞买' },          component: CarSellBuy },
+        { path: '/CarSellBuySuccess',       name: ' CarSellBuySuccess',  meta: { title: '提交结果' },          component: CarSellBuySuccess },
+        { path: '/BankSelect',              name: ' BankSelect',         meta: { title: '选择银行' },          component: BankSelect },
+        { path: '/ErrorPage',               name: ' ErrorPage',          meta: { title: '提交结果' },          component: ErrorPage },
 
         { path: '/Borrow',         name: 'Borrow',         meta: { title: '我的借款' },  component: Borrow },
         { path: '/BorrowProgress', name: 'BorrowProgress', meta: { title: '查看进度' },  component: BorrowProgress },
@@ -157,7 +157,7 @@ router.beforeEach((to, from, next) => {
     // 如果用户要前往需要登录的地方并且没有登录的话。
     // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
     // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去
-    if (needLoginPage.indexOf(to.name.toLocaleLowerCase().trim()) >= 0 && !window.localStorage.getItem('token')) {
+    if (needLoginPage.indexOf(to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim()) >= 0 && !window.localStorage.getItem('token')) {
         Toast('请先登录 o(*≧▽≦)ツ')
         // 设置去路
         return store.dispatch('set_wantTo', to.path).then(_=>{

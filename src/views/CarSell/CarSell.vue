@@ -127,34 +127,7 @@ export default {
       }
   },
   methods: {
-    searchFn () {
-        this.resetWhere();
-        this.where.vehicleBrand = this.search
-        this.where.carModel = this.search
-
-        this.currTag.list = []
-        this.getData(_ => {
-            this.currTag.list = _.data
-            if (!this.currTag.list.length) {
-              this.currTag.isEmpty = true
-            }
-        }, _ => {
-            Toast(_.msg);
-            this.currTag.isEmpty = true
-        })
-    },
-    loadTop (cb) {
-        // 据我所知，下拉刷新需要重置一下搜索条件。
-        this.resetWhere()
-        this.getData(_ => {
-            this.currTag.list = _.data
-            cb && cb()
-        }, _=>{
-            Toast(_.msg)
-            cb && cb()
-        })
-    },
-    getData (success_cb, err_cb, isQuite = true) {
+    getData (success_cb, err_cb, isQuite = false) {
         this.carapi.selectAuctionsPage(this.where, isQuite).then(data => {
            if (data.returnCode == 0) {
               // 当请求数据不为空的时候，重置展示状态
@@ -169,6 +142,18 @@ export default {
               err_cb && err_cb(data.msg ? data : { msg: '网络异常' })
            }
        })
+    },
+
+    loadTop (cb) {
+        // 据我所知，下拉刷新需要重置一下搜索条件。
+        this.resetWhere()
+        this.getData(_ => {
+            this.currTag.list = _.data
+            cb && cb()
+        }, _=>{
+            Toast(_.msg)
+            cb && cb()
+        }, true)
     },
     loadBottom (cb) {
         // 兼容一种特殊情况,只在多个tag且用户操作过急的情况才可能发生
@@ -187,6 +172,22 @@ export default {
             // 这个还不太好弄，如果说你处于下拉状态，只是关闭还没有用。因为还是会不断的触发下拉。这是一个bug。需要改正。
             Toast(_.msg)
             cb && cb()
+        }, true)
+    },
+    searchFn () {
+        this.resetWhere();
+        this.where.vehicleBrand = this.search
+        this.where.carModel = this.search
+
+        this.currTag.list = []
+        this.getData(_ => {
+            this.currTag.list = _.data
+            if (!this.currTag.list.length) {
+              this.currTag.isEmpty = true
+            }
+        }, _ => {
+            Toast(_.msg);
+            this.currTag.isEmpty = true
         })
     },
     resetWhere () {
@@ -226,7 +227,7 @@ export default {
           this.currTag.list = _.data
        }, _ => {
           Toast(_.msg)
-       }, false)
+       })
   },
   activated () {
 

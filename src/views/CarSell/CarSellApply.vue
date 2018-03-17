@@ -63,11 +63,12 @@ export default {
 
   data () {
     return {
-        bank: this.$store.state.bank,
-        username: '',
-        id: '',
-        phone: this.$store.state.phone,
-        card: ''
+        phone: this.$store.state.phone,                     // 手机号码
+        bank: this.$store.state.bank,                       // 银行
+        card: '',                                           // 银行卡号
+        username: '',                                       // 用户名
+        id: '',                                             // 身份证号
+        d: this.$store.state.CarInfoData.CarInfoData.data,  // 汽车详情
     }
   },
   components: {

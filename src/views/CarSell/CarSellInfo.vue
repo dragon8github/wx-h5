@@ -2,7 +2,7 @@
     <div class="CarSellInfo">
             <div class="CarSellInfo__banner">
                 <swipe :auto="4000"> 
-                    <swipeitem class="slide1" v-for="img in d.docs"> <img :src="getImg(img.docUrl)" class="CarSellInfo__image" /> </swipeitem>
+                    <swipeitem class="slide1" v-for="(img, index) in d.docs" :key="index" > <img :src="getImg(img.docUrl)" class="CarSellInfo__image" /> </swipeitem>
                 </swipe>
             </div>
 
@@ -185,7 +185,6 @@
   import cell from '@components/xcell.vue'
   import swipe from '@components/swipe/swipe.vue'
   import swipeitem from '@components/swipe/swipe-item.vue'
-  // Toast 组件
   import Toast from '@components/toast/index.js'
 
 export default {
@@ -209,17 +208,18 @@ export default {
               priceID: this.$route.params.id,
               telephone: this.$store.state.phone
           }).then(_=>{
-                if ( _.returnCode == 0 ) {
-                    if (_.data == 0) {
-                      // 缴纳保证金：是，跳转竞买
-                      this.$router.push('carsellbuy')
-                    } else {
-                      // 缴纳保证金：否，跳转报名
-                      this.$router.push('carsellapply')
-                    }
-          } else {
-              Toast("获取拍卖状态失败：" + _.msg)
-          }
+            if ( _.returnCode == 0 ) {
+                // 如果数组为空，说明用户没有交保证金
+                if (_.data.length == 0) {
+                  // 缴纳保证金：否，跳转报名
+                  this.$router.push('/carsellapply')
+                } else {
+                  // 缴纳保证金：是，跳转竞买
+                  this.$router.push('/carsellbuy')
+                }
+            } else {
+                Toast("获取拍卖状态失败：" + _.msg)
+            }
         })
     },
     goCarSellNeedKnow () {

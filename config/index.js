@@ -12,7 +12,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-           // 我要请求的地址
+           // 我要请求的地址  
+           // yuefei : http://192.168.14.29:31006
+           // server: http://172.16.200.110:31006
            target: 'http://172.16.200.110:31006/',  
            //是否跨域 
            changeOrigin: true, 

@@ -65,47 +65,16 @@ const checkLogin = json => {
            // 删除登录缓存
            window.localStorage.removeItem('token')
            // 设置去路
-           store.dispatch('set_wantTo', router.currentRoute.fullPath).then(_=>{
-                router.push('/login')
+           return store.dispatch('set_wantTo', router.currentRoute.fullPath).then(_=>{
+                return router.push('/login')
            })
         })
         // 这里的throw核心作用是拦截js往下执行。
-        throw new Error('登录状态失效，请退出后重新登录账号！')
+        throw new Error('noshow：登录状态失效，请退出后重新登录账号！')
     } else {
         return json
     }
 }
-
-
-/**
- * helper methods
- * 检查是否重复登录（暂无使用）
- */
-const checkRepLog = json => {
-
-    // 如果请求数量已经为0，那么关闭loader.并且重置fetchCount
-    if (store.state.fetchCount <= 0) {
-        // 重置fetchCount
-        store.dispatch('set_fetch_zero')
-        // 关闭loader
-        Loader.hide()
-    }
-
-    // 如果状态码为4的话，说明账号被人抢占了。要求对方重新登录！
-    if (json.returnCode == 4) {
-         msg.alert('登录状态失效，请退出后重新登录账号！', '警告').then(() => {
-             // 退出登录并且回到登录页API
-             bridge.exec('LoginOut', (response) => {
-                 // code...
-             }, (err) => {
-                 // code...
-             }, {})
-         });
-    }
-
-    return json
-}
-
 
 
 /**
@@ -123,7 +92,11 @@ const throwError = (err) => {
         // 关闭loader
         Loader.hideAll()
         // 弹出异常提示（但这是统一的提示，为了友好度，真正的报错应该看下面的。）
-        Toast('网络不稳定,请稍后重试')
+        // 我们约定，有时候仅仅需要阻止js往下执行而使用throw new Error，而这里会被拦截，在message中使用noshow则不会Toast输出错误.
+        // 不过依然会在控制台报错，只是方便调试而已，没什么
+        if (err.message.indexOf('noshow') < 0) {
+            Toast('网络不稳定,请稍后重试')
+        } 
     }
 
     // 弹出错误供调试
@@ -141,10 +114,10 @@ const handleFetch = async(api, params, isQuiet = false) => {
     let header = { headers: { "Content-Type": "application/json", 'token': store.state.token }}
 
     // 拼接默认配置，
-    let option = Object.assign(params, header)
+    let option = Object.assign({}, params, header)
 
     // 将公共参数合并到body属性中去，后面的参数会覆盖前面的参数
-    let body = Object.assign(store.getters.AppData, option.body)
+    let body = Object.assign({}, store.getters.AppData, option.body)
 
     // 在进行fetch请求时，body参数必须字符串化.
     option.body = JSON.stringify(body)

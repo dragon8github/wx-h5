@@ -175,7 +175,7 @@
             </div>
             
             <div class="btnblock">
-                <button class="btn btn--primary" @click="go">我要竞买</button>
+                <button class="btn btn--primary" @click="go">我 要 竞 买</button>
             </div>
         </div>
     </div>
@@ -185,7 +185,8 @@
   import cell from '@components/xcell.vue'
   import swipe from '@components/swipe/swipe.vue'
   import swipeitem from '@components/swipe/swipe-item.vue'
-
+  // Toast 组件
+  import Toast from '@components/toast/index.js'
 
 export default {
   name: 'CarSellInfo',
@@ -203,7 +204,23 @@ export default {
   },
   methods: {
     go () {
-
+        console.log(this.$route.params.id, this.$store.state.phone)
+        this.carapi.selectBiddersPage({
+              priceID: this.$route.params.id,
+              telephone: this.$store.state.phone
+          }).then(_=>{
+                if ( _.returnCode == 0 ) {
+                    if (_.data == 0) {
+                      // 缴纳保证金：是，跳转竞买
+                      this.$router.push('carsellbuy')
+                    } else {
+                      // 缴纳保证金：否，跳转报名
+                      this.$router.push('carsellapply')
+                    }
+          } else {
+              Toast("获取拍卖状态失败：" + _.msg)
+          }
+        })
     },
     goCarSellNeedKnow () {
       this.$router.push('/CarSellNeedKnow')
@@ -219,23 +236,6 @@ export default {
       if (!this.$store.state.CarInfoData.CarInfoData.data) {
         this.$router.push('/carsell')
       }
-
-      // this.carapi.selectBiddersPage({
-      //     PriceID: this.$route.params.id,
-      //     Telephone: this.$store.state.phone
-      // }).then(_=>{
-      //     if ( _.returnCode == 0 ) {
-      //         if (_.data == 0) {
-      //           // 缴纳保证金：是，跳转竞买
-      //           this.$router.push('carsellbuy')
-      //         } else {
-      //           // 缴纳保证金：否，跳转报名
-      //           this.$router.push('carsellapply')
-      //         }
-      //     } else {
-      //         Toast("获取拍卖状态失败：" + _.msg)
-      //     }
-      // })
   }
 }
 </script>

@@ -50,7 +50,7 @@ import msg       from '@components/messagebox/messagebox.js'
                         validateCode: this.$store.state.forgetPwdValidate,  // 验证码
                         type: '2'                       
                 }).then(data => {
-                    if (data.ReturnCode == 0) {
+                    if (data.returnCode == 0) {
                       // 不确定剩余次数后端会不会给我。最好是会，不然只靠本机缓存处理是不理想的。
                       return msg.confirm("密码修改成功", "成功提示").then(()=>{
                          this.$router.push('/login')

@@ -50,7 +50,7 @@ import mtButton     from '@myComponents/button.vue'
                     code: this.validate,
                     type: '2'
                 }).then(data=>{
-                    if (data.ReturnCode == 0) {
+                    if (data.returnCode == 0) {
                         this.$store.state.forgetPwdPhone = this.user
                         this.$store.state.forgetPwdValidate = this.validate
                         this.$router.push('/resetpwd')
@@ -72,7 +72,7 @@ import mtButton     from '@myComponents/button.vue'
                     type: '2'  
                 }, true).then(data=>{
                     Loader.hideAll()
-                    if (data.ReturnCode == 0) {
+                    if (data.returnCode == 0) {
                         Toast("验证码已发送，请注意查收。")
                         cb()
                     } else {

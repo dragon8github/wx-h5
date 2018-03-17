@@ -62,7 +62,7 @@
     name: 'HouseBusinessInfo',
     methods: {
       LinkToQuickenLoans () {
-        this.$router.push('register');
+        this.$router.push('/fast')
       }
     }
   }

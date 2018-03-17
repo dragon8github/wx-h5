@@ -6,21 +6,21 @@ let xdapi = {}
 // 信贷API列表
 const xd_api_list =  [
     // 登录
-    'wechat_Login',
+    'login',
     // 注册
-    'wechat_Register',
+    'register',
     // 找回密码
-    'wechat_FindPwd',
+    'findPwd',
     // 快速申请
-    'wechat_FastApplyFor',
+    'fastApplyFor',
     // 我的借款
-    'wechat_BorrowingRecord',
+    'borrowingRecord',
     // 我的还款
-    'wechat_GetRepayingList',
+    'getRepayingList',
     // 短信发送
-    'wechat_SmsSend',
+    'smsSend',
     // 判断验证码是否正确
-    'wechat_CheckFindPwdCode',
+    'checkFindPwdCode',
 ]
 
 // 汽车拍卖主体

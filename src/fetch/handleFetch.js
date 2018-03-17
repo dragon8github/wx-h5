@@ -21,8 +21,18 @@ const checkStatus = async(response) => {
 
     // 判断请求状态
     if (response.status >= 200 && response.status < 300) {
-        // 返回Promise 
-        return response.json()
+        // 如果是登录或者注册的话，会返回一个token，我们把它加入到store中，并且每次登录都带在我的header中
+        if (response.url.indexOf('login') >= 0 || response.url.indexOf('register') >= 0) {
+            const token = response.headers.get('token');
+            // 将核心数据放入store中
+            store.dispatch('tokne', {token}).then(() => {
+                // 返回Promise, TODO
+                return response.json()
+            })
+        } else {
+            // 返回Promise 
+            return response.json()
+        }
     } else {
       // 服务器响应异常
       Toast('网络异常:' + response.status)
@@ -35,7 +45,7 @@ const checkStatus = async(response) => {
  * helper methods
  * 检查是否有登录权限
  */
-const checkLog = json => {
+const checkLogin = json => {
     // 如果请求数量已经为0，那么关闭loader.并且重置fetchCount
     if (store.state.fetchCount <= 0) {
         // 重置fetchCount
@@ -45,14 +55,16 @@ const checkLog = json => {
     }
 
     // 如果状态码为205的话，说明需要重新登录了
-    if (json.ReturnCode == 205) {
+    if (json.returnCode == 205) {
         msg.alert('登录状态失效，请退出后重新登录账号！', '警告').then(() => {
+           window.localStorage.setItem('isLogin', 0)
            // 退出登录并且回到登录页API
            window.router.push('/login')
         })
+        throw new Error('登录状态失效，请退出后重新登录账号！')
+    } else {
+        return json
     }
-
-    return json
 }
 
 
@@ -71,7 +83,7 @@ const checkRepLog = json => {
     }
 
     // 如果状态码为4的话，说明账号被人抢占了。要求对方重新登录！
-    if (json.ReturnCode == 4) {
+    if (json.returnCode == 4) {
          msg.alert('登录状态失效，请退出后重新登录账号！', '警告').then(() => {
              // 退出登录并且回到登录页API
              bridge.exec('LoginOut', (response) => {
@@ -101,13 +113,12 @@ const throwError = (err) => {
         store.dispatch('set_fetch_zero')
         // 关闭loader
         Loader.hideAll()
-        // 弹出异常提示
+        // 弹出异常提示（但这是统一的提示，为了友好度，真正的报错应该看下面的。）
         Toast('网络不稳定,请稍后重试')
     }
 
     // 弹出错误供调试
-    console.log("接口返回异常" + err)
-    throw new Error("接口返回异常:" + err)
+    throw new Error("异常信息:" + err)
 }
 
 
@@ -146,7 +157,7 @@ const handleFetch = async(api, params, isQuiet = false) => {
     const url = process.env.NODE_ENV === 'development' ?  '/api/' + api : Constants.API_WX_SERVER + api
 
     // 一切准备就绪，开始HTTP请求.请注意返回的是Promise对象.调用者必须通过使用.then(data=>{}).catch(err=>{})来操作Promose
-    return window.fetch(url, option).then(checkStatus).then(checkLog).catch(throwError);
+    return window.fetch(url, option).then(checkStatus).then(checkLogin).catch(throwError);
 }
 
 /**

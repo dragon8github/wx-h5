@@ -17,7 +17,7 @@ export let city = ''
 export let localcity = ''
 
 // 用户希望前往的url，这个主要是在登录和注册完成之后，前往的页面。
-export let wantTo = '/fast'
+export let wantTo = ''
 
 // 修改密码的手机号码
 export let forgetPwdPhone = ''
@@ -26,4 +26,4 @@ export let forgetPwdPhone = ''
 export let forgetPwdValidate = ''
 
 // token
-export let token = 'token'
+export let token = ''

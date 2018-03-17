@@ -151,8 +151,8 @@ export default {
            if (data.returnCode == 0) {
               // 当请求数据不为空的时候，重置展示状态
               if (data.data.length > 0) {
-                currTag.bottomDisabled = false;
-                currTag.isEmpty = false;
+                this.currTag.bottomDisabled = false;
+                this.currTag.isEmpty = false;
               }
               success_cb && success_cb(data)
            } else {

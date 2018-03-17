@@ -92,7 +92,7 @@
                 //       pageIndex: '1',  // 页数
                 //       pageSize: '10'   // 数量
                 // }).then(data=>{
-                //     if (data.ReturnCode == 0) {
+                //     if (data.returnCode == 0) {
                 //         console.log(data);
                 //     } else {
                 //         console.log(data);
@@ -181,18 +181,7 @@
             }      
         },
         activated () {
-          this.carapi.selectAuctionsPage({
-                pageIndex: '1',  // 页数
-                pageSize: '10',   // 数量
-                type: '2'
-          }).then(data=>{
-              if (data.ReturnCode == 0) {
-                  console.log(data);
-              } else {
-                  console.log(data);
-                  Toast(data.msg);
-              }
-          })
+          
         }
   }
 </script>

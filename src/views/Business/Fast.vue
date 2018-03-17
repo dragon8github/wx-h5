@@ -104,7 +104,7 @@
                     telNo: this.phone               // 电话号码
                 }, true).then(data=>{
                       Loader.hideAll()
-                      if (data.ReturnCode == 0) {
+                      if (data.returnCode == 0) {
                           this.$router.push("Status")
                       } else {
                           Toast(data.msg);

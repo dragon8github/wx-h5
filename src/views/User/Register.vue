@@ -85,7 +85,7 @@
                      type: 'wechat_pulic'          // 注册方式是微信
             }, true).then(data=>{
                 Loader.hideAll();
-                if (data.ReturnCode == 0) {
+                if (data.returnCode == 0) {
                     Toast('注册成功');
                     this.$router.push(this.$store.state.wantTo)
                 } else {
@@ -106,11 +106,11 @@
                     type: '1'  
             }).then(data => {
                 Loader.hideAll();
-                if (data.ReturnCode == 0) {
+                if (data.returnCode == 0) {
                     Toast("验证码已发送，请注意查收。")
                     cb()
                 } else {
-                    Toast('发送验证码失败：' + data.msg);
+                    Toast(data.msg || '验证码发送失败，请稍后重试');
                 }
             })
         },

@@ -2,6 +2,7 @@ import Vue    from 'vue'
 import Router from 'vue-router'
 import Loader from '@components/loader/index.js'
 import store  from '../store'
+import Toast from '@components/toast/index.js'
 Vue.use(Router)
 
 // 快速贷款
@@ -157,6 +158,7 @@ router.beforeEach((to, from, next) => {
     // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
     // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去。
     if (needLoginPage.indexOf(to.name.toLocaleLowerCase()) >= 0 && window.localStorage.getItem('isLogin') != 1) {
+        Toast('请先登录 o(*≧▽≦)ツ')
         // 设置用户想去的地址，这样在注册和登录之后。可以直接前往目的地。
         store.state.wantTo = to.path
         // 跳转到登录页面

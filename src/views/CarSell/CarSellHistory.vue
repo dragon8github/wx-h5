@@ -87,6 +87,8 @@ export default {
             telephone: this.$store.state.phone,  // 手机号码
             page: 1,                             // 分页索引，从1开始
             limit: 15,                           // 每次获取的条数
+            vehicleBrand: '',                    // 车辆品牌
+            carModel: '',                        // 车辆型号
         },
         tag: {
             '1':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[] },

@@ -7,6 +7,8 @@
             <tabitem id="tab-container3" :fontSize="'32'">拍卖完成</tabitem> 
         </navbar>
 
+        <div class="ad" v-if="selected === 'tab-container1'"> 重要提示:请在竞拍前报名交保证金，参与竞拍 </div>
+
         <div class="search">
             <div class="search__left">
                 <i class="search__icon"></i>
@@ -241,6 +243,16 @@ export default {
 
 .CarSell {
    
+}
+
+.ad {
+  height: pxToRem(70px);
+  background-color: #fffde3;
+  line-height: pxToRem(70px);
+  padding-left: pxToRem(30px);
+  color: #666666;
+  font-size: pxToRem(24px);
+  margin-top: pxToRem(10px);
 }
 
 .search {

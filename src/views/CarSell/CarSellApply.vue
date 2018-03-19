@@ -1,5 +1,5 @@
 <template>
-    <div class="CarSellApply">
+    <div class="CarSellApply" v-if="d">
         <div class="banner">
             <div class="banner_text">保证金</div>
             <div class="banner__money">{{ d.bond }} <span class="banner__money--yuan">元</span></div>
@@ -18,7 +18,7 @@
         </div>
         <div class="time">
             <div class="time__text">拍卖时间：</div>
-            <div class="time__section">{{ d.startPriceDate }} - {{ d.etartPriceDate }}</div>
+            <div class="time__section">{{ date2date(d.startPriceDate) }} - {{ date2date(d.etartPriceDate) }}</div>
         </div>
         <div class="form">
             <mt-field label="姓名："     placeholder="请输入姓名" v-model="username" :maxlength = '20'></mt-field>
@@ -63,12 +63,12 @@ export default {
 
   data () {
     return {
-        phone: this.$store.state.phone,                     // 手机号码
-        bank: this.$store.state.bank,                       // 银行
-        card: '',                                           // 银行卡号
-        username: '',                                       // 用户名
-        id: '',                                             // 身份证号
-        d: this.$store.state.CarInfoData.CarInfoData.data,  // 汽车详情
+        phone: this.$store.state.phone || [],                     // 手机号码
+        bank: this.$store.state.bank || [],                       // 银行
+        d: this.$store.state.CarInfoData.CarInfoData.data || {},  // 汽车详情
+        card: '',                                                 // 银行卡号
+        username: '',                                             // 用户名
+        id: '',                                                   // 身份证号
     }
   },
   components: {
@@ -136,7 +136,7 @@ export default {
   beforeMount () {
         this.cardkeyup(this.card);
         if (!this.$store.state.CarInfoData.CarInfoData.data) {
-            this.$router.push('/carsell')
+           return this.$router.push('/carsell')
         }
   }
 } 

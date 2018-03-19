@@ -1,5 +1,5 @@
 <template>
-    <div class="CarSellBuy">
+    <div class="CarSellBuy" v-if="d">
         <div class="banner">
             <div class="banner_text">当前最高出价</div>
             <div class="banner__money">{{ max_money }} <span class="banner__money--yuan">元</span></div>
@@ -18,7 +18,7 @@
         </div>
         <div class="time">
             <div class="time__text">拍卖时间：</div>
-            <div class="time__section">{{ d.startPriceDate }} - {{ d.etartPriceDate }}</div>
+            <div class="time__section">{{ date2date(d.startPriceDate) }} - {{ date2date(d.etartPriceDate) }}</div>
         </div>
         <div class="form">
                 <div class="form__left">
@@ -33,7 +33,7 @@
                         <input type="text" class="InputNumber__input" v-model='input_money'>
                         <a class="InputNumber__add"></a>
                     </div>
-                    <div class="form__overtop">出价须高于 ¥ 23,000</div>
+                    <div class="form__overtop">出价须高于 ¥ {{ max_money }}</div>
                 </div>
 
         </div>
@@ -53,7 +53,6 @@ export default {
 
   data () {
     return {
-        input_money: 0,
         max_money: 0,
         d: this.$store.state.CarInfoData.CarInfoData.data,  // 汽车详情
     }
@@ -61,12 +60,36 @@ export default {
   components: {
     mtField
   },
+  methods: {
+       getMAX () {
+         this.getMaxTimer = window.setInterval(_=>{
+             this.carapi.selectMaxOfferPriceByAuctionId({
+                 priceID: this.d.priceID
+             }, true).then(_=>{
+                 if (_.returnCode == 0) {
+                     this.TopAmount = _.data.offerAmount
+                 }
+             })
+         }, 2000);
+       },
+  },
+  computed: {
+    input_money () {
+        return this.max_money + this.d.priceincrease
+    }
+  },
   beforeMount () {
+
+        if (!this.$store.state.CarInfoData.CarInfoData.data) {
+           return this.$router.push('/carsell')
+        }
+
         this.carapi.selectMaxOfferPriceByAuctionId({
             priceID: this.d.priceID
         }).then(_=>{
             if (_.returnCode == 0) {
-                console.log(_)
+                this.max_money = _.data.offerAmount
+                this.getMAX();
             } else {
                 Toast(_.msg)
             }
@@ -195,6 +218,10 @@ export default {
             content: '';
             position: absolute;
         }
+
+        &:active {
+            background: #ccc;
+        }
     }
 
     .InputNumber__add {
@@ -207,6 +234,10 @@ export default {
             @include center;
             content: '';
             position: absolute;
+        }
+
+        &:active {
+            background: #ccc;
         }
     }
 

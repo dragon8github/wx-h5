@@ -1,8 +1,9 @@
 import Vue    from 'vue'
 import Router from 'vue-router'
-import Loader from '@components/loader/index.js'
 import store  from '../store'
-import Toast from '@components/toast/index.js'
+import Loader from '@components/loader/index.js'
+import Toast  from '@components/toast/index.js'
+
 Vue.use(Router)
 
 // 快速贷款
@@ -80,8 +81,8 @@ const CarSellNotice   = r => require.ensure([], () => r(require('@/views/Protoco
 
 let router =  new Router({
     routes: [
-        { path: '/', redirect: '/Fast'},
-
+        // 默认去login页面吧
+        { path: '/', redirect: '/login'},
         
         { path: '/Fast/:type?',        name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
         { path: '/Fast',               name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
@@ -156,11 +157,12 @@ const needLoginPage = [
 router.beforeEach((to, from, next) => {
     // 如果用户要前往需要登录的地方并且没有登录的话。
     // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
-    // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去
+    // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去，也就是跑得了和尚跑不了庙。
     if (needLoginPage.indexOf(to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim()) >= 0 && !window.localStorage.getItem('token')) {
         Toast('请先登录 o(*≧▽≦)ツ')
         // 设置去路
-        return store.dispatch('set_wantTo', to.path).then(_=>{
+        return store.dispatch('set_wantTo', to.path).then(_ => {
+            // 跳转到登录页
             return router.push('/login')
         })
     }

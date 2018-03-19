@@ -1,8 +1,10 @@
 <template>
-    <div class="CarSellInfo">
+    <div class="CarSellInfo" v-if="d">
             <div class="CarSellInfo__banner">
                 <swipe :auto="4000"> 
-                    <swipeitem class="slide1" v-for="(img, index) in d.docs" :key="index" > <img :src="getImg(img.docUrl)" class="CarSellInfo__image" /> </swipeitem>
+                    <swipeitem class="slide1" v-for="(img, index) in d.docs" :key="index" > 
+                        <img :src="getImg(img.docUrl)" class="CarSellInfo__image" /> 
+                    </swipeitem>
                 </swipe>
             </div>
 
@@ -17,7 +19,7 @@
                 <div class="carMain__start">起拍价：¥ {{ d.startPrice }}</div>
                 <div class="carMain__maxtext">当前最高出价：</div>
                 <div class="carMain__maxmoney">¥ {{ TopAmount  }}</div>
-                <div class="carMain__time"> 拍卖时间：{{ d.startPriceDate }} - {{ d.etartPriceDate }} </div>
+                <div class="carMain__time"> 拍卖时间：{{ date2date(d.startPriceDate) }} - {{ date2date(d.etartPriceDate) }} </div>
                 <div class="carMain__line"></div>
                 <div class="carMain__money">
                     <div class="carMain__moneytop">
@@ -193,7 +195,8 @@ export default {
     return {
         isCash: false,
         d: this.$store.state.CarInfoData.CarInfoData.data,
-        TopAmount: 0, // 当前最高价，需要读取API来获取的。TODO: 那么默认应该填什么呢？
+        TopAmount: '', // 当前最高价，需要读取API来获取的。TODO: 那么默认应该填什么呢？
+        getMaxTimer: null
     }
   },
   components: {
@@ -202,6 +205,17 @@ export default {
     swipeitem
   },
   methods: {
+    getMAX () {
+      this.getMaxTimer = window.setInterval(_=>{
+          this.carapi.selectMaxOfferPriceByAuctionId({
+              priceID: this.d.priceID
+          }, true).then(_=>{
+              if (_.returnCode == 0) {
+                  this.TopAmount = _.data.offerAmount
+              }
+          })
+      }, 2000);
+    },
     go () {
         console.log(this.$route.params.id, this.$store.state.phone)
         this.carapi.selectBiddersPage({
@@ -232,12 +246,29 @@ export default {
     },
     getImg (url) {
       return 'http://xiaodaioa.oss-cn-beijing.aliyuncs.com/' + url
-    }
+    }    
+  }, 
+  beforeRouteLeave  (to, from, next) {
+      window.clearInterval(this.getMaxTimer);
+      next();
   },
   beforeMount () {
       if (!this.$store.state.CarInfoData.CarInfoData.data) {
-        this.$router.push('/carsell')
+         return this.$router.push('/carsell')
       }
+
+      this.carapi.selectMaxOfferPriceByAuctionId({
+          priceID: this.d.priceID
+      }).then(_=>{
+          if (_.returnCode == 0) {
+              this.TopAmount = _.data.offerAmount
+
+              // 不断的获取最高价
+              this.getMAX();
+          } else {
+              Toast(_.msg)
+          }
+      })
   }
 }
 </script>
@@ -250,7 +281,7 @@ export default {
 .CarSellInfo {
     height: 100%;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .CarSellInfo__banner {

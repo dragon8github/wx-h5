@@ -85,7 +85,6 @@ let router =  new Router({
         { path: '/', redirect: '/login'},
         
         { path: '/Fast/:type?',        name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
-        { path: '/Fast',               name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
         { path: '/CarBusinessInfo',    name: 'CarBusinessInfo',    meta: { title: '一点车贷' }, component: CarBusinessInfo },
         { path: '/HouseBusinessInfo',  name: 'HouseBusinessInfo',  meta: { title: '一点房贷' }, component: HouseBusinessInfo },
         { path: '/Status',             name: 'Status',             meta: { title: '申请结果' }, component: Status },

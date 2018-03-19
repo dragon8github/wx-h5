@@ -197,7 +197,7 @@ export default {
         isCash: false,
         d: this.$store.state.CarInfoData.CarInfoData,
         TopAmount: '', // 当前最高价，需要读取API来获取的。TODO: 那么默认应该填什么呢？
-        getMaxTimer: null
+        getMaxTimer: 0
     }
   },
   components: {
@@ -223,22 +223,23 @@ export default {
               telephone: this.$store.state.phone
           }).then(_=>{
             if ( _.returnCode == 0 ) {
+                // 返回的一定是一个数组，该数组要么为空，要么只有一个值
                 if (Object.prototype.toString.call(_.data) == '[object Array]') {
                   // 如果数组为空，说明用户没有交保证金
                   if (_.data.length == 0) {
                     // 缴纳保证金：否，跳转报名
                     this.$router.push('/carsellapply')
                   } else {
-
-                  }
-                } else {
-                  if (_.data) {
-                    // 缴纳保证金：是，跳转竞买
-                    this.$router.push('/carsellbuy')
-                  } else {
-                     msg.alert('竞拍已开始，没有交保证金，无法参与竞拍!', '警告').then(() => {
-                        return false
-                     })
+                    debugger;
+                    // 如果数组不为空，那么判断第一条数据
+                    if ( _.data[0].isPayDeposit && _.data[0].isPayDeposit == true ) {
+                      // 缴纳保证金：是，跳转竞买
+                      this.$router.push('/carsellbuy')
+                    } else {
+                      msg.alert('竞拍已开始，没有交保证金，无法参与竞拍!', '警告').then(() => {
+                         return false
+                      })
+                    }
                   }
                 }
             } else {

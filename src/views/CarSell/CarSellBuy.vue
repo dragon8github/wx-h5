@@ -121,7 +121,7 @@ export default {
   watch: {
   },
   beforeMount () {
-        if (!this.$store.state.CarInfoData.CarInfoData) {
+        if (!this.$store.state.CarInfoData.CarInfoData.priceID) {
            return this.$router.push('/carsell')
         }
         this.carapi.selectMaxOfferPriceByAuctionId({

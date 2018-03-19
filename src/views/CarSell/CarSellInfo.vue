@@ -188,7 +188,8 @@
   import swipe from '@components/swipe/swipe.vue'
   import swipeitem from '@components/swipe/swipe-item.vue'
   import Toast from '@components/toast/index.js'
-
+  // messagebox 组件
+  import msg from '@components/messagebox/messagebox.js'
 export default {
   name: 'CarSellInfo',
   data () {
@@ -217,20 +218,28 @@ export default {
       }, 2000);
     },
     go () {
-        console.log(this.$route.params.id, this.$store.state.phone)
         this.carapi.selectBiddersPage({
               priceID: this.$route.params.id,
               telephone: this.$store.state.phone
           }).then(_=>{
             if ( _.returnCode == 0 ) {
-                // 如果数组为空，说明用户没有交保证金
+                if (Object.prototype.toString.call(_.data) == '[object Array]') {
+                  // 如果数组为空，说明用户没有交保证金
+                  if (_.data.length == 0) {
+                    // 缴纳保证金：否，跳转报名
+                    this.$router.push('/carsellapply')
+                  } else {
 
-                if (_.data.length == 0) {
-                  // 缴纳保证金：否，跳转报名
-                  this.$router.push('/carsellapply')
+                  }
                 } else {
-                  // 缴纳保证金：是，跳转竞买
-                  this.$router.push('/carsellbuy')
+                  if (_.data) {
+                    // 缴纳保证金：是，跳转竞买
+                    this.$router.push('/carsellbuy')
+                  } else {
+                     msg.alert('竞拍已开始，没有交保证金，无法参与竞拍!', '警告').then(() => {
+                        return false
+                     })
+                  }
                 }
             } else {
                 Toast("获取拍卖状态失败：" + _.msg)
@@ -252,7 +261,7 @@ export default {
       next();
   },
   beforeMount () {
-      if (!this.$store.state.CarInfoData.CarInfoData) {
+      if (!this.$store.state.CarInfoData.CarInfoData.priceID) {
          return this.$router.push('/carsell')
       }
 

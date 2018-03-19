@@ -139,7 +139,7 @@ export default {
     }
   },
   activated () {
-        if (!this.$store.state.CarInfoData.CarInfoData) {
+        if (!this.$store.state.CarInfoData.CarInfoData.priceID) {
            return this.$router.push('/carsell')
         }
         this.cardkeyup(this.card);

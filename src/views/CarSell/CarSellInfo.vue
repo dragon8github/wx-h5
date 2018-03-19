@@ -177,7 +177,7 @@
             </div>
             
             <div class="btnblock">
-                <button class="btn btn--primary" @click="go">我 要 竞 买</button>
+                <button class="btn btn--primary" @click="go" v-if="!this.d.isFinish">我 要 竞 买</button>
             </div>
         </div>
     </div>

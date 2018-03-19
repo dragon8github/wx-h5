@@ -50,11 +50,14 @@ export default {
     // 截止时间，拍卖历史需要，可以为空
     endtime:  { type: String | Number, default: '' },
     // 汽车属地
-    city:     { type: String, default: '' }
+    city:     { type: String, default: '' },
+    // 订单是否完成（默认未完成）后端不肯给我加字段，所以只能自己加isFinish
+    isFinish: { type: Boolean, default: false }
   },  
   methods: {
     goInfo () {
-        this.$store.dispatch('setCarInfoData', this.maindata).then(_ => {
+        // 后端不肯给我加字段，所以只能自己加isFinish
+        this.$store.dispatch('setCarInfoData', Object.assign(this.maindata, { isFinish: this.isFinish })).then(_ => {
             // 前期为了迅速，我把他们分开来了。后期再融合在一起吧
             if (this.$route.name.trim() === 'CarSellHistory') {
                 this.$router.push(`/CarSellHistoryInfo/${this.maindata.priceID}`)

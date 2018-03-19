@@ -59,7 +59,8 @@
                             :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                             :name="item.vehicleBrand"
                             :money="item.startPrice"
-                            :city="item.vcehicleTerritory">
+                            :city="item.vcehicleTerritory"
+                            :isFinish="true">
                       </item>
                   </div>
               </panel>

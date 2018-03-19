@@ -26,7 +26,7 @@
     },
     methods: {
         push () {
-           this.$router.push('');
+           this.$router.push('/carsell');
         }
     },
     beforeMount () {}

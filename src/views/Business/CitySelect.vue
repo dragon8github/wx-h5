@@ -58,7 +58,7 @@
             selectHot (e) {
               if (e.target.nodeName === 'LI') {
                   this.$store.state.city = e.target.innerText
-                  this.$router.back()
+                  this.$router.push('/fast')
               }
             },
             is_weixn(){

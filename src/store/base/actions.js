@@ -61,3 +61,9 @@ export const set_wantTo = ({commit, state}, v) => {
 export const set_phone = ({commit, state}, v) => {
   state.phone = v
 }
+
+
+// 存储用户选择的银行
+export const set_bank = ({commit, state}, v) => {
+  state.bank = v
+}

@@ -51,8 +51,9 @@
             selectHot (e) {
               if (e.target.nodeName === 'LI') {
                   this.selected = e.target.innerText
-                  this.$store.state.bank = e.target.innerText
-                  this.$router.back()
+                  this.$store.dispatch('set_bank', e.target.innerText).then(_=>{
+                    this.$router.push('/carsellapply')
+                  })
               }
             }
         },

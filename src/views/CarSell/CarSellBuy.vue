@@ -58,6 +58,7 @@ export default {
         input_money: 0,
         max_money: 0,
         d: this.$store.state.CarInfoData.CarInfoData.data,  // 汽车详情
+        getMaxTimer: null
     }
   },
   components: {
@@ -85,21 +86,35 @@ export default {
     go () {
         if ((this.input_money - this.max_money) >= this.this.d.priceincrease * 5) {
             msg.confirm("已经大于5个加价幅度，您确认以¥{this.input_money}出价?？", "操作提示").then(()=>{
-                    this.go()
+                this.go()
             }).catch(() => {
                 return false;
             });
         } else {
             msg.confirm("您确认以¥{this.input_money}出价?？", "操作提示").then(()=>{
-                    this.go()
+                this.go()
             }).catch(() => {
                 return false;
             });
         }
     },
     submit () {
-        
+        this.carapi.updateAuctions({
+           priceID: this.d.priceID,
+           amount : this.input_money,
+        }).then(_=>{
+            console.log(_);
+            if (_.returnCode == 0) {
+                this.$router.push('/CarSellBuySuccess');
+            } else {
+                Toast(_.msg)
+            }
+        })
     }
+  },
+  beforeRouteLeave  (to, from, next) {
+      window.clearInterval(this.getMaxTimer);
+      next();
   },
   computed: {
   },

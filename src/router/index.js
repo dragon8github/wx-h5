@@ -155,6 +155,8 @@ const needLoginPage = [
 ]
 
 router.beforeEach((to, from, next) => {
+    // 滚动之前，先弹回顶部
+    window.scrollTo(0, 0)
     // 如果用户要前往需要登录的地方并且没有登录的话。
     // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
     // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去，也就是跑得了和尚跑不了庙。
@@ -166,9 +168,6 @@ router.beforeEach((to, from, next) => {
             return router.push('/login')
         })
     }
-
-    // 滚动之前，先弹回顶部
-    window.scrollTo(0, 0)
     // 放行页面
     next()
     // 设置标题

@@ -27,7 +27,7 @@
             <mt-field label="转账银行：" placeholder="请选择转账银行" @click="goBankSelect" v-model="bank" readonly>
                 <div class="form__bank--arrow"></div>
             </mt-field>
-            <mt-field label="转账银行：" placeholder="请填入转账卡号" v-model="card" @keyup="cardkeyup" :maxlength = '19'></mt-field>
+            <mt-field label="转账银行：" placeholder="请填入转账卡号" v-model="card" @keyup="cardkeyup" :maxlength = '25'></mt-field>
         </div>
         <div class="warm">
             <div class="warm__title">
@@ -63,12 +63,12 @@ export default {
 
   data () {
     return {
-        phone: this.$store.state.phone || [],                     // 手机号码
-        bank: this.$store.state.bank || [],                       // 银行
+        phone: this.$store.state.phone || '',                     // 手机号码
+        bank: this.$store.state.bank || '',                       // 银行
         d: this.$store.state.CarInfoData.CarInfoData.data || {},  // 汽车详情
-        card: '',                                                 // 银行卡号
-        username: '',                                             // 用户名
-        id: '',                                                   // 身份证号
+        card: '6236683230008261738',                                                 // 银行卡号
+        username: '李钊鸿 ',                                      // 用户名
+        id: '445222199307100337',                                                   // 身份证号
     }
   },
   components: {
@@ -98,18 +98,21 @@ export default {
         }
 
         if (!this.$store.state.bank) {
-            return Toast('请选择转账银行')
+            Toast('请选择转账银行')
+            return this.$router.push('/bankselect')
         }
 
-        if (this.card.trim().length < 12 || this.card.trim().length > 19 || !/\d+/.test(this.card.trim())) {
+        if (this.card.trim().length < 12 || this.card.trim().length > 25 || !/\d+/.test(this.card.trim())) {
           return Toast('请输入正确的银行卡号')
         }
 
         this.carapi.auctionSign({
             priceID: this.d.priceID,
-            userName: this.userName,
+            userName: this.username,
             userId: this.id,
-            telePhone: this.phone
+            telePhone: this.phone,
+            bank: this.bank,
+            carNO: this.card.replace(/\s/g, '')
         }).then(_ => {
             console.log(_);
             if ( _.returnCode == 0 ) {
@@ -133,12 +136,15 @@ export default {
         this.card = op
     }
   },
-  beforeMount () {
-        this.cardkeyup(this.card);
+  activated () {
         if (!this.$store.state.CarInfoData.CarInfoData.data) {
            return this.$router.push('/carsell')
         }
-  }
+        this.cardkeyup(this.card);
+        this.d = this.$store.state.CarInfoData.CarInfoData.data
+        this.bank = this.$store.state.bank
+  },
+
 } 
 </script>
 

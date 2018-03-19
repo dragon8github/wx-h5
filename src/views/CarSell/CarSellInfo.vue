@@ -172,7 +172,7 @@
                         <p class="buyneedknow--indent">七、 竞买成交买受人付清全部竞买价款后， 凭相关证件自行至标的物所在地接收车辆， 过户手续及风险请竞买人在竞买前自行到相关职能部门咨询确认， 过户费用由买受人自行承担。</p>
                         <p class="buyneedknow--indent">竞买人在竞价前请务必再仔细阅读我方发布的的竞价须知。</p>
                         <p> 标的物详情咨询电话：{{ d.telephone }} <br> 联系地址： {{ d.contact }} </p>
-                        <p class="buyneedknow--right">X年X月X日</p>
+                        <p class="buyneedknow--right">{{ date2date(d.auditTime) }}</p>
                     </div>
             </div>
             
@@ -225,13 +225,12 @@ export default {
             if ( _.returnCode == 0 ) {
                 // 如果数组为空，说明用户没有交保证金
 
-                // TODO 估计弄反。
                 if (_.data.length == 0) {
+                  // 缴纳保证金：否，跳转报名
+                  this.$router.push('/carsellapply')
+                } else {
                   // 缴纳保证金：是，跳转竞买
                   this.$router.push('/carsellbuy')
-                } else {
-                   // 缴纳保证金：否，跳转报名
-                   this.$router.push('/carsellapply')
                 }
             } else {
                 Toast("获取拍卖状态失败：" + _.msg)
@@ -246,7 +245,7 @@ export default {
     },
     getImg (url) {
       return 'http://xiaodaioa.oss-cn-beijing.aliyuncs.com/' + url
-    }    
+    }
   }, 
   beforeRouteLeave  (to, from, next) {
       window.clearInterval(this.getMaxTimer);

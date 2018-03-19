@@ -252,7 +252,7 @@ export default {
       next();
   },
   beforeMount () {
-      if (!this.$store.state.CarInfoData.CarInfoData.data) {
+      if (!this.$store.state.CarInfoData.CarInfoData) {
          return this.$router.push('/carsell')
       }
 

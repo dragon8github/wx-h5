@@ -57,7 +57,7 @@ export default {
     return {
         input_money: 0,
         max_money: 0,
-        d: this.$store.state.CarInfoData.CarInfoData.data,  // 汽车详情
+        d: this.$store.state.CarInfoData.CarInfoData,  // 汽车详情
         getMaxTimer: null
     }
   },
@@ -121,7 +121,7 @@ export default {
   watch: {
   },
   beforeMount () {
-        if (!this.$store.state.CarInfoData.CarInfoData.data) {
+        if (!this.$store.state.CarInfoData.CarInfoData) {
            return this.$router.push('/carsell')
         }
         this.carapi.selectMaxOfferPriceByAuctionId({

@@ -139,11 +139,11 @@ export default {
     }
   },
   activated () {
-        if (!this.$store.state.CarInfoData.CarInfoData.data) {
+        if (!this.$store.state.CarInfoData.CarInfoData) {
            return this.$router.push('/carsell')
         }
         this.cardkeyup(this.card);
-        this.d = this.$store.state.CarInfoData.CarInfoData.data
+        this.d = this.$store.state.CarInfoData.CarInfoData
         this.bank = this.$store.state.bank
   },
 

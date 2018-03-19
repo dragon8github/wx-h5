@@ -38,7 +38,7 @@
 
         </div>
         <div class="btn">
-            <button class="btn--primary" @click="submit">报 名</button>
+            <button class="btn--primary" @click="go">报 名</button>
         </div>
     </div>
 </template>
@@ -66,8 +66,8 @@ export default {
   },
   methods: {
     reduce () {
+        if (this.input_money <= this.max_money + this.d.priceincrease) return false;
         this.input_money =  this.input_money - this.d.priceincrease
-
     },
     add () {
         this.input_money =  this.input_money + this.d.priceincrease
@@ -84,15 +84,15 @@ export default {
       }, 2000);
     },
     go () {
-        if ((this.input_money - this.max_money) >= this.this.d.priceincrease * 5) {
-            msg.confirm("已经大于5个加价幅度，您确认以¥{this.input_money}出价?？", "操作提示").then(()=>{
-                this.go()
+        if ((this.input_money - this.max_money) >= this.d.priceincrease * 5) {
+            msg.confirm(`已经大于5个加价幅度，您确认以 ¥ ${this.input_money} 出价？`, "温馨提示").then(()=>{
+                this.submit()
             }).catch(() => {
                 return false;
             });
         } else {
-            msg.confirm("您确认以¥{this.input_money}出价?？", "操作提示").then(()=>{
-                this.go()
+            msg.confirm(`您确认以 ¥ ${this.input_money} 出价？`, "温馨提示").then(()=>{
+                this.submit()
             }).catch(() => {
                 return false;
             });

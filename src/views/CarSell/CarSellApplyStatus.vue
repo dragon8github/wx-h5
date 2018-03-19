@@ -2,19 +2,19 @@
 <div>
      <div id="Status">
         <div class="status-card">
-            <div class="statusImg" :class="status.status"></div>
+            <div class="statusImg success"></div>
             <div class="status-title">报名成功！</div>
 
             <article class="status-text">
-                尊敬的 李钊鸿 先生/女士，<br>
-                请在<span class='status-text-blue'> 2018/02/28 </span>前将<span class='status-text-blue'> 5000元 </span>保证金打到如下账号，以获取竞拍资格。
+                尊敬的 {{ d.userName }} 先生/女士，<br>
+                请在<span class='status-text-blue'> {{ date2date(d.etartPriceDate) }} </span>前将<span class='status-text-blue'> {{ d.bond }}元 </span>保证金打到如下账号，以获取竞拍资格。
 
                 <div class="status-line"></div>
                 <div class="status-gray">转账请备注注册账号和竞买车辆。如竞拍失败，保证金将如数退还。</div>
                 <div class="status-address">
-                    单位名称：  广东鸿特信息咨询有限公司<br>
-                    开户行：    中国建设银行股份有限公司东莞宏伟路支行<br>
-                    账号：   44050177020000000193
+                    单位名称：  {{ d.account }}<br>
+                    开户行：     {{ d.bank }}<br>
+                    账号：   {{ d.cardNo }}
                 </div>
             </article>
            
@@ -32,7 +32,7 @@
     name: 'Status',
     data () {
         return {
-            status: this.$store.state.status.CarSellApplyStatus
+            d: this.$store.state.CarInfoData.CarInfoData.data || {},  // 汽车详情
         }
     },
     methods: {

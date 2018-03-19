@@ -29,16 +29,16 @@
                 <div class="form__right">
                     <div class="form__addtext">出价金额<span class="form__addtext--yuan">（元）</span></div>
                     <div class="InputNumber">
-                        <a class="InputNumber__reduce"></a>
+                        <a class="InputNumber__reduce" @click="reduce"></a>
                         <input type="text" class="InputNumber__input" v-model='input_money'>
-                        <a class="InputNumber__add"></a>
+                        <a class="InputNumber__add" @click="add"></a>
                     </div>
                     <div class="form__overtop">出价须高于 ¥ {{ max_money }}</div>
                 </div>
 
         </div>
         <div class="btn">
-            <button class="btn--primary">报 名</button>
+            <button class="btn--primary" @click="submit">报 名</button>
         </div>
     </div>
 </template>
@@ -46,6 +46,8 @@
 <script>
  import mtField from '@components/field/field2.vue'
  import Toast from '@components/toast/index.js'
+ // messagebox 组件
+ import msg from '@components/messagebox/messagebox.js'
 
 export default {
 
@@ -53,6 +55,7 @@ export default {
 
   data () {
     return {
+        input_money: 0,
         max_money: 0,
         d: this.$store.state.CarInfoData.CarInfoData.data,  // 汽车详情
     }
@@ -61,34 +64,57 @@ export default {
     mtField
   },
   methods: {
-       getMAX () {
-         this.getMaxTimer = window.setInterval(_=>{
-             this.carapi.selectMaxOfferPriceByAuctionId({
-                 priceID: this.d.priceID
-             }, true).then(_=>{
-                 if (_.returnCode == 0) {
-                     this.TopAmount = _.data.offerAmount
-                 }
-             })
-         }, 2000);
-       },
-  },
-  computed: {
-    input_money () {
-        return this.max_money + this.d.priceincrease
+    reduce () {
+        this.input_money =  this.input_money - this.d.priceincrease
+
+    },
+    add () {
+        this.input_money =  this.input_money + this.d.priceincrease
+    },
+    getMAX () {
+      this.getMaxTimer = window.setInterval(_=>{
+          this.carapi.selectMaxOfferPriceByAuctionId({
+              priceID: this.d.priceID
+          }, true).then(_=>{
+              if (_.returnCode == 0) {
+                  this.TopAmount = _.data.offerAmount
+              }
+          })
+      }, 2000);
+    },
+    go () {
+        if ((this.input_money - this.max_money) >= this.this.d.priceincrease * 5) {
+            msg.confirm("已经大于5个加价幅度，您确认以¥{this.input_money}出价?？", "操作提示").then(()=>{
+                    this.go()
+            }).catch(() => {
+                return false;
+            });
+        } else {
+            msg.confirm("您确认以¥{this.input_money}出价?？", "操作提示").then(()=>{
+                    this.go()
+            }).catch(() => {
+                return false;
+            });
+        }
+    },
+    submit () {
+        
     }
   },
+  computed: {
+  },
+  watch: {
+  },
   beforeMount () {
-
         if (!this.$store.state.CarInfoData.CarInfoData.data) {
            return this.$router.push('/carsell')
         }
-
         this.carapi.selectMaxOfferPriceByAuctionId({
             priceID: this.d.priceID
         }).then(_=>{
             if (_.returnCode == 0) {
                 this.max_money = _.data.offerAmount
+                this.input_money =  this.max_money + this.d.priceincrease
                 this.getMAX();
             } else {
                 Toast(_.msg)

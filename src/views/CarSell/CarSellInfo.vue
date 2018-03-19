@@ -95,7 +95,7 @@
 
                <div class="subject__item">
                    <div class="leftitem">
-                       <div class="leftitem__left">保险到期日：</div> <div class="leftitem__right">{{ d.insuranceDate }}</div>
+                       <div class="leftitem__left">保险到期日：</div> <div class="leftitem__right">{{ date2date(d.insuranceDate) }}</div>
                    </div>
                    <div class="rightitem">
                        <div class="rightitem__left">使用性质：</div> <div class="rightitem__right">{{ d.useProperty }}</div>
@@ -104,7 +104,7 @@
 
                <div class="subject__item">
                    <div class="leftitem">
-                       <div class="leftitem__left">保险到期日：</div> <div class="leftitem__right">{{ d.insuranceDate }}</div>
+                       <div class="leftitem__left">保险到期日：</div> <div class="leftitem__right">{{ date2date(d.insuranceDate) }}</div>
                    </div>
                    <div class="rightitem">
                        <div class="rightitem__left">交易方式：</div> <div class="rightitem__right">{{ d.transactionMode }}</div>

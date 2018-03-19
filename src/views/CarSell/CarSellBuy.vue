@@ -30,7 +30,7 @@
                     <div class="form__addtext">出价金额<span class="form__addtext--yuan">（元）</span></div>
                     <div class="InputNumber">
                         <a class="InputNumber__reduce" @click="reduce"></a>
-                        <input type="text" class="InputNumber__input" v-model='input_money'>
+                        <input type="text" class="InputNumber__input" readonly v-model='input_money'>
                         <a class="InputNumber__add" @click="add"></a>
                     </div>
                     <div class="form__overtop">出价须高于 ¥ {{ max_money }}</div>
@@ -85,7 +85,7 @@ export default {
     },
     go () {
         if ((this.input_money - this.max_money) >= this.d.priceincrease * 5) {
-            msg.confirm(`已经大于5个加价幅度，您确认以 ¥ ${this.input_money} 出价？`, "温馨提示").then(()=>{
+            msg.confirm(`已经大于5个加价幅度，您确认以<br /> ¥ ${this.input_money} 出价？`, "温馨提示").then(()=>{
                 this.submit()
             }).catch(() => {
                 return false;

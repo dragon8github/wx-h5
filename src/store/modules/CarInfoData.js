@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
     setCarInfoData({ commit, state }, data) {
-        state.CarInfoData = Object.assign({}, state.CarInfoData,  data);
+        state.CarInfoData = Object.assign({}, state.CarInfoData, data);
     }
 }
 

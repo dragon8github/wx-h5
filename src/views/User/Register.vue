@@ -39,7 +39,7 @@
     name: 'Register',
     data () {
         return {
-            user: this.$store.state.phone,
+            user: '',
             pwd: '',
             validate: '',
             invite: '',

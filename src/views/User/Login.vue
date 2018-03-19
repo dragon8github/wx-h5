@@ -23,7 +23,7 @@
         name: 'Login',
         data () {
             return {
-              user: this.$store.state.phone,
+              user: this.$store.state.phone || '',
               pwd: '',
               user_errTopLabel: '',
               pwd_errTopLabel: ''

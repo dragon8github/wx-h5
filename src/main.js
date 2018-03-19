@@ -5,6 +5,7 @@ import store from './store'
 import Fastclick from 'fastclick'
 import Bridge from './bridge'
 import api from './fetch/api'
+import methods from './methods'
 
 // 加载全局css
 require('./sass/_common.scss')
@@ -18,39 +19,11 @@ window.Promise = require('promise')
 // 加载API
 Vue.use(api)
 
-// 稍后放到公共类库去
-Date.prototype.format = function(fmt) { 
-     var o = { 
-        "M+" : this.getMonth()+1,                 //月份 
-        "d+" : this.getDate(),                    //日 
-        "h+" : this.getHours(),                   //小时 
-        "m+" : this.getMinutes(),                 //分 
-        "s+" : this.getSeconds(),                 //秒 
-        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
-        "S"  : this.getMilliseconds()             //毫秒 
-    }; 
-    if(/(y+)/.test(fmt)) {
-            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-    }
-    for(var k in o) {
-        if(new RegExp("("+ k +")").test(fmt)){
-             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-         }
-    }
-    return fmt; 
-}
-
 // vue初始化
 let initial = () => {
     // 添加宏让全局函数库注入Vue之中
     Vue.mixin({
-        methods: {
-            date2date (time) {
-                var oldTime = (new Date(time)).getTime();
-                var curTime = new Date(oldTime).format("yyyy-MM-dd");
-                return curTime
-            },
-        }
+        methods: methods
     })
     new Vue({
         el: '#app',
@@ -61,8 +34,20 @@ let initial = () => {
     })
 }
 
-// 将核心数据放入store中
-store.dispatch('setAppData', {openId: window.openId || '6ad7f9ce-ad0e-457a-a608-6cd5ac67e110'}).then(() => {
-    // vue初始化
-    initial()
-})
+if (process.env.NODE_ENV === 'production') {
+    if (window.openId) {
+        // 将核心数据放入store中
+        store.dispatch('setAppData', {openId: window.openId || ''}).then(() => {
+            // vue初始化
+            initial()
+        })
+    } else {
+        window.alert('请从微信中登录本应用φ(≧ω≦*)♪');
+    }
+} else {
+    // 将核心数据放入store中
+    store.dispatch('setAppData', {openId: window.openId || '6ad7f9ce-ad0e-457a-a608-6cd5ac67eca7'}).then(() => {
+        // vue初始化
+        initial()
+    })
+}

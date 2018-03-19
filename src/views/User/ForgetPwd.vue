@@ -23,7 +23,7 @@ import mtButton     from '@myComponents/button.vue'
         name: 'ForgetPwd',
         data () {
             return {
-              user: this.$store.state.phone,
+              user: this.$store.state.phone || '',
               validate: '',
               user_errTopLabel:'',
               validate_errTopLabel:'',

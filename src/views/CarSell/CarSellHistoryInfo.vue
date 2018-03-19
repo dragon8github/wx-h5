@@ -10,8 +10,8 @@
 
 
             <div class="CarSellInfo__navbar">
-                <div class="CarSellInfo__navbarleft">拍卖已完成</div>
-                <div class="CarSellInfo__navbarright">成交价：¥16,000.00</div>
+                <div class="CarSellInfo__navbarleft">{{ d.isAuctionSuccess ? '拍卖已完成' : '拍卖进行中'}}</div>
+                <div class="CarSellInfo__navbarright" v-if="d.isAuctionSuccess">成交价：¥{{ d.transPrice }}</div>
             </div>
 
             <div class="carMain">
@@ -19,13 +19,13 @@
                 <div class="carMain__id">拍卖编号：{{ d.businessId }}</div>
                 <div class="carMain__price">
                     <div class="carMain__pricetext">起拍价：<span class="carMain__pricetext--red">¥ {{ d.startPrice }}</span></div>
-                    <div class="carMain__pricetext">我的竞拍价：<span class="carMain__pricetext--red">¥1265,000</span></div>
+                    <div class="carMain__pricetext">我的竞拍价：<span class="carMain__pricetext--red">¥ {{ d.offerAmount }} </span></div>
                 </div>
                 <div class="carMain__time"> 拍卖时间：{{ date2date(d.startPriceDate) }} - {{ date2date(d.etartPriceDate) }} </div>
                 <div class="carMain__line"></div>
                 <div class="carMain__money">
                     <div class="carMain__moneytop">
-                        <div>保证金：¥  {{ d.bond }} <span class="carMain__money--red">（未交）</span></div>
+                        <div>保证金：¥  {{ d.bond }} <span class="carMain__money--red">（{{ d.isPayDeposit ? '已交' : '未交' }}）</span></div>
                         <div>加价幅度：¥ {{ d.priceincrease }}</div>
                     </div>
                      <div>评估价：¥  {{ d.lastEvaluationAmount }}</div>

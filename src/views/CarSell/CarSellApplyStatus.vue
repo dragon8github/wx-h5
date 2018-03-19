@@ -41,7 +41,6 @@
         }
     },
     beforeMount () {
-      console.log(this.$store.state.CarInfoData)
     }
   }
 </script>

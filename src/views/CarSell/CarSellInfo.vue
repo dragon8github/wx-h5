@@ -230,7 +230,6 @@ export default {
                     // 缴纳保证金：否，跳转报名
                     this.$router.push('/carsellapply')
                   } else {
-                    debugger;
                     // 如果数组不为空，那么判断第一条数据
                     if ( _.data[0].isPayDeposit && _.data[0].isPayDeposit == true ) {
                       // 缴纳保证金：是，跳转竞买

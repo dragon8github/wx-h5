@@ -2,8 +2,8 @@
     <div class="CarSellHistory">
 
         <navbar v-model="selected">
-            <tabitem id="tab-container1" :fontSize="'32'">已竞买</tabitem>
-            <tabitem id="tab-container2" :fontSize="'32'">已报名</tabitem> 
+            <tabitem id="tab-container1" :fontSize="'32'">已报名</tabitem>
+            <tabitem id="tab-container2" :fontSize="'32'">已竞买</tabitem> 
         </navbar>
 
         <div class="search">

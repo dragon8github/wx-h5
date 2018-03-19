@@ -26,15 +26,26 @@ const checkStatus = async(response) => {
         // 如果是登录、注册、忘记密码的话，会返回一个token，我们把它加入到store中，并且每次登录都带在我的header中
         if (response.url.toLocaleLowerCase().indexOf('login') >= 0 || 
             response.url.toLocaleLowerCase().indexOf('register') >= 0 ||
-            response.url.toLocaleLowerCase().indexOf('register') >= 0) {
-            const token = response.headers.get('token');
-            // 将核心数据放入store中
-            return store.dispatch('set_token', token).then(_ => {
-                // 设置token缓存
-                window.localStorage.setItem('token', token)
-                // 返回Promise 
-                return response.json()
-            })
+            response.url.toLocaleLowerCase().indexOf('findpwd') >= 0) {
+            
+                // const json = await response.json();
+                // // 将核心数据放入store中
+                // return store.dispatch('set_token', json.data.token).then(_ => {
+                //     // 设置token缓存
+                //     window.localStorage.setItem('token', json.data.token)
+                //     // 返回Promise 
+                //     return json
+                // })
+
+                return response.json().then(json=> {
+                       // 将核心数据放入store中
+                       return store.dispatch('set_token', json.data.token).then(_ => {
+                           // 设置token缓存
+                           window.localStorage.setItem('token', json.data.token)
+                           // 返回Promise 
+                           return json
+                       })
+                })
         }
         // 返回Promise 
         return response.json()
@@ -95,10 +106,11 @@ const throwError = (err) => {
         // 我们约定，有时候仅仅需要阻止js往下执行而使用throw new Error，而这里会被拦截，在message中使用noshow则不会Toast输出错误.
         // 不过依然会在控制台报错，只是方便调试而已，没什么
         if (err.message.indexOf('noshow') < 0) {
-            Toast('网络不稳定,请稍后重试')
+            Toast('网络不稳定,请稍后重试' + err)
         } 
     }
-
+    fundebug.notify("Test", err);
+    fundebug.notify("Test", err.message);
     // 弹出错误供调试
     throw new Error("异常信息:" + err)
 }
@@ -134,7 +146,7 @@ const handleFetch = async(api, params, isQuiet = false) => {
         // 打开蒙版loading
         Loader.show('加载中...')
     }
-    
+
     // 开发环境使用代理地址请求数据
     const url = process.env.NODE_ENV === 'development' ?  '/api/' + api : Constants.API_WX_SERVER + api
 

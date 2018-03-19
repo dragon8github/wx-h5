@@ -34,16 +34,20 @@ let initial = () => {
     })
 }
 
+// 正式环境
 if (process.env.NODE_ENV === 'production') {
     if (window.openId) {
         // 将核心数据放入store中
         store.dispatch('setAppData', {openId: window.openId || ''}).then(() => {
             // vue初始化
             initial()
+            // 跳转页面
+            if (window.goUrl) router.push(window.goUrl);
         })
     } else {
         window.alert('请从微信中登录本应用φ(≧ω≦*)♪');
     }
+// 测试环境
 } else {
     // 将核心数据放入store中
     store.dispatch('setAppData', {openId: window.openId || '6ad7f9ce-ad0e-457a-a608-6cd5ac67eca7'}).then(() => {

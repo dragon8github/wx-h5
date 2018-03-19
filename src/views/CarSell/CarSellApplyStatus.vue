@@ -32,7 +32,7 @@
     name: 'Status',
     data () {
         return {
-            d: this.$store.state.CarInfoData.CarInfoData.data || {},  // 汽车详情
+            d: this.$store.state.CarInfoData.CarInfoData || {},  // 汽车详情
         }
     },
     methods: {
@@ -40,7 +40,9 @@
            this.$router.push('/carsell');
         }
     },
-    beforeMount () {}
+    beforeMount () {
+      console.log(this.$store.state.CarInfoData)
+    }
   }
 </script>
 

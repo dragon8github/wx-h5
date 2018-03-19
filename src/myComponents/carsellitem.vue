@@ -54,7 +54,7 @@ export default {
   },  
   methods: {
     goInfo () {
-        this.$store.dispatch('setCarInfoData', { data: this.maindata }).then(_ => {
+        this.$store.dispatch('setCarInfoData', this.maindata).then(_ => {
             // 前期为了迅速，我把他们分开来了。后期再融合在一起吧
             if (this.$route.name.trim() === 'CarSellHistory') {
                 this.$router.push(`/CarSellHistoryInfo/${this.maindata.priceID}`)

@@ -65,7 +65,7 @@ export default {
     return {
         phone: this.$store.state.phone || '',                     // 手机号码
         bank: this.$store.state.bank || '',                       // 银行
-        d: this.$store.state.CarInfoData.CarInfoData.data || {},  // 汽车详情
+        d: this.$store.state.CarInfoData.CarInfoData || {},  // 汽车详情
         card: '6236683230008261738',                              // 银行卡号
         username: '李钊鸿 ',                                      // 用户名
         id: '445222199307100337',                                 // 身份证号
@@ -115,9 +115,9 @@ export default {
             carNO: this.card.replace(/\s/g, '')
         }).then(_ => {
             if ( _.returnCode == 0 ) {
-                this.$store.dispatch('setCarInfoData', { data: {
+                this.$store.dispatch('setCarInfoData', {
                     userName: this.username
-                }}).then(_ => {
+                }).then(_ => {
                   this.$router.push('/CarSellApplyStatus')
                 })                
             } else {

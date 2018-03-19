@@ -194,7 +194,7 @@ export default {
   data () {
     return {
         isCash: false,
-        d: this.$store.state.CarInfoData.CarInfoData.data,
+        d: this.$store.state.CarInfoData.CarInfoData,
         TopAmount: '', // 当前最高价，需要读取API来获取的。TODO: 那么默认应该填什么呢？
         getMaxTimer: null
     }

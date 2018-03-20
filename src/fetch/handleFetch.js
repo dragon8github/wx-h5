@@ -23,30 +23,6 @@ const checkStatus = async(response) => {
 
     // 判断请求状态
     if (response.status >= 200 && response.status < 300) {
-        // 如果是登录、注册、忘记密码的话，会返回一个token，我们把它加入到store中，并且每次登录都带在我的header中
-        if (response.url.toLocaleLowerCase().indexOf('login') >= 0 || 
-            response.url.toLocaleLowerCase().indexOf('register') >= 0 ||
-            response.url.toLocaleLowerCase().indexOf('findpwd') >= 0) {
-            
-                // const json = await response.json();
-                // // 将核心数据放入store中
-                // return store.dispatch('set_token', json.data.token).then(_ => {
-                //     // 设置token缓存
-                //     window.localStorage.setItem('token', json.data.token)
-                //     // 返回Promise 
-                //     return json
-                // })
-
-                return response.json().then(json=> {
-                       // 将核心数据放入store中
-                       return store.dispatch('set_token', json.data.token).then(_ => {
-                           // 设置token缓存
-                           window.localStorage.setItem('token', json.data.token)
-                           // 返回Promise 
-                           return json
-                       })
-                })
-        }
         // 返回Promise 
         return response.json()
     } else {

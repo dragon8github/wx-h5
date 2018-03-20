@@ -6,7 +6,7 @@
         <div class="CarSellHistoryItem__right">
             <div class="carinfo">
                 <div class="carinfo__top">
-                    <div class="carinfo__name"> {{ name }} </div>
+                    <div class="carinfo__name"> {{ name + ' ' + model }} </div>
                 </div>
                 <div class="carinfo__center">
                     <div class="carinfo__price">
@@ -41,8 +41,10 @@ export default {
     id:       { type: String, default: '' },
     // 图片一张
     image:    { type: String, default: '' },
-    // 汽车名字
+    // 汽车品牌
     name:     { type: String, default: '' },
+    // 汽车型号
+    model:     { type: String, default: '' },
     // 起拍价 / 成交价
     money:    { type: String | Number, default: '' },
     // 开拍时间，可以为空，如果是成交单的话

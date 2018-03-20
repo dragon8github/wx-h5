@@ -27,6 +27,7 @@
                            :maindata="item"
                            :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                            :name="item.vehicleBrand"
+                           :model="item.carModel"
                            :money="item.startPrice"
                            :starttime="item.startPriceDate"
                            :city="item.vcehicleTerritory">
@@ -43,6 +44,7 @@
                             :maindata="item"
                             :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                             :name="item.vehicleBrand"
+                            :model="item.carModel"
                             :money="item.startPrice"
                             :starttime="item.startPriceDate"
                             :city="item.vcehicleTerritory">
@@ -59,6 +61,7 @@
                             :maindata="item"
                             :image="item.docs && item.docs[0] && item.docs[0].docUrl"
                             :name="item.vehicleBrand"
+                            :model="item.carModel"
                             :money="item.startPrice"
                             :city="item.vcehicleTerritory"
                             :isFinish="true">

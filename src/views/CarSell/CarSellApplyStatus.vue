@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="Status_view">
      <div id="Status">
         <div class="status-card">
             <div class="statusImg success"></div>
@@ -50,8 +50,14 @@
 @import "~@sass/_func";
 @import "~@sass/_status";
 
+#Status_view {
+  height: 100%;
+}
+
 #Status {
     padding-top: pxToRem(30px);
+    min-height: pxToRem(1200px);
+    height: 90%;
 
    .status-text {
        font-size: pxToRem(28px);

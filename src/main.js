@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'production') {
             if (window.goUrl) router.push(window.goUrl);
         })
     } else {
-        window.alert('请从微信中登录本应用φ(≧ω≦*)♪');
+        window.alert('请从微信中登录本应用');
     }
 // 测试环境
 } else {

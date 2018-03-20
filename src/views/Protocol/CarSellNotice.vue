@@ -1,7 +1,7 @@
 <template>
     <div class="CarSellNotice">
         <div class="Notice">
-                <div class="Notice__title Notice--bold "> 竞买须知 </div>
+                <div class="Notice__title Notice--bold "> 竞买公告 </div>
                 <div>
                     <p class="Notice--indent">竞拍前请务必遵照《竞买公告》的要求，进行实地看样、调查标的物信息（如过户要求、 违章情况等）、 了解竞买资质、 支付方式等内容。</p>
                     <p><span class="Notice--bold">我方将于 {{ d.starBidTime }} 至 {{ d.endBidTime }} 止进行公开竞买活动，</span> 现公告如下：</p>

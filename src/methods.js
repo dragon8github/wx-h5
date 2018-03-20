@@ -23,10 +23,14 @@ Date.prototype.format = function(fmt) {
 
 
 const date2date = time => {
-    if (time) time = time.replace(/\-/g, "/")
-    var oldTime = (new Date(time)).getTime();
-    var curTime = new Date(oldTime).format("yyyy/MM/dd");
-    return curTime
+    if (time) {
+        time = time.replace(/\-/g, "/")
+        var oldTime = (new Date(time)).getTime();
+        var curTime = new Date(oldTime).format("yyyy/MM/dd");
+        return curTime
+    } else {
+        return ''
+    }
 }
 
 

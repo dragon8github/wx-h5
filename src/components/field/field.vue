@@ -27,7 +27,7 @@
             :maxlength = "maxlength"
             :class="_myClass"
             :placeholder="topLabel ? '' : placeholder"
-            :type="type ? type : 'text'"
+            :type="type && type != 'number' ? type : 'text'" 
             :disabled="disabled"
             :readonly="readonly"
             :value="currentValue"
@@ -129,6 +129,11 @@
                this.$refs.input.focus()
             },
             myKeyup () {
+                if (this.type == 'number') {
+                    this.currentValue = this.currentValue.replace(/\D/g, '');
+                }
+
+
                 this.$emit('keyup', this.currentValue)
             },
             myChange () {

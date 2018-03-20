@@ -16,7 +16,8 @@ module.exports = {
            // yuefei : http://192.168.14.29:31006
            // server: http://172.16.200.110:31006
            //  http://172.16.200.110:30111/wx/app
-           target: 'http://172.16.200.110:30111/wx/app/',  
+           // http://172.16.200.110:30111/wx/app/
+           target: 'http://172.16.200.112:30111/wx/app/',  
            //是否跨域 
            changeOrigin: true, 
            // 重写地址 

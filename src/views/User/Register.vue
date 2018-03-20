@@ -92,7 +92,7 @@
                           window.localStorage.setItem('token', data.data.token)
                           // 设置手机到store
                           this.$store.dispatch('set_phone', this.user).then(_=>{
-                                Toast('恭喜你，o(*≧▽≦)ツ 注册成功！');
+                                Toast('恭喜你，注册成功！');
                               // 设置phone的缓存
                               window.localStorage.setItem('phone', this.user)
                               // 跳转到预先要去的地址
@@ -134,6 +134,12 @@
         fade () {
             this.hide_validate = !this.hide_validate
         }
+    },
+    watch: {
+      validate (old, newval) {
+          console.log(newval);
+          this.validate = this.validate.replace(/\D/g, "");
+      }
     },
     components: {
         mtField,

@@ -1,8 +1,8 @@
 <template>
  <div id="ForgetPwd">
        <div class="form">
-            <mt-field topLabel = '请输入手机号' :errTopLabel='user_errTopLabel'     type = "number" placeholder = '请输入11位手机号码'  v-model = 'user'     :maxlength = '11'></mt-field>
-            <mt-field topLabel = '验证码'      :errTopLabel='validate_errTopLabel' type = "number" placeholder = '请输入6位验证码'     v-model = 'validate' :maxlength = '6' :clearText='false'>
+            <mt-field topLabel = '请输入手机号' :errTopLabel='user_errTopLabel'      type = "number"   placeholder = '请输入11位手机号码'  v-model = 'user'     :maxlength = '11'></mt-field>
+            <mt-field topLabel = '验证码'       :errTopLabel='validate_errTopLabel'  type = "number"   placeholder = '请输入6位验证码'     v-model = 'validate' :maxlength = '6' :clearText='false'>
                 <getvalidate slot="icon" @click="getCode"></getvalidate>
             </mt-field>
 

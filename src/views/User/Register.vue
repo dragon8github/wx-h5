@@ -159,7 +159,7 @@
 
 
 #Register {
-    background-color:#fff
+    background-color:#fff;
 }
 
 .form {
@@ -178,7 +178,7 @@
     letter-spacing: 1px;
     color: #999999;
     width: 100%;
-
+    z-index: -1;
 }
 
 .already {

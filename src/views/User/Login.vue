@@ -111,7 +111,6 @@
 }
 
 .bottom-text {
-
     left: 50%;
     transform: translateX(-50%); 
     position:absolute;
@@ -122,6 +121,7 @@
     font-size: pxToRem(28px);
     letter-spacing: 1px;
     color: #bababa;
+    z-index: -1;
 }
 
 .split {

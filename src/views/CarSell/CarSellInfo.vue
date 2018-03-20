@@ -233,14 +233,33 @@ export default {
                     // 缴纳保证金：否，跳转报名
                     this.$router.push('/carsellapply')
                   } else {
-                    // 如果数组不为空，那么判断第一条数据
+                    // 如果数组不为空，那么判断第一条数据（只会给我一条数据的），然后判断isPayDeposit是否为true，如果为true说明已经交钱了。
                     if ( _.data[0].isPayDeposit && _.data[0].isPayDeposit == true ) {
                       // 缴纳保证金：是，跳转竞买
                       this.$router.push('/carsellbuy')
+
+                    // 报名了但没交钱
                     } else {
-                      msg.alert('竞拍已开始，没有交保证金，无法参与竞拍!', '警告').then(() => {
-                         return false
-                      })
+                      // 获取开始时间的时间戳
+                      var starttime = new Date(this.d.StarBidTime).valueOf()
+                      var nowtime = new Date().valueOf()
+                      var endtime = new Date(this.d.EndBidTime).valueOf()
+
+                      // 说明竞买未开始
+                      if (nowtime < starttime) {
+                        msg.alert('已报名成功，请及时交保证金，否则无法参与竞拍', '警告').then(() => {
+                           return false
+                        })
+                      // 说明竞价
+                      } else if (nowtime >= starttime && nowtime <= endtime) {
+                        msg.alert('竞拍已开始，没有交保证金，无法参与竞拍!', '警告').then(() => {
+                           return false
+                        })
+                      } else if (nowtime > endtime) {
+                        msg.alert('竞拍已结束', '警告').then(() => {
+                           return false
+                        })
+                      }
                     }
                   }
                 }

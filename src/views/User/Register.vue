@@ -163,7 +163,9 @@
 }
 
 .form {
-    margin: pxToRem(100px) pxToRem(30px) pxToRem(30px);
+    padding: pxToRem(100px) pxToRem(30px) pxToRem(30px);
+    background: #fff;
+    width: 100%
 }
 
 .bottom-text {

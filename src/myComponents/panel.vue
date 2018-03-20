@@ -159,14 +159,10 @@ export default {
     mounted () {
         // 为什么这里要延迟650毫秒，由于路由转场动画花费了我400毫秒，这段期间，可能之前是界面有Footer元素，所以我需要先等它完全消失，所以事实上也就是给了250毫秒的等待时间
         setTimeout(() => {
-            // 底部的高度
-            let footerHeight = 0
-
-            // 如果底部存在，那应该再减去底部的高度
-            if (document.getElementsByClassName("cs-footer")[0]) footerHeight = document.getElementsByClassName("cs-footer")[0].clientHeight
 
             // 设置滚动区域的高度
-            this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top - footerHeight  + 'px'
+            // this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top + 'px'
+            this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top + 'px'
 
             // console.log(this.wrapperHeight, document.documentElement.clientHeight, this.$refs.wrapper.getBoundingClientRect().top,  footerHeight)
             // 当dom渲染完成后，再判断和渲染一次高度
@@ -177,6 +173,8 @@ export default {
                  if (this.$refs.wrapper.getBoundingClientRect().top  === 0)  this.wrapperHeight = height
             })
         }, 0)
+
+      
     }
   }
 </script>

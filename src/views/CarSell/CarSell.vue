@@ -7,7 +7,8 @@
             <tabitem id="tab-container3" :fontSize="'32'">拍卖完成</tabitem> 
         </navbar>
 
-        <div class="ad" v-if="selected === 'tab-container1'"> 重要提示:请在竞拍前报名交保证金，参与竞拍 </div>
+        <!-- <div class="ad" v-if="selected === 'tab-container1'"> 重要提示:请在竞拍前报名交保证金，参与竞拍 </div> -->
+        <div class="ad"> 重要提示:请在竞拍前报名交保证金，参与竞拍 </div>
 
         <div class="search">
             <div class="search__left">

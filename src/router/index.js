@@ -117,7 +117,7 @@ let router =  new Router({
         { path: '/Borrow',         name: 'Borrow',         meta: { title: '我的借款' },  component: Borrow },
         { path: '/BorrowProgress', name: 'BorrowProgress', meta: { title: '查看进度' },  component: BorrowProgress },
 
-        { path: '/RegProtocol',     name: 'RegProtocol',     meta: { title: '团贷网信贷服务协议' },  component: RegProtocol },
+        { path: '/RegProtocol',     name: 'RegProtocol',     meta: { title: '鸿特金服信贷服务协议' },  component: RegProtocol },
         { path: '/CarSellNeedKnow', name: 'CarSellNeedKnow', meta: { title: '竞买须知' }, component: CarSellNeedKnow },
         { path: '/CarSellNotice',   name: 'CarSellNotice',   meta: { title: '竞买公告' }, component: CarSellNotice },
     ]

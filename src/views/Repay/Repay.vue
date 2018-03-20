@@ -101,18 +101,17 @@
             loadTop (cb) {
                 window.setTimeout(cb, 1000);
             },
-            getData () {
-                // this.xdapi.getRepayingList({
-                //       pageIndex: '1',  // 页数
-                //       pageSize: '10'   // 数量
-                // }).then(data=>{
-                //     if (data.returnCode == 0) {
-                //         console.log(data);
-                //     } else {
-                //         console.log(data);
-                //         Toast(data.msg);
-                //     }
-                // })
+            getData (cb) {
+                this.xdapi.getRepayingList({
+                      pageIndex: '1',  // 页数
+                      pageSize: '10'   // 数量
+                }).then(data => {
+                    console.log(data);
+                    if (data.returnCode == 0) {
+                    } else {
+                        Toast(data.msg);
+                    }
+                })
             },
             // 根据业务类型返回右上角的图标
             type2icon (type) {
@@ -195,8 +194,7 @@
             panel
         },
         beforeMount () {
-
-            
+            this.getData();
         },
         activated () {
           

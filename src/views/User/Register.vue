@@ -23,7 +23,7 @@
 
        </div>
        <div class="already"> 已有账号，<a class="goToLogin" @click="goToLogin">马上登录</a> </div>
-       <div class="bottom-text"> 注册即表示您已同意 <a class="goToPro" @click="goToPro">《团贷网信贷服务协议》</a> </div>
+       <div class="bottom-text"> 注册即表示您已同意 <a class="goToPro" @click="goToPro">《鸿特金服信贷服务协议》</a> </div>
  </div>
 </template>
 

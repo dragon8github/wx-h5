@@ -1,7 +1,6 @@
 
-
 // 稍后放到公共类库去
-Date.prototype.format = function(fmt) { 
+Date.prototype.format = function(fmt) {      
      var o = { 
         "M+" : this.getMonth()+1,                 //月份 
         "d+" : this.getDate(),                    //日 
@@ -24,8 +23,9 @@ Date.prototype.format = function(fmt) {
 
 
 const date2date = time => {
+    if (time) time = time.replace(/\-/g, "/")
     var oldTime = (new Date(time)).getTime();
-    var curTime = new Date(oldTime).format("yyyy-MM-dd");
+    var curTime = new Date(oldTime).format("yyyy/MM/dd");
     return curTime
 }
 

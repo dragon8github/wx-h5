@@ -53,8 +53,8 @@
                 </div>
             </div>
             
-            <cell title="竞买公告"  is-link :clickHandle="goCarSellNeedKnow"></cell>
-            <cell title="竞买须知"  is-link :clickHandle="goCarSellNotice"></cell>
+            <cell title="竞买公告"  is-link :clickHandle="goCarSellNotice"></cell>
+            <cell title="竞买须知"  is-link :clickHandle="goCarSellNeedKnow"></cell>
 
             <div class="subject">
                 <div class="subject__title">标的物介绍</div>
@@ -106,7 +106,7 @@
 
                <div class="subject__item">
                    <div class="leftitem">
-                       <div class="leftitem__left">保险到期日：</div> <div class="leftitem__right">{{ date2date(d.insuranceDate) }}</div>
+                       <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ date2date(d.InspectionDate) }}</div>
                    </div>
                    <div class="rightitem">
                        <div class="rightitem__left">交易方式：</div> <div class="rightitem__right">{{ d.transactionMode }}</div>

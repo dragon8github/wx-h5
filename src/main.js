@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'production') {
 // 测试环境
 } else {
     // 将核心数据放入store中
-    store.dispatch('setAppData', {openId: window.openId || '6ad7f9ce-ad0e-457a-a608-6cd5ac67e119'}).then(() => {
+    store.dispatch('setAppData', {openId: window.openId || '1fbe6cfb-fd2d-4ed1-85cf-d57fdf9c9e68'}).then(() => {
         // vue初始化
         initial()
     })

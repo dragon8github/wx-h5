@@ -7,11 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress  --host 0.0.0.0 --config  build/webpack.dev.conf.js",
     "build": "node build/build.js",
-    "git": "git add . & git commit -m 123 & git push -u origin master",
-    "del": "rm -rf C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/static",
-    "cp": "cp -rf ./dist/static/ C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources",
-    "replace": "data=`grep '</body></html>' ./dist/index.html` && sed '$c $data' C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/templates/index.ftl > C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/templates/index2.ftl",
-    "rm": "rm -rf C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/templates/index.ftl && mv C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/templates/index2.ftl C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/templates/index.ftl"
+    "git": "git add . & git commit -m 123 & git push -u origin master"   
   },
   "dependencies": {
     "vue-router": "^3.0.1"

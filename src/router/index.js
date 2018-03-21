@@ -131,7 +131,7 @@ var setTitle = title => {
     i.onload = function() {
         setTimeout(function(){
             i.remove();
-        }, 20)
+        }, 9)
     }
     document.title = title;
     document.body.appendChild(i);

@@ -37,11 +37,11 @@ Date.prototype.format = function(fmt) {
 }
 
 
-const date2date = time => {
+const date2date = (time, style="yyyy/MM/dd") => {
     if (time) {
         time = time.replace(/\-/g, "/")
         var oldTime = (new Date(time)).getTime();
-        var curTime = new Date(oldTime).format("yyyy/MM/dd");
+        var curTime = new Date(oldTime).format(style);
         return curTime
     } else {
         return ''

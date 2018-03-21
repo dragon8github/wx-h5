@@ -104,7 +104,7 @@
 
                <div class="subject__item">
                    <div class="leftitem">
-                       <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ d.inspectionDate }}</div>
+                       <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ date2date(d.inspectionDate, 'yyyy/MM') }}</div>
                    </div>
                    <div class="rightitem">
                        <div class="rightitem__left">交易方式：</div> <div class="rightitem__right">{{ d.transactionMode }}</div>

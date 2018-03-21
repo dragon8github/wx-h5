@@ -23,8 +23,7 @@
 @import "../../sass/func.scss";
 .mint-loadmore {
     overflow: hidden;
-    // 临时兴起添加的，感觉是对的。
-    // height: 100%;
+    
 
     .mint-loadmore-content {
       &.is-dropped {

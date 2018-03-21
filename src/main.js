@@ -36,13 +36,12 @@ let initial = () => {
 
 // 正式环境
 if (process.env.NODE_ENV === 'production') {
+    // 默认后端会给我渲染一个openId，如果没有说明你不是从后端进来的.
     if (window.openId) {
         // 将核心数据放入store中
         store.dispatch('setAppData', {openId: window.openId || ''}).then(() => {
             // vue初始化
             initial()
-            // 跳转页面
-            if (window.goUrl) router.push(window.goUrl);
         })
     } else {
         window.alert('请从微信中登录本应用');
@@ -50,7 +49,7 @@ if (process.env.NODE_ENV === 'production') {
 // 测试环境
 } else {
     // 将核心数据放入store中
-    store.dispatch('setAppData', {openId: window.openId || '1fbe6cfb-fd2d-4ed1-85cf-d57fdf9c9e68'}).then(() => {
+    store.dispatch('setAppData', {openId: '1fbe6cfb-fd2d-4ed1-85cf-d57fdf9c9e68'}).then(() => {
         // vue初始化
         initial()
     })

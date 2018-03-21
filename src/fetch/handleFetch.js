@@ -85,8 +85,6 @@ const throwError = (err) => {
             Toast('网络不稳定,请稍后重试' + err)
         } 
     }
-    fundebug.notify("Test", err);
-    fundebug.notify("Test", err.message);
     // 弹出错误供调试
     throw new Error("异常信息:" + err)
 }
@@ -99,7 +97,7 @@ const throwError = (err) => {
  */
 const handleFetch = async(api, params, isQuiet = false) => {
     // 默认配置
-    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token }}
+    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token, 'Authorization': `Bearer ${window.Authorization}` }}
 
     // 拼接默认配置，
     let option = Object.assign({}, params, header)

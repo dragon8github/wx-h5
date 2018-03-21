@@ -154,6 +154,7 @@ export default {
     loadTop (cb) {
         // 据我所知，下拉刷新需要重置一下搜索条件。
         this.resetWhere()
+        this.search = '';
         this.getData(_ => {
             this.currTag.list = _.data
             cb && cb()
@@ -182,11 +183,14 @@ export default {
         }, true)
     },
     searchFn () {
+        // 由于resetwhere也会清空search，所以先缓存起来吧
         this.resetWhere();
+        // 添加搜索条件
         this.where.vehicleBrand = this.search
         this.where.carModel = this.search
-
+        // 无论搜索的结果如何，都先把当前的内容给清空
         this.currTag.list = []
+
         this.getData(_ => {
             this.currTag.list = _.data
             if (!this.currTag.list.length) {
@@ -199,13 +203,12 @@ export default {
     },
     resetWhere () {
         this.where = {
-              type: '1',        // [1.即将拍卖，2进行中，3.拍卖完成]
-              page: 1,          // 分页索引，从1开始
-              limit: 15,        // 每次获取的条数
-              vehicleBrand: '', // 车辆品牌
-              carModel: '',     // 车辆型号
+              type: this.where.type,  // [1.即将拍卖，2进行中，3.拍卖完成]
+              page: 1,                // 分页索引，从1开始
+              limit: 15,              // 每次获取的条数
+              vehicleBrand: '',       // 车辆品牌
+              carModel: '',           // 车辆型号
         }
-        this.search = '';
     }
   },
   watch: {

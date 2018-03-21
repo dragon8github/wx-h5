@@ -81,8 +81,8 @@ const CarSellNotice   = r => require.ensure([], () => r(require('@/views/Protoco
 
 let router =  new Router({
     routes: [
-        // 默认去login页面吧
-        { path: '/', redirect: '/login'},
+        // 默认页面
+        { path: '/', redirect: window.goUrl || '/login'},
         
         { path: '/Fast/:type?',        name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
         { path: '/CarBusinessInfo',    name: 'CarBusinessInfo',    meta: { title: '一点车贷' }, component: CarBusinessInfo },

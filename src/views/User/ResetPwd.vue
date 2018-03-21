@@ -55,16 +55,13 @@ import msg       from '@components/messagebox/messagebox.js'
                        this.$store.dispatch('set_token', data.data.token).then(_ => {
                             // 设置token缓存
                             window.localStorage.setItem('token', data.data.token)
-                            // 设置手机到store
-                            this.$store.dispatch('set_phone', this.user).then(_=>{
-                                // 设置phone的缓存
-                                window.localStorage.setItem('phone', this.$store.state.phone)
-                                return msg.confirm("密码修改成功", "成功提示").then(()=>{
-                                   this.$router.push(this.$store.state.wantTo || '/login')
-                                }).catch(() => {
-                                   this.$router.push(this.$store.state.wantTo || '/login')
-                                });
-                            })
+                            // 设置手机的缓存
+                            window.localStorage.setItem('phone', this.$store.state.phone)
+                            return msg.confirm("密码修改成功", "成功提示").then(()=>{
+                               this.$router.push(this.$store.state.wantTo || '/login')
+                            }).catch(() => {
+                               this.$router.push(this.$store.state.wantTo || '/login')
+                            });
                       })
                     } else {
                         Toast(data.msg);

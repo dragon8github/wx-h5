@@ -1,6 +1,7 @@
 <template>
 <div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight}">
     <loadmore 
+        :style="{ minHeight: wrapperHeight}" 
         :top-method="loadTop" 
         @bottom-status-change="handleBottomChange" 
         @top-status-change="handleTopChange" 

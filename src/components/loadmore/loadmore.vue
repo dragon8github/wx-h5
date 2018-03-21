@@ -23,7 +23,6 @@
 @import "../../sass/func.scss";
 .mint-loadmore {
     overflow: hidden;
-    
 
     .mint-loadmore-content {
       &.is-dropped {

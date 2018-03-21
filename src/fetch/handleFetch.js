@@ -97,7 +97,7 @@ const throwError = (err) => {
  */
 const handleFetch = async(api, params, isQuiet = false) => {
     // 默认配置
-    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token, 'Authorization': window.Authorization || '' }}
+    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token, 'Authorization': window.Authorization || '', app:'WX' }}
 
     // 拼接默认配置，
     let option = Object.assign({}, params, header)

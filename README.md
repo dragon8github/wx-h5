@@ -1,44 +1,10 @@
-13713330000
-c9552579-aa68-44f6-8bdd-f934976732fc
+Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHAgand0IHRva2VuIiwiYXBwIjoiV1giLCJpc3MiOiJxaXV3ZW53dUBob25ndGUuaW5mbyIsImp0aSI6IjBkMmIzYTU5LWYwOTctNGMwOS1hNmViLTc4N2ZkMmE5YWViZCIsImlhdCI6MTUyMTYxOTU2NywiZXhwIjoxNTUzMTU1NTY3fQ.n60qFsdqNhHlowPSW7vjlFv7a7pT7bkLk0e3RMgy8s-6yDFsDhoEycfJ2fINDXrgKNiRjNNGstUCUe7JMOjQig
 
+data=`grep "</body></html>" index.html` && sed '$c $data' index.ftl > index2.ftl
+rm -rf index.ftl && mv index2.ftl index.ftl
+"del": "rm -rf C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/static",
+"cp": "cp -rf ./dist/static/ C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources",
 
-
-
-// 信贷API列表
-const xd_api_list =  [
-    // 登录
-    'wechat_Login',
-    // 注册
-    'wechat_Register',
-    // 找回密码
-    'wechat_FindPwd',
-    // 快速申请
-    'wechat_FastApplyFor',
-    // 我的借款
-    'wechat_BorrowingRecord',
-    // 我的还款
-    'wechat_GetRepayingList',
-    // 短信发送
-    'wechat_SmsSend',
-    // 判断验证码是否正确
-    'wechat_CheckFindPwdCode',
-]
-
-// 汽车拍卖API列表
-const car_api_list = [
-    // 读取车辆拍卖信息
-    'selectAuctionsPage',
-    // 更新拍卖交易记录接口
-    'updateAuctions',
-    // 读取准入竞价用户信息
-    'selectBiddersPage',
-    // 读取拍卖最高价
-    'selectMaxOfferPriceByAuctionId',
-    // 拍卖记录查询
-    'selectAuctionReg',
-    // 拍卖报名
-    'auctionSign',
-]
 
 # wx_h5
 

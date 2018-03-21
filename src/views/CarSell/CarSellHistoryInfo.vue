@@ -10,7 +10,7 @@
 
 
             <div class="CarSellInfo__navbar">
-                <div class="CarSellInfo__navbarleft">{{ d.isAuctionSuccess ? '拍卖已完成' : '拍卖进行中'}}</div>
+                <div class="CarSellInfo__navbarleft">{{ d.isFinish ? '拍卖已完成' : '拍卖进行中'}}</div>
                 <div class="CarSellInfo__navbarright" v-if="d.isAuctionSuccess">成交价：¥{{ d.transPrice }}</div>
             </div>
 
@@ -181,7 +181,7 @@
             </div>
             
             <div class="btnblock">
-                <button class="btn btn--primary" @click="go">我 要 竞 买</button>
+                <button class="btn btn--primary" @click="go" v-if="!d.isFinish">我 要 竞 买</button>
             </div>
         </div>
     </div>
@@ -273,7 +273,7 @@ export default {
   },
   beforeMount () {
       if (!this.$store.state.CarInfoData.CarInfoData.priceID) {
-         return this.$router.push('/carsell')
+         return this.$router.push('/CarSellHistory')
       }
   }
 }

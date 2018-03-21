@@ -48,8 +48,9 @@ if (process.env.NODE_ENV === 'production') {
     }
 // 测试环境
 } else {
+    window.Authorization = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHAgand0IHRva2VuIiwiYXBwIjoiV1giLCJpc3MiOiJxaXV3ZW53dUBob25ndGUuaW5mbyIsImp0aSI6IjBkMmIzYTU5LWYwOTctNGMwOS1hNmViLTc4N2ZkMmE5YWViZCIsImlhdCI6MTUyMTYxOTU2NywiZXhwIjoxNTUzMTU1NTY3fQ.n60qFsdqNhHlowPSW7vjlFv7a7pT7bkLk0e3RMgy8s-6yDFsDhoEycfJ2fINDXrgKNiRjNNGstUCUe7JMOjQig`
     // 将写死的openid数据放入store中  13794942971  123456.a
-    store.dispatch('setAppData', {openId: 'oRsEC1j8tXY17plMksWb_wqFJZ_U'}).then(() => {
+    store.dispatch('setAppData', {openId: 'oRsEC1tgZQApdeTKAskfUvFY0UqY'}).then(() => {
         // vue初始化
         initial()
     })

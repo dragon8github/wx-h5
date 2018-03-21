@@ -131,7 +131,7 @@ var setTitle = title => {
     i.onload = function() {
         setTimeout(function(){
             i.remove();
-        }, 9)
+        }, 20)
     }
     document.title = title;
     document.body.appendChild(i);
@@ -167,10 +167,10 @@ router.beforeEach((to, from, next) => {
             return router.push('/login')
         })
     }
-    // 放行页面
-    next()
     // 设置标题
     setTitle(to.meta.title)
+    // 放行页面
+    next()
 })
 
 router.afterEach((to, from) => {

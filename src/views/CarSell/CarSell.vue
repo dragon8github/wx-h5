@@ -221,6 +221,8 @@ export default {
          this.resetWhere();
          // 【设置当前操作tag对象】
          this.where.type = curVal.substr(-1, 1)
+         // 骚操作
+         this.setTitle(['即将拍卖','拍卖进行','拍卖完成'][+(this.where.type) - 1])
 
          // 选项卡改变的时候，肯定需要进行fetch的，但如果原本的tag有值的话，那么就不需要更新了。先这样简单处理。
          // 这个页面，最好也加入active，就算更新出了问题，那也是以后的解决方案。

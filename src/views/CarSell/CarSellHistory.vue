@@ -26,7 +26,8 @@
                            :model="item.carModel"
                            :money="item.startPrice"
                            :endtime="item.etartPriceDate"
-                           :city="item.vcehicleTerritory">
+                           :city="item.vcehicleTerritory"
+                           :isFinish="getEnd(item.endBidTime)">
                      </item>
                   </div>
               </panel>
@@ -43,7 +44,8 @@
                             :model="item.carModel"
                             :money="item.startPrice"
                             :endtime="item.etartPriceDate"
-                            :city="item.vcehicleTerritory">
+                            :city="item.vcehicleTerritory"
+                            :isFinish="true">
                       </item>
                   </div>
               </panel>
@@ -114,6 +116,11 @@ export default {
       }
   },
   methods: {
+    getEnd (endBidTime) {
+      var nowtime = new Date().valueOf()
+      var endtime = new Date(endBidTime.replace(/\-/g, "/")).valueOf()
+      return nowtime > endtime ? true : false
+    },
     getData (success_cb, err_cb, isQuite = false) {
         this.carapi.selectAuctionReg(this.where, isQuite).then(data => {
            if (data.returnCode == 0) {
@@ -195,6 +202,8 @@ export default {
          this.resetWhere();
          // 【设置当前操作tag对象】
          this.where.type = curVal.substr(-1, 1)
+         // 骚操作
+         this.setTitle(['已报名','已竞买'][+(this.where.type) - 1])
 
          // 选项卡改变的时候，肯定需要进行fetch的，但如果原本的tag有值的话，那么就不需要更新了。先这样简单处理。
          // 这个页面，最好也加入active，就算更新出了问题，那也是以后的解决方案。

@@ -1,4 +1,19 @@
 
+
+// 解决微信、QQ、闪银等内置浏览器单页应用无法刷新title的问题
+var setTitle = title => {
+    var i = document.createElement('iframe');
+    i.src = 'https://www.baidu.com/favicon.ico';
+    i.style.display = 'none';
+    i.onload = function() {
+        setTimeout(function(){
+            i.remove();
+        }, 20)
+    }
+    document.title = title;
+    document.body.appendChild(i);
+}
+
 // 稍后放到公共类库去
 Date.prototype.format = function(fmt) {      
      var o = { 
@@ -35,5 +50,6 @@ const date2date = time => {
 
 
 export default {
-    date2date
+    date2date,
+    setTitle
 }

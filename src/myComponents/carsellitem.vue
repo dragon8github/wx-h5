@@ -59,6 +59,7 @@ export default {
   methods: {
     goInfo () {
         // 后端不肯给我加字段，所以只能自己加isFinish
+        console.log(this.isFinish)
         this.$store.dispatch('setCarInfoData', Object.assign(this.maindata, { isFinish: this.isFinish })).then(_ => {
             // 前期为了迅速，我把他们分开来了。后期再融合在一起吧
             if (this.$route.name.trim() === 'CarSellHistory') {

@@ -9,7 +9,7 @@
             </div>
 
             <div class="CarSellInfo__navbar">
-                 <div class="CarSellInfo__navbarleft">拍卖进行中</div>
+                 <div class="CarSellInfo__navbarleft">{{ d.isFinish ? '拍卖已完成' : '拍卖进行中' }} </div>
                  <div class="CarSellInfo__navbarright">{{ d.etartPriceDate }} 截止</div>
             </div>
 
@@ -104,7 +104,7 @@
 
                <div class="subject__item">
                    <div class="leftitem">
-                       <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ date2date(d.inspectionDate) }}</div>
+                       <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ d.inspectionDate }}</div>
                    </div>
                    <div class="rightitem">
                        <div class="rightitem__left">交易方式：</div> <div class="rightitem__right">{{ d.transactionMode }}</div>
@@ -177,7 +177,7 @@
             </div>
             
             <div class="btnblock">
-                <button class="btn btn--primary" @click="go" v-if="!this.d.isFinish">我 要 竞 买</button>
+                <button class="btn btn--primary" @click="go" v-if="!d.isFinish">我 要 竞 买</button>
             </div>
         </div>
     </div>
@@ -242,9 +242,9 @@ export default {
                     } else {
 
                       // 获取开始时间的时间戳
-                      var starttime = new Date(this.d.starBidTime).valueOf()
+                      var starttime = new Date(this.d.starBidTime.replace(/\-/g, "/")).valueOf()
                       var nowtime = new Date().valueOf()
-                      var endtime = new Date(this.d.endBidTime).valueOf()
+                      var endtime = new Date(this.d.endBidTime.replace(/\-/g, "/")).valueOf()
 
                       // 说明竞买未开始
                       if (nowtime < starttime) {

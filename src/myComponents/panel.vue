@@ -148,7 +148,6 @@ export default {
                 this.$nextTick(_ => { this.$refs.wrapper.scrollTop = this.$refs.wrapper.scrollHeight })
                 // 这个setTimeout 仅仅为了视觉体验
                 setTimeout(() => {
-                    console.log('bottom');
                     // 执行外部传递进来的_loadBottom函数，通常是异步加载数据，
                     this._loadBottom(() => {
                         // 传递一个cb回调函数回去。作用是结束loading图

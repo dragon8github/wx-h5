@@ -108,7 +108,7 @@ let router =  new Router({
         { path: '/CarSellHistoryInfo/:id?', name: ' CarSellHistoryInfo', meta: { title: '汽车详情' },          component: CarSellHistoryInfo },
         { path: '/CarSellApply',            name: ' CarSellApply',       meta: { title: '汽车拍卖报名' },      component: CarSellApply },
         { path: '/CarSellApplyStatus',      name: ' CarSellApplyStatus', meta: { title: '报名拍卖状态' },      component: CarSellApplyStatus },
-        { path: '/CarSellHistory',          name: ' CarSellHistory',     meta: { title: '汽车拍卖历史记录' },  component: CarSellHistory },
+        { path: '/CarSellHistory',          name: ' CarSellHistory',     meta: { title: '拍卖记录' },  component: CarSellHistory },
         { path: '/CarSellBuy',              name: ' CarSellBuy',         meta: { title: '报名竞买' },          component: CarSellBuy },
         { path: '/CarSellBuySuccess',       name: ' CarSellBuySuccess',  meta: { title: '提交结果' },          component: CarSellBuySuccess },
         { path: '/BankSelect',              name: ' BankSelect',         meta: { title: '选择银行' },          component: BankSelect },

@@ -553,7 +553,10 @@ export default {
 
 .btnblock {
     @include flex(center);
-    margin: pxToRem(80px) 0;
+    position: fixed;
+    width: 100%;
+    bottom: pxToRem(50px);
+
 
     .btn {
       margin: auto;
@@ -564,8 +567,6 @@ export default {
       line-height: pxToRem(76px);
       color: #fff;
       font-size: pxToRem(32px);
-      position: fixed;
-      bottom: pxToRem(50px);
       box-shadow: 0 0 pxToRem(10px) pxToRem(5px) rgba(128, 126, 126, 0.3);
       z-index: 999;
       border: 0;

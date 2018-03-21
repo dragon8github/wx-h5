@@ -30,7 +30,6 @@
             <spinner type="snake" class="page-loading-spinner"></spinner>
             加载中...
         </p>
-
         <!-- 当 _bottomDisabled 为true的时候，也就是没有更多数据需要加载的时候 -->
         <div class="allLoadDiv" v-if="_bottomDisabled">
             <div class="allLoadDiv__line"></div>
@@ -81,7 +80,7 @@ export default {
         },
         // 是否关闭上拉加载功能
         _bottomDisabled: {
-            type:Boolean,
+            type: Boolean,
             default:false
         },
         // 是否开启下拉刷新功能
@@ -109,7 +108,10 @@ export default {
         loadmore,
         spinner
     },
-    methods: {        
+    methods: {      
+        getLoading () {
+            return this.loading;
+        },
         handleTopChange (status) {
             this.topStatus = status;
         },
@@ -146,7 +148,6 @@ export default {
                 // 这个setTimeout 仅仅为了视觉体验
                 setTimeout(() => {
                     console.log('bottom');
-                    this.loading = false;  
                     // 执行外部传递进来的_loadBottom函数，通常是异步加载数据，
                     this._loadBottom(() => {
                         // 传递一个cb回调函数回去。作用是结束loading图

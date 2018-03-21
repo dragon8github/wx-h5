@@ -82,7 +82,7 @@ const throwError = (err) => {
         // 我们约定，有时候仅仅需要阻止js往下执行而使用throw new Error，而这里会被拦截，在message中使用noshow则不会Toast输出错误.
         // 不过依然会在控制台报错，只是方便调试而已，没什么
         if (err.message.indexOf('noshow') < 0) {
-            Toast('网络不稳定,请稍后重试' + err)
+            Toast('网络不稳定,请稍后重试')
         } 
     }
     // 弹出错误供调试
@@ -97,7 +97,7 @@ const throwError = (err) => {
  */
 const handleFetch = async(api, params, isQuiet = false) => {
     // 默认配置
-    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token, 'Authorization': `Bearer ${window.Authorization}` }}
+    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token, 'Authorization': window.Authorization || '' }}
 
     // 拼接默认配置，
     let option = Object.assign({}, params, header)

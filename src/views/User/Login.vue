@@ -120,7 +120,7 @@
     justify-content: space-around;
     font-size: pxToRem(28px);
     letter-spacing: 1px;
-    color: #bababa;
+    color: #0e6ae7;
     z-index: -1;
 }
 

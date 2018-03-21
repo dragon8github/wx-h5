@@ -2,7 +2,7 @@
  <div id="Register">
        <div class="form">
             <mt-field topLabel = '手机号'   :errTopLabel = 'user_errTopLabel'     type = "number"     placeholder = '请输入11位手机号码'  v-model = 'user'     :maxlength = '11'></mt-field>
-            <mt-field topLabel = '设置密码' :errTopLabel = 'pwd_errTopLabel'      type = "password"   placeholder = '请输入6位数字或字母' v-model = 'pwd'      :maxlength = '16'></mt-field> 
+            <mt-field topLabel = '设置密码' :errTopLabel = 'pwd_errTopLabel'      type = "password"   placeholder = '请输入6-16位数字+字母' v-model = 'pwd'      :maxlength = '16'></mt-field> 
             <mt-field topLabel = '验证码'   :errTopLabel = 'validate_errTopLabel' type = "number"     placeholder = '请输入6位验证码'     v-model = 'validate' :maxlength = '6' :clearText='false'>
                 <getvalidate slot="icon" @click="getCode"></getvalidate>
             </mt-field>
@@ -14,7 +14,7 @@
                 <i class="hideicon" :class="{ iconopen : hide_validate}"></i>
             </div>
             <div v-show="hide_validate" class="txlinput">
-                <mt-field type = "number" placeholder = '请输入11位手机号码'  v-model = 'invite' :maxlength = '11'  :clearText='false'>
+                <mt-field type = "number" placeholder = '请输入11位手机号码' v-model = 'invite' :maxlength = '11'  :clearText='false'>
                     <div slot="icon"> <i class="icontx"></i> </div>
                 </mt-field>
             </div>
@@ -46,6 +46,7 @@
             user_errTopLabel:'',
             pwd_errTopLabel:'',
             validate_errTopLabel:'',
+            invite_errTopLabel: '',
             hide_validate: false
         }
     },
@@ -67,10 +68,15 @@
                 this.pwd_errTopLabel = ''
             }
 
-            if (/[^A-Za-z0-9]/.test(this.validate)) {
-                return this.validate_errTopLabel = '6位数字或英文'
+            if (!/^[0-9]{6}$/.test(this.validate)) {
+                return this.validate_errTopLabel = '请输入6位数字'
             } else {
                 this.validate_errTopLabel = ''
+            }
+
+            // invite
+            if (this.invite.trim() != "" && !/^1\d{10}$/.test(this.invite.trim())) {
+                return Toast('邀请人手机号码格式错误');
             }
 
             // 邀请人手机号码验证
@@ -135,12 +141,6 @@
             this.hide_validate = !this.hide_validate
         }
     },
-    watch: {
-      validate (old, newval) {
-          console.log(newval);
-          this.validate = this.validate.replace(/\D/g, "");
-      }
-    },
     components: {
         mtField,
         getvalidate,
@@ -160,12 +160,13 @@
 
 #Register {
     background-color:#fff;
+    min-height: pxToRem(568px);
+    height: 100%;
 }
 
 .form {
-    padding: pxToRem(100px) pxToRem(30px) pxToRem(30px);
-    background: #fff;
-    width: 100%
+   margin: 1.33333rem 0.4rem 0.4rem;
+   background: #fff;
 }
 
 .bottom-text {

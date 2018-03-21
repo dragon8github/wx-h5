@@ -7,7 +7,7 @@
 
             <article class="status-text">
                 尊敬的 {{ d.userName }} 先生/女士，<br>
-                请在<span class='status-text-blue'> {{ date2date(d.etartPriceDate) }} </span>前将<span class='status-text-blue'> {{ d.bond }}元 </span>保证金打到如下账号，以获取竞拍资格。
+                请在<span class='status-text-blue'> {{ date2date(d.starBidTime) }} </span>前将<span class='status-text-blue'> {{ d.bond }}元 </span>保证金打到如下账号，以获取竞拍资格。
 
                 <div class="status-line"></div>
                 <div class="status-gray">转账请备注注册账号和竞买车辆。如竞拍失败，保证金将如数退还。</div>

@@ -170,7 +170,7 @@
 
                 // 如果是密码框，那么闭眼吧
                 if (this.type === 'password') {
-                    this.currentValue = ''
+                    // this.currentValue = ''
                     // 聚焦input
                     this.$refs.input.focus()
                 }

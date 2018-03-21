@@ -94,11 +94,11 @@ export default {
 }
 
 .CarSellHistoryItem__left {
-
+    height: 100%;
 }
 
 .CarSellHistoryItem__right {
-
+    height: 100%;
 }
 
 .CarSellHistoryItem__image {

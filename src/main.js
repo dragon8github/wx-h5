@@ -48,8 +48,8 @@ if (process.env.NODE_ENV === 'production') {
     }
 // 测试环境
 } else {
-    // 将核心数据放入store中
-    store.dispatch('setAppData', {openId: '1fbe6cfb-fd2d-4ed1-85cf-d57fdf9c9e68'}).then(() => {
+    // 将写死的openid数据放入store中  13794942971  123456.a
+    store.dispatch('setAppData', {openId: 'oRsEC1j8tXY17plMksWb_wqFJZ_U'}).then(() => {
         // vue初始化
         initial()
     })

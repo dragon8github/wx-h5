@@ -37,7 +37,7 @@
 
 
             <div class="warm__panel">
-                <div class="warm__text">请在<span class="warm__text--blue"> {{ d.paymentEndTime }} </span>前将<span class="warm__text--blue"> {{ d.bond }}元 </span>保证金打到如下账号，以获取竞拍资格，转账请备注注册账号和竞买车辆。如竞拍失败，保证金将如数退还。 </div>
+                <div class="warm__text">请在<span class="warm__text--blue"> {{ d.starBidTime }} </span>前将<span class="warm__text--blue"> {{ d.bond }}元 </span>保证金打到如下账号，以获取竞拍资格，转账请备注注册账号和竞买车辆。如竞拍失败，保证金将如数退还。 </div>
                 <div class="warm__line"></div>
                 <div class="warm__address"> 
                     单位名称： {{ d.account }}<br>

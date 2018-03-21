@@ -3,7 +3,7 @@
         <div class="buyneedknow">
                 <div class="buyneedknow__title buyneedknow--bold "> 竞买须知 </div>
                 <div>
-                    <p>我方将于 {{ d.starBidTime }} 至 {{ d.endBidTime }} 止（延时的除外）进行公开竞买活动，现就有关的竞买事宜敬告各位竞买人：</p>
+                    <p>我方将于  {{ d.startPriceDate }} 至 {{ d.etartPriceDate }} 止（延时的除外）进行公开竞买活动，现就有关的竞买事宜敬告各位竞买人：</p>
                     <p>一、凡具备完全民事行为能力的公民、法人和其他组织均可参加竞买。</p>
                     <p>不符合条件参加竞买的，竞买人自行承担相应的法律责任。</p>
                     <p>二、本次竞买活动设置延时出价功能，在竞买活动结束前，每最后5分钟如果有竞买人出价，就自动延迟5分钟。</p>

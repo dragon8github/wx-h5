@@ -227,11 +227,7 @@ export default {
          if (this.currTag.list.length == 0) {
              this.getData(_ => {
                 this.currTag.list = _.data
-
                 if (_.data.length === 0) this.currTag.isEmpty = true;
-
-                // TODO 故意叠加数据
-                this.currTag.list.push(..._.data)
              }, _ => {
                 Toast(_.msg)
              })

@@ -1,0 +1,17 @@
+# 项目H5资源路径
+PROJECT_PATH='C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/'
+# 本地H5资源路径
+H5_DIST_PATH='G:/新html/wx_h5/dist'
+
+
+# 任务一: 删除项目H5资源目录下static中所有的文件夹
+rm -rf `find ${PROJECT_PATH}/static/* -type d`
+
+# 任务二：复制本地H5资源路径下所有的文件夹到项目下static
+cp -rf `find ${H5_DIST_PATH}/* -type d` ${PROJECT_PATH}/static
+
+# 任务三: 获取H5资源路径下最后一行，其实这一行就是最新的资源了我只要把它拿出来即可
+data=`grep "</body></html>" ${H5_DIST_PATH}/index.html`
+
+# 任务四: 将获取到的内容，替换指定文本
+sed -i "\$c $data" ${PROJECT_PATH}/templates/index.ftl

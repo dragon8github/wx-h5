@@ -57,7 +57,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: '', // 李钊鸿修改了，为了配合后端fuck！！！ static
     assetsPublicPath: '/',
 
     /**

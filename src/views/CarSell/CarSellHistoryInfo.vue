@@ -52,9 +52,9 @@
                     <div class="carRule__rowsleft">咨询方式：</div> <div class="carRule__rowsright">{{ d.contacts }} {{ d.telephone }}</div>
                 </div>
             </div>
-            
-            <cell title="竞买公告"  is-link :clickHandle="goCarSellNotice"></cell>
-            <cell title="竞买须知"  is-link :clickHandle="goCarSellNeedKnow"></cell>
+              
+            <cell title="《 竞买公告 》"  is-link :clickHandle="goCarSellNotice" :style="{fontWeight: 'bold'}"></cell>
+            <cell title="《 竞买须知 》"  is-link :clickHandle="goCarSellNeedKnow" :style="{fontWeight: 'bold'}"></cell>
 
             <div class="subject">
                 <div class="subject__title">标的物介绍</div>

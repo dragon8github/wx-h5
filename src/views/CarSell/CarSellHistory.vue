@@ -9,7 +9,7 @@
         <div class="search">
             <div class="search__left">
                 <i class="search__icon"></i>
-                <input type="text" class="search__input" placeholder="请输入品牌/型号" v-model="search" />
+                <input type="text" class="search__input" placeholder="请输入品牌/型号" v-model="search"  @keyup.enter="searchFn"/>
             </div>
             <div class="search__right" @click="searchFn"> 搜索 </div>
         </div>

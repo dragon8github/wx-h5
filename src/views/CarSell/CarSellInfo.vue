@@ -51,8 +51,21 @@
                 </div>
             </div>
             
-            <cell title="《 竞买公告 》"  is-link :clickHandle="goCarSellNotice" :style="{fontWeight: 'bold'}"></cell>
-            <cell title="《 竞买须知 》"  is-link :clickHandle="goCarSellNeedKnow" :style="{fontWeight: 'bold'}"></cell>
+
+            <div class="protocol">
+                <div class="protocol__item" @click="goCarSellNotice">
+                    <div class="protocol__item--image"><img src="~@assets/ad.png" /></div>
+                    <div class="protocol__item--text">竞买公告</div>
+                </div>
+                <div class="protocol__line"></div>
+                <div class="protocol__item" @click="goCarSellNeedKnow">
+                    <div class="protocol__item--image"><img src="~@assets/need.png" /></div>
+                    <div class="protocol__item--text">竞买须知</div>
+                </div>
+            </div>
+
+          <!--   <cell title="《 竞买公告 》"  is-link :clickHandle="goCarSellNotice" :style="{fontWeight: 'bold'}"></cell>
+            <cell title="《 竞买须知 》"  is-link :clickHandle="goCarSellNeedKnow" :style="{fontWeight: 'bold'}"></cell> -->
 
             <div class="subject">
                 <div class="subject__title">标的物介绍</div>
@@ -104,7 +117,7 @@
 
                <div class="subject__item">
                    <div class="leftitem">
-                       <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ date2date(d.inspectionDate, 'yyyy/MM') }}</div>
+                       <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ d.inspectionDate.replace(/\-/g, "/") }}</div>
                    </div>
                    <div class="rightitem">
                        <div class="rightitem__left">交易方式：</div> <div class="rightitem__right">{{ d.transactionMode }}</div>
@@ -585,5 +598,33 @@ export default {
 
 .mt38 {
     margin-top: pxToRem(38px);
+}
+
+.protocol {
+  @include flex(a, c);
+  height: pxToRem(178px);
+  background: #fff;
+  margin: pxToRem(10px) auto;
+
+  .protocol__item {
+      text-align: center;
+      width: pxToRem(375px);
+  }
+
+  .protocol__line {
+    @include line(140px, #e5e5e5, c);
+  }
+
+  .protocol__item--image {
+      text-align: center;
+
+      img {
+        @include size(76px, 76px);
+      }
+  }
+
+  .protocol__item--text {
+      font-size: pxToRem(32px);
+  }
 }
 </style>

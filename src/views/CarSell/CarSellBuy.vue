@@ -78,9 +78,9 @@ export default {
               priceID: this.d.priceID
           }, true).then(_=>{
               if (_.returnCode == 0) {
-                  if (this.TopAmount != _.data.offerAmount) {
+                  if (this.max_money != _.data.offerAmount) {
                     Toast(`当前最高出价已更新为：￥ ${_.data.offerAmount}` )
-                    this.TopAmount = _.data.offerAmount
+                    this.max_money = _.data.offerAmount
                   }
               }
           })

@@ -174,7 +174,7 @@ export default {
         this.getData(_ => {
             // 如果请求数据为空，那就禁止【上拉加载更多】，展示【没有更多数据啦~】
             if (_.data.length === 0) this.currTag.bottomDisabled = true;
-            this.currTag.list.push(..._.data)
+            this.currTag.list.push(...(_.data))
             cb && cb()
         }, _ => {
             // 这个还不太好弄，如果说你处于下拉状态，只是关闭还没有用。因为还是会不断的触发下拉。这是一个bug。需要改正。
@@ -195,6 +195,7 @@ export default {
             this.currTag.list = _.data
             if (!this.currTag.list.length) {
               this.currTag.isEmpty = true
+              this.currTag.bottomDisabled = false;
             }
         }, _ => {
             Toast(_.msg);
@@ -229,7 +230,10 @@ export default {
          if (this.currTag.list.length == 0) {
              this.getData(_ => {
                 this.currTag.list = _.data
-                if (_.data.length === 0) this.currTag.isEmpty = true;
+                if (_.data.length === 0) { 
+                  this.currTag.isEmpty = true;
+                  this.currTag.bottomDisabled = false;
+                }
              }, _ => {
                 Toast(_.msg)
              })
@@ -245,7 +249,14 @@ export default {
        })
   },
   activated () {
-
+    console.log('activated')
+    if (this.currTag.list.length === 0) {
+      this.getData(_ => {
+          this.currTag.list = _.data
+       }, _ => {
+          Toast(_.msg)
+       })
+    }
   }
 }
 </script>

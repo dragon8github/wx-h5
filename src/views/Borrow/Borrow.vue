@@ -42,38 +42,7 @@
         name: 'Borrow',
         data () {
             return {
-                myData: [{
-                      "BusinessId": "TDF8192017092202",
-                      "IsDeffer": false,
-                      "OrgBusinessId": "TDF8192017092202",
-                      "DefferBusinessId": null,
-                      "ProtoTypeId": null,
-                      "BusinessType": "一点房贷",
-                      "Schedule": 1,
-                      "ApplyDate": "2017-09-22 00:00:00",
-                      "BorrowMoney": 123456,
-                      "BorrowLimit": 1,
-                      "RepaymentType": "先息后本",
-                      "StoreName": "隆宝和公司",
-                      "BusinessTypeId": "房速贷标准件",
-                      "IsOld": null
-                  },
-                  {
-                      "BusinessId": "TDC10120140103425B",
-                      "IsDeffer": false,
-                      "OrgBusinessId": "TDC10120140103425B",
-                      "DefferBusinessId": null,
-                      "ProtoTypeId": null,
-                      "BusinessType": "一点房贷",
-                      "Schedule": 4,
-                      "ApplyDate": "2014-01-03 00:00:00",
-                      "BorrowMoney": 740000,
-                      "BorrowLimit": 12,
-                      "RepaymentType": "分期还本付息",
-                      "StoreName": "东莞总部",
-                      "BusinessTypeId": "房速贷非标准件",
-                      "IsOld": true
-                  }],
+                myData: [],
                 // 数据源是否为空
                 isEmpty: false,
                 // 是否接口已经不能提供更多的数据了
@@ -93,9 +62,8 @@
                       pageSize: '10'   // 数量
                 }).then(data=>{
                     if (data.returnCode == 0) {
-                        console.log(data);
+                        cb && cb(data.data)
                     } else {
-                        console.log(data);
                         Toast(data.msg);
                     }
                 })
@@ -154,7 +122,9 @@
             panel
         },
         beforeMount () {
-             this.getData()
+             this.getData(_ => {
+
+             })
         }
   }
 </script>

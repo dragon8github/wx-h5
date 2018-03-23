@@ -128,8 +128,6 @@ export default {
               if (data.data.length > 0) {
                 this.currTag.bottomDisabled = false;
                 this.currTag.isEmpty = false;
-              } else {
-                this.currTag.isEmpty = true;
               }
               success_cb && success_cb(data)
            } else {
@@ -140,6 +138,7 @@ export default {
     loadTop (cb) {
         // 据我所知，下拉刷新需要重置一下搜索条件。
         this.resetWhere()
+        this.search = '';
         this.getData(_ => {
             this.currTag.list = _.data
             cb && cb()
@@ -158,7 +157,7 @@ export default {
         this.where.page++;
         this.getData(_ => {
             // 如果请求数据为空，那就禁止【上拉加载更多】，展示【没有更多数据啦~】
-            if (_.data.length === 0) tag.bottomDisabled = true;
+            if (_.data.length === 0) this.currTag.bottomDisabled = true;
             this.currTag.list.push(..._.data)
             cb && cb()
         }, _ => {
@@ -177,6 +176,7 @@ export default {
             this.currTag.list = _.data
             if (!this.currTag.list.length) {
               this.currTag.isEmpty = true
+              this.currTag.bottomDisabled = false
             }
         }, _ => {
             Toast(_.msg);
@@ -185,12 +185,13 @@ export default {
     },
     resetWhere () {
         this.where = {
-            type: '1',                           // 1.已报名，2已竞买
-            telephone: this.$store.state.phone,  // 手机号码
-            page: 1,                             // 分页索引，从1开始
-            limit: 15,                           // 每次获取的条数
+              // 保持type哦~
+              type: this.where.type,  // [1.即将拍卖，2进行中，3.拍卖完成]
+              page: 1,                // 分页索引，从1开始
+              limit: 15,              // 每次获取的条数
+              vehicleBrand: '',       // 车辆品牌
+              carModel: '',           // 车辆型号
         }
-        this.search = '';
     }
   },
   watch: {
@@ -210,6 +211,10 @@ export default {
          if (this.currTag.list.length == 0) {
              this.getData(_ => {
                 this.currTag.list = _.data
+                if (_.data.length === 0) { 
+                  this.currTag.isEmpty = true;
+                  this.currTag.bottomDisabled = false;
+                }
              }, _ => {
                 Toast(_.msg)
              })
@@ -224,7 +229,13 @@ export default {
        })
   },
   activated () {
-
+    if (this.currTag.list.length === 0) {
+      this.getData(_ => {
+          this.currTag.list = _.data
+       }, _ => {
+          Toast(_.msg)
+       })
+    }
   }
 }
 </script>

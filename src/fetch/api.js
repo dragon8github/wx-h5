@@ -3,43 +3,9 @@ import ajax from './handleFetch.js'
 
 // 信贷API主体
 let xdapi = {}
-// 信贷API列表
-const xd_api_list =  [
-    // 登录
-    'login',
-    // 注册
-    'register',
-    // 找回密码
-    'findPwd',
-    // 快速申请
-    'fastApplyFor',
-    // 我的借款
-    'borrowingRecord',
-    // 我的还款
-    'getRepayingList',
-    // 短信发送
-    'smsSend',
-    // 判断验证码是否正确
-    'checkFindPwdCode',
-]
 
 // 汽车拍卖主体
 let carapi = {}
-// 汽车拍卖API列表
-const car_api_list = [
-    // 读取车辆拍卖信息
-    'selectAuctionsPage',
-    // 更新拍卖交易记录接口
-    'updateAuctions',
-    // 读取准入竞价用户信息
-    'selectBiddersPage',
-    // 读取拍卖最高价
-    'selectMaxOfferPriceByAuctionId',
-    // 拍卖记录查询
-    'selectAuctionReg',
-    // 拍卖报名
-    'auctionSign',
-]
 
 // Proxy ：这样我访问xdapi.fuck('shift')的时候，fuck就会作为key传过来，而shift就会作为data传过来。
 if (typeof(Proxy) == 'function') {
@@ -56,12 +22,47 @@ if (typeof(Proxy) == 'function') {
 
 // 兼容不支持Proxy的情况，直接将所有API塞入数组中
 } else {
-    for (let [index,ele] of xd_api_list.entries()) {
+    // 信贷API
+    for (let [index,ele] of [
+        // 登录
+        'login',
+        // 注册
+        'register',
+        // 找回密码
+        'findPwd',
+        // 快速申请
+        'fastApplyFor',
+        // 我的借款
+        'borrowingRecord',
+        // 业务取消
+        'businessCancel',
+        // 我的还款
+        'getRepayingList',
+        // 短信发送
+        'smsSend',
+        // 判断验证码是否正确
+        'checkFindPwdCode',
+    ].entries()) {
         xdapi[ele] = (data, isQuiet = false) => { 
           return post('xindai/' + ele, data, isQuiet)
       }
     }
-    for (let [index,ele] of car_api_list.entries()) {
+
+    // 汽车拍卖
+    for (let [index,ele] of [
+        // 读取车辆拍卖信息
+        'selectAuctionsPage',
+        // 更新拍卖交易记录接口
+        'updateAuctions',
+        // 读取准入竞价用户信息
+        'selectBiddersPage',
+        // 读取拍卖最高价
+        'selectMaxOfferPriceByAuctionId',
+        // 拍卖记录查询
+        'selectAuctionReg',
+        // 拍卖报名
+        'auctionSign',
+    ].entries()) {
         xdapi[ele] = (data, isQuiet = false) => { 
           return post('carAction/' + ele, data, isQuiet)
       }

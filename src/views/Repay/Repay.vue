@@ -1,26 +1,45 @@
 <template>
 <div>
-   <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :_bottomDisabled="bottomDisabled">
+   <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :Bottom="false">
        <div id="Repay" slot="body">
-           <div class="Repay-Item" v-for="(item, index) in mockData" @click="go(item.BusinessId)">
-                <i class="right-icon" :class="type2icon(item.type)"></i>
-                <div class="Repay-Item-Warp">
-                    <p class="bunsinessId">业务编号：{{ item.BusinessId }}</p>
-                    <div class="Repay-Item-Warp-Center">
-                            <p class="shouldrepay">{{ status2shouldrepay(item.status) }}</p>
-                            <p class="money" :class="status2Color(item.status)">{{ moneystatus2text(item.money, item.status) }}</p>
-                            <p class="timer">{{ status2time(item.type, item.status, item.time) }}</p>
-                            <p class="line"  v-if="item.order == null"></p>
-                            <p class="info"  v-if="item.status != 'plan'"  @click.stop="goHistory(item.BusinessId)"><a>{{ status2gotext(item.status) }}</a></p>
+            
+           <div class="Repay-Item" v-for="(item, index) in myData" @click="go(item.BusinessId)">
+                
+                <!-- 右上角的图标 -->
+                <i class="right-icon" :class="type2icon(item)"></i>
 
-                            <div class="manyorder" v-for="(item2, index2) in item.order">
+                <div class="Repay-Item-Warp">
+                    <!-- 业务编号 -->
+                    <p class="bunsinessId">业务编号：{{ item.BusinessId }}</p>
+
+                    <div class="Repay-Item-Warp-Center">
+                            
+                            <!-- 本期应还，如果是【已展期】【本期已还清】【已结清】的情况就不需要显示本文本 -->
+                            <p class="shouldrepay" v-if="getStatus(item.Tip, item.Plans) != '本期已还清'">本期应还</p>
+
+                            <!-- 金额，还款计划的累积 -->
+                            <p class="money" :class="status2Color(item.IsOver)">{{ moneystatus2text(item) }}</p>
+
+                            <!-- 还款日期，根据不同的情况显示不同的文本 -->
+                            <p class="timer">{{ status2time(item) }}</p>
+
+                            <!-- 低调的分割线 -->
+                            <p class="line"></p>
+
+                            <!-- 历史账单 / 请按以下日期还款 -->
+                            <p class="info"  v-if="item.status != 'plan'" @click.stop="goHistory(item.BusinessId)">
+                                <a>{{ status2gotext(item) }}</a>
+                            </p>
+
+                            <!-- 还款计划 -->
+                            <div class="manyorder" v-for="(item2, index2) in item.order" v-if="item.plans.length > 1">
                                 <div class="manyorder-row">
                                     <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
                                     <div class="manyorder-money" :class="{red: item2.status == 'over'}">{{ ordermoneystatus2ordermoneytext(item2.money, item2.status) }}</div>
                                 </div>
                                 <div class="manyorder-row">
-                                    <div class="manyorder-timer">请在{{ item2.time }}前还款</div>
-                                    <div class="manyorder-info" @click.stop="goHistory(item.BusinessId)">{{ status2gotext(item2.status) }}</div>
+                                    <div class="manyorder-timer">请在{{ item2.Date }}前还款</div>
+                                    <div class="manyorder-info" @click.stop="goHistory(item.BusinessId, item.AfterId)">{{ status2gotext(item2) }}</div>
                                 </div>
                             </div>
                     </div>
@@ -32,6 +51,12 @@
 </template>
 
 <script>
+/*
+考虑把item分为多种：
+1、普通类型
+2、已展期、本期已还清、已结清类型
+3、多个还款计划类型
+ */
   import mtField from '@components/field/field.vue'
   import Toast   from '@components/toast/index.js'
   import Loader  from '@components/loader/index.js'
@@ -41,56 +66,47 @@
         name: 'Repay',
         data () {
             return {
-                mockData: [
-                    // 车易贷
-                    {BusinessId: 'CYD20170912001', money: '1745.40',  type: 'car',             status: 'normal', time: '2017/06/28'},
-                    // 车易贷展期  
-                    {BusinessId: 'CYD20170912345', money: '1745.40',  type: 'carsinglezhanqi', status: 'normal', time: '2017/06/28'}, 
-                    // 车易贷展期（逾期）  
-                    {BusinessId: 'CYD20170912315', money: '1745.40',  type: 'carsinglezhanqi', status: 'over',   time: '2017/06/28'},
-                    // 房速贷已展期  
-                    {BusinessId: 'CYD20170912345', money: '',         type: 'house',           status: 'alreadyzhanqi'},
-                    // 房速贷（本期已还清）        
-                    {BusinessId: 'CYD20170912578', money: '',         type: 'house',           status: 'termfinish'},
-                    // 房速贷（已结清）      
-                    {BusinessId: 'CYD20170912315', money: '',         type: 'house',           status: 'allfinish'},
-                    // 车易贷（还款计划）        
-                    {BusinessId: 'CYD20170912345', money: '2745.40',  type: 'houseplan',       status: 'plan',   order: [{BusinessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'normal'}, {BusinessId: 'CYD20170122345', time: '2017/07/28', money: '1000', status: 'normal'} ]},
-                    // 房速贷展期（还款计划）      
-                    {BusinessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{BusinessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'finish'}, {BusinessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]},
-                    // 房速贷展期（还款计划）（已逾期）      
-                    {BusinessId: 'CYD20170912345', money: '2745.40',  type: 'housezhanqi',     status: 'zhanqi', order: [{BusinessId: 'CYD20170122345', time: '2017/06/28', money: '1745', status: 'over'},   {BusinessId: 'CYD20173222345', time: '2017/07/28', money: '1000', status: 'over'} ]}
-                ],
-                myData: [{
-                    "BusinessId": "TDC10120140103425B",
-                    "OrgBusinessId": "TDC10120140103425B",
-                    "BusinessType": "房速贷非标准件",
-                    "HasDeffer": false,
-                    "IsOver": false,
-                    "Tip": null,
-                    "Plans": [{
-                        "No": "03",
-                        "AfterId": "1-03",
-                        "Date": "2014-09-02 00:00:00",
-                        "TotalAmount": 975990,
-                        "Status": "逾期",
-                        "HasDeffer": false,
-                        "IsOver": false
-                    }]
-                }],
-                // 数据源是否为空
-                isEmpty: false,
-                // 是否接口已经不能提供更多的数据了
-                bottomDisabled: true,
+                myData: [],
+                isEmpty: false
             }
         },
         methods: {
-            getTip (IsOver, HasDeffer) {
-                if (data.IsOver) {
-                    return data.HasDeffer ? "已展期" : "已结清";
-                }
-                return null;
+            loadTop (cb) {
+                this.getData(_=>{
+                  this.myData = _.data
+                  cb && cb()
+                }, true)
             },
+            getData (cb, isQuietness = false) {
+                this.xdapi.getRepayingList({
+                      pageIndex: '1',  // 页数
+                      pageSize: '10'   // 数量
+                }, isQuietness).then(data => {
+                    if (data.returnCode == 0) {
+                        if (typeof data.data === 'string') {
+                            try {
+                              data.data = JSON.parse(data.data)
+                            } catch (e) { 
+                              // ... 
+                            }
+                        }
+                        cb && cb(data)
+                    } else {
+                        Toast(data.msg);
+                    }
+                })
+            },
+
+            // 根据状态返回文字颜色
+            status2Color (status) {
+                if (status) {
+                    return 'red'
+                } else {
+                    return 'blue'
+                }
+            },
+
+            // 获取金额
             getAllMoney (plans) {
                 var money = 0;
                 for (var i = plans.length - 1; i >= 0; i--) {
@@ -98,53 +114,62 @@
                 }
                 return money;
             },
-            loadTop (cb) {
-                window.setTimeout(cb, 1000);
-            },
-            getData (cb) {
-                this.xdapi.getRepayingList({
-                      pageIndex: '1',  // 页数
-                      pageSize: '10'   // 数量
-                }).then(data => {
-                    console.log(data);
-                    if (data.returnCode == 0) {
-                    } else {
-                        Toast(data.msg);
+
+            // 获取订单状态
+            getStatus (item) {
+                if (!item.Tip) {
+                    var text = ''
+                    for (var i = item.Plans.length - 1; i >= 0; i--) {
+                        if (item.Plans[i].Status === "已还款") {
+                            return text = '本期已结清'
+                        }
                     }
-                })
+                    return text;
+                } else {
+                    // 已结清 / 已展期
+                    return item.Tip; 
+                }
             },
+
+            // 如果是已展期、展期订单、已结清的情况下，返回的文本是历史账单，否则返回查看账单
+            status2gotext (item) {
+                if (item.BusinessId != item.OrgBusinessId || // 展期订单
+                    item.Tip === '已结清' // 已结清
+                   ) {
+                    return '历史账单' : '查看账单'
+                }
+            },
+
             // 根据业务类型返回右上角的图标
-            type2icon (type) {
-                switch (type) {
-                    // 普通业务
-                    case 'car':   return 'car'
-                    case 'house': return 'house'
-
-                    // 还款计划
-                    case 'carplan':   return 'car'
-                    case 'houseplan': return 'house'
-
-                    // 单展期
-                    case 'carsinglezhanqi':   return 'carzhanqi'
-                    case 'housesinglezhanqi': return 'housezhanqi'
-
-                    // 展期
-                    case 'carzhanqi':   return 'carzhanqi'
-                    case 'housezhanqi': return 'housezhanqi'
-                }
+            type2icon (item) {
+                var type = item.BusinessType.indexOf('车') ? 'car' : 'house'
+                var HasDeffer = item.OrgBusinessId === item.BusinessId ? true : false
+                if (type === 'car' && HasDeffer)    return 'carzhanqi'
+                if (type === 'car' && !HasDeffer)   return 'car'
+                if (type === 'house' && HasDeffer)  return 'housezhanqi'
+                if (type === 'house' && !HasDeffer) return 'house'
             },
+
             // 根据状态返回显示的文本
-            moneystatus2text (money, status) {
-                switch (status) {
-                    case 'termfinish':    return '本期已还清'
-                    case 'allfinish':     return '已结清'
-                    case 'alreadyzhanqi': return '已展期'
-                    default:              return '￥' + money
+            moneystatus2text (item) {
+                // 获取还款
+                var status = this.getStatus(item);
+                // 如果返回空，说明不属于 【本期已还清】 【已结清】 【已展期】
+                if (!status) {
+                    return '￥' + this.getAllMoney(item.plans)
                 }
+                return status
             },
+
             // 根据状态返回时间文本
-            status2time (type, status, time) {
-                // 以下业务类型【普通业务 + 单展期 + 还款计划】，需要返回值
+            status2time (item) {
+
+                var status = this.getStatus()
+
+                if (!status)
+
+
+                // 以下业务类型【还款计划】，需要返回值
                 if (['car', 'house', 'carplan', 'houseplan', 'carsinglezhanqi', 'housesinglezhanqi'].indexOf(type) >= 0) {
                     // 根据状态来返回结果
                     switch (status) {
@@ -156,45 +181,33 @@
                 }
                 return ''
             },
-            // 根据状态返回文字颜色
-            status2Color (status) {
-                switch (status) {
-                    case 'normal': return 'blue'
-                    case 'plan':   return 'blue'
-                    case 'over':   return 'red'
-                    default:       return ''
-                }
-            },
-            // 根据状态返回是否应还
-            status2shouldrepay (status) {
-                return ['本期已还清', '已结清', '已展期'].indexOf(status) >= 0 ? '' : '本期应还'
-            },
-            // 如果是已展期、展期订单、已结清的情况下，返回的文本是历史账单，否则返回查看账单
-            status2gotext (status) {
-                return ['alreadyzhanqi', 'allfinish', 'zhanqi'].indexOf(status) >= 0 ?  '历史账单' : '查看账单'
-            },
             // 根据状态来返回文本
             ordermoneystatus2ordermoneytext (money, status) {
                 switch (status) {
                     case 'normal': return '￥' + money
                     case 'over':   return '已逾期'
                     case 'finish': return '本期已还清'
-                    default:       return '￥' + money
                 }
             },
             // 查看详情
             go (BusinessId) {
-                this.$router.push('RepayInfo')
+                this.$router.push(`RepayInfo/${BusinessId}`)
             },
+            // 查看账单 / 查看历史
             goHistory (BusinessId) {
-                this.$router.push('RepayHistory')
+                this.$router.push(`RepayHistory/${BusinessId}/${afterid}`)
             },
         },
         components: {
             panel
         },
+        computed: {
+        },
         beforeMount () {
-            this.getData();
+             this.getData(_ => {
+                console.log(_.data);
+                this.myData = _.data
+             })
         },
         activated () {
           

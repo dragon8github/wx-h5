@@ -81,7 +81,7 @@
         },
         computed: {
             process2name () {
-              switch (this.d.Schedule.toString()) {
+              switch (this.d.Schedule + '') {
                   case '-2': return '已拒绝'
                   case '-1': return '已取消'
                   case '0':  return '待审批'
@@ -116,7 +116,6 @@
           cell
         },
         beforeMount () {
-            debugger;
             if (!this.d.BorrowMoney) {
               this.$router.push('/borrow');
               Toast('未找到订单信息，请重试');

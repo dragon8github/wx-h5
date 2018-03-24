@@ -52,13 +52,16 @@
         },
         methods: {
             loadTop (cb) {
-                window.setTimeout(cb, 1000);
+                this.getData(_=>{
+                  this.myData = _.data
+                  cb && cb()
+                }, true)
             },
-            getData (cb) {
+            getData (cb, isQuietness = false) {
                 this.xdapi.borrowingRecord({
                       pageIndex: '1',  // 页数
                       pageSize: '10'   // 数量
-                }).then(data=>{
+                }, isQuietness).then(data=>{
                     if (data.returnCode == 0) {
                         if (typeof data.data === 'string') {
                             try {
@@ -74,7 +77,7 @@
                 })
             },
             process2name (process) {
-              switch (process) {
+              switch (process + '') {
                   case '-2': return '已拒绝'
                   case '-1': return '已取消'
                   case '0':  return '待审批'
@@ -122,9 +125,19 @@
                     this.$router.push('BorrowProgress')
                 })
             },
-            gocancel (businessId, index) {
+            gocancel (businessNo, index) {
                 msg.confirm("你确定要取消订单吗？", "操作提示").then(()=>{
-                      // this.myData[index].status = 'cancel'
+                      this.xdapi.businessCancel({
+                          businessNo: businessNo
+                      }).then(_=>{
+                        console.log(_)
+                        if (data.returnCode == 0) {
+                            this.myData[index].Schedule = '-1'
+                        } else {
+                            Toast(data.msg || "取消失败，请稍后重试");
+                        }
+
+                      })
                 }).catch(() => {
 
                 });
@@ -136,7 +149,6 @@
         beforeMount () {
              this.getData(_ => {
                 this.myData = _.data
-                console.log(this.myData) 
              })
         }
   }

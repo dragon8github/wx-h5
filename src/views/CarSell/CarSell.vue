@@ -20,9 +20,9 @@
 
         <tabcontainer  v-model="selected" swipeable>
             <tabcontaineritem  id="tab-container1" >
-              <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_bottomDisabled = "tag['1']['bottomDisabled']">
+              <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_bottomDisabled = "tag['1']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
                   <div slot="body">
-                     <item v-for="(item,index) in tag['1']['list']" :key="index"                           
+                     <item v-for="(item,index) in tag['1']['list']" :key="index"    
                            :id="item.businessId"
                            :maindata="item"
                            :image="item.docs && item.docs[0] && item.docs[0].docUrl"
@@ -37,7 +37,7 @@
             </tabcontaineritem>
 
             <tabcontaineritem id="tab-container2">
-              <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_bottomDisabled = "tag['2']['bottomDisabled']">
+              <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_bottomDisabled = "tag['2']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
                   <div slot="body">
                       <item v-for="(item,index) in tag['2']['list']" :key="index"                            
                             :id="item.businessId"
@@ -54,7 +54,7 @@
             </tabcontaineritem>
 
             <tabcontaineritem id="tab-container3">
-              <panel ref="pannel3" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_bottomDisabled = "tag['3']['bottomDisabled']">
+              <panel ref="pannel3" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_bottomDisabled = "tag['3']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
                   <div slot="body">
                       <item v-for="(item,index) in tag['3']['list']" :key="index"                            
                             :id="item.businessId"

@@ -12,31 +12,31 @@
                     <i class="myicon three" :class="{active: activeStep >= 2}" slot="icon"></i>
                 </el-step>
                 <el-step title="放款">
-                    <i class="myicon four" :class="{active: activeStep >= 3}" slot="icon"></i>
+                    <i class="myicon four"  :class="{active: activeStep >= 3}" slot="icon"></i>
                 </el-step>
             </el-steps>
       </div>
 
       <div class="info">
           <div class="info-item">
-              <div class="info-item-head">100000元</div>
+              <div class="info-item-head">{{ money2money(d.BorrowMoney) }}</div>
               <div class="info-item-body">借款金额</div>
           </div>
           <div class="info-item">
-              <div class="info-item-head">12个月</div>
+              <div class="info-item-head">{{ limit2limit(d.BorrowLimit) }}</div>
               <div class="info-item-body">借款期限</div>
           </div>
           <div class="info-item">
-              <div class="info-item-head">等额本息</div>
+              <div class="info-item-head">{{ pattern2pattern(d.RepaymentType) }}</div>
               <div class="info-item-body">还款方式</div>
           </div>
       </div>
 
       <div>
 
-          <cell title="评估预约时间："  :value="time"></cell>  
-          <cell title="所在门店："      :value="shop"></cell>  
-          <cell title="订单状态："      :value="status"></cell>  
+          <cell title="申请时间：" :value="date2date(d.ApplyDate)"></cell>  
+          <cell title="所在门店：" :value="d.StoreName"></cell>  
+          <cell title="订单状态：" :value="process2name"></cell>  
 
       </div>
  </div>
@@ -53,22 +53,74 @@
         name: 'BorrowProgress',
         data () {
             return {
-              time: '2017-06-16',
-              shop: '东莞塘厦营业部',
-              status: '审核中',
-              activeStep: 1
+                d: this.$store.state.BorrowInfo.BorrowInfoData
             }
         },
         watch: {
             
         },
         methods: {
-            
+            money2money (money) {
+                if (money) {
+                    return money + '元'
+                }
+                return '--'
+            },
+            limit2limit (limit) {
+                if (limit) {
+                    return limit + '个月'
+                }
+                return '--'
+            },
+            pattern2pattern (pattern) {
+                if (pattern) {
+                  return pattern
+                }
+                return '--'
+            },
+        },
+        computed: {
+            process2name () {
+              switch (this.d.Schedule.toString()) {
+                  case '-2': return '已拒绝'
+                  case '-1': return '已取消'
+                  case '0':  return '待审批'
+                  case '1':  return '审核中'  // （申请借款）
+                  case '2':  return '审核中'  // （车辆评估/房产核价）
+                  case '3':  return '审核中 ' // （手续办理）
+                  case '4':  return '已出款 ' // （放款）
+                  case '5':  return '已完成 ' // （放款）
+                  default:   return ''
+              }
+            },
+            activeStep () {
+                var type = this.d.Schedule;
+                // 申请借款
+                if (type == 0 || type == 1) {
+                    return 0
+                // 车辆评估/房产核价
+                } else if (type == 2) {
+                    return 1
+                // 手续办理
+                } else if (type == 3) {
+                    return 2
+                // 放款
+                } else  if (type == 4 || type == 5) {
+                    return 3
+                }
+            }
         },
         components: {
           elSteps: Steps, 
           elStep: Step,
           cell
+        },
+        beforeMount () {
+            debugger;
+            if (!this.d.BorrowMoney) {
+              this.$router.push('/borrow');
+              Toast('未找到订单信息，请重试');
+            }
         }
   }
 </script>

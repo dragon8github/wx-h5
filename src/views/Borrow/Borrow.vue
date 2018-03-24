@@ -1,8 +1,8 @@
 <template>
 <div>
-    <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :_bottomDisabled="bottomDisabled">
+    <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :Bottom="false">
         <div id="Borrow" slot="body">
-            <div class="Borrow-Item" v-for="(item, index) in myData">
+            <div class="Borrow-Item" v-for="(item, index) in myData" @click="go(item)">
                 <div class="Borrow-Item-head">
                     <div class="Borrow-icon" :class="item.BusinessType === '一点车贷' ? 'car' : 'house' "></div>
                     <div class="Borrow-right">
@@ -10,7 +10,7 @@
                         <div class="Borrow-info">
                             <span class="Borrow-time">申请日期：{{ date2date(item.ApplyDate) }}</span>
                             <span class="Borrow-approve" v-if="item.Schedule != '-2' || item.Schedule != '5'">
-                              <a @click="go(item)">{{ process2name(item.Schedule.toString()) }}</a>
+                              <a>{{ process2name(item.Schedule) }}</a>
                             </span>
                         </div>
                     </div>
@@ -44,9 +44,7 @@
             return {
                 myData: [],
                 // 数据源是否为空
-                isEmpty: false,
-                // 是否接口已经不能提供更多的数据了
-                bottomDisabled: true,
+                isEmpty: false
             }
         },
         watch: {
@@ -62,9 +60,16 @@
                       pageSize: '10'   // 数量
                 }).then(data=>{
                     if (data.returnCode == 0) {
-                        cb && cb(data.data)
+                        if (typeof data.data === 'string') {
+                            try {
+                              data.data = JSON.parse(data.data)
+                            } catch (e) { 
+                              // ... 
+                            }
+                        }
+                        cb && cb(data)
                     } else {
-                        Toast(data.msg);
+                        Toast(data.msg || "数据查询失败，请稍后重试");
                     }
                 })
             },
@@ -101,18 +106,25 @@
             },
             go (item) {
                 this.$store.dispatch('setBorrowInfoData', {
+                    // 进度/订单状态
                     Schedule:      item.Schedule,
+                    // 借款金额
                     BorrowMoney:   item.BorrowMoney,
+                    // 借款期限
                     BorrowLimit:   item.BorrowLimit,
+                    // 还款方式
                     RepaymentType: item.RepaymentType,
-                    StoreName:     item.StoreName
+                    // 门店
+                    StoreName:     item.StoreName,
+                    // 时间
+                    ApplyDate:     item.ApplyDate
                 }).then(_ => {
                     this.$router.push('BorrowProgress')
                 })
             },
             gocancel (businessId, index) {
                 msg.confirm("你确定要取消订单吗？", "操作提示").then(()=>{
-                      this.myData[index].status = 'cancel'
+                      // this.myData[index].status = 'cancel'
                 }).catch(() => {
 
                 });
@@ -123,7 +135,8 @@
         },
         beforeMount () {
              this.getData(_ => {
-
+                this.myData = _.data
+                console.log(this.myData) 
              })
         }
   }

@@ -27,7 +27,7 @@
                         <p class="line"></p>
 
                         <!-- 历史账单 / 请按以下日期还款 -->
-                        <p class="info" v-if="item.status != 'plan'" @click.stop="goHistory(item.BusinessId)">
+                        <p class="info" v-if="item.status != 'plan'" @click.stop="goHistory(item, item.Plans[0].AfterId)">
                             <a>{{ status2gotext(item) }}</a>
                         </p>
 
@@ -39,7 +39,7 @@
                             </div>
                             <div class="manyorder-row">
                                 <div class="manyorder-timer">请在{{ item2.Date }}前还款</div>
-                                <div class="manyorder-info" @click.stop="goHistory(item.BusinessId, item.AfterId)">{{ status2gotext(item2) }}</div>
+                                <div class="manyorder-info" @click.stop="goHistory(item2, item.AfterId)">{{ status2gotext(item2) }}</div>
                             </div>
                         </div>
                     </div>
@@ -195,12 +195,37 @@
 
             // 查看详情
             go (BusinessId) {
-                this.$router.push(`RepayInfo/${BusinessId}`)
+                // this.$router.push(`RepayInfo/${BusinessId}`)
+            },
+
+            getDataInfo (item, afterid, cb) {
+                this.xdapi.getRapayPlanBalance({
+                    "afterId": afterid,
+                    "businessId": item.BusinessId,
+                    "orgBusinessId": item.OrgBusinessId
+                }).then(data=>{
+                   if (data.returnCode == 0) {
+                       if (typeof data.data === 'string') {
+                           try {
+                             data.data = JSON.parse(data.data)
+                           } catch (e) { 
+                             // ... 
+                           }
+                       }
+                       cb && cb(data)
+                   } else {
+                       Toast(data.msg || "获取详情失败，请稍后重试");
+                   }
+                })
             },
 
             // 查看账单 / 查看历史
-            goHistory (BusinessId) {
-                this.$router.push(`RepayHistory/${BusinessId}/${afterid}`)
+            goHistory (item, afterid) {
+                this.getDataInfo(item, afterid, _=>{
+                    console.log(_)
+                })
+               
+                // this.$router.push(`RepayHistory/${BusinessId}/${afterid}`)
             },
         },
         components: {

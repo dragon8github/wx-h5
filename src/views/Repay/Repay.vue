@@ -14,34 +14,34 @@
 
                     <div class="Repay-Item-Warp-Center">
                             
-                            <!-- 本期应还，如果是【已展期】【本期已还清】【已结清】的情况就不需要显示本文本 -->
-                            <p class="shouldrepay" v-if="getStatus(item.Tip, item.Plans) != '本期已还清'">本期应还</p>
+                        <!-- 本期应还，如果是【已展期】【本期已还清】【已结清】的情况就不需要显示本文本 -->
+                        <p class="shouldrepay" v-if="getStatus(item) === ''">本期应还</p>
 
-                            <!-- 金额，还款计划的累积 -->
-                            <p class="money" :class="status2Color(item.IsOver)">{{ moneystatus2text(item) }}</p>
+                        <!-- 金额，还款计划的累积 -->
+                        <p class="money" :class="status2Color(item)">{{ moneystatus2text(item) }}</p>
 
-                            <!-- 还款日期，根据不同的情况显示不同的文本 -->
-                            <p class="timer">{{ status2time(item) }}</p>
+                        <!-- 还款日期，根据不同的情况显示不同的文本 -->
+                        <p class="timer" v-if="!getStatus(item)">{{ status2time(item) }}</p>
 
-                            <!-- 低调的分割线 -->
-                            <p class="line"></p>
+                        <!-- 低调的分割线 -->
+                        <p class="line"></p>
 
-                            <!-- 历史账单 / 请按以下日期还款 -->
-                            <p class="info"  v-if="item.status != 'plan'" @click.stop="goHistory(item.BusinessId)">
-                                <a>{{ status2gotext(item) }}</a>
-                            </p>
+                        <!-- 历史账单 / 请按以下日期还款 -->
+                        <p class="info" v-if="item.status != 'plan'" @click.stop="goHistory(item.BusinessId)">
+                            <a>{{ status2gotext(item) }}</a>
+                        </p>
 
-                            <!-- 还款计划 -->
-                            <div class="manyorder" v-for="(item2, index2) in item.order" v-if="item.plans.length > 1">
-                                <div class="manyorder-row">
-                                    <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
-                                    <div class="manyorder-money" :class="{red: item2.status == 'over'}">{{ ordermoneystatus2ordermoneytext(item2.money, item2.status) }}</div>
-                                </div>
-                                <div class="manyorder-row">
-                                    <div class="manyorder-timer">请在{{ item2.Date }}前还款</div>
-                                    <div class="manyorder-info" @click.stop="goHistory(item.BusinessId, item.AfterId)">{{ status2gotext(item2) }}</div>
-                                </div>
+                        <!-- 还款计划 -->
+                        <div class="manyorder" v-for="(item2, index2) in item.Plans" v-if="item.Plans.length > 1">
+                            <div class="manyorder-row">
+                                <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
+                                <div class="manyorder-money" :class="{red: item2.IsOver}">{{ ordermoneystatus2ordermoneytext(item2) }}</div>
                             </div>
+                            <div class="manyorder-row">
+                                <div class="manyorder-timer">请在{{ item2.Date }}前还款</div>
+                                <div class="manyorder-info" @click.stop="goHistory(item.BusinessId, item.AfterId)">{{ status2gotext(item2) }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,6 +56,9 @@
 1、普通类型
 2、已展期、本期已还清、已结清类型
 3、多个还款计划类型
+
+
+
  */
   import mtField from '@components/field/field.vue'
   import Toast   from '@components/toast/index.js'
@@ -77,6 +80,7 @@
                   cb && cb()
                 }, true)
             },
+
             getData (cb, isQuietness = false) {
                 this.xdapi.getRepayingList({
                       pageIndex: '1',  // 页数
@@ -98,10 +102,12 @@
             },
 
             // 根据状态返回文字颜色
-            status2Color (status) {
-                if (status) {
+            status2Color (item) {
+                if (this.getStatus(item)) {
+                    return ''
+                } else if (item.IsOver) {
                     return 'red'
-                } else {
+                } else if (!item.IsOver) {
                     return 'blue'
                 }
             },
@@ -116,6 +122,7 @@
             },
 
             // 获取订单状态
+            // 只会返回【已结清】、【本期已结清】、【已展期】
             getStatus (item) {
                 if (!item.Tip) {
                     var text = ''
@@ -131,19 +138,20 @@
                 }
             },
 
-            // 如果是已展期、展期订单、已结清的情况下，返回的文本是历史账单，否则返回查看账单
+            // 如果是展期订单、已结清的情况下，返回的文本是历史账单，否则返回查看账单
             status2gotext (item) {
                 if (item.BusinessId != item.OrgBusinessId || // 展期订单
                     item.Tip === '已结清' // 已结清
                    ) {
-                    return '历史账单' : '查看账单'
-                }
+                    return '历史账单'
+                } 
+                return '查看账单'
             },
 
             // 根据业务类型返回右上角的图标
             type2icon (item) {
                 var type = item.BusinessType.indexOf('车') ? 'car' : 'house'
-                var HasDeffer = item.OrgBusinessId === item.BusinessId ? true : false
+                var HasDeffer = item.OrgBusinessId === item.BusinessId ? false : true
                 if (type === 'car' && HasDeffer)    return 'carzhanqi'
                 if (type === 'car' && !HasDeffer)   return 'car'
                 if (type === 'house' && HasDeffer)  return 'housezhanqi'
@@ -156,43 +164,40 @@
                 var status = this.getStatus(item);
                 // 如果返回空，说明不属于 【本期已还清】 【已结清】 【已展期】
                 if (!status) {
-                    return '￥' + this.getAllMoney(item.plans)
+                    return '￥' + this.getAllMoney(item.Plans)
                 }
                 return status
             },
 
             // 根据状态返回时间文本
             status2time (item) {
-
-                var status = this.getStatus()
-
-                if (!status)
-
-
-                // 以下业务类型【还款计划】，需要返回值
-                if (['car', 'house', 'carplan', 'houseplan', 'carsinglezhanqi', 'housesinglezhanqi'].indexOf(type) >= 0) {
-                    // 根据状态来返回结果
-                    switch (status) {
-                        case 'over':   return '已逾期，请尽快还款！'
-                        case 'plan':   return '请按以下日期还款'
-                        case 'normal': return `请在${time}前还款`
-                        default:       return ''
-                    }
+                if (item.IsOver) {
+                    return '已逾期，请尽快还款！'
+                } else if (item.BusinessId === item.OrgBusinessId && item.Plans.length > 1) {
+                    return '请按以下日期还款'
+                } else {
+                    return `请在${this.date2date(item.Plans[0].Date, 'MM月dd日')}前还款`
                 }
                 return ''
             },
+
             // 根据状态来返回文本
-            ordermoneystatus2ordermoneytext (money, status) {
-                switch (status) {
-                    case 'normal': return '￥' + money
-                    case 'over':   return '已逾期'
-                    case 'finish': return '本期已还清'
+            ordermoneystatus2ordermoneytext (item) {
+                // 已逾期
+                if (item.IsOver) {
+                    return '已逾期'                
+                } else if (item.Status === '已还款') {
+                    return '本期已还清'
+                } else if (item.Status === '还款中') {
+                    return '￥' + item.TotalAmount
                 }
             },
+
             // 查看详情
             go (BusinessId) {
                 this.$router.push(`RepayInfo/${BusinessId}`)
             },
+
             // 查看账单 / 查看历史
             goHistory (BusinessId) {
                 this.$router.push(`RepayHistory/${BusinessId}/${afterid}`)
@@ -205,8 +210,8 @@
         },
         beforeMount () {
              this.getData(_ => {
-                console.log(_.data);
                 this.myData = _.data
+                console.log(this.myData)
              })
         },
         activated () {

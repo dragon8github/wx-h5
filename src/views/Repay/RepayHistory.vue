@@ -2,20 +2,20 @@
  <div>
     <div id="RepayList">
         <div class="RepayList-Item">
-            <div class="RepayList" v-for="(item, index) in mockData">
-                 <div class="RepayList-hander" :class="{show: item.show}" @click="go(index)">账期{{ index + 1 }}</div>
+            <div class="RepayList" v-for="(item, index) in mockData2">
+                 <div class="RepayList-hander" :class="{show: item.show}" @click="go(index)">{{ item.Title }}</div>
                  <div v-show="item.show">
                      <div class="RepayList-head">
-                         <div class="RepayList-head-left">已还{{ item.data.length }}期</div>
+                         <div class="RepayList-head-left">已还{{ item.Records[0].length }}期</div>
                          <div class="RepayList-head-right">金额（元）</div>
                      </div>
                      <div class="RepayList-body">
-                         <div class="RepayList-body-item" v-for="(item2, index) in item.data">
-                              <div class="RepayList-body-left">{{ item2.date }}</div>
-                              <div class="RepayList-body-right">{{ item2.money }}</div>
+                         <div class="RepayList-body-item" v-for="(item2, index2) in item.Records[0]">
+                              <div class="RepayList-body-left">{{ date2date(item2.Date) }}</div>
+                              <div class="RepayList-body-right">{{ item2.TotalAmount }}</div>
                          </div>
                       </div>
-                     <div class="RepayList-tail">未还共计：6254.60</div>
+                     <div class="RepayList-tail">未还共计：{{ all(item.Records[0]) }}</div>
                  </div>
             </div>
         </div>
@@ -32,11 +32,31 @@
         data () {
             return {
                 mockData: [
-                    {data: [{date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'} ] },
-                    {data: [{date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'} ] },
-                    {data: [{date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'} ] },
+                    {data: [{Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'} ] },
+                    {data: [{Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'} ] },
+                    {data: [{Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'} ] },
                 ],
-                d: this.$store.state.RepayHistoryInfo.RepayHistoryInfo
+                d: this.$store.state.RepayHistoryInfo.RepayHistoryInfo,
+                mockData2: [{
+                      "Title": "初始账单",
+                      "No": 0,
+                      "Records": [
+                          [
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 986 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 25000 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
+                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 }
+                          ]
+                      ]
+                  }],
             }
         },
         watch: {
@@ -44,7 +64,14 @@
         },
         methods: {
             go (index) {
-                this.$set(this.mockData[index], 'show', !this.mockData[index].show)
+                this.$set(this.mockData2[index], 'show', !this.mockData2[index].show)
+            },
+            all (item) {
+               var money = 0;
+               for (var i = item.length - 1; i >= 0; i--) {
+                 money += item[i].TotalAmount
+               }
+               return money;
             }
         },
         components: {

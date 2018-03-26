@@ -24,6 +24,11 @@
                 <div class='emptyDataImg'></div>
                 <p class="emptyDataText" v-html="noThingText"></p>
              </div>
+             <!-- 没有数据的情况下输出 -->
+             <div class="emptyDataDiv" v-if="_isError">
+                <div class='emptyDataImg'></div>
+                <p class="emptyDataText" v-html="errText"></p>
+             </div>
         </ul> 
       
         <!-- 上拉加载方式 -->
@@ -103,6 +108,16 @@ export default {
         noThingText: {
             type:String,
             default: '你还没有拍卖数据<br />快去汽车拍卖看看吧'
+        },
+        // 是否错误
+        errText: {
+            type: String,
+            default: '网络异常,请稍后重试'
+        },
+        // 错误文本
+        _isError: {
+            type: Boolean,
+            default:false
         }
     },
     components: {

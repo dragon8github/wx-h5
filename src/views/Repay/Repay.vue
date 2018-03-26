@@ -205,6 +205,7 @@
                     "orgBusinessId": item.OrgBusinessId
                 }).then(data=>{
                    if (data.returnCode == 0) {
+                       // 我不知道为什么这个接口会返回字符串
                        if (typeof data.data === 'string') {
                            try {
                              data.data = JSON.parse(data.data)
@@ -221,10 +222,9 @@
 
             // 查看账单 / 查看历史
             goHistory (item, afterid) {
-                this.getDataInfo(item, afterid, _=>{
+                this.getDataInfo(item, afterid, _ => {
                     console.log(_)
                 })
-               
                 // this.$router.push(`RepayHistory/${BusinessId}/${afterid}`)
             },
         },

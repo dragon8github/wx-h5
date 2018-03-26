@@ -20,7 +20,7 @@
 
         <tabcontainer  v-model="selected" swipeable>
             <tabcontaineritem  id="tab-container1" >
-              <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_bottomDisabled = "tag['1']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
+              <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_isError="tag['1']['isError']" :_bottomDisabled = "tag['1']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
                   <div slot="body">
                      <item v-for="(item,index) in tag['1']['list']" :key="index"    
                            :id="item.businessId"
@@ -37,7 +37,7 @@
             </tabcontaineritem>
 
             <tabcontaineritem id="tab-container2">
-              <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_bottomDisabled = "tag['2']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
+              <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_isError="tag['2']['isError']" :_bottomDisabled = "tag['2']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
                   <div slot="body">
                       <item v-for="(item,index) in tag['2']['list']" :key="index"                            
                             :id="item.businessId"
@@ -54,7 +54,7 @@
             </tabcontaineritem>
 
             <tabcontaineritem id="tab-container3">
-              <panel ref="pannel3" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_bottomDisabled = "tag['3']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
+              <panel ref="pannel3" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_isError="tag['3']['isError']" :_bottomDisabled = "tag['3']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
                   <div slot="body">
                       <item v-for="(item,index) in tag['3']['list']" :key="index"                            
                             :id="item.businessId"
@@ -112,9 +112,9 @@ export default {
               carModel: '',     // 车辆型号
         },
         tag: {
-            '1':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[] },
-            '2':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[] },
-            '3':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[] }
+            '1':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false },
+            '2':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false },
+            '3':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false }
         },
         oldTag: null
     }
@@ -141,10 +141,12 @@ export default {
               if (data.data.length > 0) {
                 this.currTag.bottomDisabled = false;
                 this.currTag.isEmpty = false;
+                this.currTag.isError = false;
               }
               success_cb && success_cb(data)
            } else {
               err_cb && err_cb(data.msg ? data : { msg: '网络异常' })
+              this.currTag.isError = true
            }
        })
     },
@@ -240,19 +242,12 @@ export default {
          }
     }
   },
-  beforeMount () {
-      this.getData(_ => {
-          this.currTag.list = _.data
-          if (_.data.length === 0) this.currTag.isEmpty = true;
-       }, _ => {
-          Toast(_.msg)
-       })
-  },
   activated () {
     console.log('activated')
     if (this.currTag.list.length === 0) {
       this.getData(_ => {
           this.currTag.list = _.data
+          if (_.data.length === 0) this.currTag.isEmpty = true;
        }, _ => {
           Toast(_.msg)
        })

@@ -63,7 +63,9 @@ export default {
   @import "~@sass/_func";
 
   .view {
-      height: 100vh;
+      // height: 100vh;
+      height: 100%;
+      // overflow-y: scroll;
       margin: 0 auto;
       transition: all .3s ease-in-out;
       box-sizing: border-box;

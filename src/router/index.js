@@ -155,7 +155,7 @@ const needLoginPage = [
 
 router.beforeEach((to, from, next) => {
     // 滚动之前，先弹回顶部
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
 
     // 已登录的用户不能进入登录界面，那么直接关闭页面
     if (to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim() == 'login' && window.localStorage.token && window.WeixinJSBridge) {

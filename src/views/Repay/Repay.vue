@@ -217,6 +217,8 @@
             go (item) {
                if (item.Plans.length == 1) {
                     this.getRepayInfo(item.BusinessId, item.Plans[0].AfterId, item.OrgBusinessId)
+               } else {
+                    Toast('未找到该订单的详情')
                }
             },
 

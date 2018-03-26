@@ -30,8 +30,6 @@
                         <p class="info" v-if="item.status != 'plan'">
                             <!-- 历史账单的情况下，可以使用goHistory事件 -->
                             <a v-if="status2gotext(item) === '历史账单'" @click.stop="goHistory(item)">{{ status2gotext(item) }}</a>
-                            <!-- 查看账单的情况下，其实也是使用go事件 -->
-                            <a v-if="status2gotext(item) === '查看账单'" @click.stop="go(item)">{{ status2gotext(item) }}</a>
                             <!-- 普通文本（请按以下日期还款） -->
                             <a v-else>{{ status2gotext(item) }}</a>
                         </p>
@@ -229,9 +227,9 @@
 
             // 查看账单 / 查看历史
             goHistory (item) {
-                this.wxapi.getRepaidList({
+                this.xdapi.getRepaidList({
                     orgBusinessId: item.OrgBusinessId
-                }).then(_=>{
+                }).then(data=>{
                     if (data.returnCode == 0) {
                         if (typeof data.data === 'string') {
                             try {
@@ -240,10 +238,10 @@
                               // ... 
                             }
                         }
-                        
-                        this.$store.dispatch('RepayHistoryInfo', data.data).then(_=>{
-                            this.$router.push('/RepayHistory')
-                        })
+                        console.log(123123123, data.data);
+                        // this.$store.dispatch('setRepayHistoryInfo', data.data).then(_=>{
+                        //     this.$router.push('/RepayHistory')
+                        // })
 
                     } else {
                         Toast(data.msg);

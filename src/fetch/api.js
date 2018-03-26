@@ -50,6 +50,10 @@ if (typeof(Proxy) == 'function') {
         'smsSend',
         // 判断验证码是否正确
         'checkFindPwdCode',
+        // 历史详情
+        'getRepaidList',
+        // 还款详情
+        'getRapayPlanBalance'
     ].entries()) {
         xdapi[ele] = (data, isQuiet = false) => { 
           return post('xindai/' + ele, data, isQuiet)

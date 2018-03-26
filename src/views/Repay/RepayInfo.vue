@@ -67,7 +67,7 @@
         name: 'RepayInfo',
         data () {
             return {
-
+              d: this.$store.state.RepayInfo.RepayInfo
             }
         },
         watch: {
@@ -77,6 +77,14 @@
 
         },
         components: {
+        },
+        beforeMount () {
+          console.log(this.d)
+
+          if (!this.d) {
+            this.$router.push('/Repay')
+             Toast('网络异常，未找到详情数据，请稍后重试')
+          }
         }
   }
 </script>
@@ -87,10 +95,10 @@
 @import "~@sass/_func";
 
 #RepayInfo {
+   position: relative;
+   height: 100%;
    background: #f2f2f2;
-   margin:0 pxToRem(30px) pxToRem(0px) pxToRem(30px);
-   margin-bottom: 100%;
-
+   margin:0 pxToRem(30px) pxToRem(60px) pxToRem(30px);
 }
 
 .Repay-Item {

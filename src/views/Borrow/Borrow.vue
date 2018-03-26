@@ -22,7 +22,7 @@
                         <li>还款方式： {{ pattern2pattern(item.RepaymentType) }}</li>
                     </ul>
                     <i class="Borrow-statusicon" :class="{cancel: item.Schedule == '-1', finish: item.Schedule == '5'}"></i>
-                    <a class="cancelbtn" v-if="item.Schedule == '0'" @click="gocancel(item.BusinessId, index)">取消</a>
+                    <a class="cancelbtn" v-if="item.Schedule == '0'" @click.stop="gocancel(item.ProtoTypeId, index)">取消</a>
                 </div>
             </div>
         </div>
@@ -108,38 +108,41 @@
                 return '--'
             },
             go (item) {
-                this.$store.dispatch('setBorrowInfoData', {
-                    // 进度/订单状态
-                    Schedule:      item.Schedule,
-                    // 借款金额
-                    BorrowMoney:   item.BorrowMoney,
-                    // 借款期限
-                    BorrowLimit:   item.BorrowLimit,
-                    // 还款方式
-                    RepaymentType: item.RepaymentType,
-                    // 门店
-                    StoreName:     item.StoreName,
-                    // 时间
-                    ApplyDate:     item.ApplyDate
-                }).then(_ => {
-                    this.$router.push('BorrowProgress')
-                })
+                if (item.Schedule && item.Schedule != '-1') {
+                    this.$store.dispatch('setBorrowInfoData', {
+                        // 进度/订单状态
+                        Schedule:      item.Schedule,
+                        // 借款金额
+                        BorrowMoney:   item.BorrowMoney,
+                        // 借款期限
+                        BorrowLimit:   item.BorrowLimit,
+                        // 还款方式
+                        RepaymentType: item.RepaymentType,
+                        // 门店
+                        StoreName:     item.StoreName,
+                        // 时间
+                        ApplyDate:     item.ApplyDate
+                    }).then(_ => {
+                        this.$router.push('BorrowProgress')
+                    })
+                  } else {
+                    Toast('订单已取消，未找到详情')
+                  }
             },
-            gocancel (businessNo, index) {
+            gocancel (ProtoTypeId, index) {
                 msg.confirm("你确定要取消订单吗？", "操作提示").then(()=>{
                       this.xdapi.businessCancel({
-                          businessNo: businessNo
-                      }).then(_=>{
-                        console.log(_)
+                          ProtoTypeId: ProtoTypeId
+                      }).then(data => {
                         if (data.returnCode == 0) {
                             this.myData[index].Schedule = '-1'
+                            Toast("订单已取消")
                         } else {
                             Toast(data.msg || "取消失败，请稍后重试");
                         }
-
                       })
-                }).catch(() => {
-
+                }).catch(err => {
+                    console.log(err)
                 });
             }
         },

@@ -15,6 +15,8 @@ import transition from './modules/transition'
 import status from './modules/status'
 import BorrowInfo from './modules/BorrowInfo'
 import CarInfoData from './modules/CarInfoData'
+import RepayHistoryInfo from './modules/RepayHistoryInfo'
+import RepayInfo from './modules/RepayInfo'
 
 
 Vue.use(Vuex)
@@ -27,6 +29,8 @@ const store = new Vuex.Store({
         BorrowInfo,
         CarInfoData,
         status,
+        RepayHistoryInfo,
+        RepayInfo,
         transition: {
             namespaced: true,
             ...transition

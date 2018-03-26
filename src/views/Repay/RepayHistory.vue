@@ -35,7 +35,8 @@
                     {data: [{date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'} ] },
                     {data: [{date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'} ] },
                     {data: [{date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'}, {date: '2017-08-28', money: '1900.40'} ] },
-                ]
+                ],
+                d: this.$store.state.RepayHistoryInfo.RepayHistoryInfo
             }
         },
         watch: {
@@ -48,6 +49,15 @@
         },
         components: {
 
+        },
+        beforeMount () {
+            console.log(this.d)
+
+
+            if (!this.d) {
+              this.$router.push('/Repay')
+              Toast('网络异常，未找到历史数据，请稍后重试')
+            }
         }
   }
 </script>

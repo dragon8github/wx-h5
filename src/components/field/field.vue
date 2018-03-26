@@ -123,6 +123,7 @@
                     this.eyeopen = false;
                     this.$refs.input.setAttribute('type', 'password');    
                 }
+                this.$refs.input.focus()
             },
             topLabelClick () {
                this.showTopLabel = true

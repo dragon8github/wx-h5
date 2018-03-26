@@ -3,7 +3,7 @@
    <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :Bottom="false">
        <div id="Repay" slot="body">
             
-           <div class="Repay-Item" v-for="(item, index) in myData" @click="go(item.BusinessId)">
+           <div class="Repay-Item" v-for="(item, index) in myData" @click.stop="go(item)">
                 
                 <!-- 右上角的图标 -->
                 <i class="right-icon" :class="type2icon(item)"></i>
@@ -27,8 +27,13 @@
                         <p class="line"></p>
 
                         <!-- 历史账单 / 请按以下日期还款 -->
-                        <p class="info" v-if="item.status != 'plan'" @click.stop="goHistory(item, item.Plans[0].AfterId)">
-                            <a>{{ status2gotext(item) }}</a>
+                        <p class="info" v-if="item.status != 'plan'">
+                            <!-- 历史账单的情况下，可以使用goHistory事件 -->
+                            <a v-if="status2gotext(item) === '历史账单'" @click.stop="goHistory(item)">{{ status2gotext(item) }}</a>
+                            <!-- 查看账单的情况下，其实也是使用go事件 -->
+                            <a v-if="status2gotext(item) === '查看账单'" @click.stop="go(item)">{{ status2gotext(item) }}</a>
+                            <!-- 普通文本（请按以下日期还款） -->
+                            <a v-else>{{ status2gotext(item) }}</a>
                         </p>
 
                         <!-- 还款计划 -->
@@ -39,7 +44,7 @@
                             </div>
                             <div class="manyorder-row">
                                 <div class="manyorder-timer">请在{{ item2.Date }}前还款</div>
-                                <div class="manyorder-info" @click.stop="goHistory(item2, item.AfterId)">{{ status2gotext(item2) }}</div>
+                                <div class="manyorder-info" @click.stop="go2(item.BusinessId, item2.AfterId, item.OrgBusinessId)">{{ status2gotext(item2) }}</div>
                             </div>
                         </div>
                     </div>
@@ -51,15 +56,6 @@
 </template>
 
 <script>
-/*
-考虑把item分为多种：
-1、普通类型
-2、已展期、本期已还清、已结清类型
-3、多个还款计划类型
-
-
-
- */
   import mtField from '@components/field/field.vue'
   import Toast   from '@components/toast/index.js'
   import Loader  from '@components/loader/index.js'
@@ -74,11 +70,30 @@
             }
         },
         methods: {
-            loadTop (cb) {
-                this.getData(_=>{
-                  this.myData = _.data
-                  cb && cb()
-                }, true)
+            getRepayInfo (BusinessId, Afterid, OrgBusinessId) {
+                this.xdapi.getRapayPlanBalance({
+                     "businessId": BusinessId,
+                     "afterId": Afterid,
+                     "orgBusinessId": OrgBusinessId
+                 }).then(data => {
+                    if (data.returnCode == 0) {
+                        // 我不知道为什么这个接口会返回字符串
+                        if (typeof data.data === 'string') {
+                            try {
+                              data.data = JSON.parse(data.data)
+                            } catch (e) {
+                              // ... 
+                            }
+                        }
+
+                        this.$store.dispatch('setRepayInfo', data.data).then(_=>{
+                            this.$router.push('/repayinfo')
+                        })
+
+                    } else {
+                        Toast(data.msg || "获取详情失败，请稍后重试");
+                    }
+                 })
             },
 
             getData (cb, isQuietness = false) {
@@ -99,6 +114,13 @@
                         Toast(data.msg);
                     }
                 })
+            },
+
+            loadTop (cb) {
+                this.getData(_=>{
+                  this.myData = _.data
+                  cb && cb()
+                }, true)
             },
 
             // 根据状态返回文字颜色
@@ -194,38 +216,39 @@
             },
 
             // 查看详情
-            go (BusinessId) {
-                // this.$router.push(`RepayInfo/${BusinessId}`)
+            go (item) {
+               if (item.Plans.length == 1) {
+                    this.getRepayInfo(item.BusinessId, item.Plans[0].AfterId, item.OrgBusinessId)
+               }
             },
 
-            getDataInfo (item, afterid, cb) {
-                this.xdapi.getRapayPlanBalance({
-                    "afterId": afterid,
-                    "businessId": item.BusinessId,
-                    "orgBusinessId": item.OrgBusinessId
-                }).then(data=>{
-                   if (data.returnCode == 0) {
-                       // 我不知道为什么这个接口会返回字符串
-                       if (typeof data.data === 'string') {
-                           try {
-                             data.data = JSON.parse(data.data)
-                           } catch (e) { 
-                             // ... 
-                           }
-                       }
-                       cb && cb(data)
-                   } else {
-                       Toast(data.msg || "获取详情失败，请稍后重试");
-                   }
-                })
+            // 查看详情
+            go2 (BusinessId, AfterId, OrgBusinessId) {
+                this.getRepayInfo(BusinessId, AfterId, OrgBusinessId)
             },
 
             // 查看账单 / 查看历史
-            goHistory (item, afterid) {
-                this.getDataInfo(item, afterid, _ => {
-                    console.log(_)
+            goHistory (item) {
+                this.wxapi.getRepaidList({
+                    orgBusinessId: item.OrgBusinessId
+                }).then(_=>{
+                    if (data.returnCode == 0) {
+                        if (typeof data.data === 'string') {
+                            try {
+                              data.data = JSON.parse(data.data)
+                            } catch (e) { 
+                              // ... 
+                            }
+                        }
+                        
+                        this.$store.dispatch('RepayHistoryInfo', data.data).then(_=>{
+                            this.$router.push('/RepayHistory')
+                        })
+
+                    } else {
+                        Toast(data.msg);
+                    }
                 })
-                // this.$router.push(`RepayHistory/${BusinessId}/${afterid}`)
             },
         },
         components: {
@@ -233,14 +256,13 @@
         },
         computed: {
         },
-        beforeMount () {
-             this.getData(_ => {
-                this.myData = _.data
-                console.log(this.myData)
-             })
-        },
         activated () {
-          
+            if (!this.myData.length) {
+                this.getData(_ => {
+                    this.myData = _.data
+                    console.log(this.myData)
+                })
+            }
         }
   }
 </script>

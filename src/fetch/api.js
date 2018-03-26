@@ -1,6 +1,9 @@
 import * as Constants from './constants'
 import ajax from './handleFetch.js'
 
+// 微信API
+let wxapi = {}
+
 // 信贷API主体
 let xdapi = {}
 
@@ -15,8 +18,13 @@ if (typeof(Proxy) == 'function') {
         }
     })
     carapi = new Proxy({}, {
-        get: (target, key, receiver) => (data, isQuiet = false) => { 
+        get: (target, key, receiver) => (data, isQuiet = false) => {
             return ajax.postData('carAction/' + key, data, isQuiet)
+        }
+    })
+    wxapi = new Proxy({}, {
+        get: (target, key, receiver) => (data, isQuiet = false) => { 
+            return ajax.postData(key, data, isQuiet)
         }
     })
 
@@ -67,6 +75,16 @@ if (typeof(Proxy) == 'function') {
           return post('carAction/' + ele, data, isQuiet)
       }
     }
+
+    // 微信api
+    for (let [index,ele] of [
+        // 获取微信配置
+        'getWxConfig',
+    ].entries()) {
+        wxapi[ele] = (data, isQuiet = false) => { 
+          return post(ele, data, isQuiet)
+      }
+    }
 }
 
 /**
@@ -75,10 +93,12 @@ if (typeof(Proxy) == 'function') {
  * 2、直接import使用,主要是兼容无法使用Vue实例的场景
  */
 export default {
+  wxapi,
   xdapi,
   carapi,
   install (Vue) {
     Vue.prototype.xdapi = xdapi
     Vue.prototype.carapi = carapi
+    Vue.prototype.wxapi = wxapi
   }
 }

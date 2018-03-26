@@ -96,12 +96,12 @@ let router =  new Router({
         { path: '/ForgetPwd',  name: 'ForgetPwd', meta: { title: '忘记密码' },  component: ForgetPwd },
         { path: '/ResetPwd',   name: 'ResetPwd',  meta: { title: '重置密码' },  component: ResetPwd },
 
-        { path: '/Repay',             name: 'Repay',        meta: { title: '还款管理' },  component: Repay },
-        { path: '/RepayInfo/:id?',    name: 'RepayInfo',    meta: { title: '还款管理' },  component: RepayInfo },
-        { path: '/RepaySelect',       name: 'RepaySelect',  meta: { title: '还款选择' },  component: RepaySelect },
-        { path: '/RepayMoney',        name: 'RepayMoney',   meta: { title: '费用明细' },  component: RepayMoney },
-        { path: '/RepayStatus',       name: 'RepayStatus',  meta: { title: '还款成功' },  component: RepayStatus },
-        { path: '/RepayHistory/:id?', name: 'RepayHistory', meta: { title: '还款记录' },  component: RepayHistory },
+        { path: '/Repay',         name: 'Repay',        meta: { title: '还款管理' },  component: Repay },
+        { path: '/RepayInfo',     name: 'RepayInfo',    meta: { title: '还款管理' },  component: RepayInfo },
+        { path: '/RepaySelect',   name: 'RepaySelect',  meta: { title: '还款选择' },  component: RepaySelect },
+        { path: '/RepayMoney',    name: 'RepayMoney',   meta: { title: '费用明细' },  component: RepayMoney },
+        { path: '/RepayStatus',   name: 'RepayStatus',  meta: { title: '还款成功' },  component: RepayStatus },
+        { path: '/RepayHistory',  name: 'RepayHistory', meta: { title: '还款记录' },  component: RepayHistory },
 
         { path: '/CarSell',                           name: ' CarSell',            meta: { title: '汽车拍卖' },          component: CarSell },
         { path: '/CarSellInfo/:id?',                  name: ' CarSellInfo',        meta: { title: '汽车详情' },          component: CarSellInfo },
@@ -156,6 +156,13 @@ const needLoginPage = [
 router.beforeEach((to, from, next) => {
     // 滚动之前，先弹回顶部
     window.scrollTo(0, 0)
+
+    // 已登录的用户不能进入登录界面，那么直接关闭页面
+    if (to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim() == 'login' && window.localStorage.token && window.WeixinJSBridge) {
+        // 如果是微信内置浏览器
+        window.WeixinJSBridge.call('closeWindow');
+    }
+
     // 如果用户要前往需要登录的地方并且没有登录的话。
     // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
     // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去，也就是跑得了和尚跑不了庙。

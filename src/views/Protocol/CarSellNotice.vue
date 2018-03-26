@@ -5,7 +5,7 @@
                 <div>
                     <p class="Notice--indent">竞拍前请务必遵照《竞买公告》的要求，进行实地看样、调查标的物信息（如过户要求、 违章情况等）、 了解竞买资质、 支付方式等内容。</p>
                     <p><span class="Notice--bold">我方将于  {{ d.startPriceDate }} 至 {{ d.etartPriceDate }} 止进行公开竞买活动，</span> 现公告如下：</p>
-                    <p class="Notice--indent">一、 竞买标的： 车牌号： {{ d.licensePlateNumber }}； 车辆型号：{{ d.carModel }}； 车辆识别代号： {{ d.frameNumber }}； 发动机号： {{ d.engineNumber  }}； 初次登记日期： {{ date2date(d.registerDate)  }}； 行驶总里程： {{ d.mileage }}KM。</p>
+                    <p class="Notice--indent">一、 竞买标的： <!-- 车牌号： {{ d.licensePlateNumber }}；--> 车辆型号：{{ d.carModel }}； <!-- 车辆识别代号： {{ d.frameNumber }}； 发动机号： {{ d.engineNumber  }}；--> 初次登记日期： {{ date2date(d.registerDate)  }}； 行驶总里程： {{ d.mileage }}KM。</p>
                     <p>竞买起始价： {{ d.startPrice }}元， 增价幅度 {{ d.priceincrease }} 元（ 或整倍数）。</p>
                     <p class="Notice--indent">二、 竞买人条件： 凡具备完全民事行为能力的公民、 法人和其他组织均可参加竞买。</p>
                     <p class="Notice--indent">竞买人应当具备完全民事行为能力， 法律、 行政法规和司法解释对买受人资格或者条件有特殊规定的， 竞买人应当具备规定的资格或者条件。 如为限购地区车辆请自行确定是否具有相关资格。</p>

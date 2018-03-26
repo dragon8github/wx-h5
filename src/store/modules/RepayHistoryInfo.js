@@ -1,10 +1,5 @@
 let state = {
     RepayHistoryInfo: {
-        Schedule: '',
-        BorrowMoney: '',
-        BorrowLimit: '',
-        RepaymentType: '',
-        StoreName: ''
     }
 }
 

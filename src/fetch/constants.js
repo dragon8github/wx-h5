@@ -11,5 +11,5 @@
 
 // 测试地址 http://172.16.200.112:30111/wx/app/ 
 // 正式地址：http://120.77.168.38:30111/wx/app/
-export const API_WX_SERVER = 'http://120.77.168.38:30111/wx/app/'
+export const API_WX_SERVER = 'http://172.16.200.112:30111/wx/app/'
 

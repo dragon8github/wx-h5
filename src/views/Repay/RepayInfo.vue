@@ -1,29 +1,29 @@
 <template>
- <div id="RepayInfo">
+ <div id="RepayInfo" v-if="d.business_type">
        <div class="Repay-Item">
-           <i class="right-icon car"></i>
+           <i class="right-icon" :class="type2icon(d.business_type, d.Is_extend_flag)"></i>
            <div class="Repay-Item-Warp">
                <p class="bunsinessId">业务编号：CYD20170912001</p>
                <div class="Repay-Item-Warp-Center">
                    <p class="shouldrepay">本期应还</p>
-                   <p class="money blue">¥1745.40</p>
-                   <p class="timer"><a>请在06月28日前还款</a></p>
+                   <p class="money blue">¥ {{ d.CurrentRepayMoney }}</p>
+                   <p class="timer"><a>请在 {{ date2date(d.CurrentRepayDate, 'MM月dd日') }} 前还款</a></p>
                    <div class="info">
                        <div class="info-item">
-                           <div class="info-item-head">100000元</div>
+                           <div class="info-item-head">{{ d.borrow_money }}元</div>
                            <div class="info-item-body">借款金额</div>
                        </div>
                        <div class="info-item">
-                           <div class="info-item-head">12个月</div>
+                           <div class="info-item-head">{{ d.loan_term }}个月</div>
                            <div class="info-item-body">借款期限</div>
                        </div>
                        <div class="info-item">
-                           <div class="info-item-head">等额本息</div>
+                           <div class="info-item-head">{{ d.repayment_type }}</div>
                            <div class="info-item-body">还款方式</div>
                        </div>
                    </div>
                    <div class="info-bottom">
-                      <div class="info-bottom-left">借款日期2017-3-27</div>
+                      <div class="info-bottom-left">借款日期 {{ d.borrow_time }}</div>
                       <div class="info-bottom-right">每月28日自动扣款</div>
                    </div>
                </div>
@@ -32,28 +32,30 @@
 
        <div class="RepayList">
             <div class="RepayList-head">
-                <div class="RepayList-head-left">剩余1期</div>
+                <div class="RepayList-head-left">剩余{{ d.NoRepayPlanList.length }}期</div>
                 <div class="RepayList-head-right">金额（元）</div>
             </div>
             <div class="RepayList-body">
-                <div class="RepayList-body-item"> <div class="RepayList-body-left">2017-07-28（本期）</div> <div class="RepayList-body-right">1900.40</div> </div>
+                <div class="RepayList-body-item" v-for="(item, index) in d.NoRepayPlanList"> 
+                  <div class="RepayList-body-left">{{ date2date(item.borrow_date) }} {{ item.car_business_after_id === afterid ? '（本期）' : '' }}</div> 
+                  <div class="RepayList-body-right">{{ item.current_repaing_amount }}</div> 
+                </div>
             </div>
-            <div class="RepayList-tail">未还共计：6254.60</div>
+            <div class="RepayList-tail">未还共计：{{ nopaymoney }}</div>
        </div>
 
        <div class="RepayList">
             <div class="RepayList-head">
-                <div class="RepayList-head-left">已还5期</div>
+                <div class="RepayList-head-left">已还{{ d.RepayedPlanList.length }}期</div>
                 <div class="RepayList-head-right">金额（元）</div>
             </div>
             <div class="RepayList-body">
-                <div class="RepayList-body-item"> <div class="RepayList-body-left">2017-07-28</div> <div class="RepayList-body-right">1900.40</div> </div>
-                <div class="RepayList-body-item"> <div class="RepayList-body-left">2017-07-28</div> <div class="RepayList-body-right">1900.40</div> </div>
-                <div class="RepayList-body-item"> <div class="RepayList-body-left">2017-07-28</div> <div class="RepayList-body-right">1900.40</div> </div>
-                <div class="RepayList-body-item"> <div class="RepayList-body-left">2017-07-28</div> <div class="RepayList-body-right">1900.40</div> </div>
-                <div class="RepayList-body-item"> <div class="RepayList-body-left">2017-07-28</div> <div class="RepayList-body-right">1900.40</div> </div>
+                <div class="RepayList-body-item"  v-for="(item, index) in d.RepayedPlanList"> 
+                    <div class="RepayList-body-left">{{ date2date(item.borrow_date) }}</div> 
+                    <div class="RepayList-body-right">{{ item.current_repaing_amount }}</div> 
+                </div>
             </div>
-            <div class="RepayList-tail">未还共计：6254.60</div>
+            <div class="RepayList-tail">未还共计：{{ paymoney }}</div>
        </div>
 
  </div>
@@ -67,23 +69,51 @@
         name: 'RepayInfo',
         data () {
             return {
-              d: this.$store.state.RepayInfo.RepayInfo
+              d: this.$store.state.RepayInfo.RepayInfo,
+              afterid:this.$route.params.afterid
             }
         },
         watch: {
 
         },
         methods: {
-
+          // 根据业务类型返回右上角的图标
+          type2icon (type, HasDeffer) {
+              type = type.indexOf('车') ? 'car' : 'house'
+              if (type === 'car' && HasDeffer)    return 'carzhanqi'
+              if (type === 'car' && !HasDeffer)   return 'car'
+              if (type === 'house' && HasDeffer)  return 'housezhanqi'
+              if (type === 'house' && !HasDeffer) return 'house'
+          },
+        },
+        computed: {
+          nopaymoney () {
+            var money = 0
+            if (this.d.NoRepayPlanList) {
+              for (var i = this.d.NoRepayPlanList.length - 1; i >= 0; i--) {
+                 money += this.d.NoRepayPlanList[i].current_repaing_amount
+              }
+            }
+            return Math.floor(money * 100) / 100;
+          },
+          paymoney () {
+            var money = 0
+            if (this.d.RepayedPlanList) {
+              for (var i = this.d.RepayedPlanList.length - 1; i >= 0; i--) {
+                 money += this.d.RepayedPlanList[i].current_repaing_amount
+              }
+            }
+            return Math.floor(money * 100) / 100;
+          }
         },
         components: {
         },
         beforeMount () {
-          console.log(this.d)
+          console.log(12312312, this.d)
 
-          if (!this.d) {
+          if (!this.d.business_type) {
             this.$router.push('/Repay')
-             Toast('网络异常，未找到详情数据，请稍后重试')
+             Toast('未找到详情数据，请稍后重试')
           }
         }
   }

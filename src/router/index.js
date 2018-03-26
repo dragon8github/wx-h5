@@ -96,12 +96,12 @@ let router =  new Router({
         { path: '/ForgetPwd',  name: 'ForgetPwd', meta: { title: '忘记密码' },  component: ForgetPwd },
         { path: '/ResetPwd',   name: 'ResetPwd',  meta: { title: '重置密码' },  component: ResetPwd },
 
-        { path: '/Repay',         name: 'Repay',        meta: { title: '还款管理' },  component: Repay },
-        { path: '/RepayInfo',     name: 'RepayInfo',    meta: { title: '还款管理' },  component: RepayInfo },
-        { path: '/RepaySelect',   name: 'RepaySelect',  meta: { title: '还款选择' },  component: RepaySelect },
-        { path: '/RepayMoney',    name: 'RepayMoney',   meta: { title: '费用明细' },  component: RepayMoney },
-        { path: '/RepayStatus',   name: 'RepayStatus',  meta: { title: '还款成功' },  component: RepayStatus },
-        { path: '/RepayHistory',  name: 'RepayHistory', meta: { title: '还款记录' },  component: RepayHistory },
+        { path: '/Repay',                name: 'Repay',        meta: { title: '还款管理' },  component: Repay },
+        { path: '/RepayInfo/:afterid?',  name: 'RepayInfo',    meta: { title: '还款管理' },  component: RepayInfo },
+        { path: '/RepaySelect',          name: 'RepaySelect',  meta: { title: '还款选择' },  component: RepaySelect },
+        { path: '/RepayMoney',           name: 'RepayMoney',   meta: { title: '费用明细' },  component: RepayMoney },
+        { path: '/RepayStatus',          name: 'RepayStatus',  meta: { title: '还款成功' },  component: RepayStatus },
+        { path: '/RepayHistory',         name: 'RepayHistory', meta: { title: '还款记录' },  component: RepayHistory },
 
         { path: '/CarSell',                           name: ' CarSell',            meta: { title: '汽车拍卖' },          component: CarSell },
         { path: '/CarSellInfo/:id?',                  name: ' CarSellInfo',        meta: { title: '汽车详情' },          component: CarSellInfo },

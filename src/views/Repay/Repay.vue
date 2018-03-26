@@ -72,9 +72,9 @@
         methods: {
             getRepayInfo (BusinessId, Afterid, OrgBusinessId) {
                 this.xdapi.getRapayPlanBalance({
-                     "businessId": BusinessId,
-                     "afterId": Afterid,
-                     "orgBusinessId": OrgBusinessId
+                    "businessId": BusinessId,
+                    "afterId": Afterid,
+                    "orgBusinessId": OrgBusinessId
                  }).then(data => {
                     if (data.returnCode == 0) {
                         // 我不知道为什么这个接口会返回字符串
@@ -87,7 +87,7 @@
                         }
 
                         this.$store.dispatch('setRepayInfo', data.data).then(_=>{
-                            this.$router.push('/repayinfo')
+                            this.$router.push('/repayinfo/' + Afterid)
                         })
 
                     } else {

@@ -81,7 +81,8 @@ export default {
 }
 
 .el-steps--horizontal {
-    white-space: nowrap
+    white-space: nowrap;
+    width: 100%;
 }
 
 .el-steps--vertical {

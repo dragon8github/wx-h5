@@ -160,7 +160,7 @@ router.beforeEach((to, from, next) => {
     // 已登录的用户不能进入登录界面，那么直接关闭页面
     if (to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim() == 'login' && window.localStorage.token && window.WeixinJSBridge) {
         // 如果是微信内置浏览器
-        window.WeixinJSBridge.call('closeWindow');
+        return window.WeixinJSBridge.call('closeWindow');
     }
 
     // 如果用户要前往需要登录的地方并且没有登录的话。

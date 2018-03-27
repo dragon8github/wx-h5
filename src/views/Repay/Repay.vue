@@ -240,10 +240,9 @@
                               // ... 
                             }
                         }
-                        console.log(123123123, data.data);
-                        // this.$store.dispatch('setRepayHistoryInfo', data.data).then(_=>{
-                        //     this.$router.push('/RepayHistory')
-                        // })
+                        this.$store.dispatch('setRepayHistoryInfo', data.data).then(_=>{
+                            this.$router.push('/RepayHistory')
+                        })
 
                     } else {
                         Toast(data.msg);

@@ -173,6 +173,9 @@ export default {
         }
     },
     mounted () {
+        
+    },
+    activated () {
         // 为什么这里要延迟650毫秒，由于路由转场动画花费了我400毫秒，这段期间，可能之前是界面有Footer元素，所以我需要先等它完全消失，所以事实上也就是给了250毫秒的等待时间
         setTimeout(() => {
 
@@ -188,9 +191,7 @@ export default {
                  let height = getComputedStyle(document.querySelectorAll('.page-loadmore-wrapper')[0])["height"]
                  if (this.$refs.wrapper.getBoundingClientRect().top  === 0)  this.wrapperHeight = height
             })
-        }, 0)
-
-      
+        }, 0) 
     }
   }
 </script>

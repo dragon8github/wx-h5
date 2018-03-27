@@ -128,7 +128,7 @@
    position: relative;
    height: 100%;
    background: #f2f2f2;
-   margin:0 pxToRem(30px) pxToRem(60px) pxToRem(30px);
+   padding: pxToRem(20px) pxToRem(30px) pxToRem(60px) pxToRem(30px);
 }
 
 .Repay-Item {
@@ -137,7 +137,6 @@
     position: relative;
     padding: pxToRem(30px);
     border-radius: 4px;
-    margin-top: pxToRem(20px);
 
     .Repay-Item-Warp {
         padding: pxToRem(43px) pxToRem(33px);

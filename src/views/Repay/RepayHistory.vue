@@ -2,7 +2,7 @@
  <div>
     <div id="RepayList">
         <div class="RepayList-Item">
-            <div class="RepayList" v-for="(item, index) in mockData2">
+            <div class="RepayList" v-for="(item, index) in d">
                  <div class="RepayList-hander" :class="{show: item.show}" @click="go(index)">{{ item.Title }}</div>
                  <div v-show="item.show">
                      <div class="RepayList-head">
@@ -31,32 +31,7 @@
         name: 'Login',
         data () {
             return {
-                mockData: [
-                    {data: [{Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'} ] },
-                    {data: [{Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'} ] },
-                    {data: [{Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'}, {Date: '2017-08-28', TotalAmount: '1900.40'} ] },
-                ],
-                d: this.$store.state.RepayHistoryInfo.RepayHistoryInfo,
-                mockData2: [{
-                      "Title": "初始账单",
-                      "No": 0,
-                      "Records": [
-                          [
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 986 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 25000 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 },
-                            {"Date": "2018-02-05 00:00:00", "TotalAmount": 0 }
-                          ]
-                      ]
-                  }],
+                d: this.$store.state.RepayHistoryInfo.RepayHistoryInfo
             }
         },
         watch: {
@@ -64,7 +39,7 @@
         },
         methods: {
             go (index) {
-                this.$set(this.mockData2[index], 'show', !this.mockData2[index].show)
+                this.$set(this.d[index], 'show', !this.d[index].show)
             },
             all (item) {
                var money = 0;
@@ -78,12 +53,9 @@
 
         },
         beforeMount () {
-            console.log(this.d)
-
-
             if (!this.d) {
               this.$router.push('/Repay')
-              Toast('网络异常，未找到历史数据，请稍后重试')
+              Toast('未找到历史数据，请稍后重试')
             }
         }
   }

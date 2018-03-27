@@ -87,7 +87,7 @@ export default {
       transform: translate3d(-20%, 0, 0);
     }
     &-enter-active, &-leave-active  {
-      transition: transform .4s ease;
+      transition: transform .40s ease;
     }
   }
 
@@ -104,7 +104,7 @@ export default {
         z-index: 2;
       }
       &-enter-active, &-leave-active  {
-        transition: transform .4s ease;
+        transition: transform .40s ease;
       }
   }
 </style>

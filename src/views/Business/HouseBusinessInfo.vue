@@ -75,6 +75,7 @@
 .HouseBusinessInfo {
   background: #f2f2f2;
   height: 100%;
+  position: relative;
 
   .block {
     display: flex;

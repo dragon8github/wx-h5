@@ -124,6 +124,7 @@ export default {
     getData (success_cb, err_cb, isQuite = false) {
         this.carapi.selectAuctionReg(this.where, isQuite).then(data => {
            if (data.returnCode == 0) {
+              this.currTag.isError = false;
               // 当请求数据不为空的时候，重置展示状态
               if (data.data.length > 0) {
                 this.currTag.bottomDisabled = false;

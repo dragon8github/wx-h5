@@ -108,7 +108,7 @@
     },
     mounted() {
       if (!this.currentHeight) {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         requestAnimationFrame(()=>{
           this.currentHeight = document.documentElement.clientHeight - this.$refs.content.getBoundingClientRect().top;
         });

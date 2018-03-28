@@ -176,6 +176,7 @@ export default {
 
         this.currTag.list = []
         this.getData(_ => {
+            this.currTag.isSearch = true
             this.currTag.list = _.data
             if (!this.currTag.list.length) {
               this.currTag.isEmpty = true
@@ -212,8 +213,10 @@ export default {
 
          // 选项卡改变的时候，肯定需要进行fetch的，但如果原本的tag有值的话，那么就不需要更新了。先这样简单处理。
          // 这个页面，最好也加入active，就算更新出了问题，那也是以后的解决方案。
-         if (this.currTag.list.length == 0) {
+         if (this.currTag.list.length == 0|| this.currTag.isSearch) {
+
              this.getData(_ => {
+                this.currTag.isSearch = false
                 this.currTag.list = _.data
                 if (_.data.length === 0) { 
                   this.currTag.isEmpty = true;

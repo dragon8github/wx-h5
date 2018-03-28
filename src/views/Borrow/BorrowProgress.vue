@@ -116,10 +116,11 @@
           cell
         },
         beforeMount () {
-            if (!this.d.BorrowMoney) {
-              this.$router.push('/borrow');
-              Toast('未找到订单信息，请重试');
-            }
+            console.log(this.d)
+            // if (!this.d.BorrowMoney) {
+            //   this.$router.push('/borrow');
+            //   Toast('未找到订单信息，请重试');
+            // }
         }
   }
 </script>

@@ -46,7 +46,7 @@
             reset () {
               if (this.is_weixn()) {
                   var that = this;
-                  Loader.show('正在定位...');
+                  Loader.show('正在定位...', "A");
                   this.wxapi.getWxConfig({
                       url: window.location.href.split('#')[0]
                   }, true).then(_ => {
@@ -76,7 +76,9 @@
                                                   var city = data.result.addressComponent.city
                                                   that.city = city
                                                   that.$store.state.city = city
+                                                  that.$store.state.localcity = city
                                                   Toast("定位到当前城市为：" + city);
+                                                  that.$router.push('/fast')
                                               // 坐标转换失败
                                               } else {
                                                   Loader.hideAll();
@@ -122,7 +124,6 @@
                               Loader.hideAll();
                               that.city = "定位失败，请手动选择城市";
                               Toasrt('微信接口调用失败，请手动选择城市')
-                              that.$router.push('/cityselect')
                           });
                       } else {
                           Loader.hideAll();
@@ -172,6 +173,7 @@
 
 #CitySelect {
     font-size: pxToRem(32px);
+    overflow: scroll;
 
     .mint-cell-wrapper {
         margin-bottom: 0;

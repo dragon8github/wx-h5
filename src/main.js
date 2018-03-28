@@ -50,8 +50,9 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     // 过网关
     window.Authorization = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHAgand0IHRva2VuIiwiYXBwIjoiV1giLCJpc3MiOiJxaXV3ZW53dUBob25ndGUuaW5mbyIsImp0aSI6IjBkMmIzYTU5LWYwOTctNGMwOS1hNmViLTc4N2ZkMmE5YWViZCIsImlhdCI6MTUyMTYxOTU2NywiZXhwIjoxNTUzMTU1NTY3fQ.n60qFsdqNhHlowPSW7vjlFv7a7pT7bkLk0e3RMgy8s-6yDFsDhoEycfJ2fINDXrgKNiRjNNGstUCUe7JMOjQig`
-    // 将写死的openid数据放入store中  13794942971  123456.a
-    store.dispatch('setAppData', {openId: 'oRsEC1tgZQApdeTKAskfUvFY0UqY'}).then(() => {
+    // 将写死的openid数据放入store中  13794942971  123456.a oRsEC1tgZQApdeTKAskfUvFY0UqY
+    // 15730186820  zhang110  oRsEC1ualLIvMV6E9-IHmZj-ZAQU
+    store.dispatch('setAppData', {openId: 'oRsEC1ualLIvMV6E9-IHmZj-ZAQU'}).then(() => {
         // vue初始化
         initial()
     })

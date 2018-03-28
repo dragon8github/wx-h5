@@ -79,7 +79,7 @@
         methods: {
           // 根据业务类型返回右上角的图标
           type2icon (type, HasDeffer) {
-              type = type.indexOf('车') ? 'car' : 'house'
+              type = type.indexOf('车') >= 0 ? 'car' : 'house'
               if (type === 'car' && HasDeffer)    return 'carzhanqi'
               if (type === 'car' && !HasDeffer)   return 'car'
               if (type === 'house' && HasDeffer)  return 'housezhanqi'

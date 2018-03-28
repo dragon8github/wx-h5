@@ -78,6 +78,7 @@ export default {
       top: 0;
       // bottom: 0;
       z-index: 1;
+      overflow: scroll;
   }
 
   // Page Turn on Transian Effect

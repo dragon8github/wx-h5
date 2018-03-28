@@ -1,6 +1,6 @@
 <template>
 <div>
-   <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :Bottom="false">
+   <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :Bottom="false" :noThingText="'您还没有还款记录'">
        <div id="Repay" slot="body">
             
            <div class="Repay-Item" v-for="(item, index) in myData" @click.stop="go(item)">
@@ -107,6 +107,13 @@
                               // ... 
                             }
                         }
+
+                        if (data.data.length === 0) {
+                            this.isEmpty = true;
+                        } else {
+                            this.isEmpty = false;
+                        }
+                        
                         cb && cb(data)
                     } else {
                         Toast(data.msg);
@@ -170,7 +177,7 @@
 
             // 根据业务类型返回右上角的图标
             type2icon (item) {
-                var type = item.BusinessType.indexOf('车') ? 'car' : 'house'
+                var type = item.BusinessType.indexOf('车') >= 0 ? 'car' : 'house'
                 var HasDeffer = item.OrgBusinessId === item.BusinessId ? false : true
                 if (type === 'car' && HasDeffer)    return 'carzhanqi'
                 if (type === 'car' && !HasDeffer)   return 'car'

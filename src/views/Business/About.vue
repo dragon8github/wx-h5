@@ -2,7 +2,7 @@
    <div id="About">
          <div class="about_1_bg">
               <div class="about_top">
-                <h1 class="main_h1">鸿特咨询有限公司</h1>
+                <h1 class="main_h1">广东鸿特咨询有限公司</h1>
                 <article class="main_text">广东鸿特信息咨询有限公司（简称鸿特信息），是国内上市公司鸿特精密（300176.SZ）旗下全资子公司，其运营品牌为鸿特金服。</article>
               </div>
               <div class="about_1_block">

@@ -50,7 +50,7 @@
         data () {
             return {
                user: '',
-               phone: '',
+               phone: this.$store.state.phone || '',
                x: this.$route.params.type === 'house' ? '100%' : 0,
                type: this.$route.params.type || 'car',
                city: this.$store.state.localcity || this.$store.state.city
@@ -68,7 +68,7 @@
                 this.user = this.user.trim()
                 this.phone = this.phone.trim()
 
-                if (!this.$store.state.city) {
+                if (!this.city) {
                   this.$router.push('/cityselect');
                   return Toast('请选择城市')
                 }
@@ -187,7 +187,6 @@
                                     } else {
                                         Loader.hideAll()
                                         Toast('微信定位失败，请手动选择城市')
-                                        that.$router.push('/cityselect')
                                     }
                                 },
                                 fail: function (res) {
@@ -212,7 +211,6 @@
                             Loader.hideAll();
                             that.city = "定位失败，请手动选择城市";
                             Toasrt('微信接口调用失败，请手动选择城市')
-                            that.$router.push('/cityselect')
                         });
                     } else {
                         Loader.hideAll();

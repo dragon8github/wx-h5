@@ -18,7 +18,7 @@
     color: #fff;
     box-sizing: border-box;
     text-align: center;
-    z-index: 1200;
+    z-index: 9999;
     -webkit-transition: opacity .3s linear;
     transition: opacity .3s linear;
     padding: pxToRem(20px);

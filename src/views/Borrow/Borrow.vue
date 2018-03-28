@@ -1,6 +1,6 @@
 <template>
 <div>
-    <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :Bottom="false">
+    <panel :_loadTop = "loadTop" :_isEmpty="isEmpty" :Bottom="false"  :noThingText="'您还没有借款记录'">
         <div id="Borrow" slot="body">
             <div class="Borrow-Item" v-for="(item, index) in myData" @click="go(item)">
                 <div class="Borrow-Item-head">
@@ -70,6 +70,13 @@
                               // ... 
                             }
                         }
+
+                        if (data.data.length === 0) {
+                            this.isEmpty = true;
+                        } else {
+                            this.isEmpty = false;
+                        }
+
                         cb && cb(data)
                     } else {
                         Toast(data.msg || "数据查询失败，请稍后重试");
@@ -153,6 +160,13 @@
              this.getData(_ => {
                 this.myData = _.data
              })
+        },
+        activated () {
+            if (this.myData.length === 0) {
+              this.getData(_ => {
+                 this.myData = _.data
+              })
+            }
         }
   }
 </script>

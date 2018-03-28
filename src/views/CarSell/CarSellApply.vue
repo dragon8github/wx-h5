@@ -154,7 +154,6 @@ export default {
 @import "~@sass/_variables";
 @import "~@sass/_func";
 
-
 .banner {
     @include flex(a, c, c);
     height: pxToRem(302px);

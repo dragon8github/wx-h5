@@ -153,6 +153,7 @@ export default {
     background-color: #0e6ae7;
     color: #fff;
     padding: pxToRem(45px) 0;
+    margin: 0;
 
     .banner_text {
         font-size: pxToRem(28px);
@@ -175,6 +176,7 @@ export default {
     @include flex(a, c);
     height: pxToRem(110px);
     background-color: #075dd3;
+    margin: 0;
 
     .navbar__block {
         text-align: center;

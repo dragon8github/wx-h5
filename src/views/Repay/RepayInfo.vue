@@ -3,19 +3,19 @@
        <div class="Repay-Item">
            <i class="right-icon" :class="type2icon(d.business_type, d.Is_extend_flag)"></i>
            <div class="Repay-Item-Warp">
-               <p class="bunsinessId">业务编号：CYD20170912001</p>
+               <p class="bunsinessId">业务编号：{{ d.business_id }}</p>
                <div class="Repay-Item-Warp-Center">
-                   <p class="shouldrepay">本期应还</p>
-                   <p class="money blue">¥ {{ d.CurrentRepayMoney }}</p>
-                   <p class="timer"><a>请在 {{ date2date(d.CurrentRepayDate, 'MM月dd日') }} 前还款</a></p>
+                   <p class="shouldrepay" v-if="d.CurrentRepayStatus != '已还款'">本期应还</p>
+                   <p class="money blue"> {{ d.CurrentRepayStatus === '已还款' ? '本期已还清' : '¥' + d.CurrentRepayMoney }}</p>
+                   <p class="timer" v-if="d.CurrentRepayStatus != '已还款'"><a>请在{{ date2date(d.CurrentRepayDate, 'MM月dd日') }}前还款</a></p>
                    <div class="info">
                        <div class="info-item">
-                           <div class="info-item-head">{{ d.borrow_money }}元</div>
-                           <div class="info-item-body">借款金额</div>
+                           <div class="info-item-head">{{ (d.borrow_money / 10000).toFixed(2) }}万元</div>
+                           <div class="info-item-body">{{ d.Is_extend_flag ? "展期金额" : "借款金额" }}</div>
                        </div>
                        <div class="info-item">
                            <div class="info-item-head">{{ d.loan_term }}个月</div>
-                           <div class="info-item-body">借款期限</div>
+                           <div class="info-item-body">{{ d.Is_extend_flag ? "展期期限" : "借款期限" }}</div>
                        </div>
                        <div class="info-item">
                            <div class="info-item-head">{{ d.repayment_type }}</div>
@@ -23,8 +23,8 @@
                        </div>
                    </div>
                    <div class="info-bottom">
-                      <div class="info-bottom-left">借款日期 {{ d.borrow_time }}</div>
-                      <div class="info-bottom-right">每月28日自动扣款</div>
+                      <div class="info-bottom-left">借款日期 {{ date2date(d.borrow_time) }}</div>
+                      <div class="info-bottom-right">每月{{ date2date(d.CurrentRepayDate, 'dd日') }}自动扣款</div>
                    </div>
                </div>
            </div>
@@ -52,7 +52,7 @@
             <div class="RepayList-body">
                 <div class="RepayList-body-item"  v-for="(item, index) in d.RepayedPlanList"> 
                     <div class="RepayList-body-left">{{ date2date(item.borrow_date) }}</div> 
-                    <div class="RepayList-body-right">{{ item.current_repaing_amount }}</div> 
+                    <div class="RepayList-body-right">{{ item.total_fact_repayment === item.total_fact_repayment_contains_overdue ? item.total_fact_repayment : item.total_fact_repayment_contains_overdue  }}</div> 
                 </div>
             </div>
             <div class="RepayList-tail">未还共计：{{ paymoney }}</div>
@@ -100,7 +100,10 @@
             var money = 0
             if (this.d.RepayedPlanList) {
               for (var i = this.d.RepayedPlanList.length - 1; i >= 0; i--) {
-                 money += this.d.RepayedPlanList[i].current_repaing_amount
+                 var a = this.d.RepayedPlanList[i].total_fact_repayment
+                 var b = this.d.RepayedPlanList[i].total_fact_repayment_contains_overdue
+                 var _money =  a === b ? a : b 
+                 money += _money
               }
             }
             return Math.floor(money * 100) / 100;
@@ -189,12 +192,10 @@
 
         &.blue {
           color: #0e6ae7;
-          font-weight: bolder;
         }
 
         &.red {
           color: #e60012;
-          font-weight: bolder;
         }
     }
 

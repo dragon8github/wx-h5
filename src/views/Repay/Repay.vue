@@ -132,7 +132,7 @@
             status2Color (item) {
                 if (this.getStatus(item)) {
                     return ''
-                } else if (item.IsOver) {
+                } else if (item.Status === "逾期") {
                     return 'red'
                 } else if (!item.IsOver) {
                     return 'blue'
@@ -149,13 +149,13 @@
             },
 
             // 获取订单状态
-            // 只会返回【已结清】、【本期已结清】、【已展期】
+            // 只会返回【已结清】、【本期已还清】、【已展期】
             getStatus (item) {
                 if (!item.Tip) {
                     var text = ''
                     for (var i = item.Plans.length - 1; i >= 0; i--) {
                         if (item.Plans[i].Status === "已还款") {
-                            return text = '本期已结清'
+                            return text = '本期已还清'
                         }
                     }
                     return text;
@@ -292,7 +292,7 @@
     margin-top: pxToRem(20px);
 
     .Repay-Item-Warp {
-        padding: pxToRem(43px) pxToRem(33px);
+        padding: pxToRem(43px) pxToRem(30px);
         border: pxToRem(2px) solid #e5e5e5;
     }
 

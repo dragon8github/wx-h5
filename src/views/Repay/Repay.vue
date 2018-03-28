@@ -38,10 +38,10 @@
                         <div class="manyorder" v-for="(item2, index2) in item.Plans" v-if="item.Plans.length > 1">
                             <div class="manyorder-row">
                                 <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
-                                <div class="manyorder-money" :class="{red: item2.IsOver}">{{ ordermoneystatus2ordermoneytext(item2) }}</div>
+                                <div class="manyorder-money" :class="{red: item2.Status === '逾期'}">{{ ordermoneystatus2ordermoneytext(item2) }}</div>
                             </div>
                             <div class="manyorder-row">
-                                <div class="manyorder-timer">请在{{ item2.Date }}前还款</div>
+                                <div class="manyorder-timer">请在{{ date2date(item2.Date, 'MM月dd日') }}前还款</div>
                                 <div class="manyorder-info" @click.stop="go2(item.BusinessId, item2.AfterId, item.OrgBusinessId)">{{ status2gotext(item2) }}</div>
                             </div>
                         </div>
@@ -130,11 +130,12 @@
 
             // 根据状态返回文字颜色
             status2Color (item) {
-                if (this.getStatus(item)) {
+                var status = this.getStatus(item)
+                if (status && status != '逾期') {
                     return ''
-                } else if (item.Status === "逾期") {
+                } else if (status == "逾期") {
                     return 'red'
-                } else if (!item.IsOver) {
+                } else if (status != "逾期") {
                     return 'blue'
                 }
             },
@@ -156,6 +157,8 @@
                     for (var i = item.Plans.length - 1; i >= 0; i--) {
                         if (item.Plans[i].Status === "已还款") {
                             return text = '本期已还清'
+                        } else if (item.Plans[i].Status === '逾期') {
+                            return text = '逾期'
                         }
                     }
                     return text;
@@ -190,7 +193,7 @@
                 // 获取还款
                 var status = this.getStatus(item);
                 // 如果返回空，说明不属于 【本期已还清】 【已结清】 【已展期】
-                if (!status) {
+                if (!status || status === '逾期') {
                     return '￥' + this.getAllMoney(item.Plans)
                 }
                 return status
@@ -211,7 +214,7 @@
             // 根据状态来返回文本
             ordermoneystatus2ordermoneytext (item) {
                 // 已逾期
-                if (item.IsOver) {
+                if (item.Status === '逾期') {
                     return '已逾期'                
                 } else if (item.Status === '已还款') {
                     return '本期已还清'

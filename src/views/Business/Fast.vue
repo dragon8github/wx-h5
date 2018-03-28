@@ -53,7 +53,12 @@
                phone: this.$store.state.phone || '',
                x: this.$route.params.type === 'house' ? '100%' : 0,
                type: this.$route.params.type || 'car',
-               city: this.$store.state.localcity || this.$store.state.city
+               city: this.$store.state.localcity || this.$store.state.city,
+               latitude: 0,
+               longitude: 0,
+               address: '',
+               district: '',
+               province: ''
             }
         },
         methods: {
@@ -96,9 +101,12 @@
                 this.xdapi.fastApplyFor({
                     businessType: _type,          
                     location: {
+                        province: this.province,
                         city: this.city,   
-                        latitude:'0',      
-                        longitude: '0',    
+                        district: this.district,
+                        address: this.address,
+                        longitude: this.latitude,  
+                        latitude: this.latitude  
                     },
                     realName: this.user,            // 真实姓名
                     telNo: this.phone               // 电话号码
@@ -165,8 +173,13 @@
                                                 Loader.hideAll();
                                                 // 获取城市
                                                 var city = data.result.addressComponent.city
-                                                that.city = city
                                                 that.$store.state.city = city
+                                                that.city = city
+                                                that.province = data.result.addressComponent.province
+                                                that.district = data.result.addressComponent.district
+                                                that.address = data.result.formatted_address
+                                                that.longitude = longitude
+                                                that.latitude = latitude
                                                 Toast("定位到当前城市为：" + city);
                                             // 坐标转换失败
                                             } else {

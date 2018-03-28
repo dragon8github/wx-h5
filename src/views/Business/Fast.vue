@@ -174,12 +174,12 @@
                                                 // 获取城市
                                                 var city = data.result.addressComponent.city
                                                 that.$store.state.city = city
-                                                that.city = city
-                                                that.province = data.result.addressComponent.province
-                                                that.district = data.result.addressComponent.district
-                                                that.address = data.result.formatted_address
+                                                that.city      = city
+                                                that.province  = data.result.addressComponent.province
+                                                that.district  = data.result.addressComponent.district
+                                                that.address   = data.result.formatted_address
                                                 that.longitude = longitude
-                                                that.latitude = latitude
+                                                that.latitude  = latitude
                                                 Toast("定位到当前城市为：" + city);
                                             // 坐标转换失败
                                             } else {
@@ -191,7 +191,7 @@
 
                                         // 防止百度地图迟迟没有回调，10秒后自动关闭
                                         window.setTimeout(_=>{
-                                            Loader.hideAll();
+                                            Loader.hideAll()
                                         }, 10000)
 
                                         var o = document.createElement('script');

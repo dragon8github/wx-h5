@@ -9,7 +9,7 @@
         <div class="search">
             <div class="search__left">
                 <i class="search__icon"></i>
-                <input type="text" class="search__input" placeholder="请输入品牌/型号" v-model="search"  @keyup.enter="searchFn"/>
+                <input type="text" class="search__input" placeholder="请输入品牌/型号" v-model="search"  @change="searchFn"/>
             </div>
             <div class="search__right" @click="searchFn"> 搜索 </div>
         </div>
@@ -203,7 +203,8 @@ export default {
          // 存储切换前的tag索引
          this.oldTag = oldVal.substr(-1, 1)
          // 重置搜索条件
-         this.resetWhere();
+         this.resetWhere()
+         this.search = '';
          // 【设置当前操作tag对象】
          this.where.type = curVal.substr(-1, 1)
          // 骚操作

@@ -54,6 +54,8 @@ export default {
     if (a) {
         this.AndroidVersion = +(a[1].trim().substr(0, 1));
     }
+    
+    
   }
 }
 </script>

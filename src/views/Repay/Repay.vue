@@ -35,12 +35,12 @@
                         </p>
 
                         <!-- 还款计划 -->
-                        <div class="manyorder" v-for="(item2, index2) in item.Plans" v-if="item.Plans.length > 1">
+                        <div class="manyorder" v-for="(item2, index2) in item.Plans" v-if="item.Plans.length > 1"  @click.stop="go2(item.BusinessId, item2.AfterId, item.OrgBusinessId)">
                             <div class="manyorder-row">
                                 <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
                                 <div class="manyorder-money" :class="{red: item2.Status === '逾期'}">{{ ordermoneystatus2ordermoneytext(item2) }}</div>
                             </div>
-                            <div class="manyorder-row" @click.stop="go2(item.BusinessId, item2.AfterId, item.OrgBusinessId)">
+                            <div class="manyorder-row">
                                 <div class="manyorder-timer">请在{{ date2date(item2.Date, 'MM月dd日') }}前还款</div>
                                 <div class="manyorder-info">{{ status2gotext(item2) }}</div>
                             </div>
@@ -143,7 +143,7 @@
             getAllMoney (plans) {
                 var money = 0;
                 for (var i = plans.length - 1; i >= 0; i--) {
-                    money = plans[i].TotalAmount
+                    money += plans[i].TotalAmount
                 }
                 return money;
             },

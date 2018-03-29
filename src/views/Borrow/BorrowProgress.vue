@@ -2,10 +2,10 @@
  <div id="BorrowProgress">
       <div class="banner">
             <el-steps :active="activeStep" align-center>
-                <el-step title="申请借款">
+                <el-step :title="myapply">
                     <i class="myicon one"   :class="{active: activeStep >= 0}" slot="icon"></i>
                 </el-step>
-                <el-step title="车辆评估">
+                <el-step :title="myassess">
                     <i class="myicon two"   :class="{active: activeStep >= 1}" slot="icon"></i>
                 </el-step>
                 <el-step title="手续办理">
@@ -34,7 +34,7 @@
 
       <div>
 
-          <cell title="申请时间：" :value="date2date(d.ApplyDate)"></cell>  
+          <!-- <cell title="申请时间：" :value="date2date(d.ApplyDate)"></cell>   -->
           <cell title="所在门店：" :value="d.StoreName"></cell>  
           <cell title="订单状态：" :value="process2name"></cell>  
 
@@ -53,7 +53,8 @@
         name: 'BorrowProgress',
         data () {
             return {
-                d: this.$store.state.BorrowInfo.BorrowInfoData
+                d: this.$store.state.BorrowInfo.BorrowInfoData,
+                type: this.$route.params.type || ''
             }
         },
         watch: {
@@ -108,6 +109,28 @@
                 } else  if (type == 4 || type == 5) {
                     return 3
                 }
+            },
+            myassess () {
+                if (this.type == '一点车贷') {
+                    return '车辆评估'
+                } else if (this.type == '鸿特微贷') {
+                    return '房价评估'
+                } else if (this.type === '一点车贷展期') {
+                    return '车辆评估'
+                } else if (this.type === '鸿特微贷展期') {
+                    return '房价评估'
+                }
+            },
+            myapply () {
+              if (this.type == '一点车贷') {
+                  return '申请借款'
+              } else if (this.type == '鸿特微贷') {
+                  return '申请借款'
+              } else if (this.type === '一点车贷展期') {
+                  return '申请展期'
+              } else if (this.type === '鸿特微贷展期') {
+                  return '申请展期'
+              }
             }
         },
         components: {
@@ -116,11 +139,6 @@
           cell
         },
         beforeMount () {
-            console.log(this.d)
-            // if (!this.d.BorrowMoney) {
-            //   this.$router.push('/borrow');
-            //   Toast('未找到订单信息，请重试');
-            // }
         }
   }
 </script>

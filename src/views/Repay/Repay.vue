@@ -15,19 +15,19 @@
                     <div class="Repay-Item-Warp-Center">
                             
                         <!-- 本期应还，如果是【已展期】【本期已还清】【已结清】的情况就不需要显示本文本 -->
-                        <p class="shouldrepay" v-if="getStatus(item) === ''">本期应还</p>
+                        <p class="shouldrepay" v-if="getStatus(item) === '' || getStatus(item) === '逾期'">本期应还</p>
 
                         <!-- 金额，还款计划的累积 -->
                         <p class="money" :class="status2Color(item)">{{ moneystatus2text(item) }}</p>
 
                         <!-- 还款日期，根据不同的情况显示不同的文本 -->
-                        <p class="timer" v-if="!getStatus(item)">{{ status2time(item) }}</p>
+                        <p class="timer" v-if="getStatus(item) === '' || getStatus(item) === '逾期'">{{ status2time(item) }}</p>
 
                         <!-- 低调的分割线 -->
                         <p class="line"></p>
 
                         <!-- 历史账单 / 请按以下日期还款 -->
-                        <p class="info" v-if="item.status != 'plan'">
+                        <p class="info" v-if="item.Plans.length < 2">
                             <!-- 历史账单的情况下，可以使用goHistory事件 -->
                             <a v-if="status2gotext(item) === '历史账单'" @click.stop="goHistory(item)">{{ status2gotext(item) }}</a>
                             <!-- 普通文本（请按以下日期还款） -->
@@ -40,9 +40,9 @@
                                 <div class="manyorder-plan">还款计划 {{ index2 + 1 }}</div>
                                 <div class="manyorder-money" :class="{red: item2.Status === '逾期'}">{{ ordermoneystatus2ordermoneytext(item2) }}</div>
                             </div>
-                            <div class="manyorder-row">
+                            <div class="manyorder-row" @click.stop="go2(item.BusinessId, item2.AfterId, item.OrgBusinessId)">
                                 <div class="manyorder-timer">请在{{ date2date(item2.Date, 'MM月dd日') }}前还款</div>
-                                <div class="manyorder-info" @click.stop="go2(item.BusinessId, item2.AfterId, item.OrgBusinessId)">{{ status2gotext(item2) }}</div>
+                                <div class="manyorder-info">{{ status2gotext(item2) }}</div>
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,6 @@
                               // ... 
                             }
                         }
-
                         if (data.data.length === 0) {
                             this.isEmpty = true;
                         } else {
@@ -170,7 +169,7 @@
 
             // 如果是展期订单、已结清的情况下，返回的文本是历史账单，否则返回查看账单
             status2gotext (item) {
-                if (item.BusinessId != item.OrgBusinessId || // 展期订单
+                if (item.HasDeffer || 
                     item.Tip === '已结清' // 已结清
                    ) {
                     return '历史账单'
@@ -201,7 +200,8 @@
 
             // 根据状态返回时间文本
             status2time (item) {
-                if (item.IsOver) {
+                var status = this.getStatus(item);
+                if (status === '逾期') {
                     return '已逾期，请尽快还款！'
                 } else if (item.BusinessId === item.OrgBusinessId && item.Plans.length > 1) {
                     return '请按以下日期还款'
@@ -228,7 +228,7 @@
                if (item.Plans.length == 1) {
                     this.getRepayInfo(item.BusinessId, item.Plans[0].AfterId, item.OrgBusinessId)
                } else {
-                    Toast('未找到该订单的详情')
+                    // Toast('未找到该订单的详情')
                }
             },
 

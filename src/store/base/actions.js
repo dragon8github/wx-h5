@@ -62,6 +62,10 @@ export const set_phone = ({commit, state}, v) => {
   state.phone = v
 }
 
+// 存储用户快速申请的手机号码
+export const set_fastphone = ({commit, state}, v) => {
+  state.fastphone = v
+}
 
 // 存储用户选择的银行
 export const set_bank = ({commit, state}, v) => {

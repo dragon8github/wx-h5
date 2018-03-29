@@ -27,3 +27,6 @@ export let phone = window.localStorage.getItem('phone')
 
 // token
 export let token = window.localStorage.getItem('token')
+
+// 快速申请的手机号码
+export let fastphone = ''

@@ -70,7 +70,7 @@
                               // ... 
                             }
                         }
-
+                        console.log(data.data);
                         if (data.data.length === 0) {
                             this.isEmpty = true;
                         } else {
@@ -115,7 +115,6 @@
                 return '--'
             },
             go (item) {
-                if (item.BorrowMoney) {
                     this.$store.dispatch('setBorrowInfoData', {
                         // 进度/订单状态
                         Schedule:      item.Schedule,
@@ -130,17 +129,8 @@
                         // 时间
                         ApplyDate:     item.ApplyDate
                     }).then(_ => {
-                        this.$router.push('BorrowProgress')
+                        this.$router.push('BorrowProgress/' + item.BusinessType)
                     })
-                  } else {
-                    if (item.Schedule == '-1') {
-                      Toast('该订单已取消，未找到详情')
-                    } else if (item.Schedule == '0' || item.Schedule == '1' || item.Schedule == '2' || item.Schedule == '3') {
-                      Toast('正在审核中，未找到详情')
-                    } else {
-                      Toast('未找到详情')
-                    }
-                  }
             },
             gocancel (ProtoTypeId, index) {
                 msg.confirm("你确定要取消订单吗？", "操作提示").then(()=>{
@@ -161,11 +151,6 @@
         },
         components: {
             panel
-        },
-        beforeMount () {
-             this.getData(_ => {
-                this.myData = _.data
-             })
         },
         activated () {
             if (this.myData.length === 0) {

@@ -67,7 +67,6 @@ export default {
   .view {
       // height: 100vh;
       height: 100%;
-      // overflow-y: scroll;
       margin: 0 auto;
       transition: all .3s ease-in-out;
       box-sizing: border-box;
@@ -78,7 +77,7 @@ export default {
       top: 0;
       // bottom: 0;
       z-index: 1;
-      overflow: scroll;
+      overflow-y: scroll;
   }
 
   // Page Turn on Transian Effect

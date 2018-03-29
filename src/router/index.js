@@ -114,8 +114,8 @@ let router =  new Router({
         { path: '/BankSelect',                        name: ' BankSelect',         meta: { title: '选择银行' },          component: BankSelect },
         { path: '/ErrorPage',                         name: ' ErrorPage',          meta: { title: '提交结果' },          component: ErrorPage },
 
-        { path: '/Borrow',         name: 'Borrow',         meta: { title: '我的借款' },  component: Borrow },
-        { path: '/BorrowProgress', name: 'BorrowProgress', meta: { title: '查看进度' },  component: BorrowProgress },
+        { path: '/Borrow',                name: 'Borrow',         meta: { title: '我的借款' },  component: Borrow },
+        { path: '/BorrowProgress/:type?', name: 'BorrowProgress', meta: { title: '查看进度' },  component: BorrowProgress },
 
         { path: '/RegProtocol',     name: 'RegProtocol',     meta: { title: '鸿特金服信贷服务协议' },  component: RegProtocol },
         { path: '/CarSellNeedKnow', name: 'CarSellNeedKnow', meta: { title: '竞买须知' }, component: CarSellNeedKnow },

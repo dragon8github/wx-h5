@@ -108,12 +108,14 @@
                         longitude: this.latitude,  
                         latitude: this.latitude  
                     },
-                    realName: this.user,            // 真实姓名
-                    telNo: this.phone               // 电话号码
+                    realName: this.user, // 真实姓名
+                    telNo: this.phone    // 电话号码
                 }, true).then(data=>{
                       Loader.hideAll()
                       if (data.returnCode == 0) {
-                          this.$router.push("Status")
+                            this.$store.dispatch('set_fastphone', this.phone).then(_=>{
+                                this.$router.push("Status")
+                            })
                       } else {
                           Toast(data.msg);
                       }

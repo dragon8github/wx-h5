@@ -6,7 +6,7 @@
                <p class="bunsinessId">业务编号：{{ d.business_id }}</p>
                <div class="Repay-Item-Warp-Center">
                    <p class="shouldrepay" v-if="d.CurrentRepayStatus != '已还款'">本期应还</p>
-                   <p class="money blue"> {{ d.CurrentRepayStatus === '已还款' ? '本期已还清' : '¥' + d.CurrentRepayMoney }}</p>
+                   <p class="money" :class="status2Color(d.CurrentRepayStatus)"> {{ d.CurrentRepayStatus === '已还款' ? '本期已还清' : '¥' + d.CurrentRepayMoney }}</p>
                    <p class="timer" v-if="d.CurrentRepayStatus != '已还款'"><a>请在{{ date2date(d.CurrentRepayDate, 'MM月dd日') }}前还款</a></p>
                    <div class="info">
                        <div class="info-item">
@@ -36,15 +36,15 @@
                 <div class="RepayList-head-right">金额（元）</div>
             </div>
             <div class="RepayList-body">
-                <div class="RepayList-body-item" v-for="(item, index) in d.NoRepayPlanList"> 
-                  <div class="RepayList-body-left">{{ date2date(item.borrow_date) }} {{ item.car_business_after_id === afterid ? '（本期）' : '' }}</div> 
-                  <div class="RepayList-body-right">{{ item.current_repaing_amount }}</div> 
+                <div class="RepayList-body-item" v-for="(item, index) in d.NoRepayPlanList" > 
+                  <div class="RepayList-body-left" :class="{red: item.after_type === '逾期' || item.after_type === '催款中'}">{{ date2date(item.borrow_date) }} {{ getTimeStatus(item.car_business_after_id, item.after_type) }} </div>
+                  <div class="RepayList-body-right" :class="{red: item.after_type === '逾期' || item.after_type === '催款中'}">{{ item.current_repaing_amount }}</div> 
                 </div>
             </div>
             <div class="RepayList-tail">未还共计：{{ nopaymoney }}</div>
        </div>
 
-       <div class="RepayList">
+       <div class="RepayList" v-if="d.RepayedPlanList.length > 0">
             <div class="RepayList-head">
                 <div class="RepayList-head-left">已还{{ d.RepayedPlanList.length }}期</div>
                 <div class="RepayList-head-right">金额（元）</div>
@@ -52,7 +52,7 @@
             <div class="RepayList-body">
                 <div class="RepayList-body-item"  v-for="(item, index) in d.RepayedPlanList"> 
                     <div class="RepayList-body-left">{{ date2date(item.borrow_date) }}</div> 
-                    <div class="RepayList-body-right">{{ item.total_fact_repayment === item.total_fact_repayment_contains_overdue ? item.total_fact_repayment : item.total_fact_repayment_contains_overdue  }}</div> 
+                    <div class="RepayList-body-right">{{ item.total_plan_repayment === item.total_plan_repayment_contains_overdue ? item.total_plan_repayment : item.total_plan_repayment_contains_overdue  }}</div> 
                 </div>
             </div>
             <div class="RepayList-tail">未还共计：{{ paymoney }}</div>
@@ -85,6 +85,23 @@
               if (type === 'house' && HasDeffer)  return 'housezhanqi'
               if (type === 'house' && !HasDeffer) return 'house'
           },
+          // 根据状态返回文字颜色
+          status2Color (status) {
+              if (status == "逾期") {
+                  return 'red'
+              } else if (status == "还款中") {
+                  return 'blue'
+              } else if (status === '已还款') {
+                  return ''
+              }
+          },
+          getTimeStatus (id, after_type) {
+              if (id === this.afterid) {
+                  return '（本期）'
+              } else if (after_type === '逾期') {
+                  return '（逾期）'
+              }
+          }
         },
         computed: {
           nopaymoney () {
@@ -112,7 +129,7 @@
         components: {
         },
         beforeMount () {
-          console.log(12312312, this.d)
+          console.log(this.d)
 
           if (!this.d.business_type) {
             this.$router.push('/Repay')
@@ -204,6 +221,10 @@
         color: #999999;
         margin: 0 auto pxToRem(43px);
     }
+}
+
+.red {
+  color: #e60012 !important;
 }
 
 .info {

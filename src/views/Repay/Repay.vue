@@ -148,6 +148,16 @@
                 return money;
             },
 
+            isOverdue (time) {
+                time = time.replace(/\-/g, "/")
+                time = (new Date(time)).getTime();
+                var curTime = (new Date()).getTime();
+                if (curTime > time) {
+                    return true
+                }
+                return false
+            },
+
             // 获取订单状态
             // 只会返回【已结清】、【本期已还清】、【已展期】
             getStatus (item) {
@@ -156,7 +166,7 @@
                     for (var i = item.Plans.length - 1; i >= 0; i--) {
                         if (item.Plans[i].Status === "已还款") {
                             return text = '本期已还清'
-                        } else if (item.Plans[i].Status === '逾期') {
+                        } else if ( this.isOverdue(item.Plans[i].Date)) {
                             return text = '逾期'
                         }
                     }
@@ -264,6 +274,15 @@
             panel
         },
         computed: {
+        },
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                  if (from.name.toLocaleLowerCase() != 'repayinfo') {
+                      vm.getData(_ => {
+                          vm.myData = _.data
+                      })
+                  }
+            })
         },
         activated () {
             if (!this.myData.length) {

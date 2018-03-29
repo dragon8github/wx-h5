@@ -37,8 +37,8 @@
             </div>
             <div class="RepayList-body">
                 <div class="RepayList-body-item" v-for="(item, index) in d.NoRepayPlanList" > 
-                  <div class="RepayList-body-left" :class="{red: item.after_type === '逾期' || item.after_type === '催款中'}">{{ date2date(item.borrow_date) }} {{ getTimeStatus(item.car_business_after_id, item.after_type) }} </div>
-                  <div class="RepayList-body-right" :class="{red: item.after_type === '逾期' || item.after_type === '催款中'}">{{ item.current_repaing_amount }}</div> 
+                  <div class="RepayList-body-left" :class="{red: isOverdue(item.borrow_date)}">{{ date2date(item.borrow_date) }} {{ getTimeStatus(item.car_business_after_id, item.borrow_date) }} </div>
+                  <div class="RepayList-body-right" :class="{red: isOverdue(item.borrow_date)}">{{ item.current_repaing_amount }}</div> 
                 </div>
             </div>
             <div class="RepayList-tail">未还共计：{{ nopaymoney }}</div>
@@ -77,6 +77,7 @@
 
         },
         methods: {
+
           // 根据业务类型返回右上角的图标
           type2icon (type, HasDeffer) {
               type = type.indexOf('车') >= 0 ? 'car' : 'house'
@@ -85,6 +86,7 @@
               if (type === 'house' && HasDeffer)  return 'housezhanqi'
               if (type === 'house' && !HasDeffer) return 'house'
           },
+
           // 根据状态返回文字颜色
           status2Color (status) {
               if (status == "逾期") {
@@ -95,12 +97,23 @@
                   return ''
               }
           },
-          getTimeStatus (id, after_type) {
-              if (id === this.afterid && after_type == '逾期') {
+
+          isOverdue (time) {
+              time = time.replace(/\-/g, "/")
+              time = (new Date(time)).getTime();
+              var curTime = (new Date()).getTime();
+              if (curTime > time) {
+                  return true
+              }
+              return false
+          },
+
+          getTimeStatus (id, date) {
+              if (id === this.afterid && this.isOverdue(date)) {
                   return '（逾期）'
-              } else if (after_type === '逾期') {
+              } else if (this.isOverdue(date)) {
                   return '（逾期）'
-              } else {
+              } else if (id === this.afterid) {
                  return '（本期）'
               }
           }

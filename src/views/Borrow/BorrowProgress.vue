@@ -20,11 +20,11 @@
       <div class="info">
           <div class="info-item">
               <div class="info-item-head">{{ money2money(d.BorrowMoney) }}</div>
-              <div class="info-item-body">借款金额</div>
+              <div class="info-item-body">{{ moneyText }}</div>
           </div>
           <div class="info-item">
               <div class="info-item-head">{{ limit2limit(d.BorrowLimit) }}</div>
-              <div class="info-item-body">借款期限</div>
+              <div class="info-item-body">{{ limitText }}</div>
           </div>
           <div class="info-item">
               <div class="info-item-head">{{ pattern2pattern(d.RepaymentType) }}</div>
@@ -63,7 +63,7 @@
         methods: {
             money2money (money) {
                 if (money) {
-                    return money + '元'
+                    return (money / 10000).toFixed(2) + '万元'
                 }
                 return '--'
             },
@@ -131,7 +131,29 @@
               } else if (this.type === '鸿特微贷展期') {
                   return '申请展期'
               }
-            }
+            },
+            moneyText () {
+              if (this.type == '一点车贷') {
+                  return '借款金额'
+              } else if (this.type == '鸿特微贷') {
+                  return '借款金额'
+              } else if (this.type === '一点车贷展期') {
+                  return '展期金额'
+              } else if (this.type === '鸿特微贷展期') {
+                  return '展期金额'
+              }
+            },
+            limitText () {
+              if (this.type == '一点车贷') {
+                  return '借款期限'
+              } else if (this.type == '鸿特微贷') {
+                  return '借款期限'
+              } else if (this.type === '一点车贷展期') {
+                  return '展期期限'
+              } else if (this.type === '鸿特微贷展期') {
+                  return '展期期限'
+              }
+            },
         },
         components: {
           elSteps: Steps, 

@@ -6,7 +6,7 @@
             <div class="status-title">提交成功！</div>
             <article class="status-text">
                 <p class="status-text-p">尊敬的用户：</p>
-                <p class="status-text-p">信贷顾问正在快马加鞭联系您，请保持手机{{ myfastphone }}畅通！</p>
+                <p class="status-text-p">信贷顾问正在快马加鞭联系您，请保持手机<span class="blue">{{ myfastphone }}</span>畅通！</p>
             </article>
             <div class="line"></div>
             <div class="line-bottom">
@@ -105,5 +105,8 @@
     }
 }
 
+.blue {
+    color:#0e6ae7;
+}
 
 </style>

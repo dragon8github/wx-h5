@@ -55,7 +55,7 @@
                     <div class="RepayList-body-right">{{ item.total_plan_repayment === item.total_plan_repayment_contains_overdue ? item.total_plan_repayment : item.total_plan_repayment_contains_overdue  }}</div> 
                 </div>
             </div>
-            <div class="RepayList-tail">未还共计：{{ paymoney }}</div>
+            <div class="RepayList-tail">已还共计：{{ paymoney }}</div>
        </div>
 
  </div>
@@ -96,10 +96,12 @@
               }
           },
           getTimeStatus (id, after_type) {
-              if (id === this.afterid) {
-                  return '（本期）'
+              if (id === this.afterid && after_type == '逾期') {
+                  return '（逾期）'
               } else if (after_type === '逾期') {
                   return '（逾期）'
+              } else {
+                 return '（本期）'
               }
           }
         },
@@ -117,8 +119,8 @@
             var money = 0
             if (this.d.RepayedPlanList) {
               for (var i = this.d.RepayedPlanList.length - 1; i >= 0; i--) {
-                 var a = this.d.RepayedPlanList[i].total_fact_repayment
-                 var b = this.d.RepayedPlanList[i].total_fact_repayment_contains_overdue
+                 var a = this.d.RepayedPlanList[i].total_plan_repayment
+                 var b = this.d.RepayedPlanList[i].total_plan_repayment_contains_overdue
                  var _money =  a === b ? a : b 
                  money += _money
               }

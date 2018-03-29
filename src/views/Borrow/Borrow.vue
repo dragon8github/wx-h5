@@ -8,8 +8,9 @@
                     <div class="Borrow-right">
                         <div class="Borrow-name">{{ item.BusinessType }}</div>
                         <div class="Borrow-info">
-                            <span class="Borrow-time">申请日期：{{ date2date(item.ApplyDate) }}</span>
-                            <span class="Borrow-approve" v-if="item.Schedule != '-2' || item.Schedule != '5'">
+                            
+                            <span class="Borrow-time">申请日期：{{ date2date(item.ApplyDate)  }} </span>
+                            <span class="Borrow-approve" v-if=" [-1, 5].indexOf(item.Schedule) < 0 ">
                               <a>{{ process2name(item.Schedule) }}</a>
                             </span>
                         </div>
@@ -98,7 +99,7 @@
             },
             money2money (money) {
                 if (money) {
-                    return money + '元'
+                    return (money / 10000).toFixed(2) + '万元'
                 }
                 return '--'
             },
@@ -135,7 +136,7 @@
             gocancel (ProtoTypeId, index) {
                 msg.confirm("你确定要取消订单吗？", "操作提示").then(()=>{
                       this.xdapi.businessCancel({
-                          ProtoTypeId: ProtoTypeId
+                          protoTypeId: ProtoTypeId
                       }).then(data => {
                         if (data.returnCode == 0) {
                             this.myData[index].Schedule = '-1'

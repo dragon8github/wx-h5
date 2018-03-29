@@ -24,7 +24,7 @@
                         <p class="timer" v-if="getStatus(item) === '' || getStatus(item) === '逾期'">{{ status2time(item) }}</p>
 
                         <!-- 低调的分割线 -->
-                        <p class="line"></p>
+                        <p class="line" v-if="item.Plans.length < 2"></p>
 
                         <!-- 历史账单 / 请按以下日期还款 -->
                         <p class="info" v-if="item.Plans.length < 2">

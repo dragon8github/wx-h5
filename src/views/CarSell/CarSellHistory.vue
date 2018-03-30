@@ -98,7 +98,8 @@ export default {
             '1':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false },
             '2':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false },
         },
-        oldTag: null
+        oldTag: null,
+        __token__: ''
     }
   },
   components: {
@@ -122,6 +123,7 @@ export default {
       return nowtime > endtime ? true : false
     },
     getData (success_cb, err_cb, isQuite = false) {
+        this.__token__ = this.$store.state.token
         this.carapi.selectAuctionReg(this.where, isQuite).then(data => {
            if (data.returnCode == 0) {
               this.currTag.isError = false;
@@ -229,7 +231,7 @@ export default {
     }
   },
   activated () {
-    if (this.currTag.list.length === 0) {
+    if (this.currTag.list.length === 0 || this.__token__ != this.$store.state.token) {
       this.getData(_ => {
           this.currTag.list = _.data
           if (_.data.length === 0) this.currTag.isEmpty = true;

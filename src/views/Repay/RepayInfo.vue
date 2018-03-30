@@ -101,7 +101,7 @@
           isOverdue (time) {
               time = time.replace(/\-/g, "/")
               time = (new Date(time)).getTime();
-              var curTime = (new Date()).getTime();
+              var curTime = new Date(new Date().toLocaleDateString()).getTime();
               if (curTime > time) {
                   return true
               }

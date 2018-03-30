@@ -32,7 +32,8 @@
         firstSection: null,
         currentIndicator: '',
         currentHeight: this.height,
-        navOffsetX: 0
+        navOffsetX: 0,
+        ele: null
       };
     },
     watch: {
@@ -99,10 +100,17 @@
 
         if (targets.length > 0) {
           targetDOM = targets[0].$el;
-          // let top = targetDOM.offsetTop
-          // this.$refs.content.scrollTop = targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top;
-          var top = this.getTop(targetDOM);
-          window.scrollTo(0, top)
+          let top = targetDOM.offsetTop
+          console.log(this.$refs.content, targetDOM.getBoundingClientRect().top, this.firstSection.getBoundingClientRect().top, targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top);
+          
+          console.log(this.ele)
+          if (this.ele) {
+              this.ele.content.scrollTop = targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top;
+          } else {
+              this.$refs.content.scrollTop = targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top;
+          }
+          // var top = this.getTop(targetDOM);
+          // window.scrollTo(0, top)
         }
       }
     },

@@ -11,10 +11,15 @@
             <div class="line"></div>
             <div class="line-bottom">
                 <p>请提前准备以下资料：</p>
-                <ul>
+                <ul v-if="type === 'house'">
                     <li>1.借款人（夫妻）身份证，婚姻证明，户口本</li>
                     <li>2.个人征信，夫妻银行流水（须原件）</li>
                     <li>3.房产证，土地证</li>
+                </ul>
+                <ul v-else>
+                    <li>1.身份证及居住证（非本地户口）</li>
+                    <li>2.行驶证、机动车登记证</li>
+                    <li>3.车辆备用钥匙</li>
                 </ul>
             </div>
             <button class="mybutton" @click="push">返 回 主 页</button>
@@ -31,12 +36,13 @@
     name: 'Status',
     data () {
         return {
-            fastphone: this.$store.state.fastphone
+            fastphone: this.$store.state.fastphone,
+            type: this.$route.params.type || 'car'
         }
     },
     methods: {
         push () {
-           this.$router.push('fast');
+           this.$router.push('/fast');
         }
     },
     computed: {
@@ -57,7 +63,7 @@
 @import "~@sass/_status";
 
 #Status {
-    min-height: pxToRem(1200px);
+    min-height: pxToRem(1150px);
     padding: pxToRem(30px);
     margin: pxToRem(30px);
 

@@ -114,7 +114,7 @@
                       Loader.hideAll()
                       if (data.returnCode == 0) {
                             this.$store.dispatch('set_fastphone', this.phone).then(_=>{
-                                this.$router.push("Status")
+                                this.$router.push("/Status/" + this.type)
                             })
                       } else {
                           Toast(data.msg);

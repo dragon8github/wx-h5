@@ -64,7 +64,8 @@
         data () {
             return {
                 myData: [],
-                isEmpty: false
+                isEmpty: false,
+                __token__: ''
             }
         },
         methods: {
@@ -95,9 +96,10 @@
             },
 
             getData (cb, isQuietness = false) {
+                this.__token__ = this.$store.state.token
                 this.xdapi.getRepayingList({
                       pageIndex: '1',  // 页数
-                      pageSize: '10'   // 数量
+                      pageSize: '100'   // 数量
                 }, isQuietness).then(data => {
                     if (data.returnCode == 0) {
                         if (typeof data.data === 'string') {
@@ -151,7 +153,7 @@
             isOverdue (time) {
                 time = time.replace(/\-/g, "/")
                 time = (new Date(time)).getTime();
-                var curTime = (new Date()).getTime();
+                var curTime = new Date(new Date().toLocaleDateString()).getTime();
                 if (curTime > time) {
                     return true
                 }
@@ -163,11 +165,14 @@
             getStatus (item) {
                 if (!item.Tip) {
                     var text = ''
+                    // 遍历所有的还款计划
                     for (var i = item.Plans.length - 1; i >= 0; i--) {
                         if (item.Plans[i].Status === "已还款") {
-                            return text = '本期已还清'
-                        } else if ( this.isOverdue(item.Plans[i].Date)) {
+                            text = '本期已还清'
+                        } else if (this.isOverdue(item.Plans[i].Date)) {
                             return text = '逾期'
+                        } else {
+                            return text = ''
                         }
                     }
                     return text;
@@ -275,17 +280,8 @@
         },
         computed: {
         },
-        beforeRouteEnter (to, from, next) {
-            next(vm => {
-                  if (from.name.toLocaleLowerCase() != 'repayinfo') {
-                      vm.getData(_ => {
-                          vm.myData = _.data
-                      })
-                  }
-            })
-        },
         activated () {
-            if (!this.myData.length) {
+            if (!this.myData.length || this.__token__ != this.$store.state.token) {
                 this.getData(_ => {
                     this.myData = _.data
                     console.log(this.myData)

@@ -176,14 +176,9 @@ export default {
         
     },
     activated () {
-        // 设置滚动区域的高度
-        this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top + 'px'
-
-        // 当dom渲染完成后，再判断和渲染一次高度
-        this.$nextTick( _ => {
-             let height = getComputedStyle(document.querySelectorAll('.page-loadmore-wrapper')[0])["height"]
-             if (this.$refs.wrapper.getBoundingClientRect().top  === 0)  this.wrapperHeight = height
-        })
+        setTimeout(_=>{
+            this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top + 'px'
+        }, 400)
     }
   }
 </script>

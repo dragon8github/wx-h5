@@ -45,7 +45,8 @@
             return {
                 myData: [],
                 // 数据源是否为空
-                isEmpty: false
+                isEmpty: false,
+                __token__: ''
             }
         },
         watch: {
@@ -59,9 +60,10 @@
                 }, true)
             },
             getData (cb, isQuietness = false) {
+                this.__token__ = this.$store.state.token
                 this.xdapi.borrowingRecord({
                       pageIndex: '1',  // 页数
-                      pageSize: '10'   // 数量
+                      pageSize: '100'   // 数量
                 }, isQuietness).then(data=>{
                     if (data.returnCode == 0) {
                         if (typeof data.data === 'string') {
@@ -154,7 +156,7 @@
             panel
         },
         activated () {
-            if (this.myData.length === 0) {
+            if (this.myData.length === 0 || this.__token__ != this.$store.state.token) {
               this.getData(_ => {
                  this.myData = _.data
               })

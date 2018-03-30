@@ -4,6 +4,10 @@
               <div class="about_top">
                 <h1 class="main_h1">广东鸿特咨询有限公司</h1>
                 <article class="main_text">广东鸿特信息咨询有限公司（简称鸿特信息），是国内上市公司鸿特精密（300176.SZ）旗下全资子公司，其运营品牌为鸿特金服。</article>
+                <p class="address">
+                  公司官网：<br> 
+                  <a class="bottom-text" href="http://www.hongte.info" target="_blank">http://www.hongte.info</a>
+                </p>
               </div>
               <div class="about_1_block">
                   <h1>公司简介</h1>
@@ -31,6 +35,17 @@
 @import "~@sass/_variables";
 @import "~@sass/_func";
 
+.bottom-text {
+  text-decoration: underline;
+  line-height: pxToRem(50px);
+}
+
+.address {
+  color: #fff;
+  font-size: pxToRem(30px);
+  letter-spacing: pxToRem(3px);
+}
+
 #About {    
   height: 100%;
   position: relative;
@@ -45,8 +60,6 @@
       padding-top: pxToRem(60px);
     }
   }
-
-
 }
 
 .about_1_bg {

@@ -173,8 +173,10 @@
 
 #CitySelect {
     font-size: pxToRem(32px);
-    overflow: scroll;
-
+    // overflow: scroll;
+    // overflow: visible;
+    overflow: auto;
+    
     .mint-cell-wrapper {
         margin-bottom: 0;
         padding: 0 pxToRem(20px);

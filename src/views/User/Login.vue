@@ -64,7 +64,7 @@
                   pwd: this.pwd,        // 密码
               }, true).then(_=>{
                   if (!_.data) {
-                    msg.confirm("xxxxxxxxxxx", "温馨提示").then(()=>{
+                    msg.confirm("检测到你账号异常，您确定要登录吗？", "温馨提示").then(()=>{
                          this.login()
                     }).catch(err => {
                         return false

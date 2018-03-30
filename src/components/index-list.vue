@@ -21,7 +21,8 @@
       showIndicator: {
         type: Boolean,
         default: true
-      }
+      },
+      ele: null
     },
     data() {
       return {
@@ -32,8 +33,7 @@
         firstSection: null,
         currentIndicator: '',
         currentHeight: this.height,
-        navOffsetX: 0,
-        ele: null
+        navOffsetX: 0
       };
     },
     watch: {
@@ -101,11 +101,8 @@
         if (targets.length > 0) {
           targetDOM = targets[0].$el;
           let top = targetDOM.offsetTop
-          console.log(this.$refs.content, targetDOM.getBoundingClientRect().top, this.firstSection.getBoundingClientRect().top, targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top);
-          
-          console.log(this.ele)
           if (this.ele) {
-              this.ele.content.scrollTop = targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top;
+              this.ele.scrollTop = targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top + this.getTop(this.$refs.content);
           } else {
               this.$refs.content.scrollTop = targetDOM.getBoundingClientRect().top - this.firstSection.getBoundingClientRect().top;
           }

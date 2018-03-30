@@ -58,29 +58,47 @@
                   this.pwd_errTopLabel = ''
               }
 
-              Loader.show('正在登录...')
-              this.xdapi.login({
+              Loader.show('正在登录...', 'A');
+              this.xdapi.loginCheck({
                   userName: this.user,  // 账号
                   pwd: this.pwd,        // 密码
-              }, true).then(data => {
-                  Loader.hideAll();
-                  if (data.returnCode == 0) {
-                     this.$store.dispatch('set_token', data.data.token).then(_ => {
-                          // 设置token缓存
-                          window.localStorage.setItem('token', data.data.token)
-                          // 设置手机到store
-                          this.$store.dispatch('set_phone', this.user).then(_=>{
-                              // 设置phone的缓存
-                              window.localStorage.setItem('phone', this.user)
-                              // 跳转到预先要去的地址
-                              this.$router.push(this.$store.state.wantTo)
-                          })
-                    })
+              }, true).then(_=>{
+                  if (!_.data) {
+                    msg.confirm("xxxxxxxxxxx", "温馨提示").then(()=>{
+                         this.login()
+                    }).catch(err => {
+                        return false
+                    });
                   } else {
-                      Toast(data.msg);
+                    this.login()
                   }
+              }).catch(_=>{
+                  Loader.hideAll();
               })
-            },      
+            },    
+            login () {
+                this.xdapi.login({
+                    userName: this.user,  // 账号
+                    pwd: this.pwd,        // 密码
+                }, true).then(data => {
+                    Loader.hideAll();
+                    if (data.returnCode == 0) {
+                       this.$store.dispatch('set_token', data.data.token).then(_ => {
+                            // 设置token缓存
+                            window.localStorage.setItem('token', data.data.token)
+                            // 设置手机到store
+                            this.$store.dispatch('set_phone', this.user).then(_=>{
+                                // 设置phone的缓存
+                                window.localStorage.setItem('phone', this.user)
+                                // 跳转到预先要去的地址
+                                this.$router.push(this.$store.state.wantTo)
+                            })
+                      })
+                    } else {
+                        Toast(data.msg);
+                    }
+                })
+            },             
             goForgetPwd () {
                 this.$router.push('ForgetPwd')
             },

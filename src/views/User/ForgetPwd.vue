@@ -46,10 +46,11 @@ import mtButton     from '@myComponents/button.vue'
                 }
 
                 this.xdapi.checkFindPwdCode({telNo: this.user, code: this.validate, type: '2'}).then(data => {
+                    // 如果正确返回0
                     if (data.returnCode == 0) {
-                        this.$store.state.phone = this.user
-                        this.$store.state.forgetPwdValidate = this.validate
-                        this.$router.push('/resetpwd')
+                            this.$store.state.phone = this.user
+                            this.$store.state.forgetPwdValidate = this.validate
+                            this.$router.push('/resetpwd')
                     } else {
                         Toast(data.msg);
                     }

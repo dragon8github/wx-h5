@@ -44,6 +44,18 @@ import msg       from '@components/messagebox/messagebox.js'
                     this.pwd2_validate = ''
                 }
 
+                this.xdapi.checkFindPwdCode({telNo: this.$store.state.phone, code: this.$store.state.forgetPwdValidate, type: '2'}).then(data => {
+                    // 如果正确返回0
+                    if (data.returnCode == 0) {
+                        this.findPwd()
+                    } else {
+                        Toast(data.msg);
+                        this.$router.push('/ForgetPwd');
+                    }
+                })
+                
+            },
+            findPwd () {
                 this.xdapi.findPwd({
                         telNo: this.$store.state.phone,    // 账号
                         password: this.pwd,                // 密码
@@ -57,11 +69,9 @@ import msg       from '@components/messagebox/messagebox.js'
                             window.localStorage.setItem('token', data.data.token)
                             // 设置手机的缓存
                             window.localStorage.setItem('phone', this.$store.state.phone)
-                            return msg.confirm("密码修改成功", "成功提示").then(()=>{
+                            return msg.alert("密码修改成功", "成功提示").then(()=>{
                                this.$router.push(this.$store.state.wantTo || '/login')
-                            }).catch(() => {
-                               this.$router.push(this.$store.state.wantTo || '/login')
-                            });
+                            })
                       })
                     } else {
                         Toast(data.msg);

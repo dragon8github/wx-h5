@@ -185,7 +185,7 @@ router.beforeEach((to, from, next) => {
 
 
     // 设置标题
-    // setTitle(to.meta.title)
+    setTitle(to.meta.title)
     // 放行页面
     next()
 })

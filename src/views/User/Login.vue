@@ -59,15 +59,17 @@
               }
 
               Loader.show('正在登录...', 'A');
-              // 如果返回false 表示是不同微信号登录
+
               this.xdapi.loginCheck({
                   userName: this.user,  // 账号
                   pwd: this.pwd,        // 密码
               }, true).then(_=>{
-                  if (!_.data) {
+                  // 如果返回false 表示是不同微信号登录
+                  if (!_.data || _.data == 'false') {
                     msg.confirm("是否本人微信登录，请注意财产及隐私安全！", "温馨提示").then(()=>{
                          this.login()
                     }).catch(err => {
+                        Loader.hideAll();
                         return false
                     });
                   } else {
@@ -112,6 +114,7 @@
             mtButton
         },
         beforeMount () {
+            
         }
   }
 </script>

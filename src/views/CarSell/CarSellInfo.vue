@@ -23,10 +23,14 @@
                 <div class="carMain__line"></div>
                 <div class="carMain__money">
                     <div class="carMain__moneytop">
-                        <div class="carMain__ensure">保证金：¥  {{ d.bond }} </div>
+                        <div>保证金：¥  {{ d.bond }} </div>
                         <div>加价幅度：¥ {{ d.priceincrease }}</div>
                     </div>
-                    <div>评估价：¥  {{ d.lastEvaluationAmount }}</div>
+                    <div class="carMain__moneytop">
+                        <div>评估价：¥  {{ d.lastEvaluationAmount }} </div>
+                        <div>延时周期：{{ d.delayedPeriod }}</div>
+                    </div>
+                    <div></div>
                 </div>
             </div>
 
@@ -434,6 +438,10 @@ export default {
     .carMain__moneytop {
         @include flex(s);
         margin-bottom: pxToRem(20px);
+
+        div {
+          width: 45%;
+        }
     }
 
     .carMain__money--red {

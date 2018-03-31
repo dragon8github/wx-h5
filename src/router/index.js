@@ -153,7 +153,8 @@ const needLoginPage = [
     'carsellapply'
 ]
 
-// TODO: 只有borrow返回到登录的情况下，才会有这种错误
+
+// 猜测：历史已经形成了。就算我拦截了。也无法阻止历史？
 router.beforeEach((to, from, next) => {
     // 滚动之前，先弹回顶部
     // window.scrollTo(0, 0)
@@ -168,15 +169,17 @@ router.beforeEach((to, from, next) => {
     // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
     // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去，也就是跑得了和尚跑不了庙。
     if (needLoginPage.indexOf(to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim()) >= 0 && !store.state.token) {
-
         // 史诗级神坑，这里必须先next，否则会一直返回不了，
         // 不要问我为什么,我猜测是，由于你缺少了一次next,一直卡着不给后退。所以这里无论如何也需要next一下.
-        next()
         Toast('请先登录')
+
+        // next()
         // 设置去路
         return store.dispatch('set_wantTo', to.path).then(_ => {
             // 跳转到登录页
-            return router.push('/login')
+            router.push('/login')
+            // 继续渲染它？
+            return next()
         })
     }
 

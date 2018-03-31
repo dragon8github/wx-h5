@@ -181,9 +181,10 @@
 #CitySelect {
     font-size: pxToRem(32px);
     overflow: hidden;
+    position: relative;
   
     .CitySelect__warp {
-        overflow: scroll;
+        overflow: auto;
     }
     
     .mint-cell-wrapper {

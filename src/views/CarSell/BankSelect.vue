@@ -81,6 +81,7 @@
 #BankSelect {
     font-size: pxToRem(32px);
     overflow: hidden;
+    position: relative;
 
     .BankSelect__warp {
         overflow: scroll;

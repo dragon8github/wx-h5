@@ -78,7 +78,9 @@
                   return Toast('请选择城市')
                 }
 
-                if (!this.user) {
+                if (['null', 'undefined', 'nan'].indexOf(this.user.toLocaleLowerCase()) >= 0) {
+                    return Toast('非法用户名')
+                } else if (!this.user) {
                     return Toast('姓名不能为空')
                 } else if (this.user.length > 16) {
                     return Toast('姓名不能大于16位')

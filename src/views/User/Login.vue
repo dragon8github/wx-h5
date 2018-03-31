@@ -59,12 +59,13 @@
               }
 
               Loader.show('正在登录...', 'A');
+              // 如果返回false 表示是不同微信号登录
               this.xdapi.loginCheck({
                   userName: this.user,  // 账号
                   pwd: this.pwd,        // 密码
               }, true).then(_=>{
                   if (!_.data) {
-                    msg.confirm("检测到你账号异常，您确定要登录吗？", "温馨提示").then(()=>{
+                    msg.confirm("是否本人微信登录，请注意财产及隐私安全！", "温馨提示").then(()=>{
                          this.login()
                     }).catch(err => {
                         return false

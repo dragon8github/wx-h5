@@ -2,21 +2,31 @@
  <div>
     <div id="RepayList">
         <div class="RepayList-Item">
+            <!-- 顶层账单 -->
             <div class="RepayList" v-for="(item, index) in d">
-                 <div class="RepayList-hander" :class="{show: item.show}" @click="go(index)">{{ item.Title }}</div>
-                 <div v-show="item.show">
-                     <div class="RepayList-head">
-                         <div class="RepayList-head-left">已还{{ item.Records[0].length }}期</div>
-                         <div class="RepayList-head-right">金额（元）</div>
-                     </div>
-                     <div class="RepayList-body">
-                         <div class="RepayList-body-item" v-for="(item2, index2) in item.Records[0]">
-                              <div class="RepayList-body-left">{{ date2date(item2.Date) }}</div>
-                              <div class="RepayList-body-right">{{ item2.TotalAmount }}</div>
-                         </div>
-                      </div>
-                     <div class="RepayList-tail">未还共计：{{ all(item.Records[0]) }}</div>
-                 </div>
+                <div class="RepayList-hander" :class="{show: item.show}" @click="go(index)">{{ item.Title }}</div>
+                <div v-show="item.show">
+                    <!-- 二级菜单 -->
+                    <div v-for="(item2, index2) in item.Records">
+                        <div class="zhangdan-head" @click="go2(index, index2)"> <div class="zhangdan-head-warp"  :class="{show: item2.show}">账单 {{ index2 + 1 }}</div> </div>
+                        <div v-show="item2.show">
+                            <div class="RepayList-head">
+                                <div class="RepayList-head-left">已还{{ item2.length }}期</div>
+                                <div class="RepayList-head-right">金额（元）</div>
+                            </div>
+                            <!-- 三级菜单 -->
+                            <div v-for="(item3, index3) in item2">
+                                <div class="RepayList-body">
+                                    <div class="RepayList-body-item">
+                                         <div class="RepayList-body-left">{{ date2date(item3.Date) }}</div>
+                                         <div class="RepayList-body-right">{{ item3.TotalAmount }}</div>
+                                    </div>
+                                 </div>
+                             </div>
+                            <div class="RepayList-tail">已还共计：{{ all(item2) }}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -40,19 +50,22 @@
         methods: {
             go (index) {
                 this.$set(this.d[index], 'show', !this.d[index].show)
+                this.$set(this.d[index].Records[0], 'show', true)
+            },
+            go2 (index1, index2) {
+                this.$set(this.d[index1].Records[index2], 'show', !this.d[index1].Records[index2].show)
             },
             all (item) {
                var money = 0;
                for (var i = item.length - 1; i >= 0; i--) {
                  money += item[i].TotalAmount
                }
-               return money;
+               return money.toFixed(2);
             }
         },
-        components: {
-
-        },
+        components: {},
         beforeMount () {
+            console.log(this.d)
             if (!this.d) {
               this.$router.push('/Repay')
               Toast('未找到历史数据，请稍后重试')
@@ -65,6 +78,29 @@
 <style scoped lang="scss">
 @import "~@sass/_variables";
 @import "~@sass/_func";
+
+.zhangdan-head {
+  background-color: #f9f9f9;
+  height: pxToRem(88px);
+  line-height: pxToRem(88px);
+  color: #222222;
+
+  .zhangdan-head-warp {
+      margin: 0 pxToRem(30px);
+      position: relative;
+
+      &::after {
+          @include fullbg(30px, 15px, '../../assets/arrow-down-light.png');
+          @include ycenter;
+          content: '';
+          right: 0;
+      }
+
+      &.show::after {
+        transform: translateY(-50%) rotate(180deg);
+      }
+  }
+}
 
 #RepayList {
   margin: pxToRem(30px);
@@ -94,7 +130,7 @@
       align-items: center;
       height: pxToRem(68px);
       background: #f2f2f2;
-      padding: 0 pxToRem(17px) 0 pxToRem(30px);
+      padding: 0 pxToRem(50px) 0 pxToRem(60px);
   }
 
   .RepayList-body-item {
@@ -103,7 +139,7 @@
       align-items: center;
       height: pxToRem(88px);
       position: relative;
-      padding: 0 pxToRem(30px);
+      padding: 0 pxToRem(60px);
 
 
       &::before {
@@ -123,7 +159,7 @@
     height: pxToRem(68px);
     text-align: right;
     background: #f2f2f2;
-    padding: 0 pxToRem(30px);
+    padding: 0 pxToRem(60px);
     line-height: pxToRem(68px);
   }
 
@@ -140,13 +176,13 @@
     background: #fff;
     margin: 0 pxToRem(30px);
     position: relative;
+    color: #222222;
 
     &::after {
         @include fullbg(30px, 15px, '../../assets/arrow-down-light.png');
         @include ycenter;
         content: '';
         right: 0;
-      
     }
 
     &.show::after {

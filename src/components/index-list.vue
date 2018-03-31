@@ -148,7 +148,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      z-index: 9999;
+      z-index: 199307100337;
     }
 
     .mint-indexlist-navlist {

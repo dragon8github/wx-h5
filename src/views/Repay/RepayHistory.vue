@@ -65,7 +65,7 @@
         },
         components: {},
         beforeMount () {
-            if (!this.d.length) {
+            if (!this.d[0]) {
               this.$router.push('/Repay')
               Toast('未找到历史数据，请稍后重试')
             }

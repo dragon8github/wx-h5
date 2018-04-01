@@ -28,7 +28,10 @@
                         <div>保证金：¥  {{ d.bond }} <span class="carMain__money--red">（{{ d.isPayDeposit ? '已交' : '未交' }}）</span></div>
                         <div>加价幅度：¥ {{ d.priceincrease }}</div>
                     </div>
-                     <div>评估价：¥  {{ d.lastEvaluationAmount }}</div>
+                     <div class="carMain__moneytop">
+                        <div>评估价：¥  {{ d.lastEvaluationAmount }} </div>
+                        <div>延时周期：{{ d.delayPeriod }}分钟</div>
+                    </div>
                 </div>
             </div>
 
@@ -388,6 +391,10 @@ export default {
     .carMain__moneytop {
         @include flex(s);
         margin-bottom: pxToRem(20px);
+
+        div {
+          width: 45%;
+        }
     }
 
     .carMain__money--red {

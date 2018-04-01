@@ -59,7 +59,6 @@
               }
 
               Loader.show('正在登录...', 'A');
-
               this.xdapi.loginCheck({
                   userName: this.user,  // 账号
                   pwd: this.pwd,        // 密码
@@ -125,7 +124,8 @@
 @import "~@sass/_func";
 
 #Login {
-    background-color:#fff
+    background-color:#fff;
+    // min-height: pxToRem(768px);
 }
 
 .form {
@@ -136,7 +136,7 @@
     left: 50%;
     transform: translateX(-50%); 
     position:absolute;
-    bottom: pxToRem(100px);
+    bottom: 7%;
     display: flex;
     align-items: center;
     justify-content: space-around;

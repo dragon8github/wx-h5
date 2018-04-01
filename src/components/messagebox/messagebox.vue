@@ -159,10 +159,10 @@
         default: false
       },
       closeOnClickModal: {
-        default: true
+        default: false
       },
       closeOnPressEscape: {
-        default: true
+        default: false
       },
       inputType: {
         type: String,

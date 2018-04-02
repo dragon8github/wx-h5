@@ -71,13 +71,23 @@ const BankSelect         = r => require.ensure([], () => r(require('@/views/CarS
 // 汽车拍卖竞拍错误页面
 const ErrorPage          = r => require.ensure([], () => r(require('@/views/CarSell/ErrorPage')), 'ErrorPage')
 
+// 电子签章
+const Sign = r => require.ensure([], () => r(require('@/views/Sign/Sign')), 'Sign')
+// 签章状态
+const SignStatus = r => require.ensure([], () => r(require('@/views/Sign/SignStatus')), 'SignStatus')
+// 提供担保协议书
+const Guarantee =  r => require.ensure([], () => r(require('@/views/Sign/Guarantee')), 'Guarantee')
+// 团贷网服务协议
+const TdService =  r => require.ensure([], () => r(require('@/views/Sign/TdService')), 'TdService')
+// 资产端-信息咨询服务协议
+const ConsultService =  r => require.ensure([], () => r(require('@/views/Sign/ConsultService')), 'ConsultService')
+
 // 注册协议
 const RegProtocol     = r => require.ensure([], () => r(require('@/views/Protocol/RegProtocol')), 'RegProtocol')
 // 竞买须知
 const CarSellNeedKnow = r => require.ensure([], () => r(require('@/views/Protocol/CarSellNeedKnow')), 'CarSellNeedKnow')
 // 竞买公告
 const CarSellNotice   = r => require.ensure([], () => r(require('@/views/Protocol/CarSellNotice')), 'CarSellNotice')
-
 
 let router =  new Router({
     routes: [
@@ -157,7 +167,7 @@ String.prototype.toUrl = function () {
     return this.toString().replace(/\/|\\/g, '').toLocaleLowerCase().trim()
 }
 
-// TODO：精进
+
 var wxclose = function () {
     if (window.WeixinJSBridge) {
         window.WeixinJSBridge.call('closeWindow');
@@ -168,24 +178,33 @@ var wxclose = function () {
     }
 }
 
+var is_weixn = function () {
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // 猜测：历史已经形成了。就算我拦截了。也无法阻止历史？
 router.beforeEach((to, from, next) => {
 
     // 前往页面
     let _to = to.fullPath.toUrl()
-    
+
     // 来路页面
     let _from = from.fullPath.toUrl()
 
     // 需求补丁：已登录的用户再进入登录界面的场景是不存在的（目前不存在），
     // 除非是用户登陆之后，又按了返回，回到了登陆页面，按照需求的想法，用户应该直接退出微信，也就是直接关闭页面。
-    if (_to == 'login' && store.state.token) {
+    if (is_weixn() &&_to == 'login' && store.state.token) {
         // 关闭微信内置浏览器
         return wxclose();
     }
 
     // 需求补丁：如果从登陆页面返回，并且没有登陆，用户应该直接退出微信，也就是直接关闭页面。
-    if (_from == 'login' && _to === store.state.wantTo.toUrl() && !store.state.token) {
+    if (is_weixn() && _from == 'login' && _to === store.state.wantTo.toUrl() && !store.state.token) {
         // 关闭微信内置浏览器
         return wxclose();
     }
@@ -194,14 +213,15 @@ router.beforeEach((to, from, next) => {
     // 这里你可能会想，恶意用户随时可以修改isLogin为true，那么还是可以进入的啊。
     // 实际上就算进入了。当调用API的时候，后端依然会返回205没有登录的状态码，然后又跳转到登录页去，也就是跑得了和尚跑不了庙。
     if (needLoginPage.indexOf(_to) >= 0 && !store.state.token) {
-
         Toast('请先登录')
 
         // 设置去路
         return store.dispatch('set_wantTo', to.path).then(_ => {
             // 跳转到登录页
             router.push('/login')
-            // 史诗级神坑，别以为跳转了就可以省略这个next()，这里必须先next，否则一直卡着不给后退，
+
+            // 史诗级神坑，别以为跳转了就可以省略这个next()，这里必须先next，否则一直卡着不给后退
+            // TOOD：这里有个超级难的问题
             return next()
         })
     }

@@ -75,7 +75,6 @@
 .CarBusinessInfo {
   background: #f2f2f2;
   height: 100%;
-  position: relative;
 
   .block {
     display: flex;
@@ -166,7 +165,6 @@
   }
 
   ._top {
-    margin-top: pxToRem(14px);
     background: #fff;
   }
   

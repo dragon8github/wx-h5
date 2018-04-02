@@ -72,15 +72,15 @@ const BankSelect         = r => require.ensure([], () => r(require('@/views/CarS
 const ErrorPage          = r => require.ensure([], () => r(require('@/views/CarSell/ErrorPage')), 'ErrorPage')
 
 // 电子签章
-const Sign = r => require.ensure([], () => r(require('@/views/Sign/Sign')), 'Sign')
+const Sign              = r => require.ensure([], () => r(require('@/views/Sign/Sign')), 'Sign')
 // 签章状态
-const SignStatus = r => require.ensure([], () => r(require('@/views/Sign/SignStatus')), 'SignStatus')
+const SignStatus        = r => require.ensure([], () => r(require('@/views/Sign/SignStatus')), 'SignStatus')
 // 提供担保协议书
-const Guarantee =  r => require.ensure([], () => r(require('@/views/Sign/Guarantee')), 'Guarantee')
+const GuaranteeProtocol = r => require.ensure([], () => r(require('@/views/Sign/GuaranteeProtocol')), 'GuaranteeProtocol')
 // 团贷网服务协议
-const TdService =  r => require.ensure([], () => r(require('@/views/Sign/TdService')), 'TdService')
-// 资产端-信息咨询服务协议
-const ConsultService =  r => require.ensure([], () => r(require('@/views/Sign/ConsultService')), 'ConsultService')
+const TdServiceProtocol = r => require.ensure([], () => r(require('@/views/Sign/TdServiceProtocol')), 'TdServiceProtocol')
+// 信息咨询服务协议
+const InfoReferProtocol = r => require.ensure([], () => r(require('@/views/Sign/InforeferProtocol')), 'InforeferProtocol')
 
 // 注册协议
 const RegProtocol     = r => require.ensure([], () => r(require('@/views/Protocol/RegProtocol')), 'RegProtocol')
@@ -113,16 +113,23 @@ let router =  new Router({
         { path: '/RepayStatus',          name: 'RepayStatus',  meta: { title: '还款成功' },  component: RepayStatus },
         { path: '/RepayHistory',         name: 'RepayHistory', meta: { title: '还款记录' },  component: RepayHistory },
 
-        { path: '/CarSell',                           name: ' CarSell',            meta: { title: '汽车拍卖' },          component: CarSell },
-        { path: '/CarSellInfo/:id?',                  name: ' CarSellInfo',        meta: { title: '汽车详情' },          component: CarSellInfo },
-        { path: '/CarSellHistoryInfo/:id?/:afterid?', name: ' CarSellHistoryInfo', meta: { title: '汽车详情' },          component: CarSellHistoryInfo },
-        { path: '/CarSellApply',                      name: ' CarSellApply',       meta: { title: '汽车拍卖报名' },      component: CarSellApply },
-        { path: '/CarSellApplyStatus',                name: ' CarSellApplyStatus', meta: { title: '报名拍卖状态' },      component: CarSellApplyStatus },
-        { path: '/CarSellHistory',                    name: ' CarSellHistory',     meta: { title: '拍卖记录' },  component: CarSellHistory },
-        { path: '/CarSellBuy',                        name: ' CarSellBuy',         meta: { title: '报名竞买' },          component: CarSellBuy },
-        { path: '/CarSellBuySuccess',                 name: ' CarSellBuySuccess',  meta: { title: '提交结果' },          component: CarSellBuySuccess },
-        { path: '/BankSelect',                        name: ' BankSelect',         meta: { title: '选择银行' },          component: BankSelect },
-        { path: '/ErrorPage',                         name: ' ErrorPage',          meta: { title: '提交结果' },          component: ErrorPage },
+        { path: '/CarSell',                           name: 'CarSell',            meta: { title: '汽车拍卖' },     component: CarSell },
+        { path: '/CarSellInfo/:id?',                  name: 'CarSellInfo',        meta: { title: '汽车详情' },     component: CarSellInfo },
+        { path: '/CarSellHistoryInfo/:id?/:afterid?', name: 'CarSellHistoryInfo', meta: { title: '汽车详情' },     component: CarSellHistoryInfo },
+        { path: '/CarSellApply',                      name: 'CarSellApply',       meta: { title: '汽车拍卖报名' }, component: CarSellApply },
+        { path: '/CarSellApplyStatus',                name: 'CarSellApplyStatus', meta: { title: '报名拍卖状态' }, component: CarSellApplyStatus },
+        { path: '/CarSellHistory',                    name: 'CarSellHistory',     meta: { title: '拍卖记录' },     component: CarSellHistory },
+        { path: '/CarSellBuy',                        name: 'CarSellBuy',         meta: { title: '报名竞买' },     component: CarSellBuy },
+        { path: '/CarSellBuySuccess',                 name: 'CarSellBuySuccess',  meta: { title: '提交结果' },     component: CarSellBuySuccess },
+        { path: '/BankSelect',                        name: 'BankSelect',         meta: { title: '选择银行' },     component: BankSelect },
+        { path: '/ErrorPage',                         name: 'ErrorPage',          meta: { title: '提交结果' },     component: ErrorPage },
+
+        { path: '/Sign',              name: 'Sign',              meta: { title: '电子签章' },                component: Sign },
+        { path: '/SignStatus',        name: 'SignStatus',        meta: { title: '提交结果' },                component: SignStatus },
+        { path: '/GuaranteeProtocol', name: 'GuaranteeProtocol', meta: { title: '提供担保协议书' },          component: GuaranteeProtocol },
+        { path: '/TdServiceProtocol', name: 'TdServiceProtocol', meta: { title: '团贷网服务协议' },          component: TdServiceProtocol },
+        { path: '/InfoReferProtocol', name: 'InfoReferProtocol', meta: { title: '资产端-信息咨询服务协议' }, component: InfoReferProtocol },
+
 
         { path: '/Borrow',                name: 'Borrow',         meta: { title: '我的借款' },  component: Borrow },
         { path: '/BorrowProgress/:type?', name: 'BorrowProgress', meta: { title: '查看进度' },  component: BorrowProgress },
@@ -187,6 +194,8 @@ var is_weixn = function () {
     }
 }
 
+var beforeNext = null;
+
 // 猜测：历史已经形成了。就算我拦截了。也无法阻止历史？
 router.beforeEach((to, from, next) => {
 
@@ -215,14 +224,12 @@ router.beforeEach((to, from, next) => {
     if (needLoginPage.indexOf(_to) >= 0 && !store.state.token) {
         Toast('请先登录')
 
+        // 史诗级神坑，别以为跳转了就可以省略这个next()，这里必须先next，否则一直卡着不给后退
+        beforeNext = next
+
         // 设置去路
         return store.dispatch('set_wantTo', to.path).then(_ => {
-            // 跳转到登录页
             router.push('/login')
-
-            // 史诗级神坑，别以为跳转了就可以省略这个next()，这里必须先next，否则一直卡着不给后退
-            // TOOD：这里有个超级难的问题
-            return next()
         })
     }
 
@@ -230,7 +237,7 @@ router.beforeEach((to, from, next) => {
     setTitle(to.meta.title)
 
     // 放行页面
-    next()
+    beforeNext && beforeNext() || next()
 })
 
 router.afterEach((to, from) => {

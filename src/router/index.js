@@ -71,6 +71,8 @@ const BankSelect         = r => require.ensure([], () => r(require('@/views/CarS
 // 汽车拍卖竞拍错误页面
 const ErrorPage          = r => require.ensure([], () => r(require('@/views/CarSell/ErrorPage')), 'ErrorPage')
 
+// 身份确认
+const Identity = r => require.ensure([], () => r(require('@/views/Sign/Identity')), 'Identity')
 // 电子签章
 const Sign              = r => require.ensure([], () => r(require('@/views/Sign/Sign')), 'Sign')
 // 签章状态
@@ -81,6 +83,7 @@ const GuaranteeProtocol = r => require.ensure([], () => r(require('@/views/Sign/
 const TdServiceProtocol = r => require.ensure([], () => r(require('@/views/Sign/TdServiceProtocol')), 'TdServiceProtocol')
 // 信息咨询服务协议
 const InfoReferProtocol = r => require.ensure([], () => r(require('@/views/Sign/InforeferProtocol')), 'InforeferProtocol')
+
 
 // 注册协议
 const RegProtocol     = r => require.ensure([], () => r(require('@/views/Protocol/RegProtocol')), 'RegProtocol')
@@ -124,19 +127,19 @@ let router =  new Router({
         { path: '/BankSelect',                        name: 'BankSelect',         meta: { title: '选择银行' },     component: BankSelect },
         { path: '/ErrorPage',                         name: 'ErrorPage',          meta: { title: '提交结果' },     component: ErrorPage },
 
+        { path: '/Identity',          name: 'Identity',          meta: { title: '身份确认' },                component: Identity },
         { path: '/Sign',              name: 'Sign',              meta: { title: '电子签章' },                component: Sign },
         { path: '/SignStatus',        name: 'SignStatus',        meta: { title: '提交结果' },                component: SignStatus },
         { path: '/GuaranteeProtocol', name: 'GuaranteeProtocol', meta: { title: '提供担保协议书' },          component: GuaranteeProtocol },
         { path: '/TdServiceProtocol', name: 'TdServiceProtocol', meta: { title: '团贷网服务协议' },          component: TdServiceProtocol },
         { path: '/InfoReferProtocol', name: 'InfoReferProtocol', meta: { title: '资产端-信息咨询服务协议' }, component: InfoReferProtocol },
 
-
         { path: '/Borrow',                name: 'Borrow',         meta: { title: '我的借款' },  component: Borrow },
         { path: '/BorrowProgress/:type?', name: 'BorrowProgress', meta: { title: '查看进度' },  component: BorrowProgress },
 
         { path: '/RegProtocol',     name: 'RegProtocol',     meta: { title: '鸿特金服信贷服务协议' },  component: RegProtocol },
-        { path: '/CarSellNeedKnow', name: 'CarSellNeedKnow', meta: { title: '竞买须知' }, component: CarSellNeedKnow },
-        { path: '/CarSellNotice',   name: 'CarSellNotice',   meta: { title: '竞买公告' }, component: CarSellNotice },
+        { path: '/CarSellNeedKnow', name: 'CarSellNeedKnow', meta: { title: '竞买须知' },              component: CarSellNeedKnow },
+        { path: '/CarSellNotice',   name: 'CarSellNotice',   meta: { title: '竞买公告' },              component: CarSellNotice },
     ]
 })
 

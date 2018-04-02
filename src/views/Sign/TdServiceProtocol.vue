@@ -1,5 +1,5 @@
 <template>
-  <div id="RegProtocol">
+  <div id="TdServiceProtocol">
       <h1 class="center">团贷网|网贷投资服务协议</h1>
 
       <p>委托方（甲方）：{{ AppData.customerName }}</p>
@@ -71,7 +71,7 @@
 
 <script>
 export default {
-  name: 'RegProtocol',
+  name: 'TdServiceProtocol',
   data () {
     return {
         AppData: {},
@@ -79,32 +79,7 @@ export default {
     }
   },
   beforeMount () {
-      Date.prototype.format = function(format) {
-          var o = {
-              "M+": this.getMonth() + 1, //month 
-              "d+": this.getDate(), //day 
-              "h+": this.getHours(), //hour 
-              "m+": this.getMinutes(), //minute 
-              "s+": this.getSeconds(), //second 
-              "q+": Math.floor((this.getMonth() + 3) / 3), //quarter 
-              "S": this.getMilliseconds() //millisecond 
-          }
-          if (/(y+)/i.test(format)) {
-              format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-          }
-          for (var k in o) {
-              if (new RegExp("(" + k + ")").test(format)) {
-                  format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
-              }
-          }
-          return format;
-      }
-
-      this.timer = new Date().format("yyyy年MM月dd日")
-
-      this.Bridge.exec('GetTdServiceProtocolData', (AppData) => {
-          this.AppData = AppData
-      })
+      
   }
 }
 </script>
@@ -112,7 +87,7 @@ export default {
 <style scoped lang="scss">
 @import "../../sass/variables";
 @import "../../sass/func";
-  #RegProtocol {
+  #TdServiceProtocol {
     margin:auto pxToRem(60px);
 
     p {

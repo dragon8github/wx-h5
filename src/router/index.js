@@ -86,7 +86,7 @@ let router =  new Router({
         
         { path: '/Fast/:type?',        name: 'Fast',               meta: { title: '快速贷款' }, component: Fast },
         { path: '/CarBusinessInfo',    name: 'CarBusinessInfo',    meta: { title: '一点车贷' }, component: CarBusinessInfo },
-        { path: '/HouseBusinessInfo',  name: 'HouseBusinessInfo',  meta: { title: '一点房贷' }, component: HouseBusinessInfo },
+        { path: '/HouseBusinessInfo',  name: 'HouseBusinessInfo',  meta: { title: '鸿特微贷' }, component: HouseBusinessInfo },
         { path: '/Status/:type?',      name: 'Status',             meta: { title: '申请结果' }, component: Status },
         { path: '/CitySelect',         name: 'CitySelect',         meta: { title: '选择城市' }, component: CitySelect },
         { path: '/About',              name: 'About',              meta: { title: '关于我们' }, component: About },
@@ -153,39 +153,62 @@ const needLoginPage = [
     'carsellapply'
 ]
 
+String.prototype.toUrl = function () {
+    return this.toString().replace(/\/|\\/g, '').toLocaleLowerCase().trim()
+}
+
+// TODO：精进
+var wxclose = function () {
+    if (window.WeixinJSBridge) {
+        window.WeixinJSBridge.call('closeWindow');
+    } else {
+        window.setTimeout(_=>{
+            return wxclose()
+        }, 10)
+    }
+}
 
 // 猜测：历史已经形成了。就算我拦截了。也无法阻止历史？
 router.beforeEach((to, from, next) => {
-    // 滚动之前，先弹回顶部
-    // window.scrollTo(0, 0)
 
-    // 已登录的用户不能进入登录界面，那么直接关闭页面
-    if (to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim() == 'login' && window.localStorage.token && window.WeixinJSBridge) {
-        // 如果是微信内置浏览器
-        return window.WeixinJSBridge.call('closeWindow');
+    // 前往页面
+    let _to = to.fullPath.toUrl()
+    
+    // 来路页面
+    let _from = from.fullPath.toUrl()
+
+    // 需求补丁：已登录的用户再进入登录界面的场景是不存在的（目前不存在），
+    // 除非是用户登陆之后，又按了返回，回到了登陆页面，按照需求的想法，用户应该直接退出微信，也就是直接关闭页面。
+    if (_to == 'login' && store.state.token) {
+        // 关闭微信内置浏览器
+        return wxclose();
     }
 
-    // 如果用户要前往需要登录的地方并且没有登录的话。
-    // 这里你可能会想，恶意用户随时可以修改isLogin为1，那么还是可以进入的啊。
-    // 实际上我们前端本身就没有安全性可言，就算进入了。当调用API的时候，依然会返回205没有登录的错误，然后又跳转到登录页去，也就是跑得了和尚跑不了庙。
-    if (needLoginPage.indexOf(to.fullPath.replace(/\/|\\/g, '').toLocaleLowerCase().trim()) >= 0 && !store.state.token) {
-        // 史诗级神坑，这里必须先next，否则会一直返回不了，
-        // 不要问我为什么,我猜测是，由于你缺少了一次next,一直卡着不给后退。所以这里无论如何也需要next一下.
+    // 需求补丁：如果从登陆页面返回，并且没有登陆，用户应该直接退出微信，也就是直接关闭页面。
+    if (_from == 'login' && _to === store.state.wantTo.toUrl() && !store.state.token) {
+        // 关闭微信内置浏览器
+        return wxclose();
+    }
+
+    // 如果用户要前往需要登录的页面并且没有登录的话。
+    // 这里你可能会想，恶意用户随时可以修改isLogin为true，那么还是可以进入的啊。
+    // 实际上就算进入了。当调用API的时候，后端依然会返回205没有登录的状态码，然后又跳转到登录页去，也就是跑得了和尚跑不了庙。
+    if (needLoginPage.indexOf(_to) >= 0 && !store.state.token) {
+
         Toast('请先登录')
 
-        // next()
         // 设置去路
         return store.dispatch('set_wantTo', to.path).then(_ => {
             // 跳转到登录页
             router.push('/login')
-            // 继续渲染它？
+            // 史诗级神坑，别以为跳转了就可以省略这个next()，这里必须先next，否则一直卡着不给后退，
             return next()
         })
     }
 
-
     // 设置标题
     setTitle(to.meta.title)
+
     // 放行页面
     next()
 })

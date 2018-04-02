@@ -28,7 +28,7 @@
                     </div>
                     <div class="carMain__moneytop">
                         <div>评估价：¥  {{ d.lastEvaluationAmount }} </div>
-                        <div>延时周期：{{ d.delayPeriod }}分钟</div>
+                        <div>{{ d.delayPeriod ? '延时周期：' + d.delayPeriod + '分钟' : '' }}</div>
                     </div>
                 </div>
             </div>

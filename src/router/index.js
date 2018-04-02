@@ -236,8 +236,11 @@ router.beforeEach((to, from, next) => {
     // 设置标题
     setTitle(to.meta.title)
 
+    // 放行上一个页面
+    beforeNext && beforeNext() 
+
     // 放行页面
-    beforeNext && beforeNext() || next()
+    next()
 })
 
 router.afterEach((to, from) => {

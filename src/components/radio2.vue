@@ -144,7 +144,7 @@ export default {
     display: inline-block;
     background-color: white;
     border-radius: 100%;
-    border: 1px solid #999999;
+    border: pxToRem(1px) solid #ccc;
     height: pxToRem(20px * 2);
     width: pxToRem(20px * 2);
     vertical-align: middle;

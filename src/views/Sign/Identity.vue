@@ -11,12 +11,13 @@
         <div v-if="value === '企业' || value === '其他组织'">
             <label class="identity__label">是否三证合一</label>
             <div class="identity__type">
-                <mt-radio v-model="value2" :options="['是', '否']"></mt-radio>
+                <mt-radio v-model="value2" :options="[{label: '是', value: '0'}, {label:'否', value: 1}]"></mt-radio>
             </div>
         </div>
 
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
+            <mt-field type = "number" :placeholder = 'core_placeholder'   v-model = 'core'     :maxlength = '18' v-if = "value === '企业' || value === '其他组织'"></mt-field>
             <mt-field type = "number" :placeholder = 'id_placeholder'     v-model = 'id'       :maxlength = '18'></mt-field>
             <mt-field type = "number" :placeholder = 'phone_placeholder'  v-model = 'phone'    :maxlength = '11'></mt-field>
             <mt-field type = "number"  placeholder = '请输入6位验证码'    v-model = 'validate' :maxlength = '6' :clearText='false'>
@@ -44,12 +45,15 @@ export default {
   data () {
     return {
         value: '个人',
-        value2: '是',
-        id: '',
+        value2: '0',
+        id: '445222199307100337',
+        creditCode: '',
+        core: '',
         phone: this.$store.state.phone || '13713332652',
-        validate: '',
+        validate: '123456',
         id_placeholder: '请输入身份证号',
         phone_placeholder: '请输入银行卡预留手机号码',
+        core_placeholder: '请输入统一社会信用代码'
     }
   },
   components: {
@@ -78,7 +82,20 @@ export default {
              return Toast('验证码格式不正确');
         }
 
+        this.xdapi.identityConfirm({
+          "cardNo":     this.id,
+          "creditCode": this.core,
+          "isUnit":     this.value2,
+          "phone":      this.phone,
+          "userType":   this.value,
+          "verifiCode": this.validate
+        }).then(data=>{
+            if (data.returnCode == 0) {
 
+            } else {
+                Toast(data.msg || '身份验证失败，请稍后重试');
+            }
+        })
 
     },
     getCode (cb) {
@@ -93,13 +110,12 @@ export default {
                 phone: this.phone,
         }).then(data => {
             Loader.hideAll();
-            console.log(data);
-            // if (data.returnCode == 0) {
-            //     Toast("验证码已发送，请注意查收。")
-            //     cb()
-            // } else {
-            //     Toast(data.msg || '验证码发送失败，请稍后重试');
-            // }
+            if (data.returnCode == 0) {
+                Toast("验证码已发送，请注意查收。")
+                cb()
+            } else {
+                Toast(data.msg || '验证码发送失败，请稍后重试');
+            }
         })
     },
   },
@@ -111,6 +127,13 @@ export default {
         } else if (newValue === '企业' || newValue === '其他组织') {
             this.id_placeholder = '请输入法人证件号码'
             this.phone_placeholder = '请输入手机号码'
+        }
+    },
+    value2 (newValue, oldValue) {
+        if (newValue == '0') {
+            this.core_placeholder = '请输入社会信用代码'
+        } else if (newValue == '1') {
+            this.core_placeholder = '请输入营业执照编号'
         }
     }
   },

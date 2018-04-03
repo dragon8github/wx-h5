@@ -14,7 +14,7 @@
 
       <p><span class="bold">第一条</span> 乙方为甲方在上述借款项下对团贷网平台线上的投资人（以下简称出借人）所负的债务根据团贷网平台会员制度规则提供担保，担保范围及担保期限等事项由甲方、出借人及乙方签订的《借款合同》或《借款协议》约定。</p>
       <p><span class="bold">第二条</span> 乙方为甲方提供担保，甲方应向乙方支付担保费人民币{{ d.guaranteeMoney }}元。甲方应于本合同签订当日内向乙方一次性支付担保费。</p>
-      <p><span class="bold">第三条</span>  具备下列条件后，乙方为甲方正式提供担保：
+      <p><span class="bold">第三条</span> 具备下列条件后，乙方为甲方正式提供担保：
           <ul>
             <li>1、本协议书已签订生效；</li>
             <li>2、甲方已支付相应的担保费；</li>
@@ -82,8 +82,6 @@
                   </p>
             </li>
           </ul>
-          
-     
       <p class="bold">第九条  合同转让：</p>
       甲方同意乙方可随时将其在合同中的全部或部分权利或义务转让给第三人。
 
@@ -92,8 +90,7 @@
 
       <p class="bold">第十一条  争议的解决：</p>
           1、本协议书的订立、履行、解释、变更和争议的解决适用中华人民共和国法律，并受其约束。
-          2、若发生争议，双方应友好协商解决，协商不能解决时，任何一方提交{{ d.disputeSolve }}。
-
+          2、若发生争议，双方应友好协商解决，协商不能解决时，{{ d.disputeSolve }}。
       <p class="bold">第十二条  生效：</p>
       本协议书自双方签署之日起生效。
       <p class="bold">第十三条  通知送达</p>
@@ -129,7 +126,7 @@ export default {
   name: 'GuaranteeProtocol',
   data () {
     return {
-        d: this.$store.state.GuaranteeProtocol || null
+        d: this.$store.state.GuaranteeProtocol || {}
     }
   },
   computed: {
@@ -150,52 +147,51 @@ export default {
 @import "../../sass/variables";
 @import "../../sass/func";
   #GuaranteeProtocol {
-    margin:auto pxToRem(60px);
-    font-size:pxToRem($font-size-small);
-    color:$font-gray-color;
-    text-indent: pxToRem(30px);
-    letter-spacing: pxToRem(2px);
-    line-height: pxToRem(55px);
+      margin:auto pxToRem(60px);
+      font-size:pxToRem($font-size-small);
+      color:$font-gray-color;
+      text-indent: pxToRem(30px);
+      letter-spacing: pxToRem(2px);
+      line-height: pxToRem(55px);
 
-    .smalllP {
-      font-size:pxToRem(20px);
-    }
-
-    .link {
-      color: #0e6ae7
-    }
-
-    .right {
-      text-align: right;
-    }
-
-    .bold {
-      color: $font-black-color;
-      font-weight: bold;
-
-    }
-
-    .b {
-      text-decoration: underline;
-    }
-
-    .n {
-      padding-right:pxToRem(15px);
-    }
-
-    li {
-      list-style: none;
-    }
-
-    h1 {
-      font-size: pxToRem($font-size-middle);
-      color:$font-black-color;
-      text-align: center;
-      margin-top: pxToRem(60px);
-
-      &.center {
-        text-align: center;
+      .smalllP {
+        font-size:pxToRem(20px);
       }
-    }
+
+      .link {
+        color: #0e6ae7
+      }
+
+      .right {
+        text-align: right;
+      }
+
+      .bold {
+        color: $font-black-color;
+        font-weight: bold;
+      }
+
+      .b {
+        text-decoration: underline;
+      }
+
+      .n {
+        padding-right:pxToRem(15px);
+      }
+
+      li {
+        list-style: none;
+      }
+
+      h1 {
+        font-size: pxToRem($font-size-middle);
+        color:$font-black-color;
+        text-align: center;
+        margin-top: pxToRem(60px);
+
+        &.center {
+          text-align: center;
+        }
+      }
   }
 </style>

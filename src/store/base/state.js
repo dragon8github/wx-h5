@@ -32,10 +32,10 @@ export let token = window.localStorage.getItem('token')
 export let fastphone = ''
 
 // 提供担保协议书
-export let GuaranteeProtocol = {}
+export let GuaranteeProtocol = null
 
 // 团贷网服务协议
-export let TdServiceProtocol = {}
+export let TdServiceProtocol = null
 
 // 资产端-信息咨询服务协议
-export let InforeferProtocol = {}
+export let InforeferProtocol = null

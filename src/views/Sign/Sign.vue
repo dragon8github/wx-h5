@@ -3,7 +3,7 @@
         <div class="sign__img">
             <div class="sign__img--image"></div>
         </div>
-        <div class="sign__text"> 尊敬的客户，您好，为了顺应合规要求，请授权我们使用电子签章生成下列合同： </div>
+        <div class="sign__text">尊敬的客户，您好，为了顺应合规要求，请授权我们使用电子签章生成下列合同： </div>
         <ul class="sign__list">
             <li v-for="item in myData" @click="goinfo(item.no)">《{{item.name}}》</li>
         </ul>

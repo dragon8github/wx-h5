@@ -23,6 +23,7 @@ export default {
   data () {
     return {
         myData: [],
+        contractNoList: [],
     }
   },
   methods: {
@@ -33,10 +34,10 @@ export default {
     },
     go () {
         this.xdapi.contractConfirm({
-
-        }).then(_=>{
+            contractNo: this.contractNoList.join(',')
+        }).then(data=>{
             if (data.returnCode == 0) {
-
+                this.$router.push('/SignStatus')
             } else {
                 Toast(data.msg || '网络连接异常，请稍后重试');
             }
@@ -53,6 +54,7 @@ export default {
                    var no = data.data[i].contractNo
                    var name = data.data[i].contractName;
                    var des =  data.data[i].contractDes
+                   this.contractNoList.push(no)
                    this.myData.push({no, name})
                    if (no == 1) this.$store.state.GuaranteeProtocol = des
                    if (no == 2) this.$store.state.TdServiceProtocol = des

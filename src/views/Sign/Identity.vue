@@ -46,11 +46,62 @@ export default {
         value: '个人',
         value2: '是',
         id: '',
-        phone: this.$store.state.phone || '',
+        phone: this.$store.state.phone || '13713332652',
         validate: '',
         id_placeholder: '请输入身份证号',
         phone_placeholder: '请输入银行卡预留手机号码',
     }
+  },
+  components: {
+    mtRadio,
+    mtField,
+    getvalidate,
+    mtButton
+  },
+  methods: {
+    go () {
+        if (this.id.trim() === '') {
+            return Toast(this.id_placeholder)
+        } else if (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.id.trim())) {
+            return Toast('请输入正确的身份证号')
+        }
+
+        if (this.phone.trim() === '') {
+            return Toast(this.phone_placeholder)
+        } else if (!/^1\d{10}$/.test(this.phone.trim())) {
+            return Toast('请输入正确的手机号码')
+        }
+
+        if (this.validate.trim().length === 0) {
+            return Toast('请输入验证码');
+        } else if (!/^[0-9]{6}$/.test(this.validate)) {
+             return Toast('验证码格式不正确');
+        }
+
+
+
+    },
+    getCode (cb) {
+        if (this.phone.trim() === '') {
+            return Toast('请先输入用户名/手机号')
+        } else if (!/^1\d{10}$/.test(this.phone.trim())) {
+            return Toast('手机号码格式错误，请重新确认')
+        }
+        
+        Loader.show("正在获取验证码")
+        this.xdapi.sendSmsCode({
+                phone: this.phone,
+        }).then(data => {
+            Loader.hideAll();
+            console.log(data);
+            // if (data.returnCode == 0) {
+            //     Toast("验证码已发送，请注意查收。")
+            //     cb()
+            // } else {
+            //     Toast(data.msg || '验证码发送失败，请稍后重试');
+            // }
+        })
+    },
   },
   watch: {
     value (newValue, oldValue) {
@@ -63,37 +114,8 @@ export default {
         }
     }
   },
-  methods: {
-    go () {
+  beforeMount () {
 
-    },
-    getCode (cb) {
-        if (this.phone.trim() === '') {
-            return Toast('请先输入用户名/手机号')
-        } else if (!/^1\d{10}$/.test(this.phone.trim())) {
-            return Toast('手机号码格式错误，请重新确认')
-        }
-        
-        Loader.show("正在获取验证码")
-        this.xdapi.smsSend({
-                telNo: this.phone,
-                type: '3'  
-        }).then(data => {
-            Loader.hideAll();
-            if (data.returnCode == 0) {
-                Toast("验证码已发送，请注意查收。")
-                cb()
-            } else {
-                Toast(data.msg || '验证码发送失败，请稍后重试');
-            }
-        })
-    },
-  },
-  components: {
-    mtRadio,
-    mtField,
-    getvalidate,
-    mtButton
   }
 }
 </script>

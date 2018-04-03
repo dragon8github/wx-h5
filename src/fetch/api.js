@@ -53,7 +53,15 @@ if (typeof(Proxy) == 'function') {
         // 历史详情
         'getRepaidList',
         // 还款详情
-        'getRapayPlanBalance'
+        'getRapayPlanBalance',
+        // 获取电子签章验证码
+        'sendSmsCode',
+        // 合同确认操作接口
+        'contractConfirm',
+        // 合同列表接口
+        'contractList',
+        // 身份确认接口
+        'identityConfirm'
     ].entries()) {
         xdapi[ele] = (data, isQuiet = false) => { 
           return post('xindai/' + ele, data, isQuiet)

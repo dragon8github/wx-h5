@@ -127,7 +127,7 @@ export default {
 
           &::after {
             background-color: #ffba00;
-            transform: scale(1);
+            transform: translate(-50%, -50%) scale(1);
           }
         }
       }
@@ -139,12 +139,12 @@ export default {
   }
 
   .mint-radio-core {
+    position: relative;
     box-sizing: border-box;
     display: inline-block;
     background-color: white;
     border-radius: 100%;
     border: 1px solid #999999;
-    position: relative;
     height: pxToRem(20px * 2);
     width: pxToRem(20px * 2);
     vertical-align: middle;
@@ -154,12 +154,12 @@ export default {
      content: " ";
      border-radius: 100%;
      position: absolute;
-     top:pxToRem(5px);
-     left:pxToRem(5px);
+     transform: translate(-50%, -50%) scale(0);
+     left: 50%;
+     top: 50%;
      width:pxToRem(12px * 2);
      height:pxToRem(12px * 2);
      transition: transform .2s;
-     transform: scale(0);
    }
   }
 }

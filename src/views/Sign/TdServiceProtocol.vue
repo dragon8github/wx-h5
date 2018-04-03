@@ -1,6 +1,6 @@
 <template>
   <div id="TdServiceProtocol">
-      <h1 class="center">团贷网|网贷投资服务协议</h1>
+      <h1 class="center">团贷网服务协议</h1>
 
       <p>合同编号：{{ d.contractCode }}</p>
       <p>委托方（甲方）：{{ d.entrustName }}</p>
@@ -64,9 +64,11 @@
       <p> 本协议一式两份，双方各执一份。本协议自甲、乙双方签字或盖章立即生效。 </p>
 
       <p class="bold">各方签署：</p>
-      <p>甲方：{{ d.customerName }}</p>
-      <p>乙方：东莞团贷网互联网科技服务有限公司</p>
-      <p>签署日期：{{ date2date((new Date), 'yyyy年MM月dd日') }}</p>
+      <p>甲方：{{ d.signName }}</p>
+      <p>乙方：</p>
+      <div class="right">
+          <p>签署日期：{{ (new Date).format('yyyy年MM月dd日') }}</p>
+      </div>
   </div>
 </template>
 
@@ -104,6 +106,7 @@ export default {
       text-indent: pxToRem(30px);
       letter-spacing: pxToRem(2px);
       line-height: pxToRem(55px);
+      word-break: break-all;
     }
 
     .right {

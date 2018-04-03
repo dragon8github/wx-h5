@@ -1,22 +1,19 @@
 <template>
   <div id="GuaranteeProtocol">
       <h1 class="center">提供担保协议书</h1>
-
-      <p>甲方（被保证人）：{{ AppData.customerName }}</p>
-      <p>身份证号码：{{ AppData.identifyCard }}</p>
-      <p>住所：{{ AppData.livingAddress }}</p>
-
-      <p>乙方（担保人）：东莞市联胜非融资性担保有限公司</p>
-      <p>法定代表人：丁孝国</p>
-      <p>住址：东莞市南城区元美东路东侧商业中心D座806-1号</p>
+      <p>合同编号：{{ d.contractCode }}</p>
+      <p>甲方（被保证人）：{{ d.borrowerName }}</p>
+      <p>乙方（担保人）：{{ d.guaranteeName }}</p>
+      <p>住址：{{ d.address }}</p>
+      <p>法定代表人：{{ d.legalName }}</p>
       
       <p>
-        甲方于{{timer}}与“团贷网|网贷投资平台”（运营网址：http://www.tuandai.com）签订《团贷网|网贷服务协议》，并向该平台申请发标融资借款，甲方申请发标借款的金额：{{ AppData.amount }} 元，借款期限：{{ AppData.timeLimit }} 个月，借款年化利率：{{ +(AppData.annualizedRate) * 100 }}%，还款方式为：{{ AppData.repaymentTyepe }} 。
-        现甲方向乙方申请为上述借款向团贷网|网贷投资投资人提供担保。乙方经审查，同意为团贷网|网贷投资投资人提供此项担保。团贷网|网贷投资平台根据自身规则为平台用户提供普通会员和超级会员两种会员服务，乙方将根据团贷网|网贷投资规则为投资人提供担保服务。若投资人投资时为团贷网|网贷投资的超级会员，乙方将提供融资金额（即为本次甲方在团贷网|网贷投资平台所融资借款的总金额）及利息的担保；若投资人投资时为团贷网|网贷投资的普通会员，乙方将提供融资金额（即为本次甲方在团贷网|网贷投资平台所融资借款的总金额）的担保。双方根据国家有关法律、法规的规定，经协商一致，达成如下协议：
+        甲方于{{ timer }}与“团贷网平台”（运营网址：<a class="link" href="http://www.tuandai.com">http://www.tuandai.com</a>）签订《团贷网服务协议》，并向该平台申请发标融资借款，甲方申请发标借款的金额：{{ d.borrowerMoney }}元，借款期限：{{ d.borrowerLimit }}个月，借款年化利率{{ d.yearRate }}，还款方式为：{{ d.repaymentMethod }} 。
+    现甲方向乙方申请为上述借款向团贷网平台投资人提供担保。乙方经审查，同意为团贷网平台投资人提供此项担保。团贷网平台根据自身规则为平台用户提供普通会员和超级会员两种会员服务，乙方将根据团贷网平台规则为投资人提供担保服务。若投资人投资时为团贷网平台的超级会员，乙方将提供融资金额（即为本次甲方在团贷网平台所融资借款的总金额）及利息的担保；若投资人投资时为团贷网平台的普通会员，乙方将提供融资金额（即为本次甲方在团贷网平台所融资借款的总金额）的担保。双方根据国家有关法律、法规的规定，经协商一致，达成如下协议：
       </p>
 
-      <p><span class="bold">第一条</span>  乙方为甲方在上述借款项下对团贷网|网贷投资平台线上的投资人（以下简称出借人）所负的债务根据团贷网|网贷投资会员制度规则提供担保，担保范围及担保期限等事项由甲方、出借人及乙方签订的《借款合同》约定。</p>
-      <p><span class="bold">第二条</span>  乙方为甲方提供担保，甲方应向乙方支付以上述借款总额的 {{ +(AppData.guaranteeRate) * 100 }}%计算作为担保费，担保费总额为人民币{{ AppData.guaranteeFee }}元，甲方同意按前述标准在甲方第一个月还款日时一次性支付。若甲方在借款第一个月内申请提前结清，则结清时一次性支付。</p>
+      <p><span class="bold">第一条</span> 乙方为甲方在上述借款项下对团贷网平台线上的投资人（以下简称出借人）所负的债务根据团贷网平台会员制度规则提供担保，担保范围及担保期限等事项由甲方、出借人及乙方签订的《借款合同》或《借款协议》约定。</p>
+      <p><span class="bold">第二条</span> 乙方为甲方提供担保，甲方应向乙方支付担保费人民币{{ d.guaranteeMoney }}元。甲方应于本合同签订当日内向乙方一次性支付担保费。</p>
       <p><span class="bold">第三条</span>  具备下列条件后，乙方为甲方正式提供担保：
           <ul>
             <li>1、本协议书已签订生效；</li>
@@ -25,7 +22,7 @@
           </ul>
       </p>
          
-      <p><span class="bold">第四条</span>  担保借款用途：本担保借款只能用于{{ AppData.loanUsage }}。</p>
+      <p><span class="bold">第四条</span>  担保借款用途：本担保借款只能用于{{ d.borrowerUse }}。</p>
     
       <p class="bold">第五条  代偿与追偿</p>
         <ul>
@@ -95,7 +92,7 @@
 
       <p class="bold">第十一条  争议的解决：</p>
           1、本协议书的订立、履行、解释、变更和争议的解决适用中华人民共和国法律，并受其约束。
-          2、若发生争议，双方应友好协商解决，协商不能解决时，可依法向湛江仲裁委申请在东莞仲裁,适用书面简易程序审理。
+          2、若发生争议，双方应友好协商解决，协商不能解决时，任何一方提交{{ d.disputeSolve }}。
 
       <p class="bold">第十二条  生效：</p>
       本协议书自双方签署之日起生效。
@@ -114,31 +111,37 @@
             </li>
             <li> 3、甲乙双方在本协议中填写的联系地址即为其有效的送达地址/通讯地址及邮箱地址。</li>
           </ul>
-      <p>送达地址：</p>
-      <p>邮箱地址：</p>
       <p class="bold">第十四条  其他事项</p>
           本协议书由双方经过充分友好协商自愿签订，双方已详读并同意遵守全部条款，现签字盖章作实。
 
-      <p>甲方（被保证人）：{{ AppData.customerName }}</p>
-      <p>乙方（担保人）：东莞市联胜非融资性担保有限公司</p>
+      <p>甲方（被保证人）：{{ d.borrowerName }}</p>
+      <p>乙方（担保人）：{{ d.guaranteeName }}</p>
       <div class="right">
-          <p>委 托 人（签字）：{{ AppData.customerName }}</p>
           <p>签约日期：{{ timer }}</p>
       </div>
   </div>
 </template>
 
 <script>
+import Toast from '@components/toast/index.js'
+
 export default {
   name: 'GuaranteeProtocol',
   data () {
     return {
-        AppData: {},
-        timer: ''
+        d: this.$store.state.GuaranteeProtocol || null
+    }
+  },
+  computed: {
+    timer () {
+      return `${this.d.signYear}年${this.d.signMonth}月${this.d.signDate}日`
     }
   },
   beforeMount () {
-      
+      if (!this.$store.state.GuaranteeProtocol) {
+        this.$router.push('/sign')
+        Toast('协议内容未找到，请重试');
+      }
   }
 }
 </script>
@@ -158,6 +161,9 @@ export default {
       font-size:pxToRem(20px);
     }
 
+    .link {
+      color: #0e6ae7
+    }
 
     .right {
       text-align: right;

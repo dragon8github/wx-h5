@@ -74,8 +74,7 @@ export default {
   name: 'TdServiceProtocol',
   data () {
     return {
-        AppData: {},
-        timer: ''
+        AppData: this.$store.state.TdServiceProtocol
     }
   },
   beforeMount () {

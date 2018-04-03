@@ -1,7 +1,7 @@
 <template>
 <div id="identity">
     <div class="identity">
-        <!-- Common Header -->
+        <!-- 客户类型 -->
         <label class="identity__label">客户类型</label>
         <div class="identity__type">
             <mt-radio v-model="value" :options="['个人', '企业', '其他组织']"></mt-radio>
@@ -15,6 +15,7 @@
             </div>
         </div>
 
+        <!-- 表单 -->
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
             <mt-field type = "number" :placeholder = 'core_placeholder'   v-model = 'core'     :maxlength = '18' v-if = "value === '企业' || value === '其他组织'"></mt-field>
@@ -25,6 +26,7 @@
             </mt-field>
         </div>
 
+        <!-- 提交按钮 -->
         <div class="identity__sublime">
             <mt-button :text="'确认'"  @click="go"></mt-button>
         </div>
@@ -46,11 +48,11 @@ export default {
     return {
         value: '个人',
         value2: '0',
-        id: '445222199307100337',
+        id: '',
         creditCode: '',
         core: '',
-        phone: this.$store.state.phone || '13713332652',
-        validate: '123456',
+        phone: this.$store.state.phone || '',
+        validate: '',
         id_placeholder: '请输入身份证号',
         phone_placeholder: '请输入银行卡预留手机号码',
         core_placeholder: '请输入统一社会信用代码'
@@ -107,7 +109,7 @@ export default {
         
         Loader.show("正在获取验证码")
         this.xdapi.sendSmsCode({
-                phone: this.phone,
+            phone: this.phone,
         }).then(data => {
             Loader.hideAll();
             if (data.returnCode == 0) {

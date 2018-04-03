@@ -173,8 +173,7 @@ export default {
   name: 'InforeferProtocol',
   data () {
     return {
-       AppData: {},
-        timer: ''
+       AppData: this.$store.state.InforeferProtocol
     }
   },
   beforeMount () {

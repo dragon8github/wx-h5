@@ -30,3 +30,12 @@ export let token = window.localStorage.getItem('token')
 
 // 快速申请的手机号码
 export let fastphone = ''
+
+// 提供担保协议书
+export let GuaranteeProtocol = {}
+
+// 团贷网服务协议
+export let TdServiceProtocol = {}
+
+// 资产端-信息咨询服务协议
+export let InforeferProtocol = {}

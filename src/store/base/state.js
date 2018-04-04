@@ -39,3 +39,6 @@ export let TdServiceProtocol = null
 
 // 资产端-信息咨询服务协议
 export let InforeferProtocol = null
+
+// 电子签章身份验证的token
+export let signToken = window.localStorage.getItem('signToken')

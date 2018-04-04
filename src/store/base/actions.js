@@ -71,3 +71,8 @@ export const set_fastphone = ({commit, state}, v) => {
 export const set_bank = ({commit, state}, v) => {
   state.bank = v
 }
+
+// 存储电子签章的验证记录
+export const set_signToken = ({commit, state}, v) => {
+  state.signToken = v
+}

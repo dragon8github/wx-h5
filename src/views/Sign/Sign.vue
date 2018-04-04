@@ -47,23 +47,54 @@ export default {
   components: {
     mtButton
   },
-  beforeMount () {
-        this.xdapi.contractList().then(data=>{
-            if (data.returnCode == 0) {
-                for (var i = 0; i < data.data.length; i++) {
-                   var no = data.data[i].contractNo
-                   var name = data.data[i].contractName;
-                   var des =  data.data[i].contractDes
-                   this.contractNoList.push(no)
-                   this.myData.push({no, name})
-                   if (no == 1) this.$store.state.GuaranteeProtocol = des
-                   if (no == 2) this.$store.state.TdServiceProtocol = des
-                   if (no == 3) this.$store.state.InforeferProtocol = des
+  activated () {
+    // if (this.myData.length === 0 || this.contractNoList.length === 0) {
+    //     this.xdapi.contractList().then(data=>{
+    //         if (data.returnCode == 0) {
+    //             for (var i = 0; i < data.data.length; i++) {
+    //                var no = data.data[i].contractNo
+    //                var name = data.data[i].contractName;
+    //                var des =  data.data[i].contractDes
+    //                this.contractNoList.push(no)
+    //                this.myData.push({no, name})
+    //                if (no == 1) this.$store.state.GuaranteeProtocol = des
+    //                if (no == 2) this.$store.state.TdServiceProtocol = des
+    //                if (no == 3) this.$store.state.InforeferProtocol = des
+    //             }
+    //         } else {
+    //             Toast(data.msg || '获取协议列表失败，请稍后重试');
+    //         }
+    //     })
+    // }
+
+        if (!this.$store.state.signToken) {
+            Toast('请先进行身份确认')
+            this.$router.push('Identity')
+        } else if (this.myData.length === 0 || this.contractNoList.length === 0) {
+            this.xdapi.contractList().then(data=>{
+                if (data.returnCode == 0) {
+                    // 如果用户还没有同意过
+                    if (data.data.isConfirm == 1) {
+                        // 处理数据
+                        for (var i = 0; i < data.data.contractList.length; i++) {
+                           var no   = data.data.contractList[i].contractNo
+                           var name = data.data.contractList[i].contractName
+                           var des  = data.data.contractList[i].contractDes
+                           this.contractNoList.push(no)
+                           this.myData.push({no, name})
+                           if (no == 1) this.$store.state.GuaranteeProtocol = des
+                           if (no == 2) this.$store.state.TdServiceProtocol = des
+                           if (no == 3) this.$store.state.InforeferProtocol = des
+                        }
+                    // 如果用户已经同意过了，那么应该跳转到状态页面
+                    } else {
+                        this.$router.push('/signStatus')
+                    }
+                } else {
+                    Toast(data.msg || '获取协议列表失败，请稍后重试');
                 }
-            } else {
-                Toast(data.msg || '获取协议列表失败，请稍后重试');
-            }
-        })
+            })
+        }
   }
 }
 </script>

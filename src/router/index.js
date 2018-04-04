@@ -167,10 +167,10 @@ const needLoginPage = [
     'repay', 'repayinfo',
     // 汽车拍卖、汽车竞拍历史 / 汽车拍卖竞拍历史详情
     'carsellhistory', 'carsellhistoryinfo',
-    // 报名竞买
-    'carsellbuy',
-    // 汽车拍卖报名
-    'carsellapply'
+    // 报名竞买 / 汽车拍卖报名
+    'carsellbuy', 'carsellapply',
+    // 电子签名 / 合同确认
+    'identity', 'sign'
 ]
 
 String.prototype.toUrl = function () {
@@ -199,7 +199,6 @@ var is_weixn = function () {
 
 var beforeNext = null;
 
-// 猜测：历史已经形成了。就算我拦截了。也无法阻止历史？
 router.beforeEach((to, from, next) => {
 
     // 前往页面
@@ -208,14 +207,14 @@ router.beforeEach((to, from, next) => {
     // 来路页面
     let _from = from.fullPath.toUrl()
 
-    // 需求补丁：已登录的用户再进入登录界面的场景是不存在的（目前不存在），
+    // 猴子补丁：已登录的用户再进入登录界面的场景是不存在的（目前不存在），
     // 除非是用户登陆之后，又按了返回，回到了登陆页面，按照需求的想法，用户应该直接退出微信，也就是直接关闭页面。
-    if (is_weixn() &&_to == 'login' && store.state.token) {
+    if (is_weixn() && _to == 'login' && store.state.token) {
         // 关闭微信内置浏览器
         return wxclose();
     }
 
-    // 需求补丁：如果从登陆页面返回，并且没有登陆，用户应该直接退出微信，也就是直接关闭页面。
+    // 猴子补丁：如果从登陆页面返回，并且没有登陆，用户应该直接退出微信，也就是直接关闭页面。
     if (is_weixn() && _from == 'login' && _to === store.state.wantTo.toUrl() && !store.state.token) {
         // 关闭微信内置浏览器
         return wxclose();

@@ -35,6 +35,7 @@ export default {
 
         // 根据地图链的概念来判断是向左还是向右开始动画
         // 如果 Android 版本是6.0以下那就不用进行动画了
+        // 当然，苹果都允许进行动画
         if (this.AndroidVersion >= 6) {
             if (to.path === this.$store.getters.siteMap) {
                 this.$store.commit('transition/setTransition', 'turn-off');
@@ -54,8 +55,6 @@ export default {
     if (a) {
         this.AndroidVersion = +(a[1].trim().substr(0, 1));
     }
-    
-    
   }
 }
 </script>

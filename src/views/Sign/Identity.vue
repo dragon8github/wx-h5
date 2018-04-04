@@ -18,10 +18,10 @@
         <!-- 表单 -->
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
-            <mt-field type = "number" :placeholder = 'core_placeholder'   v-model = 'core'     :maxlength = '18' v-if = "value === '企业' || value === '其他组织'"></mt-field>
-            <mt-field type = "number" :placeholder = 'id_placeholder'     v-model = 'id'       :maxlength = '18'></mt-field>
-            <mt-field type = "number" :placeholder = 'phone_placeholder'  v-model = 'phone'    :maxlength = '11'></mt-field>
-            <mt-field type = "number"  placeholder = '请输入6位验证码'    v-model = 'validate' :maxlength = '6' :clearText='false'>
+            <mt-field type = "text"   :placeholder = 'core_placeholder'   v-model = 'creditCode'  :maxlength = '18' v-if = "value === '企业' || value === '其他组织'"></mt-field>
+            <mt-field type = "text" :placeholder = 'id_placeholder'       v-model = 'id'          :maxlength = '18'></mt-field>
+            <mt-field type = "number" :placeholder = 'phone_placeholder'  v-model = 'phone'       :maxlength = '11'></mt-field>
+            <mt-field type = "number"  placeholder = '请输入6位验证码'    v-model = 'validate'    :maxlength = '6' :clearText='false'>
                 <getvalidate slot="icon" @click="getCode"></getvalidate>
             </mt-field>
         </div>
@@ -50,8 +50,7 @@ export default {
         value2: '0',
         id: '',
         creditCode: '',
-        core: '',
-        phone: this.$store.state.phone || '',
+        phone: '',
         validate: '',
         id_placeholder: '请输入身份证号',
         phone_placeholder: '请输入银行卡预留手机号码',
@@ -65,83 +64,45 @@ export default {
     mtButton
   },
   methods: {
-    validateCode2 (code) {
-       var tip = "OK";
-       var pass= true;
-
-       if(code.length != 18){
-           tip = "社会信用代码长度错误！";
-           pass = false;
-       }
-       var reg = /^([159Y]{1})([1239]{1})([0-9]{6})([0-9ABCDEFGHJKLMNPQRTUWXY]{9})([0-9ABCDEFGHJKLMNPQRTUWXY]{1})$/;
-       if(!reg.test(code)){
-           tip = "社会信用代码校验错误！";
-           pass = false;
-       }
-       //不用I、O、S、V、Z
-       var str = '0123456789ABCDEFGHJKLMNPQRTUWXY';
-       var ws =[1,3,9,27,19,26,16,17,20,29,25,13,8,24,10,30,28];
-
-       var codes  = new Array();
-       var sum = 0;
-       codes[0] = code.substr(0,code.length-1);
-       codes[1] = code.substr(code.length-1,code.length);
-
-       for(var i=0;i<codes[0].length;i++){
-           var Ancode = codes[0].charAt(i);
-           var Ancodevalue = str.indexOf(Ancode);
-           sum += Ancodevalue * ws[i];
-       }
-       var indexOfc18 = 31 - (sum % 31);
-       var c18 = str.charAt(indexOfc18);
-       if(c18 != codes[1]){
-           tip = "社会信用代码有误！";
-           pass = false;
-       }
-
-       return {'errCode':pass, 'errMsg':tip};
-    },
     // 验证统一社会信用
-    validateCode1 () {
-        function CheckSocialCreditCode(Code) {  
-          var patrn = /^[0-9A-Z]+$/;  
-          //18位校验及大写校验  
-          if ((Code.length != 18) || (patrn.test(Code) == false)) {  
-            console.info("不是有效的统一社会信用编码！");  
-            return false;  
-          }  
-          else {  
-            var Ancode;//统一社会信用代码的每一个值  
-            var Ancodevalue;//统一社会信用代码每一个值的权重   
-            var total = 0;  
-            var weightedfactors = [1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28];//加权因子   
-            var str = '0123456789ABCDEFGHJKLMNPQRTUWXY';  
-            //不用I、O、S、V、Z   
-            for (var i = 0; i < Code.length - 1; i++) {  
-              Ancode = Code.substring(i, i + 1);  
-              Ancodevalue = str.indexOf(Ancode);  
-              total = total + Ancodevalue * weightedfactors[i];  
-              //权重与加权因子相乘之和   
-            }  
-            var logiccheckcode = 31 - total % 31;  
-            if (logiccheckcode == 31) {  
-              logiccheckcode = 0;  
-            }  
-            var Str = "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,J,K,L,M,N,P,Q,R,T,U,W,X,Y";  
-            var Array_Str = Str.split(',');  
-            logiccheckcode = Array_Str[logiccheckcode];  
-          
-          
-            var checkcode = Code.substring(17, 18);  
-            if (logiccheckcode != checkcode) {  
-              console.info("不是有效的统一社会信用编码！");  
-              return false;  
-            }else{  
-              console.info("yes");  
-            }  
-            return true;  
-          }  
-        　}  
+    validateCode1 (Code) {
+       var patrn = /^[0-9A-Z]+$/;  
+         //18位校验及大写校验  
+         if ((Code.length != 18) || (patrn.test(Code) == false)) {  
+           console.info("不是有效的统一社会信用编码！");  
+           return false;  
+         }  
+         else {  
+           var Ancode;//统一社会信用代码的每一个值  
+           var Ancodevalue;//统一社会信用代码每一个值的权重   
+           var total = 0;  
+           var weightedfactors = [1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28];//加权因子   
+           var str = '0123456789ABCDEFGHJKLMNPQRTUWXY';  
+           //不用I、O、S、V、Z   
+           for (var i = 0; i < Code.length - 1; i++) {  
+             Ancode = Code.substring(i, i + 1);  
+             Ancodevalue = str.indexOf(Ancode);  
+             total = total + Ancodevalue * weightedfactors[i];  
+             //权重与加权因子相乘之和   
+           }  
+           var logiccheckcode = 31 - total % 31;  
+           if (logiccheckcode == 31) {  
+             logiccheckcode = 0;  
+           }  
+           var Str = "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,J,K,L,M,N,P,Q,R,T,U,W,X,Y";  
+           var Array_Str = Str.split(',');  
+           logiccheckcode = Array_Str[logiccheckcode];  
+         
+         
+           var checkcode = Code.substring(17, 18);  
+           if (logiccheckcode != checkcode) {  
+             console.info("不是有效的统一社会信用编码！");  
+             return false;  
+           }else{  
+             console.info("yes");  
+           }  
+           return true;  
+         }    
     },
     go () {
         // 个人需要验证：身份证，手机号码
@@ -153,9 +114,8 @@ export default {
                 }
             // 营业执照编号
             } else if (this.value2 == 1) {
-                var v = this.validateCode2(this.creditCode);
-                if (!(v.errCode)) {
-                    return Toast(v.errMsg)
+                if (!/\d{15}|\d{18}/.test(this.creditCode)) {
+                    return Toast('营业执照必须是15或18位纯数字')
                 }
             }
         }
@@ -163,7 +123,7 @@ export default {
         // 验证身份证号
         if (this.id.trim() === '') {
             return Toast(this.id_placeholder)
-        } else if (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.id.trim())) {
+        } else if (!/[a-zA-Z0-9]{8,18}/) {
             return Toast('请输入正确的身份证号')
         }
 
@@ -191,7 +151,7 @@ export default {
           "verifiCode": this.validate
         }).then(data=>{
             if (data.returnCode == 0) {
-                // TODO：记录用户的身份验证状态，下一次就不需要登录了
+                // 记录用户的身份验证状态，下一次就不需要登录了
                 this.$store.dispatch('set_signToken', true).then(_=>{
                     window.localStorage.setItem('signToken', true);
                     this.$router.push('sign');

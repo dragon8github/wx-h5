@@ -15,6 +15,7 @@
 
 <script>
 import mtButton from '@myComponents/button.vue'
+import Toast    from '@components/toast/index.js'
 
 export default {
 
@@ -66,7 +67,6 @@ export default {
     //         }
     //     })
     // }
-
         if (!this.$store.state.signToken) {
             Toast('请先进行身份确认')
             this.$router.push('Identity')

@@ -4,7 +4,7 @@
         <!-- 客户类型 -->
         <label class="identity__label">客户类型</label>
         <div class="identity__type">
-            <mt-radio v-model="value" :options="['个人', '企业', '其他组织']"></mt-radio>
+            <mt-radio v-model="value" :options="[{label: '个人', value: '1'}, {label: '企业', value: '2'}, {label: '其他组织', value: '3'}]"></mt-radio>
         </div>
 
         <!-- 企业 / 其他组织 -->
@@ -18,7 +18,7 @@
         <!-- 表单 -->
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
-            <mt-field type = "text"   :placeholder = 'core_placeholder'   v-model = 'creditCode'  :maxlength = '18' v-if = "value === '企业' || value === '其他组织'"></mt-field>
+            <mt-field type = "text"   :placeholder = 'core_placeholder'   v-model = 'creditCode'  :maxlength = '18' v-if = "value === '2' || value === '3'"></mt-field>
             <mt-field type = "text" :placeholder = 'id_placeholder'       v-model = 'id'          :maxlength = '18'></mt-field>
             <mt-field type = "number" :placeholder = 'phone_placeholder'  v-model = 'phone'       :maxlength = '11'></mt-field>
             <mt-field type = "number"  placeholder = '请输入6位验证码'    v-model = 'validate'    :maxlength = '6' :clearText='false'>
@@ -46,7 +46,7 @@ export default {
   name: 'Identity',
   data () {
     return {
-        value: '个人',
+        value: '1',
         value2: '0',
         id: '',
         creditCode: '',
@@ -106,7 +106,7 @@ export default {
     },
     go () {
         // 个人需要验证：身份证，手机号码
-        if (this.value === '企业' || this.value === '其他组织') {
+        if (this.value === '2' || this.value === '3') {
             // 验证统一社会信用代码
             if (this.value2 == 0) {
                 if (!this.validateCode1(this.creditCode)) {
@@ -185,10 +185,10 @@ export default {
   },
   watch: {
     value (newValue, oldValue) {
-        if (newValue === '个人') {
+        if (newValue === '0') {
             this.id_placeholder = '请输入身份证号'
             this.phone_placeholder = '请输入银行卡预留手机号码'
-        } else if (newValue === '企业' || newValue === '其他组织') {
+        } else if (newValue === '2' || newValue === '3') {
             this.id_placeholder = '请输入法人证件号码'
             this.phone_placeholder = '请输入手机号码'
         }

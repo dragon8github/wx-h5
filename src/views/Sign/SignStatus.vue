@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     go () {
-        this.$router.push('/Sign')
+        window.history.back()
     }
   },
   components: {

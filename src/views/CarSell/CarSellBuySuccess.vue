@@ -26,7 +26,8 @@
     },
     methods: {
         push () {
-           this.$router.push('/carsellhistory');
+           // this.$router.push('/carsellhistory');
+           window.history.back()
         }
     },
     beforeMount () {}

@@ -42,7 +42,8 @@
     },
     methods: {
         push () {
-           this.$router.push('/fast');
+           // this.$router.push('/fast');
+           window.history.back()
         }
     },
     computed: {

@@ -49,13 +49,15 @@
             selectItem (e, data) {
               this.selected = data.title;
               this.$store.state.bank = data.title
-              this.$router.back()
+              // this.$router.back()
+              window.history.back()
             },
             selectHot (e) {
               if (e.target.nodeName === 'LI') {
                   this.selected = e.target.innerText
                   this.$store.dispatch('set_bank', e.target.innerText).then(_=>{
-                    this.$router.push('/carsellapply')
+                    // this.$router.push('/carsellapply')
+                    window.history.back()
                   })
               }
             }

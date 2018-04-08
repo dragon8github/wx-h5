@@ -141,13 +141,15 @@
               this.$store.state.localcity = data.title
               // this.$router.back()
               // 之所以不使用back，是害怕有路由问题 + 连按导致退两次
-              this.$router.push('/fast')
+              // this.$router.push('/fast')
+              window.history.back()
             },
             selectHot (e) {
               if (e.target.nodeName === 'LI') {
                   this.city = e.target.innerText
                   this.$store.state.localcity = e.target.innerText
-                  this.$router.push('/fast')
+                  // this.$router.push('/fast')
+                  window.history.back()
               }
             },
             is_weixn () {

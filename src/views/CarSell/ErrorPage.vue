@@ -26,7 +26,8 @@
     },
     methods: {
         push () {
-           this.$router.push(this.status.url);
+           // this.$router.push(this.status.url);
+           window.history.back()
         }
     },
     beforeMount () {}

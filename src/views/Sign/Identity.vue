@@ -105,6 +105,7 @@ export default {
          }    
     },
     go () {
+
         // 个人需要验证：身份证，手机号码
         if (this.value === '2' || this.value === '3') {
             // 验证统一社会信用代码

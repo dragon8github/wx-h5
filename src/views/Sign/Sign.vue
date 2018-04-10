@@ -77,9 +77,13 @@ export default {
                     }
                 // 如果用户已经同意过了，那么应该跳转到状态页面
                 } else {
-                    this.$router.push('/signStatus')
-                    // if (!this.__LOCK__) this.$router.push('/signStatus')
-                    // this.__LOCK__ = true
+                    //设置store
+                    this.$store.dispatch('set_signStatus', true).then(_=>{
+                        // 添加缓存
+                        window.localStorage.setItem('signStatus', true)
+                        // 跳转到状态页面
+                        this.$router.push('/signStatus')
+                    })
                 }
             } else {
                 Toast(data.msg || '获取协议列表失败，请稍后重试');
@@ -90,26 +94,11 @@ export default {
   components: {
     mtButton
   },
-  beforeMount () {
-    // 如果用户已经确认过的话，直接跳转到状态页面（仅一次，刚好beforeMount只会触发一次）
-    if (this.$store.state.set_signStatus) {
-        this.$store.dispatch('set_nextNotTransition').then(_=>{
-            this.$router.push('/signStatus')
-        })
-    // 如果用户没有进行身份确认的话，那么跳转到身份确认页面（仅一次，刚好beforeMount只会触发一次）
-    } else if (!this.$store.state.signToken) {
-         this.$store.dispatch('set_nextNotTransition').then(_=>{
-             this.$router.push('Identity')
-         })
-     } else {
-         this.getData()
-     }
-  },
   activated () {
         // 如果没有数据的话，那么加载数据
-        // if (this.myData.length === 0 || this.contractNoList.length === 0) {
-           
-        // }
+        if (this.myData.length === 0 || this.contractNoList.length === 0) {
+           this.getData()
+        }
   }
 }
 </script>

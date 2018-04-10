@@ -177,7 +177,6 @@ String.prototype.toUrl = function () {
     return this.toString().replace(/\/|\\/g, '').toLocaleLowerCase().trim()
 }
 
-
 var wxclose = function () {
     if (window.WeixinJSBridge) {
         window.WeixinJSBridge.call('closeWindow');
@@ -234,6 +233,29 @@ router.beforeEach((to, from, next) => {
             router.push('/login')
         })
     }
+
+    // 猴子补丁：如果进入的是电子签章页面，那么需要根据情况无缝跳转到另外一些页面
+    // 可以肯定一点，只要进入到sign页面，那么他肯定是没有确认过，并且已经完成身份验证的。就算两个数据是伪造的也没关系。
+    if (_to == 'sign') {
+        // 状态一：如果用户已经【确认合同】的话
+        if (store.state.signStatus) {
+            // 从状态页回来，那么直接关闭微信页面
+            if (is_weixn() &&_from == 'signstatus') {
+                // 关闭微信内置浏览器
+                return wxclose();
+            // 否则直接跳转到/signStatus
+            } else {
+                beforeNext = next
+                return router.push('/signStatus')
+            }
+        }
+        // 状态二：如果用户没有进行【身份确认】的话，那么跳转到/Identity
+        if (!store.state.signToken) {
+            beforeNext = next
+            return router.push('/Identity')
+        }
+    }
+
 
     // 设置标题
     setTitle(to.meta.title)

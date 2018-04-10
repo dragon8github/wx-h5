@@ -32,13 +32,19 @@ export let token = window.localStorage.getItem('token')
 export let fastphone = ''
 
 // 提供担保协议书
-export let GuaranteeProtocol = null
+export let GuaranteeProtocol = null;
 
 // 团贷网服务协议
-export let TdServiceProtocol = null
+export let TdServiceProtocol = null;
 
 // 资产端-信息咨询服务协议
-export let InforeferProtocol = null
+export let InforeferProtocol = null;
 
 // 电子签章身份验证的token
-export let signToken = window.localStorage.getItem('signToken')
+export let signToken = window.localStorage.getItem('signToken');
+
+// 是否下次不需要跳转动画
+export let nextNotTransition = false;
+
+// 电子签章是否确认了
+export let signStatus = window.localStorage.getItem('signStatus');

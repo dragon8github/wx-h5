@@ -17,7 +17,7 @@
             </ul>
         </div>
 
-        <p class="title">选择城市</p>
+        <p class="title">选择银行</p>
         <index-list :ele="myele">
              <list-section v-for="(item, index) in alphabet" :key="index" :index="item.initial">
                  <cell v-for="(cell, index2) in item.cells" :key="index2" :title="cell" :clickHandle="selectItem">

@@ -76,3 +76,13 @@ export const set_bank = ({commit, state}, v) => {
 export const set_signToken = ({commit, state}, v) => {
   state.signToken = v
 }
+
+// 设置下一次路由跳转不需要动画
+export const set_nextNotTransition =  ({commit, state}, v) => {
+  state.nextNotTransition = true
+}
+
+// 设置用户是否已经设置了sign
+export const set_signStatus =  ({commit, state}, v) => {
+  state.signStatus = v
+}

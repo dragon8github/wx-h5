@@ -26,11 +26,15 @@ export default {
   },
   watch: {
       $route(to, from, next) {
-
-        // 第一次不需要进行操作，其实这可以移交vuex处理
+        // 第一次不需要进行动画
         if (this.isFirst) {
             this.$store.dispatch('setSiteMap', { name: to.name, path: to.path })
             return this.isFirst = !this.isFirst;
+        }
+
+        // 任何的组件都可以修改这个变量，修改之后，下一次的跳转就不会有动画，但又立刻会被修改回来。
+        if (this.$store.state.nextNotTransition) {
+            return this.$store.state.nextNotTransition = false
         }
 
         // 根据地图链的概念来判断是向左还是向右开始动画

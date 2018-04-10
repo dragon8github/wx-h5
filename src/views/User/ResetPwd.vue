@@ -67,6 +67,8 @@ import msg       from '@components/messagebox/messagebox.js'
                        this.$store.dispatch('set_token', data.data.token).then(_ => {
                             // 设置token缓存
                             window.localStorage.setItem('token', data.data.token)
+                            // 根据需求，删除身份确认的缓存
+                            window.localStorage.removeItem('signToken')
                             // 设置手机的缓存
                             window.localStorage.setItem('phone', this.$store.state.phone)
                             return msg.alert("密码修改成功", "成功提示").then(()=>{

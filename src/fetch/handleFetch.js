@@ -51,6 +51,8 @@ const checkLogin = json => {
         msg.alert('登录状态失效，请重新登录账号！', '警告').then(() => {
            // 删除登录缓存
            window.localStorage.removeItem('token')
+           // 删除电子签章身份确认缓存（其实我觉得全部缓存都清空也可以，但太鲁莽了，还是一个一个删除吧）
+           window.localStorage.removeItem('signToken')
            // 设置去路
            return store.dispatch('set_wantTo', router.currentRoute.fullPath).then(_=>{
                 return router.push('/login')

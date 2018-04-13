@@ -3,9 +3,9 @@
       <h1 class="center">信息咨询服务协议</h1>
 
       <p>合同编号：{{ d.contractCode }}</p>
-      <p>委托方（甲方）：{{ d.entrustName }}</p>
-      <p>服务方（乙方）：{{ d.serviceName }}</p>
-      <p>地址：{{ d.address }}</p>
+      <p>委托方（甲方）：<span class="bottom_line medium">{{ d.entrustName }}</span></p>
+      <p>服务方（乙方）：<span class="bottom_line medium">{{ d.serviceName }}</span></p>
+      <p>地址：<span class="bottom_line medium">{{ d.address }}</span></p>
 
       <p class="bold">鉴于：</p>
       <ul>
@@ -20,7 +20,7 @@
       <p>
           乙方向甲方提供的服务主要包括以下内容：
           <ul>
-            <li>1.甲方拟借款人民币（大写）{{ d.capitalMoney }}（下称“借款本金”），期限为{{ d.dueTime }} 个月，借款起始日为出借人将借款金额划离出借人账户之日。甲方的借款用途为{{ d.borrowerUse }}，甲方保证借款用途符合国家有关法律法规的要求。乙方同意为甲方达成前述借款需求提供协助。</li>
+            <li>1.甲方拟借款人民币（大写）<span class="bottom_line">{{ d.capitalMoney }}</span>（下称“借款本金”），期限为<span class="bottom_line">{{ d.dueTime }}</span>个月，借款起始日为出借人将借款金额划离出借人账户之日。甲方的借款用途为<span class="bottom_line">{{ d.borrowerUse }}</span>，甲方保证借款用途符合国家有关法律法规的要求。乙方同意为甲方达成前述借款需求提供协助。</li>
             <li>2.甲方知晓并理解，乙方提供的协助在任何情况下均不得理解为一定能协助甲方成功达成前述借款需求。若甲方无法从出借人取得前述借款款项，乙方仅需及时通知甲方，甲方不得以已签订本合同为由要求乙方出借资金或承担法律责任。</li>
             <li>3.基于甲方的借款需求，为甲方提供借款前咨询，包括解答借款相关问题、对甲方是否满足借款条件进行初步审查，指导及协助甲方填写申请材料、完成借款申请等。</li>
             <li>4.协助甲方完成借款申请资料的收集和准备，向甲方收集包括但不限于身份证明文件、银行账目往来流水、动产或不动产证明等贷款申请资料及信息，并对甲方资质及身份进行审查核实，为甲方现场解答借款相关问题。</li>
@@ -33,14 +33,14 @@
         <ul>
           <li>1.甲方知晓并同意，为达成甲方的借款需求甲方需向出借人和乙方支付借款费用如下：
               <ul class="smalllP">
-                <li>（1）基于出借人为甲方提供借款，甲方同意按年化利率{{ d.yearRete }}%向出借人支付利息，自借款起始日起算，至借款全部结清日止，不足一个月的按一个月计算。利息由甲方授权委托第三方，在指定的还款日期将款项从甲方指定账户自动划扣至出借人在团贷网平台开设的账户（以下简称“平台账户”）。</li>
-                <li>（2）基于乙方为甲方提供本协议项下约定服务，甲方同意向乙方支付人民币{{ d.serviceMoney }}元的信息咨询服务费（以下简称“服务费”），支付时间：于本协议签订当日支付人民币{{ d.firstServiceMoney }}元，剩余服务费甲方按以下第{{ d.payWay }}种方式于每月{{ d.monthDate }}日前向乙方支付。
+                <li>（1）基于出借人为甲方提供借款，甲方同意按年化利率<span class="bottom_line">{{ d.yearRete }}</span>%向出借人支付利息，自借款起始日起算，至借款全部结清日止，不足一个月的按一个月计算。利息由甲方授权委托第三方，在指定的还款日期将款项从甲方指定账户自动划扣至出借人在团贷网平台开设的账户（以下简称“平台账户”）。</li>
+                <li>（2）基于乙方为甲方提供本协议项下约定服务，甲方同意向乙方支付人民币<span class="bottom_line">{{ d.serviceMoney }}</span>元的信息咨询服务费（以下简称“服务费”），支付时间：于本协议签订当日支付人民币<span class="bottom_line">{{ d.firstServiceMoney }}</span>元，剩余服务费甲方按以下第<span class="bottom_line">{{ d.payWay }}</span>种方式于每月<span class="bottom_line">{{ d.monthDate }}</span>日前向乙方支付。
                       <ul class="smalllP">
-                        <li>A、每月支付人民币{{ d.perServiceMoney }}元，直到支付完全部服务费。</li>
-                        <li>B、第一年每月支付人民币{{ d.firstYearMoney }}元，第二年每月支付人民币{{ d.secondYearMoney }}元，第三年每月支付人民币{{ d.thirdYearMoney }}元，第 四年每月支付人民币{{ d.fourthYearMoney }}元，直至支付完全部服务费。    </li> 
+                        <li>A、每月支付人民币<span class="bottom_line">{{ d.perServiceMoney }}</span>元，直到支付完全部服务费。</li>
+                        <li>B、第一年每月支付人民币<span class="bottom_line">{{ d.firstYearMoney }}</span>元，第二年每月支付人民币<span class="bottom_line">{{ d.secondYearMoney }}</span>元，第三年每月支付人民币<span class="bottom_line">{{ d.thirdYearMoney }}</span>元，第四年每月支付人民币<span class="bottom_line">{{ d.fourthYearMoney }}</span>元，直至支付完全部服务费。    </li> 
                       </ul>
                 </li>
-                <li></li>
+                <li>（3）若甲方申请提前结清全部借款本金的，在结清借款前，甲方需一次性向乙方支付结清时当月服务费的二倍作为违约金。</li>
               </ul>
           </li>
           <li>2.在甲方委托的第三方划扣不成功时，甲方授权委托由乙方代收其还款款项（本金、利息、违约金（如有）等）并代为向出借人还款。</li>
@@ -162,18 +162,20 @@
       </p>
 
       <h1>第十条.    争议解决</h1>
-      <p>如有争议，双方首先通过协商解决；协商不成的，{{ d.disputeSolve }}。</p>
+      <p>因本协议发生的任何争议，由双方协商解决，协商不成的，任何一方提交<span class="bottom_line large ">{{ d.disputeSolve }}</span>。</p>
 
       <h1>第十一条.合同生效及终止</h1>
       <p>本协议一式贰份，甲乙双方各执壹份，自甲、乙双方签字或盖章后生效，至本协议项下权利义务履行完毕之日或本协议约定的导致合同终止的条件满足时终止。如果甲方的借款或借贷交易最终未达成的，自甲方向乙方支付服务费后，本协议终止。</p>
 
      <p>甲方（签字及手印）：</p>
      <p>乙方（盖章）：</p>
-     <div class="right">签署日期：{{ (new Date).format('yyyy年MM月dd日') }}</div>
+     <div class="right">签署日期：&nbsp&nbsp年&nbsp&nbsp月&nbsp&nbsp日</div>
   </div>
 </template>
 
 <script>
+import Toast    from '@components/toast/index.js'
+
 export default {
   name: 'InforeferProtocol',
   data () {
@@ -181,6 +183,7 @@ export default {
        d: this.$store.state.InforeferProtocol || {}
     }
   },
+  methods: {},
   beforeMount () {
        if (!this.$store.state.InforeferProtocol) {
          this.$router.push('/sign')
@@ -200,6 +203,13 @@ export default {
     text-indent: pxToRem(30px);
     letter-spacing: pxToRem(2px);
     line-height: pxToRem(55px);
+
+
+    .bottom_line {
+        border-bottom: 1px solid #000;
+        padding-bottom: pxToRem(5px);
+        min-width: pxToRem(100px);
+    }
 
     .smalllP {
       font-size:pxToRem(20px);

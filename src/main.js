@@ -53,6 +53,7 @@ if (process.env.NODE_ENV === 'production') {
     // 13794942971  123456.a  oRsEC1tgZQApdeTKAskfUvFY0UqY
     // 15730186820  zhang110  oRsEC1ualLIvMV6E9-IHmZj-ZAQU
     // 18576614482  123456.a
+    // 测试合同专用账号：18001894553 
     // 将写死的openid数据放入store中  
     store.dispatch('setAppData', {openId: 'oRsEC1ualLIvMV6E9-IHmZj-ZAQU'}).then(() => {
         // vue初始化

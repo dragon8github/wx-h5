@@ -4,7 +4,7 @@
             <div class="sign__img--image"></div>
         </div>
         <div class="sign__text">
-            <span >我已阅读并同意下列合同： </span>
+            <span  v-if="contractNoList.length">我已阅读并同意下列合同： </span>
         </div>
         <ul class="sign__list">
             <li v-for="item in myData" @click="goinfo(item.no)">《{{item.name}}》</li>
@@ -19,7 +19,7 @@
 <script>
 import mtButton from '@myComponents/button.vue'
 import Toast    from '@components/toast/index.js'
-
+import Loader from '@components/loader/index.js'
 export default {
 
   name: 'Sign',
@@ -29,42 +29,59 @@ export default {
         myData: [],
         contractNoList: [],
         __LOCK__: false,
+        businessId: '',
+        customerId: '',
     }
   },
   methods: {
     refresh () {
-       if (this.myData.length === 0 || this.contractNoList.length === 0) {
-            this.getData()
-        }
+       this.getData()
     },
     goinfo (no) {
         if (no == 1) this.$router.push('/GuaranteeProtocol')
-        if (no == 2) this.$router.push('/TdServiceProtocol')
-        if (no == 3) this.$router.push('/InforeferProtocol')
+        if (no == 2) this.$router.push('/InforeferProtocol')
+        if (no == 3) this.$router.push('/TdServiceProtocol')
     },
     go () {
+        // 合同确认
         this.xdapi.contractConfirm({
-            contractNo: this.contractNoList.join(',')
+            contractNo: this.contractNoList.join(','),
+            customerId: this.customerId,
+            businessId: this.businessId
         }).then(data=>{
             if (data.returnCode == 0) {
-                // 添加缓存
-                this.$store.dispatch('set_signStatus', true).then(_=>{
-                    // 设置store
-                    window.localStorage.setItem('signStatus', true)
-                    // 跳转到状态页面
-                    this.$router.push('/SignStatus')
+                this.xdapi.contractList().then(data=>{
+                    if (data.returnCode == 0) {
+                        // 如果没有【未同意】的合同
+                        if (data.data.isConfirm != 1) {
+                            // 设置缓存
+                            this.$store.dispatch('set_signToken', true).then(_=>{
+                                this.$router.push('/signStatus')
+                            })
+                        } else {
+                            // 测试
+                            // 是不是一定要调用合同列表接口，才可以重新确认？
+                            // 这个身份证是不是专门弄了很多次的确认。
+                            // 时机是不是在确认之后，立刻调用列表就可以确认了
+                            this.$router.push('/signStatus')
+                        }
+                    } else {
+                        Toast(data.msg || '网络连接异常，请稍后重试!!');
+                    }
                 })
             } else {
-                Toast(data.msg || '网络连接异常，请稍后重试');
+                Toast(data.msg || '网络连接异常，请稍后重试!');
             }
         })
     },
     getData () {
         this.xdapi.contractList().then(data=>{
             if (data.returnCode == 0) {
-                // 如果用户还没有同意过
+                // 【未同意】
                 if (data.data.isConfirm == 1) {
                     // 处理数据
+                    this.customerId = data.data.customerId
+                    this.businessId = data.data.businessId
                     for (var i = 0; i < data.data.contractList.length; i++) {
                        var no   = data.data.contractList[i].contractNo
                        var name = data.data.contractList[i].contractName
@@ -72,19 +89,24 @@ export default {
                        this.contractNoList.push(no)
                        this.myData.push({no, name})
                        if (no == 1) this.$store.state.GuaranteeProtocol = des
-                       if (no == 2) this.$store.state.TdServiceProtocol = des
-                       if (no == 3) this.$store.state.InforeferProtocol = des
+                       if (no == 2) this.$store.state.InforeferProtocol = des
+                       if (no == 3) this.$store.state.TdServiceProtocol = des
                     }
-                // 如果用户已经同意过了，那么应该跳转到状态页面
-                } else {
-                    //设置store
-                    this.$store.dispatch('set_signStatus', true).then(_=>{
-                        // 添加缓存
-                        window.localStorage.setItem('signStatus', true)
+                // 【已同意】
+                } else if (data.data.isConfirm == 2) {
+                    this.$store.dispatch('set_signToken', true).then(_=>{
                         // 跳转到状态页面
                         this.$router.push('/signStatus')
                     })
+                // 【没有合同】
+                } else if (data.data.isConfirm == 0) {
+                    // 不管它死活，需求说不可能有这种情况
+                    return Toast('没有合同需要确认');
+                // 【用户不存在】
+                } else if (data.data.isConfirm == 3) {
+                    // 不管它死活，需求说不可能有这种情况
                 }
+
             } else {
                 Toast(data.msg || '获取协议列表失败，请稍后重试');
             }
@@ -95,10 +117,10 @@ export default {
     mtButton
   },
   activated () {
-        // 如果没有数据的话，那么加载数据
-        if (this.myData.length === 0 || this.contractNoList.length === 0) {
-           this.getData()
-        }
+       // 如果没有数据的话，那么加载数据
+       if (this.myData.length === 0 || this.contractNoList.length === 0) {
+          this.getData()
+       }
   }
 }
 </script>

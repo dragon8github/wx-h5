@@ -49,13 +49,18 @@ const checkLogin = json => {
     // 如果状态码为205的话，说明需要重新登录了
     if (json.returnCode == 205) {
         msg.alert('登录状态失效，请重新登录账号！', '警告').then(() => {
-           // 删除登录缓存
-           window.localStorage.removeItem('token')
-           // 删除电子签章身份确认缓存（其实我觉得全部缓存都清空也可以，但太鲁莽了，还是一个一个删除吧）
-           window.localStorage.removeItem('signToken')
-           // 设置去路
-           return store.dispatch('set_wantTo', router.currentRoute.fullPath).then(_=>{
-                return router.push('/login')
+           // 删除登录store
+           store.dispatch('set_token', null).then(_=>{
+                // 删除登录缓存
+                window.localStorage.removeItem('token')
+                // 删除电子签章身份确认缓存（其实我觉得全部缓存都清空也可以，但太鲁莽了，还是一个一个删除吧）
+                window.localStorage.removeItem('signToken')
+                // 删除电子签章身份确认缓存，这里就懒得用回调了，嵌套太多层不好，速度应该也不差才对。
+                store.dispatch('set_signToken', null);
+                // 设置去路
+                return store.dispatch('set_wantTo', router.currentRoute.fullPath).then(_=>{
+                     return router.push('/login')
+                })
            })
         })
         // 这里的throw核心作用是拦截js往下执行。

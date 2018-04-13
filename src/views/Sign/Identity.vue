@@ -18,8 +18,8 @@
         <!-- 表单 -->
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
-            <mt-field type = "text"   :placeholder = 'core_placeholder'  v-model = 'unifedCode'       :maxlength = '50' v-if = "value2 == '0' && (value == '2' || value == '3')"></mt-field>
-            <mt-field type = "text"   :placeholder = 'core_placeholder'  v-model = 'businessLincence' :maxlength = '50' v-if = "value2 == '1' && (value == '2' || value == '3')"></mt-field>
+            <mt-field type = "text"   :placeholder = 'core_placeholder'  v-model = 'unifiedCode'       :maxlength = '50' v-if = "value2 == '0' && (value == '2' || value == '3')"></mt-field>
+            <mt-field type = "text"   :placeholder = 'core_placeholder'  v-model = 'businessLicence' :maxlength = '50' v-if = "value2 == '1' && (value == '2' || value == '3')"></mt-field>
             <mt-field type = "text"   :placeholder = 'id_placeholder'    v-model = 'id'               :maxlength = '18'></mt-field>
             <mt-field type = "number" :placeholder = 'phone_placeholder' v-model = 'phone'            :maxlength = '11'></mt-field>
             <mt-field type = "number"  placeholder = '请输入6位验证码'   v-model = 'validate'         :maxlength = '6' :clearText='false'>
@@ -49,12 +49,12 @@ export default {
     return {
         value: '1',
         value2: '0',
-        id: '372900197507262541',  // 440881198802013214  372900197507262541
-        phone: '15999795594',// 15876366685 15999795594
-        unifedCode: '',       // 社会信用代码
-        businessLincence: '', // 营业执照编码
+        id: '',  //320405197409243789  432502199010131489    372900197507262541 440881198802013214  372900197507262541
+        phone: '',// 15999795945 13821262349  15999795594 15876366685 15999795594
+        unifiedCode: '',     // 社会信用代码
+        businessLicence: '', // 营业执照编码
         validate: '',
-        id_placeholder: '请输入身份证号',
+        id_placeholder: '请输入证件号码',
         phone_placeholder: '请输入银行卡预留手机号码',
         core_placeholder: '请输入统一社会信用代码'
     }
@@ -68,55 +68,36 @@ export default {
   methods: {
     // 验证统一社会信用
     validateCode1 (Code) {
-       var patrn = /^[0-9A-Z]+$/;  
-         //18位校验及大写校验  
-         if ((Code.length != 18) || (patrn.test(Code) == false)) {  
-           console.info("不是有效的统一社会信用编码！");  
-           return false;  
-         }  
-         else {  
-           var Ancode;//统一社会信用代码的每一个值  
-           var Ancodevalue;//统一社会信用代码每一个值的权重   
-           var total = 0;  
-           var weightedfactors = [1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28];//加权因子   
-           var str = '0123456789ABCDEFGHJKLMNPQRTUWXY';  
-           //不用I、O、S、V、Z   
-           for (var i = 0; i < Code.length - 1; i++) {  
-             Ancode = Code.substring(i, i + 1);  
-             Ancodevalue = str.indexOf(Ancode);  
-             total = total + Ancodevalue * weightedfactors[i];  
-             //权重与加权因子相乘之和   
-           }  
-           var logiccheckcode = 31 - total % 31;  
-           if (logiccheckcode == 31) {  
-             logiccheckcode = 0;  
-           }  
-           var Str = "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,J,K,L,M,N,P,Q,R,T,U,W,X,Y";  
-           var Array_Str = Str.split(',');  
-           logiccheckcode = Array_Str[logiccheckcode];  
-         
-           var checkcode = Code.substring(17, 18);  
-           if (logiccheckcode != checkcode) {  
-             console.info("不是有效的统一社会信用编码！");  
-             return false;  
-           }else{  
-             console.info("yes");  
-           }  
-           return true;  
-         }    
+        //18位校验及大写校验  
+        if (Code.length != 18) {  
+          return false;  
+        }  
+        return true;  
     },
     go () {
+        this.id = this.id.trim()
+        this.phone = this.phone.trim()
+        this.unifiedCode = this.unifiedCode.trim()
+        this.businessLicence = this.businessLicence.trim()
+        this.validate = this.validate.trim()
+
         // 个人需要验证：身份证，手机号码
          if (this.value === '2' || this.value === '3') {
              // 验证统一社会信用代码
              if (this.value2 == 0) {
-                 if (!this.validateCode1(this.creditCode)) {
-                     return Toast('不是有效的统一社会信用编码！')
-                 }
+                if (this.unifiedCode.length == 0) {
+                   return Toast('请输入社会信用编码')
+                }
+                if (!this.validateCode1(this.unifiedCode)) {
+                   return Toast('不是有效的社会信用编码！')
+                }
              // 营业执照编号
              } else if (this.value2 == 1) {
-                 if (!/\d{15}|\d{18}/.test(this.creditCode)) {
-                     return Toast('营业执照必须是15或18位纯数字')
+                 if (this.businessLicence.length == 0) {
+                    return Toast('请输入营业执照编号')
+                 }
+                 if (this.businessLicence.length != 15 && this.businessLicence.length != 18) {
+                    return Toast('营业执照必须是15位或18位')
                  }
              }
          }
@@ -124,8 +105,11 @@ export default {
          // 验证身份证号
          if (this.id.trim() === '') {
              return Toast(this.id_placeholder)
-         } else if (!/.{8,18}/) {
-             return Toast('请输入正确的身份证号')
+         } else if (!/.{8,18}/.test(this.id.trim())) {
+             if (this.value === '2' || this.value === '3') {
+                return Toast('请输入正确的法人证件号码')
+             }
+             return Toast('请输入正确的证件号码')
          }
 
          // 验证手机号码
@@ -147,8 +131,8 @@ export default {
             "cardNo":           this.id,
             "creditCode":       this.core,
             "isUnit":           this.value2,
-            'unifedCode':       this.unifedCode,
-            'businessLincence': this.businessLincence,
+            'unifiedCode':      this.unifiedCode,
+            'businessLicence':  this.businessLicence,
             "phone":            this.phone,
             "userType":         this.value,
             "verifiCode":       this.validate
@@ -166,17 +150,29 @@ export default {
 
     },
     getCode (cb) {
+        this.id = this.id.trim()
+        this.phone = this.phone.trim()
+        this.unifiedCode = this.unifiedCode.trim()
+        this.businessLicence = this.businessLicence.trim()
+        this.validate = this.validate.trim()
+
         // 个人需要验证：身份证，手机号码
          if (this.value === '2' || this.value === '3') {
              // 验证统一社会信用代码
              if (this.value2 == 0) {
-                 if (!this.validateCode1(this.creditCode)) {
-                     return Toast('不是有效的统一社会信用编码！')
-                 }
+                if (this.unifiedCode.length == 0) {
+                   return Toast('请输入社会信用编码')
+                }
+                if (!this.validateCode1(this.unifiedCode)) {
+                   return Toast('不是有效的社会信用编码！')
+                }
              // 营业执照编号
              } else if (this.value2 == 1) {
-                 if (!/\d{15}|\d{18}/.test(this.creditCode)) {
-                     return Toast('营业执照必须是15或18位纯数字')
+                 if (this.businessLicence.length == 0) {
+                    return Toast('请输入营业执照编号')
+                 }
+                 if (this.businessLicence.length != 15 && this.businessLicence.length != 18) {
+                    return Toast('营业执照必须是15位或18位')
                  }
              }
          }
@@ -184,8 +180,11 @@ export default {
          // 验证身份证号
          if (this.id.trim() === '') {
              return Toast(this.id_placeholder)
-         } else if (!/.{8,18}/) {
-             return Toast('请输入正确的身份证号')
+         } else if (!/.{8,18}/.test(this.id.trim())) {
+             if (this.value === '2' || this.value === '3') {
+                return Toast('请输入正确的法人证件号码')
+             }
+             return Toast('请输入正确的证件号码')
          }
 
          // 验证手机号码
@@ -201,8 +200,8 @@ export default {
             "cardNo":           this.id,
             "creditCode":       this.core,
             "isUnit":           this.value2,
-            'unifedCode':       this.unifedCode,
-            'businessLincence': this.businessLincence,
+            'unifiedCode':       this.unifiedCode,
+            'businessLicence': this.businessLicence,
             "phone":            this.phone,
             "userType":         this.value,
         }).then(data => {
@@ -219,7 +218,7 @@ export default {
   watch: {
     value (newValue, oldValue) {
         if (newValue === '0') {
-            this.id_placeholder = '请输入身份证号'
+            this.id_placeholder = '请输入证件号码'
             this.phone_placeholder = '请输入银行卡预留手机号码'
         } else if (newValue === '2' || newValue === '3') {
             this.id_placeholder = '请输入法人证件号码'
@@ -245,7 +244,6 @@ export default {
 @import "~@sass/_func";
 
 #identity {
-
     .identity__label {
         color: #222222;
         font-size: pxToRem(28px);

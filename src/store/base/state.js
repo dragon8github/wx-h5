@@ -47,4 +47,4 @@ export let signToken = window.localStorage.getItem('signToken');
 export let nextNotTransition = false;
 
 // 电子签章是否确认了
-export let signStatus = window.localStorage.getItem('signStatus');
+export let signStatus = null;

@@ -30,11 +30,13 @@ export default {
   methods: {
     go () {
         window.history.back()
-    }
+    }    
   },
   components: {
     mtButton
   },
+  beforeMount () {
+  }
 }
 </script>
 

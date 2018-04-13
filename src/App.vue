@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition :name="transitionName" @afterLeave="clearTransition">
-        <keep-alive include = "Fast,Borrow,Repay,CarSell,CarSellHistory,CarSellApply,Register,Sign">
+        <keep-alive include = "Fast,Borrow,Repay,CarSell,CarSellHistory,CarSellApply,Register,Sign,Identity">
             <router-view class="view"></router-view>
         </keep-alive> 
     </transition>

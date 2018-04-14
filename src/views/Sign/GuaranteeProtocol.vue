@@ -1,19 +1,19 @@
 <template>
   <div id="GuaranteeProtocol">
       <h1 class="center">提供担保协议书</h1>
-      <p>合同编号：{{ d.contractCode }}</p>
-      <p>甲方（被保证人）：<span class="bottom_line medium">{{ d.borrowerName }}</span></p>
-      <p>乙方（担保人）：<span class="bottom_line medium">{{ d.guaranteeName }}</span></p>
-      <p>地址：<span class="bottom_line medium">{{ d.address }}</span></p>
-      <p>法定代表人：<span class="bottom_line medium">{{ d.legalName }}</span></p>
+      <p>合同编号：<span class="bottom_line">{{ d.contractCode }}</span></p>
+      <p>甲方（被保证人）：<span class="bottom_line">{{ d.borrowerName }}</span></p>
+      <p>乙方（担保人）：<span class="bottom_line">{{ d.guaranteeName }}</span></p>
+      <p>地址：<span class="bottom_line">{{ d.address }}</span></p>
+      <p>法定代表人：<span class="bottom_line">{{ d.legalName }}</span></p>
       
       <p>
-        甲方于<span class="bottom_line">{{d.signYear}}</span> 年 <span class="bottom_line">{{ d.signMonth }}</span> 月 <span class="bottom_line">{{ d.signDate }}</span> 日与“团贷网平台”（运营网址：<a class="link" href="http://www.tuandai.com">http://www.tuandai.com</a>）签订《团贷网服务协议》，并向该平台申请发标融资借款，甲方申请发标借款的金额：{{ d.borrowerMoney }}元，借款期限：{{ d.borrowerLimit }}个月，借款年化利率<span class="bottom_line medium">{{ d.yearRate }}</span>%，还款方式为：<span class="bottom_line medium">{{ d.repaymentMethod }}</span> 。
+        甲方于<span class="bottom_line">{{ d.signYear }}</span> 年 <span class="bottom_line">{{ d.signMonth }}</span> 月 <span class="bottom_line">{{ d.signDate }}</span> 日与“团贷网平台”（运营网址：<a class="link" href="http://www.tuandai.com">http://www.tuandai.com</a>）签订《团贷网服务协议》，并向该平台申请发标融资借款，甲方申请发标借款的金额：<span class="bottom_line">{{ d.borrowerMoney }}</span>元，借款期限：<span class="bottom_line">{{ d.borrowerLimit }}</span>个月，借款年化利率<span class="bottom_line">{{ d.yearRate }}</span>%，还款方式为：<span class="bottom_line">{{ d.repaymentMethod }}</span> 。
          现甲方向乙方申请为上述借款向团贷网平台投资人提供担保。乙方经审查，同意为团贷网平台投资人提供此项担保。团贷网平台根据自身规则为平台用户提供普通会员和超级会员两种会员服务，乙方将根据团贷网平台规则为投资人提供担保服务。若投资人投资时为团贷网平台的超级会员，乙方将提供融资金额（即为本次甲方在团贷网平台所融资借款的总金额）及利息的担保；若投资人投资时为团贷网平台的普通会员，乙方将提供融资金额（即为本次甲方在团贷网平台所融资借款的总金额）的担保。双方根据国家有关法律、法规的规定，经协商一致，达成如下协议：
       </p>
 
       <p><span class="bold">第一条</span> 乙方为甲方在上述借款项下对团贷网平台线上的投资人（以下简称出借人）所负的债务根据团贷网平台会员制度规则提供担保，担保范围及担保期限等事项由甲方、出借人及乙方签订的《借款合同》或《借款协议》约定。</p>
-      <p><span class="bold">第二条</span> 乙方为甲方提供担保，甲方应向乙方支付担保费人民币{{ d.guaranteeMoney }}元。甲方应于本合同签订当日内向乙方一次性支付担保费。</p>
+      <p><span class="bold">第二条</span> 乙方为甲方提供担保，甲方应向乙方支付担保费人民币<span class="bottom_line" v-html="poll(d.guaranteeMoney)"></span>元。甲方应于本合同签订当日内向乙方一次性支付担保费。</p>
       <p><span class="bold">第三条</span> 具备下列条件后，乙方为甲方正式提供担保：
           <ul>
             <li>1、本协议书已签订生效；</li>
@@ -22,7 +22,7 @@
           </ul>
       </p>
          
-      <p><span class="bold">第四条</span>  担保借款用途：本担保借款只能用于{{ d.borrowerUse }}。</p>
+      <p><span class="bold">第四条</span>  担保借款用途：本担保借款只能用于<span class="bottom_line">{{ d.borrowerUse }}</span>。</p>
     
       <p class="bold">第五条  代偿与追偿</p>
         <ul>
@@ -94,7 +94,7 @@
       <p class="bold">第十一条  争议的解决：</p>
       <ul>
         <li> 1、本协议书的订立、履行、解释、变更和争议的解决适用中华人民共和国法律，并受其约束。</li>
-        <li> 2、若发生争议，双方应友好协商解决，协商不能解决时，任何一方提交<span class="bottom_line large ">{{ d.disputeSolve }}。</span></li>
+        <li> 2、若发生争议，双方应友好协商解决，协商不能解决时，任何一方提交<span class="bottom_line">{{ d.disputeSolve }}。</span></li>
       </ul>
          
       <p class="bold">第十二条  生效：</p>
@@ -136,6 +136,14 @@ export default {
         d: this.$store.state.GuaranteeProtocol || {}
     }
   },
+  methods: {
+    poll (data, n = 10) {
+      if (!data || !data.trim()) {
+          return (new Array(n + 1)).join('&nbsp');
+      }
+      return data
+    }
+  },
   computed: {
     timer () {
       return `${this.d.signYear}年${this.d.signMonth}月${this.d.signDate}日`
@@ -160,6 +168,8 @@ export default {
       text-indent: pxToRem(30px);
       letter-spacing: pxToRem(2px);
       line-height: pxToRem(55px);
+      word-break: break-all;
+
 
       .smalllP {
         font-size:pxToRem(20px);

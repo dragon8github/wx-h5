@@ -55,7 +55,7 @@ export default {
                         // 如果没有【未同意】的合同
                         if (data.data.isConfirm != 1) {
                             // 设置缓存
-                            this.$store.dispatch('set_signToken', true).then(_=>{
+                            this.$store.dispatch('set_signStatus', true).then(_=>{
                                 this.$router.push('/signStatus')
                             })
                         } else {

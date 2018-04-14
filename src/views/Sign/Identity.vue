@@ -71,7 +71,7 @@ export default {
         //18位校验及大写校验  
         if (Code.length != 18) {  
           return false;  
-        }  
+        }
         return true;  
     },
     go () {
@@ -96,8 +96,8 @@ export default {
                  if (this.businessLicence.length == 0) {
                     return Toast('请输入营业执照编号')
                  }
-                 if (this.businessLicence.length != 15 && this.businessLicence.length != 18) {
-                    return Toast('营业执照必须是15位或18位')
+                 if (this.businessLicence.length != 15) {
+                    return Toast('不是有效的营业执照')
                  }
              }
          }
@@ -171,8 +171,8 @@ export default {
                  if (this.businessLicence.length == 0) {
                     return Toast('请输入营业执照编号')
                  }
-                 if (this.businessLicence.length != 15 && this.businessLicence.length != 18) {
-                    return Toast('营业执照必须是15位或18位')
+                 if (this.businessLicence.length != 15) {
+                    return Toast('不是有效的营业执照')
                  }
              }
          }

@@ -2,10 +2,10 @@
   <div id="InforeferProtocol">
       <h1 class="center">信息咨询服务协议</h1>
 
-      <p>合同编号：{{ d.contractCode }}</p>
-      <p>委托方（甲方）：<span class="bottom_line medium">{{ d.entrustName }}</span></p>
-      <p>服务方（乙方）：<span class="bottom_line medium">{{ d.serviceName }}</span></p>
-      <p>地址：<span class="bottom_line medium">{{ d.address }}</span></p>
+      <p>合同编号：<span class="bottom_line" v-html="poll(d.contractCode)"></span></p>
+      <p>委托方（甲方）：<span class="bottom_line" v-html="poll(d.entrustName)"></span></p>
+      <p>服务方（乙方）：<span class="bottom_line" v-html="poll(d.serviceName)"></span></p>
+      <p>地址：<span class="bottom_line" v-html="poll(d.address)"></span></p>
 
       <p class="bold">鉴于：</p>
       <ul>
@@ -20,11 +20,11 @@
       <p>
           乙方向甲方提供的服务主要包括以下内容：
           <ul>
-            <li>1.甲方拟借款人民币（大写）<span class="bottom_line">{{ d.capitalMoney }}</span>（下称“借款本金”），期限为<span class="bottom_line">{{ d.dueTime }}</span>个月，借款起始日为出借人将借款金额划离出借人账户之日。甲方的借款用途为<span class="bottom_line">{{ d.borrowerUse }}</span>，甲方保证借款用途符合国家有关法律法规的要求。乙方同意为甲方达成前述借款需求提供协助。</li>
+            <li>1.甲方拟借款人民币（大写）<span class="bottom_line" v-html="poll(d.capitalMoney)"></span>（下称“借款本金”），期限为<span class="bottom_line" v-html="poll(d.dueTime)"></span>个月，借款起始日为出借人将借款金额划离出借人账户之日。甲方的借款用途为<span class="bottom_line" v-html="poll(d.borrowerUse)"></span>，甲方保证借款用途符合国家有关法律法规的要求。乙方同意为甲方达成前述借款需求提供协助。</li>
             <li>2.甲方知晓并理解，乙方提供的协助在任何情况下均不得理解为一定能协助甲方成功达成前述借款需求。若甲方无法从出借人取得前述借款款项，乙方仅需及时通知甲方，甲方不得以已签订本合同为由要求乙方出借资金或承担法律责任。</li>
             <li>3.基于甲方的借款需求，为甲方提供借款前咨询，包括解答借款相关问题、对甲方是否满足借款条件进行初步审查，指导及协助甲方填写申请材料、完成借款申请等。</li>
             <li>4.协助甲方完成借款申请资料的收集和准备，向甲方收集包括但不限于身份证明文件、银行账目往来流水、动产或不动产证明等贷款申请资料及信息，并对甲方资质及身份进行审查核实，为甲方现场解答借款相关问题。</li>
-            <li>5.根据甲方申请资料的准备情况，对甲方借款资质、资信状况及偿债能力进行综合评估，对甲方是否能满足出借人出借资金      的条件进行审查，根据审查结果将甲方的借款需求向团贷网平台上的出借人进行推荐并递交申请资料，帮助甲方在团贷网平台建立有效账户，并将出借人放款与否的审查结果及时向甲方进行反馈，根据甲方授权协助或代      表甲方签署包括但不限于团贷网平台电子《借款协议》等法律文件。</li>
+            <li>5.根据甲方申请资料的准备情况，对甲方借款资质、资信状况及偿债能力进行综合评估，对甲方是否能满足出借人出借资金      的条件进行审查，根据审查结果将甲方的借款需求向团贷网平台上的出借人进行推荐并递交申请资料，帮助甲方在团贷网平台建立有效账户，并将出借人放款与否的审查结果及时向甲方进行反馈，根据甲方授权协助或代表甲方签署包括但不限于团贷网平台电子《借款协议》等法律文件。</li>
           </ul>
       </p>
 
@@ -33,11 +33,11 @@
         <ul>
           <li>1.甲方知晓并同意，为达成甲方的借款需求甲方需向出借人和乙方支付借款费用如下：
               <ul class="smalllP">
-                <li>（1）基于出借人为甲方提供借款，甲方同意按年化利率<span class="bottom_line">{{ d.yearRete }}</span>%向出借人支付利息，自借款起始日起算，至借款全部结清日止，不足一个月的按一个月计算。利息由甲方授权委托第三方，在指定的还款日期将款项从甲方指定账户自动划扣至出借人在团贷网平台开设的账户（以下简称“平台账户”）。</li>
-                <li>（2）基于乙方为甲方提供本协议项下约定服务，甲方同意向乙方支付人民币<span class="bottom_line">{{ d.serviceMoney }}</span>元的信息咨询服务费（以下简称“服务费”），支付时间：于本协议签订当日支付人民币<span class="bottom_line">{{ d.firstServiceMoney }}</span>元，剩余服务费甲方按以下第<span class="bottom_line">{{ d.payWay }}</span>种方式于每月<span class="bottom_line">{{ d.monthDate }}</span>日前向乙方支付。
+                <li>（1）基于出借人为甲方提供借款，甲方同意按年化利率<span class="bottom_line" v-html="poll(d.yearRete)"></span>%向出借人支付利息，自借款起始日起算，至借款全部结清日止，不足一个月的按一个月计算。利息由甲方授权委托第三方，在指定的还款日期将款项从甲方指定账户自动划扣至出借人在团贷网平台开设的账户（以下简称“平台账户”）。</li>
+                <li>（2）基于乙方为甲方提供本协议项下约定服务，甲方同意向乙方支付人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元的信息咨询服务费（以下简称“服务费”），支付时间：于本协议签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，剩余服务费甲方按以下第<span class="bottom_line" v-html="poll(d.payWay)"></span>种方式于每月<span class="bottom_line" v-html="poll(d.monthDate)"></span>日前向乙方支付。
                       <ul class="smalllP">
-                        <li>A、每月支付人民币<span class="bottom_line">{{ d.perServiceMoney }}</span>元，直到支付完全部服务费。</li>
-                        <li>B、第一年每月支付人民币<span class="bottom_line">{{ d.firstYearMoney }}</span>元，第二年每月支付人民币<span class="bottom_line">{{ d.secondYearMoney }}</span>元，第三年每月支付人民币<span class="bottom_line">{{ d.thirdYearMoney }}</span>元，第四年每月支付人民币<span class="bottom_line">{{ d.fourthYearMoney }}</span>元，直至支付完全部服务费。    </li> 
+                        <li>A、每月支付人民币<span class="bottom_line" v-html="poll(d.perServiceMoney)"></span>元，直到支付完全部服务费。</li>
+                        <li>B、第一年每月支付人民币<span class="bottom_line" v-html="poll(d.firstYearMoney)"></span>元，第二年每月支付人民币<span class="bottom_line" v-html="poll(d.secondYearMoney)"></span>元，第三年每月支付人民币<span class="bottom_line" v-html="poll(d.thirdYearMoney)"></span>元，第四年每月支付人民币<span class="bottom_line" v-html="poll(d.fourthYearMoney)"></span>元，直至支付完全部服务费。    </li> 
                       </ul>
                 </li>
                 <li>（3）若甲方申请提前结清全部借款本金的，在结清借款前，甲方需一次性向乙方支付结清时当月服务费的二倍作为违约金。</li>
@@ -162,14 +162,16 @@
       </p>
 
       <h1>第十条.    争议解决</h1>
-      <p>因本协议发生的任何争议，由双方协商解决，协商不成的，任何一方提交<span class="bottom_line large ">{{ d.disputeSolve }}</span>。</p>
+      <p>因本协议发生的任何争议，由双方协商解决，协商不成的，任何一方提交<span class="bottom_line" v-html="poll(d.disputeSolve)"></span>。</p>
 
       <h1>第十一条.合同生效及终止</h1>
       <p>本协议一式贰份，甲乙双方各执壹份，自甲、乙双方签字或盖章后生效，至本协议项下权利义务履行完毕之日或本协议约定的导致合同终止的条件满足时终止。如果甲方的借款或借贷交易最终未达成的，自甲方向乙方支付服务费后，本协议终止。</p>
 
      <p>甲方（签字及手印）：</p>
      <p>乙方（盖章）：</p>
-     <div class="right">签署日期：&nbsp&nbsp年&nbsp&nbsp月&nbsp&nbsp日</div>
+     <div class="right">
+      <p>签约日期：<span class="bottom_line">{{ new Date().getFullYear() }}</span> 年 <span class="bottom_line">{{ new Date().getMonth() + 1 }}</span> 月 <span class="bottom_line">{{ new Date().getDate() }}</span> 日 </p>
+     </div>
   </div>
 </template>
 
@@ -183,7 +185,14 @@ export default {
        d: this.$store.state.InforeferProtocol || {}
     }
   },
-  methods: {},
+  methods: {
+    poll (data, n = 10) {
+      if (!data || !data.trim()) {
+          return (new Array(n + 1)).join('&nbsp');
+      }
+      return data
+    }
+  },
   beforeMount () {
        if (!this.$store.state.InforeferProtocol) {
          this.$router.push('/sign')
@@ -203,6 +212,7 @@ export default {
     text-indent: pxToRem(30px);
     letter-spacing: pxToRem(2px);
     line-height: pxToRem(55px);
+    word-break: break-all;
 
 
     .bottom_line {

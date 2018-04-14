@@ -170,7 +170,7 @@ const needLoginPage = [
     // 报名竞买 / 汽车拍卖报名
     'carsellbuy', 'carsellapply',
     // 电子签名 / 合同确认
-    'identity', 'sign'
+    'identity', 'sign', 'signstatus'
 ]
 
 String.prototype.toUrl = function () {

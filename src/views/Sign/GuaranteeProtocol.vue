@@ -8,7 +8,7 @@
       <p>法定代表人：<span class="bottom_line">{{ d.legalName }}</span></p>
       
       <p>
-        甲方于<span class="bottom_line">{{ d.signYear }}</span> 年 <span class="bottom_line">{{ d.signMonth }}</span> 月 <span class="bottom_line">{{ d.signDate }}</span> 日与“团贷网平台”（运营网址：<a class="link" href="http://www.tuandai.com">http://www.tuandai.com</a>）签订《团贷网服务协议》，并向该平台申请发标融资借款，甲方申请发标借款的金额：<span class="bottom_line">{{ d.borrowerMoney }}</span>元，借款期限：<span class="bottom_line">{{ d.borrowerLimit }}</span>个月，借款年化利率<span class="bottom_line">{{ d.yearRate }}</span>%，还款方式为：<span class="bottom_line">{{ d.repaymentMethod }}</span> 。
+        甲方于<span class="bottom_line">{{ d.signYear }}</span> 年 <span class="bottom_line">{{ pad(d.signMonth, 2) }}</span> 月 <span class="bottom_line">{{ pad(d.signDate, 2) }}</span> 日与“团贷网平台”（运营网址：<a class="link" href="http://www.tuandai.com">http://www.tuandai.com</a>）签订《团贷网服务协议》，并向该平台申请发标融资借款，甲方申请发标借款的金额：<span class="bottom_line">{{ d.borrowerMoney }}</span>元，借款期限：<span class="bottom_line">{{ d.borrowerLimit }}</span>个月，借款年化利率<span class="bottom_line">{{ d.yearRate }}</span>%，还款方式为：<span class="bottom_line">{{ d.repaymentMethod }}</span> 。
          现甲方向乙方申请为上述借款向团贷网平台投资人提供担保。乙方经审查，同意为团贷网平台投资人提供此项担保。团贷网平台根据自身规则为平台用户提供普通会员和超级会员两种会员服务，乙方将根据团贷网平台规则为投资人提供担保服务。若投资人投资时为团贷网平台的超级会员，乙方将提供融资金额（即为本次甲方在团贷网平台所融资借款的总金额）及利息的担保；若投资人投资时为团贷网平台的普通会员，乙方将提供融资金额（即为本次甲方在团贷网平台所融资借款的总金额）的担保。双方根据国家有关法律、法规的规定，经协商一致，达成如下协议：
       </p>
 
@@ -121,7 +121,7 @@
       <p>甲方（被保证人）：</p>
       <p>乙方（担保人）：</p>
       <div class="right">
-          <p>签约日期：<span class="bottom_line">{{d.signYear}}</span> 年 <span class="bottom_line">{{ d.signMonth }}</span> 月 <span class="bottom_line">{{ d.signDate }}</span> 日 </p>
+          <p>签约日期：<span class="bottom_line">{{d.signYear}}</span> 年 <span class="bottom_line">{{ pad(d.signMonth, 2) }}</span> 月 <span class="bottom_line">{{ pad(d.signDate, 2) }}</span> 日 </p>
       </div>
   </div>
 </template>

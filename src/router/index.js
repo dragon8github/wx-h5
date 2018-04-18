@@ -238,8 +238,7 @@ router.beforeEach((to, from, next) => {
     // 可以肯定一点，只要进入到sign页面，那么他肯定是没有确认过，并且已经完成身份验证的。就算两个数据是伪造的也没关系。
     if (_to == 'sign') {
         // 状态一：如果用户确认合同，并且没有多次的话，那么返回直接关闭微信浏览器
-        if (store.state.signStatus  && _from == 'signstatus') {
-            debugger;
+        if (store.state.signStatus && _from == 'signstatus') {
             // 关闭微信内置浏览器
             return wxclose();
         }

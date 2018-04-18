@@ -34,6 +34,8 @@ if (typeof(Proxy) == 'function') {
     for (let [index,ele] of [
         // 登录
         'login',
+        // 登录检测
+        'loginCheck',
         // 注册
         'register',
         // 找回密码
@@ -83,7 +85,7 @@ if (typeof(Proxy) == 'function') {
         // 拍卖报名
         'auctionSign',
     ].entries()) {
-        xdapi[ele] = (data, isQuiet = false) => { 
+        carapi[ele] = (data, isQuiet = false) => { 
           return post('carAction/' + ele, data, isQuiet)
       }
     }

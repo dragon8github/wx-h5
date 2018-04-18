@@ -235,6 +235,10 @@ export default {
   },
   beforeMount () {
 
+  },
+  activated () {
+    // 为什么我要调这个接口？没为什么，仅仅是因为需求要判断这里如果未登录，要提示登录。其实你可以选任何一个非常快速的接口。
+    this.xdapi.contractList({}, true)
   }
 }
 </script>

@@ -150,21 +150,21 @@
             myFocus (e) {
                 this.active = true
 
-            　  function getElementTop(element){
-                    try {
-            　  　　　var actualTop = element.offsetTop;
-            　  　　　var current = element.offsetParent;
-            　  　　　while (current !== null){
-            　  　　　　　actualTop += current.offsetTop;
-            　  　　　　　current = current.offsetParent;
-            　  　　　}
-            　  　　　return actualTop;
-                    } catch (e) {}
-            　  　}
+            // 　  function getElementTop(element){
+            //         try {
+            // 　  　　　var actualTop = element.offsetTop;
+            // 　  　　　var current = element.offsetParent;
+            // 　  　　　while (current !== null){
+            // 　  　　　　　actualTop += current.offsetTop;
+            // 　  　　　　　current = current.offsetParent;
+            // 　  　　　}
+            // 　  　　　return actualTop;
+            //         } catch (e) {}
+            // 　  　}
   
-                setTimeout(() => {
-                    window.scrollTo(0, getElementTop(e.target));
-                }, 150)
+            //     setTimeout(() => {
+            //         window.scrollTo(0, getElementTop(e.target));
+            //     }, 150)
             },
             myClick (e) {
                 this.$emit('textClick', e)

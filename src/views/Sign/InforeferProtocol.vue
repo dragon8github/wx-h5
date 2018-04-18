@@ -33,7 +33,7 @@
         <ul>
           <li>1.甲方知晓并同意，为达成甲方的借款需求甲方需向出借人和乙方支付借款费用如下：
               <ul class="smalllP">
-                <li>（1）基于出借人为甲方提供借款，甲方同意按年化利率<span class="bottom_line" v-html="poll(d.yearRete)"></span>%向出借人支付利息，自借款起始日起算，至借款全部结清日止，不足一个月的按一个月计算。利息由甲方授权委托第三方，在指定的还款日期将款项从甲方指定账户自动划扣至出借人在团贷网平台开设的账户（以下简称“平台账户”）。</li>
+                <li>（1）基于出借人为甲方提供借款，甲方同意按年化利率<span class="bottom_line" v-html="poll(d.yearRate)"></span>%向出借人支付利息，自借款起始日起算，至借款全部结清日止，不足一个月的按一个月计算。利息由甲方授权委托第三方，在指定的还款日期将款项从甲方指定账户自动划扣至出借人在团贷网平台开设的账户（以下简称“平台账户”）。</li>
                 <li>（2）基于乙方为甲方提供本协议项下约定服务，甲方同意向乙方支付人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元的信息咨询服务费（以下简称“服务费”），支付时间：于本协议签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，剩余服务费甲方按以下第<span class="bottom_line" v-html="poll(d.payWay)"></span>种方式于每月<span class="bottom_line" v-html="poll(d.monthDate)"></span>日前向乙方支付。
                       <ul class="smalllP">
                         <li>A、每月支付人民币<span class="bottom_line" v-html="poll(d.perServiceMoney)"></span>元，直到支付完全部服务费。</li>
@@ -170,7 +170,7 @@
      <p>甲方（签字及手印）：</p>
      <p>乙方（盖章）：</p>
      <div class="right">
-      <p>签约日期：<span class="bottom_line">{{ new Date().getFullYear() }}</span> 年 <span class="bottom_line">{{ new Date().getMonth() + 1 }}</span> 月 <span class="bottom_line">{{ new Date().getDate() }}</span> 日 </p>
+      <p>签约日期：<span class="bottom_line">{{ new Date().getFullYear() }}</span> 年 <span class="bottom_line">{{ pad(new Date().getMonth() + 1, 2) }}</span> 月 <span class="bottom_line">{{ pad(new Date().getDate(), 2) }}</span> 日 </p>
      </div>
   </div>
 </template>

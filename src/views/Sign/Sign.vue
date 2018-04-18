@@ -79,6 +79,8 @@ export default {
             if (data.returnCode == 0) {
                 // 【未同意】
                 if (data.data.isConfirm == 1) {
+                    this.contractNoList = [];
+                    this.myData = [];
                     // 处理数据
                     this.customerId = data.data.customerId
                     this.businessId = data.data.businessId
@@ -100,6 +102,8 @@ export default {
                     })
                 // 【没有合同】
                 } else if (data.data.isConfirm == 0) {
+                    this.contractNoList = [];
+                    this.myData = [];
                     // 不管它死活，需求说不可能有这种情况
                     return Toast('没有合同需要确认');
                 // 【用户不存在】
@@ -117,10 +121,7 @@ export default {
     mtButton
   },
   activated () {
-       // 如果没有数据的话，那么加载数据
-       if (this.myData.length === 0 || this.contractNoList.length === 0) {
-          this.getData()
-       }
+       this.getData()
   }
 }
 </script>

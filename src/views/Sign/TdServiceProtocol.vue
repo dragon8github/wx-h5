@@ -16,7 +16,7 @@
       <p>
         <ul>
             <li>1、乙方为甲方提供的服务包括但不限于提供发布借款需求的平台、查阅交易机会、签订和查阅合同等业务。甲方授权委托乙方合作的第三方金融机构进行资金充值、提现、还款、定向支付、划扣款项等业务。</li>
-            <li>2、乙方为甲方提供上述服务，甲方应支付乙方相应的服务费，甲方应支付乙方的服务费费率标准为甲方申请借款金额的<span class="bottom_line" v-html="poll(d.serviceScale)">%</span>，即该服务费为人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元，支付时间：于本合同签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，次月开始每月<span class="bottom_line" v-html="poll(d.monthDate)"></span>日前支付人民币<span class="bottom_line" v-html="poll(d.perServiceMoney)"></span>元整，直至支付完全部服务费。</li>
+            <li>2、乙方为甲方提供上述服务，甲方应支付乙方相应的服务费，甲方应支付乙方的服务费费率标准为甲方申请借款金额的<span class="bottom_line" v-html="poll(d.serviceScale)"></span>%，即该服务费为人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元，支付时间：于本合同签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，次月开始每月<span class="bottom_line" v-html="poll(d.monthDate)"></span>日前支付人民币<span class="bottom_line" v-html="poll(d.perServiceMoney)"></span>元整，直至支付完全部服务费。</li>
             <li>3、若甲方申请提前结清全部借款本金的，在结清借款前，甲方需一次性向乙方支付结清时当月服务费的二倍作为违约金。</li>
             <li>4、现甲方申请在团贷网平台发标融资借款，借款金额为人民币<span class="bottom_line" v-html="poll(d.borrowerMoney)"></span>元（大写金额：<span class="bottom_line" v-html="poll(d.capitalMoney)"></span>元整），借款年化利率为<span class="bottom_line" v-html="poll(d.yearRate)"></span>%，借款期限为<span class="bottom_line" v-html="poll(d.borrowerLimit)"></span> 个月。</li>
         </ul>
@@ -67,7 +67,9 @@
       <p>甲方：<span class="bottom_line" v-html="poll(d.signName, 30)"></span></p>
       <p>乙方：</p>
       <div class="right">
-          <p>签署日期：<span class="bottom_line" v-html="poll(null, 20)"></span></p>
+          <div class="right">
+           <p>签约日期：<span class="bottom_line">{{ new Date().getFullYear() }}</span> 年 <span class="bottom_line">{{ pad(new Date().getMonth() + 1, 2) }}</span> 月 <span class="bottom_line">{{ pad(new Date().getDate(), 2) }}</span> 日 </p>
+          </div>
       </div>
   </div>
 </template>

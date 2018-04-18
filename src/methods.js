@@ -48,8 +48,16 @@ const date2date = (time, style="yyyy/MM/dd") => {
     }
 }
 
+function pad (target, n) {
+    var zero = new Array(n).join('0');
+    var str = zero + target;
+    var result = str.substr(-n);
+    return result;
+}
+
 
 export default {
     date2date,
-    setTitle
+    setTitle,
+    pad
 }

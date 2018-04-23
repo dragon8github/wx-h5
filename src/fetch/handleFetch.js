@@ -129,7 +129,7 @@ const handleFetch = async(api, params, isQuiet = false) => {
     }
 
     // 开发环境使用代理地址请求数据
-    const url = process.env.NODE_ENV === 'development' ?  '/api/' + api : Constants.API_WX_SERVER + api
+    const url = process.env.NODE_ENV === 'development' ?  '/api/' + api : window.API_WX_SERVER + api
 
     // 一切准备就绪，开始HTTP请求.请注意返回的是Promise对象.调用者必须通过使用.then(data=>{}).catch(err=>{})来操作Promose
     return window.fetch(url, option).then(checkStatus).then(checkLogin).catch(throwError);

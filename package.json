@@ -5,7 +5,7 @@
   "author": "dragon8github <928532756@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress  --host 0.0.0.0 --config  build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --host 0.0.0.0 --config  build/webpack.dev.conf.js",
     "build": "node build/build.js",
     "git": "git add . & git commit -m 123 & git push -u origin master"   
   },

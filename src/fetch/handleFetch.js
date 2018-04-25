@@ -68,6 +68,7 @@ const checkLogin = json => {
     } else {
         return json
     }
+    //其他网络状态放到这边进行处理 
 }
 
 

@@ -92,6 +92,11 @@ const CarSellNeedKnow = r => require.ensure([], () => r(require('@/views/Protoco
 // 竞买公告
 const CarSellNotice   = r => require.ensure([], () => r(require('@/views/Protocol/CarSellNotice')), 'CarSellNotice')
 
+//家居易贷
+const HomeStaging   = r => require.ensure([], () => r(require('@/views/HomeStaging/HomeStaging')), 'HomeStaging')
+const CreditList = r => require.ensure([], () => r(require('@/views/OwnerCredit/CreditList')),'CreditList')
+const QualityCertification = r => require.ensure([], () => r(require('@/views/OwnerCredit/QualityCertification')),'QualityCertification')
+
 let router =  new Router({
     routes: [
         // 默认页面
@@ -140,6 +145,12 @@ let router =  new Router({
         { path: '/RegProtocol',     name: 'RegProtocol',     meta: { title: '鸿特金服信贷服务协议' },  component: RegProtocol },
         { path: '/CarSellNeedKnow', name: 'CarSellNeedKnow', meta: { title: '竞买须知' },              component: CarSellNeedKnow },
         { path: '/CarSellNotice',   name: 'CarSellNotice',   meta: { title: '竞买公告' },              component: CarSellNotice },
+        
+        //家居易贷
+        { path: '/HomeStage', name:'HomeStage', meta: {title:'家居易贷'}, component: HomeStaging},
+        { path: '/QualityCertification', name:'QualityCertification',meta:{title: '视频上传测试'},component: QualityCertification},
+        { path:'/CreditList', name:'CreditList',meta:{title:'完善资料'},component: CreditList}
+
     ]
 })
 

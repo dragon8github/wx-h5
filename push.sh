@@ -2,7 +2,7 @@
 PROJECT_PATH='C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/'
 
 # 本地H5资源路径
-H5_DIST_PATH='G:/新html/wx_h5/dist'
+H5_DIST_PATH='G:/wx_h5/dist'
 
 # 任务一: 删除项目H5资源目录下static中所有的文件夹
 rm -rf `find ${PROJECT_PATH}/static/* -type d`
@@ -19,3 +19,4 @@ sed -i "\$c $data" ${PROJECT_PATH}/templates/index.ftl
 # 任务五：git提交
 # 目前无法使用git push，一来是因为不知道push密码，二来是每次提交也需要pull，所以最后两步还是手动来吧。
 cd $PROJECT_PATH && git add . && git commit -m autoPush
+

@@ -66,7 +66,7 @@ if (typeof(Proxy) == 'function') {
         'identityConfirm'
     ].entries()) {
         xdapi[ele] = (data, isQuiet = false) => { 
-          return post('xindai/' + ele, data, isQuiet)
+          return ajax.postData('xindai/' + ele, data, isQuiet)
       }
     }
 
@@ -86,7 +86,7 @@ if (typeof(Proxy) == 'function') {
         'auctionSign',
     ].entries()) {
         carapi[ele] = (data, isQuiet = false) => { 
-          return post('carAction/' + ele, data, isQuiet)
+          return ajax.postData('carAction/' + ele, data, isQuiet)
       }
     }
 
@@ -96,7 +96,7 @@ if (typeof(Proxy) == 'function') {
         'getWxConfig',
     ].entries()) {
         wxapi[ele] = (data, isQuiet = false) => { 
-          return post(ele, data, isQuiet)
+          return ajax.postData(ele, data, isQuiet)
       }
     }
 }

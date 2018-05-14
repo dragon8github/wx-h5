@@ -17,6 +17,7 @@ import BorrowInfo from './modules/BorrowInfo'
 import CarInfoData from './modules/CarInfoData'
 import RepayHistoryInfo from './modules/RepayHistoryInfo'
 import RepayInfo from './modules/RepayInfo'
+import creditAuth from './modules/CreditAuth'
 
 
 Vue.use(Vuex)
@@ -34,7 +35,8 @@ const store = new Vuex.Store({
         transition: {
             namespaced: true,
             ...transition
-        }
+        },
+        creditAuth
     },
     state,
     getters,

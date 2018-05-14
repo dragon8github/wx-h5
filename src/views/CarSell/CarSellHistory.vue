@@ -248,7 +248,7 @@ export default {
 @import "~@sass/_func";
 
 .CarSellHistory {
-   
+   overflow: visible;
 }
 
 .search {

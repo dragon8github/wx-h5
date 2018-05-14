@@ -149,12 +149,12 @@
             this.city = this.$store.state.localcity || this.$store.state.city
         },
         beforeMount () {
-            if (this.is_weixn()) {
-                var that = this;
+             var that = this;
                 Loader.show('正在定位...', "A");
                 this.wxapi.getWxConfig({
                     url: window.location.href.split('#')[0]
                 }, true).then(_ => {
+                    console.log(_.returnCode)
                     // 微信配置获取成功
                     if (+(_.returnCode) == 0) {
                         // 初始化微信配置
@@ -165,7 +165,7 @@
                             wx.getLocation({
                                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                                 success: function (res) {
-
+                                    
                                     var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
                                     var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
 
@@ -235,7 +235,95 @@
                         that.city = "定位失败，请手动选择城市";
                     }
                 })
-            }
+            // if (this.is_weixn()) {
+            //     var that = this;
+            //     Loader.show('正在定位...', "A");
+            //     this.wxapi.getWxConfig({
+            //         url: window.location.href.split('#')[0]
+            //     }, true).then(_ => {
+                    
+            //         // 微信配置获取成功
+            //         if (+(_.returnCode) == 0) {
+            //             alert('res',JSON.stringify(_.data))
+            //             // 初始化微信配置
+            //             wx.config(_.data);
+            //             // 微信初始化事件
+            //             wx.ready(function(){
+            //                 // 调用微信定位接口
+            //                 wx.getLocation({
+            //                     type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            //                     success: function (res) {
+
+            //                         var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            //                         var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+
+            //                         if (latitude && longitude) {
+            //                             // 百度回调函数
+            //                             window.getlocation = function (data) {
+            //                                 // 坐标转换成功
+            //                                 if (data.status == 0) {
+            //                                     Loader.hideAll();
+            //                                     // 获取城市
+            //                                     var city = data.result.addressComponent.city
+            //                                     that.$store.state.city = city
+            //                                     that.city      = city
+            //                                     that.province  = data.result.addressComponent.province
+            //                                     that.district  = data.result.addressComponent.district
+            //                                     that.address   = data.result.formatted_address
+            //                                     that.longitude = longitude
+            //                                     that.latitude  = latitude
+            //                                     Toast("定位到当前城市为：" + city);
+            //                                 // 坐标转换失败
+            //                                 } else {
+            //                                     Loader.hideAll();
+            //                                     Toast('坐标解析失败，请手动选择城市')
+            //                                     that.city = "坐标解析失败，请手动选择城市";
+            //                                 }
+            //                             }
+
+            //                             // 防止百度地图迟迟没有回调，10秒后自动关闭
+            //                             window.setTimeout(_=>{
+            //                                 Loader.hideAll()
+            //                             }, 10000)
+
+            //                             var o = document.createElement('script');
+            //                             o.src = `http://api.map.baidu.com/geocoder/v2/?callback=getlocation&location=${latitude},${longitude}&output=json&pois=1&ak=PaY0aQpuk5ypaxL1bGH4y65nbitEd0u3`;
+            //                             document.documentElement.childNodes[0].appendChild(o);
+            //                         } else {
+            //                             Loader.hideAll()
+            //                             Toast('微信定位失败，请手动选择城市')
+            //                         }
+            //                     },
+            //                     fail: function (res) {
+            //                       Loader.hideAll();
+            //                       that.city = "定位失败，请手动选择城市";
+            //                     },
+            //                     // 用户拒绝定位服务
+            //                     cancel: function (res) {
+            //                        Loader.hideAll();
+            //                        that.city = "定位失败，请手动选择城市";
+            //                     },
+            //                     // 接口调用完成时执行的回调函数，无论成功或失败都会执行
+            //                     complete: function (res) {
+                                   
+            //                     }
+            //                 });
+            //             });
+
+            //             // wx.config信息验证失败会执行error函数
+            //             // 如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+            //             wx.error(function(res){
+            //                 Loader.hideAll();
+            //                 that.city = "定位失败，请手动选择城市";
+            //                 Toasrt('微信接口调用失败，请手动选择城市')
+            //             });
+            //         } else {
+            //             Loader.hideAll();
+            //             Toast("获取微信配置失败" + _.msg);
+            //             that.city = "定位失败，请手动选择城市";
+            //         }
+            //     })
+            // }
         }
   }
 </script>

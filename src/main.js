@@ -1,3 +1,5 @@
+// 切记结合 .babelrc "useBuiltIns": true, 使用
+import "babel-polyfill"
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -6,7 +8,7 @@ import Fastclick from 'fastclick'
 import Bridge from './bridge'
 import api from './fetch/api'
 import methods from './methods'
-
+ 
 // 加载全局css
 require('./sass/_common.scss')
 
@@ -18,6 +20,7 @@ window.Promise = require('promise')
 
 // 加载API
 Vue.use(api)
+
 
 // vue初始化
 let initial = () => {

@@ -74,12 +74,12 @@ export default {
       transition: all .3s ease-in-out;
       box-sizing: border-box;
       background-color: #f2f2f2;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
+      // position: absolute;
+      // left: 0;
+      // right: 0;
+      // top: 0;
       // bottom: 0;
-      z-index: 1;
+      //z-index: 1;
       overflow-y: scroll;
   }
 

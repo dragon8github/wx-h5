@@ -264,7 +264,7 @@ export default {
 @import "~@sass/_func";
 
 .CarSell {
-   
+   overflow: visible;
 }
 
 .ad {

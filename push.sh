@@ -1,8 +1,8 @@
 # 项目H5资源路径
-PROJECT_PATH='C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources/'
+PROJECT_PATH='C:\Users\admin\Desktop\project\鸿特金服微信服务号\wx\wx-ui\src\main\resources'
 
 # 本地H5资源路径
-H5_DIST_PATH='G:/wx_h5/dist'
+H5_DIST_PATH='./dist'
 
 # 任务一: 删除项目H5资源目录下static中所有的文件夹
 rm -rf `find ${PROJECT_PATH}/static/* -type d`

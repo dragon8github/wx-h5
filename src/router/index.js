@@ -96,6 +96,7 @@ const CarSellNotice   = r => require.ensure([], () => r(require('@/views/Protoco
 const HomeStaging   = r => require.ensure([], () => r(require('@/views/HomeStaging/HomeStaging')), 'HomeStaging')
 const CreditList = r => require.ensure([], () => r(require('@/views/OwnerCredit/CreditList')),'CreditList')
 const QualityCertification = r => require.ensure([], () => r(require('@/views/OwnerCredit/QualityCertification')),'QualityCertification')
+const RealnameAuth = r => require.ensure([],() => r(require('@/views/OwnerCredit/RealnameAuth')),'RealnameAuth')
 
 let router =  new Router({
     routes: [
@@ -149,8 +150,9 @@ let router =  new Router({
         //家居易贷
         { path: '/HomeStage', name:'HomeStage', meta: {title:'家居易贷'}, component: HomeStaging},
         { path: '/QualityCertification', name:'QualityCertification',meta:{title: '视频上传测试'},component: QualityCertification},
-        { path:'/CreditList', name:'CreditList',meta:{title:'完善资料'},component: CreditList}
-
+        { path: '/CreditList', name:'CreditList',meta:{title:'完善资料'},component: CreditList},
+        { path: '/RealnameAuth', name:'RealnameAuth',meta:{title:'实名认证'},component: RealnameAuth},
+        
     ]
 })
 

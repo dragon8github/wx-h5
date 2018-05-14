@@ -13,8 +13,8 @@
           </div>
         </div>
         <div class="mint-msgbox-btns">
-          <button :class="[ cancelButtonClasses ]" v-show="showCancelButton" @touchstart="handleAction('cancel')">{{ cancelButtonText }}</button>
           <button :class="[ confirmButtonClasses ]" v-show="showConfirmButton" @touchstart="handleAction('confirm')">{{ confirmButtonText }}</button>
+          <button :class="[ cancelButtonClasses ]" v-show="showCancelButton" @touchstart="handleAction('cancel')">{{ cancelButtonText }}</button>
         </div>
       </div>
     </transition>
@@ -212,7 +212,7 @@
       handleAction(action) {
         if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
           return;
-        }
+       }
         var callback = this.callback;
         this.value = false;
         callback(action);

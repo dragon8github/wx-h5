@@ -7,9 +7,10 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --host 0.0.0.0 --config  build/webpack.dev.conf.js",
     "build": "node build/build.js",
-    "git": "git add . & git commit -m 123 & git push -u origin master"   
+    "git": "git add . & git commit -m 123 & git push -u origin master"
   },
   "dependencies": {
+    "vue-pdf": "^3.3.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
@@ -70,8 +71,7 @@
     "npm": ">= 3.0.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "last 10 versions",
+    "ios >= 7.0"
   ]
 }

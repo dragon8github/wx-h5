@@ -55,9 +55,56 @@ function pad (target, n) {
     return result;
 }
 
-
+function upload(e,options){
+    var options = options
+    var file = e.target.value
+    var fd = new FormData()
+    var defaults = {
+        fileType:['png','jpg','jpeg','pdf','mp4'],
+        maxSize:'2M'
+    }
+    var maxSize = options.maxSize || defaults.maxSize
+    if(!file){
+        console.log('file is undefined')
+        return ;
+    }else{
+        var vType = file.split('.').pop().toLocaleLowerCase();
+        var fileType = options.fileType || defaults.fileType;
+        //允许上传的文件类型
+        if(fileType.indexOf(vType.toLocaleLowerCase()) == -1){
+            console.log("暂不支持该类型的文件，请重新选择!");
+            return;
+        }
+        for(var i=0, file; file= e.target.files[i++];){
+            var maxKb = parseInt(maxSize) *1024*1024
+            if(file.size > maxKb){
+                console.log('请上传小于'+ maxSize +'的文件！')
+                return;
+            }
+        }
+        //文件上传前的处理 
+        if(options.beforeSend && options.beforeSend instanceof Function){
+            options.beforeSend(e.target.value)
+        }
+        //多文件上传
+        if(options.multiple){
+            for(var i=0, file; file=e.target.files[i++];){
+                fd.append('file'+i, file);
+            }
+        }else{
+            fd.append(options.key || 'file',e.target.files[0]);
+        }
+        //文件上传回调
+        if(options.callback && options.callback instanceof Function){
+            options.callback(fd)
+        }
+        
+    }
+    
+}
 export default {
     date2date,
     setTitle,
-    pad
+    pad,
+    upload
 }

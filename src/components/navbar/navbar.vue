@@ -41,7 +41,7 @@ export default {
   @import "~@sass/_func";
 .mint-navbar {
     background-color: #fff;
-    // border-bottom: pxToRem(1px) solid #d4d4d4;
+    border-bottom: pxToRem(1px) solid #d4d4d4;
     display: flex;
     text-align: center;
     color:#333;

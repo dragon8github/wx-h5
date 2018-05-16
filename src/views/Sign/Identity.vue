@@ -27,9 +27,15 @@
             </mt-field>
         </div>
 
+        <!-- 勾选协议 -->
+        <div class="agreement">
+            <input type="checkbox" id="agreement" v-model="agreement">
+            <label for="agreement">我已授权并同意签署 <a @click="goUserProtocol">《e签宝用户协议》</a>、<a @click="goServiceAgreement">《数字证书服务协议》</a> 同意注册e签宝用户并使用电子签名等服务。</label>
+        </div>
+
         <!-- 提交按钮 -->
         <div class="identity__sublime">
-            <mt-button :text="'确认'"  @click="go"></mt-button>
+            <mt-button :text="'确认'" @click="go" :disable="!agreement"></mt-button>
         </div>
     </div>
 </div>
@@ -47,6 +53,7 @@ export default {
   name: 'Identity',
   data () {
     return {
+        agreement: true,
         value: '1',
         value2: '0',
         id: '',  //320405197409243789  432502199010131489    372900197507262541 440881198802013214  372900197507262541
@@ -148,6 +155,12 @@ export default {
             }
         })
 
+    },
+    goUserProtocol () {
+        this.$router.push('')
+    },
+    goServiceAgreement () {
+        this.$router.push('')
     },
     getCode (cb) {
         this.id = this.id.trim()
@@ -271,7 +284,23 @@ export default {
     }
 
     .identity__sublime {
-        margin: pxToRem(60px) pxToRem(30px);
+        margin: 0 pxToRem(30px);
+    }
+
+    .agreement {
+        font-size: pxToRem(26px);
+        line-height: pxToRem(45px);
+        margin: pxToRem(30px);
+
+        input {
+            width: pxToRem(30px);
+            height: pxToRem(30px);
+            margin-right: pxToRem(10px);
+        }
+
+        a {
+            color: #0e6ae7;
+        }
     }
 }
 

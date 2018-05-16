@@ -83,6 +83,8 @@ const GuaranteeProtocol = r => require.ensure([], () => r(require('@/views/Sign/
 const TdServiceProtocol = r => require.ensure([], () => r(require('@/views/Sign/TdServiceProtocol')), 'TdServiceProtocol')
 // 信息咨询服务协议
 const InfoReferProtocol = r => require.ensure([], () => r(require('@/views/Sign/InforeferProtocol')), 'InforeferProtocol')
+// 手写签名合同
+const autograph         = r => require.ensure([], () => r(require('@/views/Sign/autograph')), 'autograph')
 
 
 // 注册协议
@@ -138,7 +140,10 @@ let router =  new Router({
         { path: '/SignStatus',        name: 'SignStatus',        meta: { title: '提交结果' },                component: SignStatus },
         { path: '/GuaranteeProtocol', name: 'GuaranteeProtocol', meta: { title: '提供担保协议书' },          component: GuaranteeProtocol },
         { path: '/TdServiceProtocol', name: 'TdServiceProtocol', meta: { title: '团贷网服务协议' },          component: TdServiceProtocol },
-        { path: '/InfoReferProtocol', name: 'InfoReferProtocol', meta: { title: '资产端-信息咨询服务协议' }, component: InfoReferProtocol },
+        { path: '/InfoReferProtocol', name: 'InfoReferProtocol', meta: { title: '资产端-信息咨询服务协议' },  component: InfoReferProtocol },
+        { path: '/autograph',         name: 'autograph',         meta: { title: '电子签名' },                component: autograph },
+
+
 
         { path: '/Borrow',                name: 'Borrow',         meta: { title: '我的借款' },  component: Borrow },
         { path: '/BorrowProgress/:type?', name: 'BorrowProgress', meta: { title: '查看进度' },  component: BorrowProgress },

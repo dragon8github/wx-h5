@@ -1,5 +1,5 @@
 # 项目H5资源路径
-PROJECT_PATH='C:\Users\admin\Desktop\project\鸿特金服微信服务号\wx\wx-ui\src\main\resources'
+PROJECT_PATH='C:/Users/lizhaohong/Desktop/gitlat/wx/wx-ui/src/main/resources'
 
 # 本地H5资源路径
 H5_DIST_PATH='./dist'

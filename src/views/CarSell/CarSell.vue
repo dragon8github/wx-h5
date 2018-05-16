@@ -296,7 +296,7 @@ export default {
     }
 
     .search__icon {
-        @include bg(42px, 42px, '~@assets/carsell/search.png')
+        @include bg(42px, 42px, '~@assets/carsell/search.png');
         margin-right: pxToRem(36px);
     }
 

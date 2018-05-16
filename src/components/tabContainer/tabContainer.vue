@@ -130,6 +130,7 @@ export default {
         });
       }, 0);
     },
+    
 
     swipeMove(offset) {
         // 李钊鸿加入的代码：

@@ -69,18 +69,18 @@ export default {
 
   .view {
       // height: 100vh;
-      height: 100%;
-      margin: 0 auto;
-      transition: all .3s ease-in-out;
-      box-sizing: border-box;
-      background-color: #f2f2f2;
-      // position: absolute;
-      // left: 0;
-      // right: 0;
-      // top: 0;
-      // bottom: 0;
-      //z-index: 1;
-      overflow-y: scroll;
+       height: 100%;
+       margin: 0 auto;
+       transition: all .3s ease-in-out;
+       box-sizing: border-box;
+       background-color: #f2f2f2;
+       position: absolute;
+       left: 0;
+       right: 0;
+       top: 0;
+       // bottom: 0;
+       z-index: 1;
+       overflow-y: scroll;
   }
 
   // Page Turn on Transian Effect

@@ -109,12 +109,12 @@ export default {
             type:String,
             default: '你还没有拍卖数据<br />快去汽车拍卖看看吧'
         },
-        // 是否错误
+        //  错误文本
         errText: {
             type: String,
             default: '网络异常,请稍后重试'
         },
-        // 错误文本
+        //是否错误
         _isError: {
             type: Boolean,
             default:false
@@ -228,7 +228,7 @@ export default {
 }
 
 .emptyDataDiv,  {
-    @include flex(c, c , c)
+    @include flex(c, c , c);
     .emptyDataImg {
         @include fullbg(306px, 200px, "~@assets/carsell/emptyData.png")
         margin-top:pxToRem(136px);

@@ -22,7 +22,7 @@ module.exports = {
            changeOrigin: true, 
            // 重写地址 
            pathRewrite: {
-             '^/api': '/'
+             '/api': '/'
            }
        }
     },

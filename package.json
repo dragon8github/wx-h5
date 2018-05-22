@@ -10,7 +10,7 @@
     "git": "git add . & git commit -m 123 & git push -u origin master"
   },
   "dependencies": {
-    "vue-pdf": "^3.3.0",
+    "vue-pdf": "^3.3.1",
     "vue-router": "^3.0.1",
     "vue-signature": "^2.1.1"
   },

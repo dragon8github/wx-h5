@@ -34,7 +34,7 @@
           <li>1.甲方知晓并同意，为达成甲方的借款需求甲方需向出借人和乙方支付借款费用如下：
               <ul class="smalllP">
                 <li>（1）基于出借人为甲方提供借款，甲方同意按年化利率<span class="bottom_line" v-html="poll(d.yearRate)"></span>%向出借人支付利息，自借款起始日起算，至借款全部结清日止，不足一个月的按一个月计算。利息由甲方授权委托第三方，在指定的还款日期将款项从甲方指定账户自动划扣至出借人在团贷网平台开设的账户（以下简称“平台账户”）。</li>
-                <li>（2）基于乙方为甲方提供本协议项下约定服务，甲方同意向乙方支付人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元的信息咨询服务费（以下简称“服务费”），支付时间：于本协议签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，剩余服务费甲方按以下第<span class="bottom_line" v-html="poll(d.payWay)"></span>种方式于每月<span class="bottom_line" v-html="poll(d.monthDate)"></span>日前向乙方支付。
+                <li>（2）基于乙方为甲方提供本协议项下约定服务，甲方同意向乙方支付人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元的信息咨询服务费（以下简称“服务费”），支付时间：于本协议签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，剩余服务费甲方按以下第<span class="bottom_line" v-html="poll(d.payWay)"></span>种方式于每月<span class="bottom_line" v-html="poll(today)"></span>日前向乙方支付。
                       <ul class="smalllP">
                         <li>A、每月支付人民币<span class="bottom_line" v-html="poll(d.perServiceMoney)"></span>元，直到支付完全部服务费。</li>
                         <li>B、第一年每月支付人民币<span class="bottom_line" v-html="poll(d.firstYearMoney)"></span>元，第二年每月支付人民币<span class="bottom_line" v-html="poll(d.secondYearMoney)"></span>元，第三年每月支付人民币<span class="bottom_line" v-html="poll(d.thirdYearMoney)"></span>元，第四年每月支付人民币<span class="bottom_line" v-html="poll(d.fourthYearMoney)"></span>元，直至支付完全部服务费。    </li> 
@@ -185,12 +185,19 @@ export default {
        d: this.$store.state.InforeferProtocol || {}
     }
   },
-  methods: {
-    poll (data, n = 10) {
-      if (!data || !data.trim()) {
-          return (new Array(n + 1)).join('&nbsp');
-      }
-      return data
+   methods: {
+     poll (data, n = 10) {
+       data = data.toString();
+       if (!data || !data.trim()) {
+           return (new Array(n + 1)).join('&nbsp');
+       }
+       return data
+     }
+   },
+  computed: {
+    today () {
+      // 取当天 - 1，如果是1号的话，那就变成30号
+      return (new Date().getDate()) === 1 ? 30 : (new Date().getDate()) - 1;
     }
   },
   beforeMount () {
@@ -206,7 +213,7 @@ export default {
 @import "../../sass/variables";
 @import "../../sass/func";
   #InforeferProtocol {
-    margin:auto pxToRem(30px);
+    padding:0 pxToRem(30px);
     font-size:pxToRem($font-size-small);
     color:$font-gray-color;
     text-indent: pxToRem(30px);

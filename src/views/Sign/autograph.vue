@@ -13,7 +13,8 @@
 <script>
 import sign from "@myComponents/sign.vue"
 import mtButton   from '@myComponents/button.vue'
-
+import Toast    from '@components/toast/index.js'
+import msg from '@components/messagebox/messagebox.js'
 export default {
   name: 'autograph',
   data () {
@@ -25,15 +26,45 @@ export default {
     }
   },
   methods:{
-        save(){
-            // https://github.com/WangShayne/vue-signature
-            var png = this.$refs.signature.save();
-            console.log(png);
+        save () {
+            if (this.$refs.signature.isEmpty() === false) {
+                msg.confirm(`此签名真实有效，代表您已认可所填写的信息真实有效及相关合同条款确认无误，签名成功并提交后，此签名将作为合同的签名，并具法律效力。`, "温馨提示").then(()=>{
+                    // https://github.com/WangShayne/vue-signature
+                    var png = this.$refs.signature.save();
+                    this.compressedPicture(png, _ => {
+                        console.log(_);
+                    })
+                }).catch(() => {
+                    return false;
+                });
+            } else {
+                Toast('画板空空如也~');
+            }
+        },
+        compressedPicture (url, callback) {
+            var canvas = document.createElement('canvas'); 
+            var ctx = canvas.getContext('2d'); 
+            var img = new Image; 
+            img.onload = function(){
+                console.log(img.width);
+                var width = img.width;
+                var height = img.height;
+                // 按比例压缩4倍
+                var rate = (width < height ? width / height : height / width) / 4;
+                canvas.width = width * rate; 
+                canvas.height = height * rate; 
+                ctx.drawImage(img, 0, 0, width, height, 0, 0, width * rate, height * rate); 
+                var dataURL = canvas.toDataURL('image/jpeg'); 
+                callback.call(this, dataURL); 
+                canvas = null; 
+                return dataURL
+            };
+            img.src = url
         },
         clear () {
             this.$refs.signature.clear();
         },
-        undo(){
+        undo () {
             this.$refs.signature.undo();
         }
   },

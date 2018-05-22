@@ -162,7 +162,7 @@ export default {
 @import "../../sass/variables";
 @import "../../sass/func";
   #GuaranteeProtocol {
-      margin:auto pxToRem(60px);
+      padding:0 pxToRem(60px);
       font-size:pxToRem($font-size-small);
       color:$font-gray-color;
       text-indent: pxToRem(30px);

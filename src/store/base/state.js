@@ -48,3 +48,9 @@ export let nextNotTransition = false;
 
 // 电子签章是否确认了
 export let signStatus = null;
+
+// 数字证书服务协议的身份证号
+export let serviceagreement_id = ''
+
+// 数字证书服务协议的姓名
+export let serviceagreement_name = ''

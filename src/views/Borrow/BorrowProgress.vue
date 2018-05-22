@@ -177,15 +177,6 @@
       margin-bottom: pxToRem(0px);
   }
   
-  .banner {
-      width: 100%;
-      height: pxToRem(290px);
-      background-color: #0e6ae7;
-      box-shadow: pxToRem(0px) pxToRem(0px) pxToRem(20px) pxToRem(0px) rgba(0, 0, 0, 0.06);
-      padding-top: pxToRem(75px);
-      box-sizing: border-box;
-  }
-
 
   .info {
     display: flex;
@@ -227,44 +218,6 @@
     }
   }
 
-
-  .myicon {
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: 100% 100%;
-      width: 100%;
-      height: 100%;
-
-      &.one {
-          background-image: url('~@assets/borrow/1_icon_nor.png');
-
-          &.one.active {
-              background-image: url('~@assets/borrow/1_icon_light.png');
-          }
-      }
-      &.two {
-          background-image: url('~@assets/borrow/2_icon_nor.png');
-                 
-          &.active {
-              background-image: url('~@assets/borrow/2_icon_light.png');
-          }
-      }
-      &.three {
-          background-image: url('~@assets/borrow/3_icon_nor.png');
-                 
-          &.active {
-              background-image: url('~@assets/borrow/3_icon_light.png');
-          }
-      }
-
-      &.four {
-          background-image: url('~@assets/borrow/4_icon_nor.png');
-                 
-          &.active {
-              background-image: url('~@assets/borrow/4_icon_light.png');
-          }
-      }
-  }
 }
 
 

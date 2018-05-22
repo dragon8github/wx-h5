@@ -6,7 +6,7 @@
       <p>委托方（甲方）：<span class="bottom_line" v-html="poll(d.entrustName)"></span></p>
       <p>服务方（乙方）：<span class="bottom_line">东莞团贷网互联网科技服务有限公司</span></p>
       <p>地址：<span class="bottom_line">东莞市南城街道莞太路111号民间金融大厦1号楼28楼</span></p>
-      <p>法定代表人：<span class="bottom_line">余军</span></p>
+      <p>法定代表人：<span class="bottom_line">唐军</span></p>
 
 
       <h1>一、重要提示</h1>
@@ -16,7 +16,7 @@
       <p>
         <ul>
             <li>1、乙方为甲方提供的服务包括但不限于提供发布借款需求的平台、查阅交易机会、签订和查阅合同等业务。甲方授权委托乙方合作的第三方金融机构进行资金充值、提现、还款、定向支付、划扣款项等业务。</li>
-            <li>2、乙方为甲方提供上述服务，甲方应支付乙方相应的服务费，甲方应支付乙方的服务费费率标准为甲方申请借款金额的<span class="bottom_line" v-html="poll(d.serviceScale)"></span>%，即该服务费为人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元，支付时间：于本合同签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，次月开始每月<span class="bottom_line" v-html="poll(d.monthDate)"></span>日前支付人民币<span class="bottom_line" v-html="poll(d.perServiceMoney)"></span>元整，直至支付完全部服务费。</li>
+            <li>2、乙方为甲方提供上述服务，甲方应支付乙方相应的服务费，甲方应支付乙方的服务费费率标准为甲方申请借款金额的<span class="bottom_line" v-html="poll(d.serviceScale)"></span>%，即该服务费为人民币<span class="bottom_line" v-html="poll(d.serviceMoney)"></span>元，支付时间：于本合同签订当日支付人民币<span class="bottom_line" v-html="poll(d.firstServiceMoney)"></span>元，次月开始每月<span class="bottom_line" v-html="poll(today)"></span>日前支付人民币<span class="bottom_line" v-html="poll(d.perServiceMoney)"></span>元整，直至支付完全部服务费。</li>
             <li>3、若甲方申请提前结清全部借款本金的，在结清借款前，甲方需一次性向乙方支付结清时当月服务费的二倍作为违约金。</li>
             <li>4、现甲方申请在团贷网平台发标融资借款，借款金额为人民币<span class="bottom_line" v-html="poll(d.borrowerMoney)"></span>元（大写金额：<span class="bottom_line" v-html="poll(d.capitalMoney)"></span>元整），借款年化利率为<span class="bottom_line" v-html="poll(d.yearRate)"></span>%，借款期限为<span class="bottom_line" v-html="poll(d.borrowerLimit)"></span> 个月。</li>
         </ul>
@@ -84,8 +84,15 @@ export default {
         d: this.$store.state.TdServiceProtocol || {}
     }
   },
+  computed: {
+    today () {
+      // 取当天 - 1，如果是1号的话，那就变成30号
+      return (new Date().getDate()) === 1 ? 30 : (new Date().getDate()) - 1;
+    }
+  },
   methods: {
     poll (data, n = 10) {
+      data = data.toString();
       if (!data || !data.trim()) {
           return (new Array(n + 1)).join('&nbsp');
       }
@@ -105,7 +112,7 @@ export default {
 @import "../../sass/variables";
 @import "../../sass/func";
   #TdServiceProtocol {
-    margin:auto pxToRem(60px);
+    padding:0 pxToRem(60px);
 
     .bottom_line {
         border-bottom: 1px solid #000;

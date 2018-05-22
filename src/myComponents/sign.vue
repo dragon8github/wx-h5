@@ -22,11 +22,11 @@
             },
             w:{
                 type:String,
-                default:"100%"
+                default: "100%"
             },
             h:{
                 type:String,
-                default:"100%"
+                default: "100%"
             },
             clearOnResize:{
                 type:Boolean,
@@ -64,6 +64,7 @@
                     var ratio =  Math.max(window.devicePixelRatio || 1, 1);
                     canvas.width = canvas.offsetWidth * ratio;
                     canvas.height = canvas.offsetHeight * ratio;
+                    // console.log(canvas.width, canvas.height, canvas.offsetWidth, canvas.offsetHeight, ratio);
                     canvas.getContext("2d").scale(ratio, ratio);
                     _this.clear();
                     !_this.clearOnResize && url !== undefined && _this.fromDataURL(url)

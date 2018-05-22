@@ -1,17 +1,39 @@
 <template>
-    <div class="sign">
+    <div class='sign_main'>
+        <!-- 
         <div class="sign__img">
-            <div class="sign__img--image"></div>
+                    <div class="sign__img--image"></div>
+                </div> -->
+        <div class="banner">
+              <el-steps :active="activeStep" align-center>
+                  <el-step title="身份确认">
+                      <i class="myicon one"  :class="{active: activeStep >= 0}"  slot="icon"></i>
+                  </el-step>
+                  <el-step title="合同确认">
+                      <i class="myicon two"   :class="{active: activeStep >= 1}" slot="icon"></i>
+                  </el-step>
+                  <el-step title="合同签名">
+                      <i class="myicon three"  :class="{active: activeStep >= 2}" slot="icon"></i>
+                  </el-step>
+                  <el-step title="完成确认">
+                      <i class="myicon four"   :class="{active: activeStep >= 3}" slot="icon"></i>
+                  </el-step>
+              </el-steps>
         </div>
-        <div class="sign__text">
-            <span  v-if="contractNoList.length">我已阅读并同意下列合同： </span>
-        </div>
-        <ul class="sign__list">
-            <li v-for="item in myData" @click="goinfo(item.no)">《{{item.name}}》</li>
-        </ul>
-        <div class="sign__sublime">
-            <mt-button v-if="myData.length" :text="'确认'" @click="go"></mt-button>
-            <mt-button v-else :text="'刷新'" @click="refresh"></mt-button>
+        <div class="sign">
+            <div class="sign__img">
+                        <div class="sign__img--image"></div>
+                    </div>
+            <div class="sign__text">
+                <span  v-if="contractNoList.length">我已阅读并同意下列合同： </span>
+            </div>
+            <ul class="sign__list">
+                <li v-for="item in myData" @click="goinfo(item.no)">《{{item.name}}》</li>
+            </ul>
+            <div class="sign__sublime">
+                <mt-button v-if="myData.length" :text="'确认'" @click="go"></mt-button>
+                <mt-button v-else :text="'刷新'" @click="refresh"></mt-button>
+            </div>
         </div>
     </div>
 </template>
@@ -20,12 +42,15 @@
 import mtButton from '@myComponents/button.vue'
 import Toast    from '@components/toast/index.js'
 import Loader from '@components/loader/index.js'
+import elSteps  from '@components/steps/src/steps.vue'
+import elStep   from '@components/steps/src/step.vue'
 export default {
 
   name: 'Sign',
 
   data () {
     return {
+        activeStep: 1,
         myData: [],
         contractNoList: [],
         __LOCK__: false,
@@ -118,7 +143,9 @@ export default {
     }
   },
   components: {
-    mtButton
+    mtButton,
+    elSteps,
+    elStep,
   },
   activated () {
        this.getData()
@@ -130,16 +157,20 @@ export default {
 @import "~@sass/_variables";
 @import "~@sass/_func";
 
-.sign {
+.sign_main {
     background-color: #ffffff;
+}
+
+
+.sign {
     padding: pxToRem(30px);
 }
 
 .sign__img {
     text-align: center;
-    margin: pxToRem(70px) 0 pxToRem(100px);
+    margin: pxToRem(50px) 0 pxToRem(50px);
     .sign__img--image {
-        @include bg(404px, 276px, '~@assets/hetongicon.png');
+        @include bg(304px, 206px, '~@assets/hetongicon.png');
     }
 }
 
@@ -148,8 +179,7 @@ export default {
     letter-spacing: pxToRem(2px);
     color: #222222;
     line-height: pxToRem(55px);
-    margin-bottom: pxToRem(40px);
-    height: pxToRem(91px);
+    margin-bottom: pxToRem(30px);
 }
 
 .sign__list {

@@ -179,7 +179,7 @@ export default {
 @import "~@sass/_variables";
 @import "~@sass/_func";
   .RegProtocol {
-    margin:auto pxToRem(30px);
+    padding:0 pxToRem(30px);
 
     p {
       font-size:pxToRem($font-size-small);

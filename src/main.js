@@ -37,6 +37,35 @@ let initial = () => {
     })
 }
 
+// https://docs.fundebug.com/notifier/javascript/framework/vuejs.html
+function formatComponentName(vm)
+{
+  if (vm.$root === vm) return 'root';
+
+  var name = vm._isVue ? (vm.$options && vm.$options.name) || (vm.$options && vm.$options._componentTag) : vm.name;
+  return (name ? 'component <' + name + '>' : 'anonymous component') + (vm._isVue && vm.$options && vm.$options.__file ? ' at ' + (vm.$options && vm.$options.__file) : '');
+
+}
+
+// 接入fundebugger的产品
+Vue.config.errorHandler = function(err, vm, info)
+{
+  var componentName = formatComponentName(vm);
+  var propsData = vm.$options && vm.$options.propsData;
+
+  fundebug.notifyError(err,
+  {
+      metaData:
+      {
+          componentName: componentName,
+          propsData: propsData,
+          info: info
+      }
+   });
+};
+
+
+
 // 正式环境
 if (process.env.NODE_ENV === 'production') {
     // 默认后端会给我渲染一个openId，如果没有说明你不是从后端进来的.

@@ -54,3 +54,12 @@ export let serviceagreement_id = ''
 
 // 数字证书服务协议的姓名
 export let serviceagreement_name = ''
+
+// 合同签名的businessId
+export let businessId = ''
+
+// 合同签名的customerId
+export let customerId = ''
+
+// 合同埋点需要使用的id
+export let buriedPointCertificateNo = ''

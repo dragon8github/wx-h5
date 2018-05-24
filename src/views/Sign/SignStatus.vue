@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     go () {
+        // 然后利用路由进行拦截，如果有多条订单的话，会回到【合同列表页】，如果没有的话，就会退出微信
         window.history.back()
     }    
   },

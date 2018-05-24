@@ -63,7 +63,11 @@ if (typeof(Proxy) == 'function') {
         // 合同列表接口
         'contractList',
         // 身份确认接口
-        'identityConfirm'
+        'identityConfirm',
+        // 提交签名
+        'contractSignature',
+        // 埋点接口
+        'buriedPoint',
     ].entries()) {
         xdapi[ele] = (data, isQuiet = false) => { 
           return ajax.postData('xindai/' + ele, data, isQuiet)

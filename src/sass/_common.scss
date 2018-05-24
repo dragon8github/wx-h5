@@ -47,11 +47,11 @@ h1, input, ul, ol {
 input:-webkit-autofill {-webkit-box-shadow: 0 0 0px 1000px white inset;}
 
 .banner {
+    @include flex(c, c)
     width: 100%;
     height: pxToRem(290px);
     background-color: #0e6ae7;
     box-shadow: pxToRem(0px) pxToRem(0px) pxToRem(20px) pxToRem(0px) rgba(0, 0, 0, 0.06);
-    padding-top: pxToRem(75px);
     box-sizing: border-box;
 }
 

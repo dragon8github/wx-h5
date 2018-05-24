@@ -26,12 +26,12 @@
         <!-- 表单 -->
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
-            <mt-field type = "text"    placeholder = '请输入企业名'           v-model = 'enterpriseName'     :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
-            <mt-field type = "text"    placeholder = '请输入统一社会信用代码'  v-model = 'unifiedCode'     :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
-            <mt-field type = "text"   :placeholder = 'customerName_placeholder'  v-model = 'customerName'        :maxlength = '18'></mt-field>
-            <mt-field type = "text"   :placeholder = 'id_placeholder'        v-model = 'id'              :maxlength = '18'></mt-field>
-            <mt-field type = "number" :placeholder = 'phone_placeholder'     v-model = 'phone'           :maxlength = '11'></mt-field>
-            <mt-field type = "number"  placeholder = '请输入6位验证码'        v-model = 'validate'        :maxlength = '6' :clearText='false'>
+            <mt-field type = "text"    placeholder = '请输入企业名'               v-model = 'enterpriseName'  :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
+            <mt-field type = "text"    placeholder = '请输入统一社会信用代码'      v-model = 'unifiedCode'     :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
+            <mt-field type = "text"   :placeholder = 'customerName_placeholder'  v-model = 'customerName'    :maxlength = '18'></mt-field>
+            <mt-field type = "text"   :placeholder = 'id_placeholder'            v-model = 'id'              :maxlength = '18'></mt-field>
+            <mt-field type = "number" :placeholder = 'phone_placeholder'         v-model = 'phone'           :maxlength = '11'></mt-field>
+            <mt-field type = "number"  placeholder = '请输入6位验证码'            v-model = 'validate'        :maxlength = '6' :clearText='false'>
                 <getvalidate slot="icon" @click="getCode"></getvalidate>
             </mt-field>
         </div>
@@ -65,13 +65,13 @@ export default {
   data () {
     return {
         activeStep: 0,
-        customerName: '',
+        customerName: this.env('石明志'),  //  杨石雄
+        id: this.env('340321197506109897'),  //  441882199301206013
+        phone: this.env('13800138005'), //  13717381378
+        enterpriseName: '',
         agreement: true,
         value: '1',
-        enterpriseName: '',
-        id: '',  //  432502199010131489    372900197507262541 440881198802013214  372900197507262541
-        phone: '',//  13821262349  15999795594 15876366685 15999795594
-        unifiedCode: '',     // 社会信用代码
+        unifiedCode: '',
         validate: '',
         id_placeholder: '请输入证件号码',
         phone_placeholder: '请输入银行卡预留手机号码',
@@ -160,7 +160,6 @@ export default {
 
         this.xdapi.identityConfirm({
             "cardNo":           this.id,
-            "creditCode":       this.core,
             'unifiedCode':      this.unifiedCode,
             "customerName":     this.customerName,
             "phone":            this.phone,
@@ -168,6 +167,12 @@ export default {
             "verifiCode":       this.validate
         }).then(data=>{
             if (data.returnCode == 0) {
+                // 记录用户的身份证或者企业统一社会信用号,主要用作埋点的时候需要
+                if (this.isCompany()) {
+                  this.$store.buriedPointCertificateNo = this.unifiedCode
+                } else {
+                  this.$store.buriedPointCertificateNo = this.id
+                }
                 // 记录用户的身份验证状态，下一次就不需要登录了
                 this.$store.dispatch('set_signToken', true).then(_=>{
                     window.localStorage.setItem('signToken', true);
@@ -183,6 +188,14 @@ export default {
         this.$router.push('/UserProtocol')
     },
     goServiceAgreement () {
+        this.xdapi.buriedPoint({buriedPointType: '数字证书服务协议', data: JSON.stringify({
+            "cardNo":           this.id,
+            'unifiedCode':      this.unifiedCode,
+            "customerName":     this.customerName,
+            "phone":            this.phone,
+            "userType":         this.value,
+            "verifiCode":       this.validate
+        })}, true);
         this.$router.push('/ServiceAgreement')
     },
     getCode (cb) {
@@ -257,9 +270,11 @@ export default {
     },
   },
   watch: {
+    // 主要用作《《数字证书服务协议》要展示的参数
     id (v) {
         this.$store.state.ServiceAgreement_id = v
     },
+    // 主要用作《《数字证书服务协议》要展示的参数
     customerName (v) {
         if (this.isCompany()) {
             this.$store.state.serviceagreement_name = this.enterpriseName
@@ -280,7 +295,7 @@ export default {
    }
   },
   beforeMount () {
-
+      
   },
   activated () {
     // 为什么我要调这个接口？

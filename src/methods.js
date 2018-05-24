@@ -55,6 +55,10 @@ function pad (target, n) {
     return result;
 }
 
+function env (a = '', b = '') {
+    return process.env.NODE_ENV === 'development' ? a : b
+}
+
 function upload(e,options){
     var options = options
     var file = e.target.value
@@ -106,5 +110,6 @@ export default {
     date2date,
     setTitle,
     pad,
-    upload
+    upload,
+    env
 }

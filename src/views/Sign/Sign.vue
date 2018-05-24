@@ -1,9 +1,5 @@
 <template>
     <div class='sign_main'>
-        <!-- 
-        <div class="sign__img">
-                    <div class="sign__img--image"></div>
-                </div> -->
         <div class="banner">
               <el-steps :active="activeStep" align-center>
                   <el-step title="身份确认">
@@ -22,8 +18,8 @@
         </div>
         <div class="sign">
             <div class="sign__img">
-                        <div class="sign__img--image"></div>
-                    </div>
+                <div class="sign__img--image"></div>
+            </div>
             <div class="sign__text">
                 <span  v-if="contractNoList.length">我已阅读并同意下列合同： </span>
             </div>
@@ -63,41 +59,58 @@ export default {
        this.getData()
     },
     goinfo (no) {
-        if (no == 1) this.$router.push('/GuaranteeProtocol')
-        if (no == 2) this.$router.push('/InforeferProtocol')
-        if (no == 3) this.$router.push('/TdServiceProtocol')
+        if (no == 1) { 
+            this.xdapi.buriedPoint({buriedPointType: '提供担保协议书', certificateNo: this.$store.buriedPointCertificateNo}, true);
+            this.$router.push('/GuaranteeProtocol')
+        }
+
+        if (no == 2) { 
+            this.xdapi.buriedPoint({buriedPointType: '信息咨询服务协议', certificateNo: this.$store.buriedPointCertificateNo}, true);
+            this.$router.push('/InforeferProtocol')
+        }
+
+        if (no == 3) { 
+            this.xdapi.buriedPoint({buriedPointType: '团贷网服务协议', certificateNo: this.$store.buriedPointCertificateNo}, true);
+            this.$router.push('/TdServiceProtocol')
+        }
+
     },
     go () {
-        // 合同确认
-        this.xdapi.contractConfirm({
-            contractNo: this.contractNoList.join(','),
-            customerId: this.customerId,
-            businessId: this.businessId
-        }).then(data=>{
-            if (data.returnCode == 0) {
-                this.xdapi.contractList().then(data=>{
-                    if (data.returnCode == 0) {
-                        // 如果没有【未同意】的合同
-                        if (data.data.isConfirm != 1) {
-                            // 设置缓存
-                            this.$store.dispatch('set_signStatus', true).then(_=>{
-                                this.$router.push('/signStatus')
-                            })
-                        } else {
-                            // 测试
-                            // 是不是一定要调用合同列表接口，才可以重新确认？
-                            // 这个身份证是不是专门弄了很多次的确认。
-                            // 时机是不是在确认之后，立刻调用列表就可以确认了
-                            this.$router.push('/signStatus')
-                        }
-                    } else {
-                        Toast(data.msg || '网络连接异常，请稍后重试!!');
-                    }
-                })
-            } else {
-                Toast(data.msg || '网络连接异常，请稍后重试!');
-            }
-        })
+        // 跳转到签名页面
+        this.$router.push('/autograph')
+        
+        // Loader.show('正在提交...', 'A')
+        // // 合同确认
+        // this.xdapi.contractConfirm({
+        //     // contractNo: this.contractNoList.join(','), // 新版已经不需要传了
+        //     customerId: this.customerId,
+        //     businessId: this.businessId
+        // }, true).then(data => {
+        //     if (data.returnCode == 0) {
+        //         // 再次确认是否还有合同未确认，如果有的话，待会返回
+        //         this.xdapi.contractList({}, true).then(data => {
+        //             Loader.hideAll()
+        //             if (data.returnCode == 0) {
+        //                 // 如果没有【未同意】的合同
+        //                 if (data.data.isConfirm != 1) {
+        //                     // 设置缓存
+        //                     this.$store.dispatch('set_signStatus', true).then(_ => {
+        //                         // 跳转到签名页面
+        //                         this.$router.push('/autograph')
+        //                     })
+        //                 } else {
+        //                     this.$router.push('/autograph')
+        //                 }
+        //             } else {
+        //                 Loader.hideAll()
+        //                 Toast(data.msg || '网络连接异常，请稍后重试!!');
+        //             }
+        //         })
+        //     } else {
+        //         Loader.hideAll()
+        //         Toast(data.msg || '网络连接异常，请稍后重试!');
+        //     }
+        // })
     },
     getData () {
         this.xdapi.contractList().then(data=>{
@@ -107,8 +120,8 @@ export default {
                     this.contractNoList = [];
                     this.myData = [];
                     // 处理数据
-                    this.customerId = data.data.customerId
-                    this.businessId = data.data.businessId
+                    this.customerId = this.$store.state.customerId = data.data.customerId
+                    this.businessId = this.$store.state.businessId = data.data.businessId
                     for (var i = 0; i < data.data.contractList.length; i++) {
                        var no   = data.data.contractList[i].contractNo
                        var name = data.data.contractList[i].contractName
@@ -165,6 +178,9 @@ export default {
 .sign {
     padding: pxToRem(30px);
 }
+
+
+
 
 .sign__img {
     text-align: center;

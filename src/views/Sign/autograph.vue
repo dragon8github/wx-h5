@@ -1,6 +1,6 @@
 <template>
     <div class="autograph">
-        <div class="banner">
+       <!--  <div class="banner">
               <el-steps :active="activeStep" align-center>
                   <el-step title="身份确认">
                       <i class="myicon one"  :class="{active: activeStep >= 0}"  slot="icon"></i>
@@ -15,7 +15,7 @@
                       <i class="myicon four"   :class="{active: activeStep >= 3}" slot="icon"></i>
                   </el-step>
               </el-steps>
-        </div>
+        </div> -->
         <p class="autograph__title">请在下列区域内，进行合同手写签名：</p>
         <sign class="autograph__drawingBoard" ref="signature" :sigOption="option">
             <i class="undo" @click="clear"></i>
@@ -42,7 +42,7 @@ export default {
         activeStep: 2,
         option:{
             penColor:"rgb(0, 0, 0)",
-            backgroundColor:"rgb(244, 244, 244)"
+            backgroundColor:"rgba(255,255,255,0)"
         }
     }
   },
@@ -60,7 +60,7 @@ export default {
                         this.xdapi.contractSignature({
                             "businessId": this.$store.state.businessId,
                             "customerId": this.$store.state.customerId,
-                            "signature":  signature
+                            "signature":  signature.substr(23)  // 移除data:image/jpeg;base64,
                         }, true).then(data => {
                           if (data.returnCode == 0) {
                                 // 再次确认是否还有合同未确认，如果有的话，待会返回
@@ -72,7 +72,7 @@ export default {
                                               // 设置缓存
                                               this.$store.dispatch('set_signStatus', true).then(_ => {
                                                   // 跳转到签名页面
-                                                  this.$router.push('/signStatus')
+                                                  this.$router.push('/Identity')
                                               })
                                           } else {
                                               this.$router.push('/signStatus')
@@ -138,7 +138,7 @@ export default {
 @import "~@sass/_variables";
 @import "~@sass/_func";
 .autograph {
-    background-color: #ffffff;
+    background-color: #fff;
 
     .autograph__title {
         color: #000000;
@@ -147,6 +147,7 @@ export default {
     }
 
     .autograph__drawingBoard {
+        background: #f2f2f2;
         width: pxToRem(690px);
         height: pxToRem(890px);
         margin: 0 pxToRem(30px);

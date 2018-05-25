@@ -26,7 +26,7 @@
         <!-- 表单 -->
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
-            <mt-field type = "text"    placeholder = '请输入企业名'               v-model = 'enterpriseName'  :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
+            <mt-field type = "text"    placeholder = '请输入企业名称'               v-model = 'enterpriseName'  :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
             <mt-field type = "text"    placeholder = '请输入统一社会信用代码'      v-model = 'unifiedCode'     :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
             <mt-field type = "text"   :placeholder = 'customerName_placeholder'  v-model = 'customerName'    :maxlength = '18'></mt-field>
             <mt-field type = "text"   :placeholder = 'id_placeholder'            v-model = 'id'              :maxlength = '18'></mt-field>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- 勾选协议 -->
-        <div class="agreement">
+        <div class="agreement" v-if="(customerName || enterpriseName) && id">
             <input type="checkbox" id="agreement" v-model="agreement">
             <label for="agreement">我已授权并同意签署 <a @click.stop="goUserProtocol">《e签宝用户协议》</a>、<a @click.stop="goServiceAgreement">《数字证书服务协议》</a> 同意注册e签宝用户并使用电子签名等服务。</label>
         </div>
@@ -146,7 +146,7 @@ export default {
          // 验证手机号码
          if (this.phone.trim() === '') {
              return Toast(this.phone_placeholder)
-         } else if (!/^1\d{10}$/.test(this.phone.trim())) {
+         } else if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phone.trim())) {
              return Toast('请输入正确的手机号码')
          }
 
@@ -164,7 +164,8 @@ export default {
             "customerName":     this.customerName,
             "phone":            this.phone,
             "userType":         this.value,
-            "verifiCode":       this.validate
+            "verifiCode":       this.validate,
+            "enterpriseName":   this.enterpriseName
         }).then(data=>{
             if (data.returnCode == 0) {
                 // 记录用户的身份证或者企业统一社会信用号,主要用作埋点的时候需要
@@ -244,7 +245,7 @@ export default {
         // 验证手机号码
         if (this.phone.trim() === '') {
             return Toast(this.phone_placeholder)
-        } else if (!/^1\d{10}$/.test(this.phone.trim())) {
+        } else if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phone.trim())) {
             return Toast('请输入正确的手机号码')
         }
         
@@ -276,21 +277,22 @@ export default {
     },
     // 主要用作《《数字证书服务协议》要展示的参数
     customerName (v) {
-        if (this.isCompany()) {
-            this.$store.state.serviceagreement_name = this.enterpriseName
-        } else {
-            this.$store.state.serviceagreement_name = v
-        }
+        this.$store.state.serviceagreement_name = v
+    },
+    enterpriseName (v) {
+        this.$store.state.ServiceAgreement_name = v
     },
     value (newValue, oldValue) {
        if (newValue === '1') {
            this.id_placeholder = '请输入证件号码'
            this.phone_placeholder = '请输入银行卡预留手机号码'
            this.customerName_placeholder = '请输入客户名称'
+           this.$store.state.ServiceAgreement_name = this.customerName
        } else if (newValue === '2' || newValue === '3') {
            this.customerName_placeholder = '请输入法人名称'
            this.id_placeholder = '请输入法人证件号码'
-           this.phone_placeholder = '请输入银行卡预留手机号码'
+           this.phone_placeholder = '请输入手机号码'
+           this.$store.state.ServiceAgreement_name = this.enterpriseName
        }
    }
   },
@@ -334,7 +336,7 @@ export default {
     }
 
     .identity__sublime {
-        margin: 0 pxToRem(30px);
+        margin: pxToRem(30px);
     }
 
     .agreement {

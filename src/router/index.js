@@ -258,19 +258,26 @@ router.beforeEach((to, from, next) => {
     }
 
     // 猴子补丁:【电子签章项目】如果进入的是电子签章页面，那么需要根据情况无缝跳转到另外一些页面
-    // 可以肯定一点，只要进入到sign页面，那么他肯定是没有确认过，并且已经完成身份验证的。就算两个数据是伪造的也没关系。
-    if (_to == 'autograph' || _to == 'sign') {
-        // 状态一：如果用户确认合同，并且没有多次的话，那么返回直接关闭微信浏览器
-        if (store.state.signStatus && _from == 'signstatus') {
-            // 关闭微信内置浏览器
-            return wxclose();
-        }
-        // 状态二：如果用户没有进行【身份确认】的话，那么跳转到/Identity
+    if (_to == 'sign') {
+        // 如果用户没有进行【身份确认】的话，那么跳转到/Identity
         if (!store.state.signToken) {
             beforeNext = next
+            // 实际上，如果没有登录，你也进入不了Identity，而判断是否登录是在Identity页面beforeMount的时候调用一个接口，根据接口的反馈自动跳转到登录页
             return router.push('/Identity')
         }
     }
+    if (_to == 'autograph') {
+        // 从signStatus页面归来之后，如果有多条订单，则需要继续跳转到sign页面，否则直接关闭微信页
+        if (store.state.signStatus && _from == 'signstatus') {
+            beforeNext = next
+            return router.push('/Sign')
+        // 从signStatus页面归来，并且没有多条订单，那么直接关闭微信浏览器
+        } else if (!store.state.signStatus && _from == 'signstatus') {
+            // 关闭微信内置浏览器
+            return wxclose();
+        }
+    }
+
 
 
     // 设置标题

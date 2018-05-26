@@ -60,19 +60,19 @@ export default {
                         this.xdapi.contractSignature({
                             "businessId": this.$store.state.businessId,
                             "customerId": this.$store.state.customerId,
-                            "signature":  signature.substr(23)  // 移除data:image/jpeg;base64,
+                            "signature":  signature.substr(22)  // 移除data:image/png;base64,
                         }, true).then(data => {
                           if (data.returnCode == 0) {
                                 // 再次确认是否还有合同未确认，如果有的话，待会返回
                                 this.xdapi.contractList({}, true).then(data => {
                                        Loader.hideAll()
                                        if (data.returnCode == 0) {
-                                          // 如果没有【未同意】的合同
-                                          if (data.data.isConfirm != 1) {
+                                          // 如果依然是1说明还有合同需要确认，标记一下。待会点击确定之后还要返回
+                                          if (data.data.isConfirm == 1) {
                                               // 设置缓存
                                               this.$store.dispatch('set_signStatus', true).then(_ => {
                                                   // 跳转到签名页面
-                                                  this.$router.push('/Identity')
+                                                  this.$router.push('/signStatus')
                                               })
                                           } else {
                                               this.$router.push('/signStatus')
@@ -108,7 +108,7 @@ export default {
                 canvas.width = width * rate; 
                 canvas.height = height * rate; 
                 ctx.drawImage(img, 0, 0, width, height, 0, 0, width * rate, height * rate); 
-                var dataURL = canvas.toDataURL('image/jpeg'); 
+                var dataURL = canvas.toDataURL('image/png'); 
                 callback.call(this, dataURL); 
                 canvas = null; 
                 return dataURL

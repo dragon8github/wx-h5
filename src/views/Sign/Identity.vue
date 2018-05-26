@@ -26,7 +26,7 @@
         <!-- 表单 -->
         <label class="identity__label">客户资料</label>
         <div class="identity__form">
-            <mt-field type = "text"    placeholder = '请输入企业名称'               v-model = 'enterpriseName'  :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
+            <mt-field type = "text"    placeholder = '请输入企业名称'             v-model = 'enterpriseName'  :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
             <mt-field type = "text"    placeholder = '请输入统一社会信用代码'      v-model = 'unifiedCode'     :maxlength = '50' v-if="value == '2' || value == '3'"></mt-field>
             <mt-field type = "text"   :placeholder = 'customerName_placeholder'  v-model = 'customerName'    :maxlength = '18'></mt-field>
             <mt-field type = "text"   :placeholder = 'id_placeholder'            v-model = 'id'              :maxlength = '18'></mt-field>
@@ -65,9 +65,9 @@ export default {
   data () {
     return {
         activeStep: 0,
-        customerName: this.env('石明志'),  //  杨石雄
-        id: this.env('340321197506109897'),  //  441882199301206013
-        phone: this.env('13800138005'), //  13717381378
+        customerName: this.env('梁香桃'),  //  杨石雄
+        id: this.env('210302197808082265'),  //  441882199301206013
+        phone: this.env('13800138008'), //  13717381378
         enterpriseName: '',
         agreement: true,
         value: '1',
@@ -273,26 +273,28 @@ export default {
   watch: {
     // 主要用作《《数字证书服务协议》要展示的参数
     id (v) {
-        this.$store.state.ServiceAgreement_id = v
+        this.$store.state.serviceagreement_id = v
     },
-    // 主要用作《《数字证书服务协议》要展示的参数
+    // 主要用作《《数字证书服务协议》要展示的甲方参数
     customerName (v) {
+        console.log(v);
         this.$store.state.serviceagreement_name = v
     },
+    // 主要用作《《数字证书服务协议》要展示的甲方参数
     enterpriseName (v) {
-        this.$store.state.ServiceAgreement_name = v
+        this.$store.state.serviceagreement_name = v
     },
     value (newValue, oldValue) {
        if (newValue === '1') {
            this.id_placeholder = '请输入证件号码'
            this.phone_placeholder = '请输入银行卡预留手机号码'
            this.customerName_placeholder = '请输入客户名称'
-           this.$store.state.ServiceAgreement_name = this.customerName
+           this.$store.state.serviceagreement_name = this.customerName
        } else if (newValue === '2' || newValue === '3') {
            this.customerName_placeholder = '请输入法人名称'
            this.id_placeholder = '请输入法人证件号码'
            this.phone_placeholder = '请输入手机号码'
-           this.$store.state.ServiceAgreement_name = this.enterpriseName
+           this.$store.state.serviceagreement_name = this.enterpriseName
        }
    }
   },

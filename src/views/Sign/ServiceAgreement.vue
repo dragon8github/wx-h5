@@ -61,8 +61,8 @@ export default {
 
   data () {
     return {
-        id: this.$store.state.ServiceAgreement_id,
-        name: this.$store.state.ServiceAgreement_name,
+        id: this.$store.state.serviceagreement_id,
+        name: this.$store.state.serviceagreement_name,
     }
   }
 }

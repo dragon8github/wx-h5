@@ -47,37 +47,27 @@
             <mt-button :text="'确认'" @click="go" :disable="!agreement"></mt-button>
         </div>
     </div>
-
-    <picker :slots="yearSlot" :visible-item-count="3" :item-height="72"></picker>
-
 </div>
 </template>
 
 <script>
-import mtRadio      from '@components/radio2'
-import mtField      from '@components/field/field.vue'
-import mtButton     from '@myComponents/button.vue'
-import getvalidate  from '@myComponents/getvalidate'
-import Toast        from '@components/toast/index.js'
-import Loader       from '@components/loader/index.js'
-import elSteps  from '@components/steps/src/steps.vue'
-import elStep   from '@components/steps/src/step.vue'
-
-import picker from '@components/picker2/picker.vue'
+import mtRadio     from '@components/radio2'
+import mtField     from '@components/field/field.vue'
+import mtButton    from '@myComponents/button.vue'
+import getvalidate from '@myComponents/getvalidate'
+import Toast       from '@components/toast/index.js'
+import Loader      from '@components/loader/index.js'
+import elSteps     from '@components/steps/src/steps.vue'
+import elStep      from '@components/steps/src/step.vue'
 
 export default {
   name: 'Identity',
   data () {
     return {
-        yearSlot: [{
-            flex: 1,
-            values: ['1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995'],
-            className: 'slot1'
-        }],
         activeStep: 0,
-        customerName: this.env('梁香桃'),  //  杨石雄
+        customerName: this.env('梁香桃'),     //  杨石雄
         id: this.env('210302197808082265'),  //  441882199301206013
-        phone: this.env('13800138008'), //  13717381378
+        phone: this.env('13800138008'),      //  13717381378
         enterpriseName: '',
         agreement: true,
         value: '1',
@@ -96,7 +86,6 @@ export default {
     mtButton,
     elSteps, 
     elStep,
-    picker
   },
   methods: {
     // 验证统一社会信用

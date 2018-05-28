@@ -187,7 +187,7 @@ export default {
   },
    methods: {
      poll (data, n = 10) {
-       data = data.toString();
+       data = data ? data.toString() : "";
        if (!data || !data.trim()) {
            return (new Array(n + 1)).join('&nbsp');
        }

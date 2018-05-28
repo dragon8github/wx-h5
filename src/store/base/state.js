@@ -49,12 +49,6 @@ export let nextNotTransition = false;
 // 电子签章是否确认了
 export let signStatus = null;
 
-// 数字证书服务协议的身份证号
-export let serviceagreement_id = ''
-
-// 数字证书服务协议的姓名
-export let serviceagreement_name = ''
-
 // 合同签名的businessId
 export let businessId = ''
 
@@ -63,3 +57,18 @@ export let customerId = ''
 
 // 合同埋点需要使用的id
 export let buriedPointCertificateNo = ''
+
+// 数字证书服务协议的甲方客户名
+export let serviceagreement_name = ''
+
+// 数字证书服务协议的甲方身份证
+export let serviceagreement_id = ''
+
+// 数字证书服务协议的甲方公司名
+export let serviceagreement_companyname = ''
+
+// 数字证书服务协议的甲方统一社会信用代码
+export let serviceagreement_unifiedcode = ''
+
+// 数字证书服务协议的甲方类别【个人1/企业23】
+export let serviceagreement_type = '1'

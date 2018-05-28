@@ -40,7 +40,7 @@ export default {
   data () {
     return {
         activeStep: 2,
-        option:{
+        option: {
             penColor:"rgb(0, 0, 0)",
             backgroundColor:"rgba(255,255,255,0)"
         }

@@ -486,12 +486,11 @@
     display: inline-block;
     border-radius: 100%;
     background: #000;
-    opacity: 0.2;
+    opacity:0.5;
     margin: 0 pxToRem(6px);
-
-    .is-active {
-      background: #fff;
-    }
+  }
+  .is-active {
+    background: #fff;
   }
 }
 </style>

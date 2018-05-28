@@ -3,9 +3,9 @@
         <h1 class="center">声明</h1>
         <p>在使用鸿特金服服务之前，您应当认真阅读并遵守《数字证书服务协议》（以下简称“本协议”），请您务必审慎阅读、充分理解各条款内容，特别是免除或者限制责任的条款、争议解决和法律适用条款，您应重点阅读。如您对协议有任何疑问的，应向杭州天谷信息科技有限公司咨询。当您按照注册页面提示填写信息、阅读并同意本协议且完成全部注册程序后，或您按照激活页面提示填写信息、阅读并同意本协议且完成全部激活程序后，或您以其他鸿特信息平台允许的方式实际使用鸿特信息平台服务时，即表示您已充分阅读、理解并接受本协议的全部内容，并与杭州天谷信息科技有限公司及鸿特信息平台达成协议。您承诺接受并遵守本协议的约定，届时您不应以未阅读本协议的内容或者未获得鸿特信息有限公司对您问询的解答等理由，主张本协议无效，或要求撤销本协议。</p>
         <h1 class="center">数字证书服务协议</h1>
-        <p>甲方：  <span class="bold">{{ name }}</span>                                               </p>
-        <p>证件类型：身份证 /营业执照                               </p>
-        <p>证件号：     <span class="bold">{{ id }}</span>                                            </p>
+        <p>甲方：  <span>{{ name }}</span>                                               </p>
+        <p>证件类型：{{ type }}                               </p>
+        <p>证件号：     <span>{{ id }}</span>                                            </p>
         <p>乙方：杭州天谷信息科技有限公司</p>
         <p>地址：浙江省杭州市西湖区西斗门路3号天堂软件园E幢9层</p>
         <p>鉴于：</p>
@@ -61,8 +61,9 @@ export default {
 
   data () {
     return {
-        id: this.$store.state.serviceagreement_id,
-        name: this.$store.state.serviceagreement_name,
+        id:  this.$store.state.serviceagreement_type == 1 ? this.$store.state.serviceagreement_id : this.$store.state.serviceagreement_unifiedcode,
+        name: this.$store.state.serviceagreement_type == 1 ? this.$store.state.serviceagreement_name : this.$store.state.serviceagreement_companyname,
+        type: this.$store.state.serviceagreement_type == 1 ? '身份证' : '统一社会信用代码'
     }
   }
 }

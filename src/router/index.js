@@ -102,7 +102,11 @@ const HomeStaging   = r => require.ensure([], () => r(require('@/views/HomeStagi
 const CreditList = r => require.ensure([], () => r(require('@/views/OwnerCredit/CreditList')),'CreditList')
 const QualityCertification = r => require.ensure([], () => r(require('@/views/OwnerCredit/QualityCertification')),'QualityCertification')
 const RealnameAuth = r => require.ensure([],() => r(require('@/views/OwnerCredit/RealnameAuth')),'RealnameAuth')
-
+//人才招聘
+const JoinUs = r => require.ensure([],() => r(require('@/views/TalentRecruitment/JoinUs')),'JoinUs')
+const CorporateWelfare = r => require.ensure([],() => r(require('@/views/TalentRecruitment/CorporateWelfare')),'CorporateWelfare')
+const ContactUs = r => require.ensure([],() => r(require('@/views/TalentRecruitment/ContactUs')),'ContactUs')
+const JobDetail = r => require.ensure([],() => r(require('@/views/TalentRecruitment/JobDetail')),'JobDetail')
 let router =  new Router({
     routes: [
         // 默认页面
@@ -163,6 +167,11 @@ let router =  new Router({
         { path: '/CreditList', name:'CreditList',meta:{title:'完善资料'},component: CreditList},
         { path: '/RealnameAuth', name:'RealnameAuth',meta:{title:'实名认证'},component: RealnameAuth},
         
+        //人才招聘
+        { path: '/JoinUs', name: 'JoinUs', meta: {title: '加入我们'}, component: JoinUs},
+        { path: '/CorporateWelfare', name: 'CorporateWelfare', meta: {title: '公司福利'}, component: CorporateWelfare},
+        { path: '/ContactUs', name: 'ContactUs', meta: {title: '联系我们'}, component: ContactUs},
+        { path: '/JobDetail', name: 'JobDetail', meta: {title:'职位详情'}, component: JobDetail} 
     ]
 })
 

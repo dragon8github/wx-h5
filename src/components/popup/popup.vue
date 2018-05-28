@@ -8,7 +8,7 @@
 
 <style lang='scss' scoped>
  .mint-popup {
-
+      width: 100%;
      &.mint-popup-bottom {
         top: auto;
         right: auto;

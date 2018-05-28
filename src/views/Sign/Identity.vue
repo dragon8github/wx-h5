@@ -37,9 +37,9 @@
         </div>
 
         <!-- 勾选协议 -->
-        <div class="agreement" v-if="(customerName || enterpriseName) && id">
+        <div class="agreement" v-if="(customerName && id && value == 1) || ((value == 2 || value == 3) && enterpriseName && unifiedCode)">
             <input type="checkbox" id="agreement" v-model="agreement">
-            <label for="agreement">我已授权并同意签署 <a @click.stop="goUserProtocol">《e签宝用户协议》</a>、<a @click.stop="goServiceAgreement">《数字证书服务协议》</a> 同意注册e签宝用户并使用电子签名等服务。</label>
+            <label>我已授权并同意签署 <a @click.stop="goUserProtocol">《e签宝用户协议》</a>、<a @click.stop="goServiceAgreement">《数字证书服务协议》</a> 同意注册e签宝用户并使用电子签名等服务。</label>
         </div>
 
         <!-- 提交按钮 -->
@@ -47,6 +47,9 @@
             <mt-button :text="'确认'" @click="go" :disable="!agreement"></mt-button>
         </div>
     </div>
+
+    <picker :slots="yearSlot" :visible-item-count="3" :item-height="72"></picker>
+
 </div>
 </template>
 
@@ -60,10 +63,17 @@ import Loader       from '@components/loader/index.js'
 import elSteps  from '@components/steps/src/steps.vue'
 import elStep   from '@components/steps/src/step.vue'
 
+import picker from '@components/picker2/picker.vue'
+
 export default {
   name: 'Identity',
   data () {
     return {
+        yearSlot: [{
+            flex: 1,
+            values: ['1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995'],
+            className: 'slot1'
+        }],
         activeStep: 0,
         customerName: this.env('梁香桃'),  //  杨石雄
         id: this.env('210302197808082265'),  //  441882199301206013
@@ -86,6 +96,7 @@ export default {
     mtButton,
     elSteps, 
     elStep,
+    picker
   },
   methods: {
     // 验证统一社会信用
@@ -209,14 +220,15 @@ export default {
         if (this.isCompany()) {
             // 验证企业名
             if (this.enterpriseName.length == 0) {
-               return Toast('请输入企业名')
+               return Toast('请输入企业名称')
             } else if (this.enterpriseName.length < 2 || this.enterpriseName.length > 50) {
-               return Toast('企业名名必须大于2位')
+               return Toast('企业名称必须大于等于2位')
             }
 
             if (this.unifiedCode.length == 0) {
                return Toast('请输入社会信用编码')
             }
+
             if (!this.validateCode1(this.unifiedCode)) {
                return Toast('不是有效的社会信用编码！')
             }
@@ -271,30 +283,32 @@ export default {
     },
   },
   watch: {
-    // 主要用作《《数字证书服务协议》要展示的参数
+    // 主要用作《数字证书服务协议》要展示的参数身份证
     id (v) {
         this.$store.state.serviceagreement_id = v
     },
-    // 主要用作《《数字证书服务协议》要展示的甲方参数
+    // 主要用作《数字证书服务协议》要展示的甲方参数客户名
     customerName (v) {
-        console.log(v);
         this.$store.state.serviceagreement_name = v
     },
-    // 主要用作《《数字证书服务协议》要展示的甲方参数
+    // 主要用作《数字证书服务协议》要展示的甲方参数企业名称
     enterpriseName (v) {
-        this.$store.state.serviceagreement_name = v
+        this.$store.state.serviceagreement_companyname = v
+    },
+    // 主要用作《数字证书服务协议》要展示的甲方参数统一社会信用代码
+    unifiedCode (v) {
+        this.$store.state.serviceagreement_unifiedcode = v
     },
     value (newValue, oldValue) {
+       this.$store.state.serviceagreement_type = newValue
        if (newValue === '1') {
            this.id_placeholder = '请输入证件号码'
            this.phone_placeholder = '请输入银行卡预留手机号码'
            this.customerName_placeholder = '请输入客户名称'
-           this.$store.state.serviceagreement_name = this.customerName
        } else if (newValue === '2' || newValue === '3') {
            this.customerName_placeholder = '请输入法人名称'
            this.id_placeholder = '请输入法人证件号码'
            this.phone_placeholder = '请输入手机号码'
-           this.$store.state.serviceagreement_name = this.enterpriseName
        }
    }
   },

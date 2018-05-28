@@ -1,5 +1,5 @@
 <template>
-<div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight}">
+<div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight,overflow: overflow,background:background}">
     <loadmore 
         :style="{ minHeight: wrapperHeight}" 
         :top-method="loadTop" 
@@ -118,6 +118,15 @@ export default {
         _isError: {
             type: Boolean,
             default:false
+        },
+        //暂时无分页，则设置页面滚动条
+        overflow: {
+            type: String,
+            default:'scroll'
+        },
+        background: {
+            type: String,
+            default:'#eee'
         }
     },
     components: {
@@ -173,12 +182,12 @@ export default {
         }
     },
     mounted () {
-        
+        this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top + 'px'
     },
     activated () {
         setTimeout(_=>{
             this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top + 'px'
-        }, 400)
+        }, 400) 
     }
   }
 </script>

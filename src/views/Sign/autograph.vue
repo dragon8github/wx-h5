@@ -1,5 +1,8 @@
 <template>
     <div class="autograph">
+      <!-- <textarea class="base64">
+        {{ mybase64 }}
+      </textarea> -->
        <!--  <div class="banner">
               <el-steps :active="activeStep" align-center>
                   <el-step title="身份确认">
@@ -23,6 +26,8 @@
         <div class="autograph__sublime">
             <mt-button :text="'确认'" @click="save"></mt-button>
         </div>
+
+        
     </div>
 </template>
 
@@ -39,10 +44,23 @@ export default {
   name: 'autograph',
   data () {
     return {
+        mybase64: '',
         activeStep: 2,
         option: {
             penColor:"rgb(0, 0, 0)",
-            backgroundColor:"rgba(255,255,255,0)"
+            backgroundColor:"rgba(255,255,255,0)",
+            minWidth: (function(){
+                  var u = navigator.userAgent, app = navigator.appVersion;
+                  var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+                  var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                  if (isAndroid) {
+                     return 2
+                  } else if (isIOS) {
+                     return 5
+                  } else {
+                    return 1
+                  }
+            }())
         }
     }
   },
@@ -56,6 +74,7 @@ export default {
                     var png = this.$refs.signature.save();
                     // 压缩图片
                     this.compressedPicture(png, signature => {
+                      // return this.mybase64 = signature.substr(22)
                         // 提交签名api
                         this.xdapi.contractSignature({
                             "businessId": this.$store.state.businessId,
@@ -103,8 +122,8 @@ export default {
                 console.log(img.width);
                 var width = img.width;
                 var height = img.height;
-                // 按比例压缩4倍
-                var rate = (width < height ? width / height : height / width) / 4;
+                // 按比例压缩5倍
+                var rate = (width < height ? width / height : height / width) / 8;
                 canvas.width = width * rate; 
                 canvas.height = height * rate; 
                 ctx.drawImage(img, 0, 0, width, height, 0, 0, width * rate, height * rate); 
@@ -168,5 +187,11 @@ export default {
         margin: pxToRem(64px) pxToRem(30px);
     }
 
+  // .base64 {
+  //   font-size: pxToRem(14px);
+  //   width: 80%;
+  //   height: pxToRem(250px);
+  //   margin: 0 auto;
+  // }
 }
 </style>

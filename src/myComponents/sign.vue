@@ -16,7 +16,8 @@
                 default:()=>{
                     return {
                         backgroundColor:'rgb(255,255,255)',
-                        penColor : 'rgb(0, 0, 0)'
+                        penColor : 'rgb(0, 0, 0)',
+                        minWidth: 1
                     }
                 },
             },

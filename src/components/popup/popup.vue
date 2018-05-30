@@ -127,7 +127,7 @@
   }
 </style>
 
-<script type="text/babel">
+<script>
   import Popup from './popup.js';
   import Vue from 'vue';
   require('./popup.css');

@@ -1,6 +1,6 @@
 <template>
   <div class="picker-slot" :class="classNames" :style="flexStyle">
-    <div v-if="!divider" ref="wrapper" class="picker-slot-wrapper" :class="{ dragging: dragging }" :style="{ height: px2rem(contentHeight * 2) + 'rem' }">
+    <div v-if="!divider" ref="wrapper" class="picker-slot-wrapper" :class="{ dragging: dragging }" :style="{ height: px2rem(contentHeight) + 'rem' }">
       <div class="picker-item" 
            v-for="itemValue in mutatingValues" 
            :class="{ 'picker-selected': itemValue === currentValue }" 
@@ -210,7 +210,7 @@
         return resultArray.join(' ');
       },
       contentHeight() {
-        return this.itemHeight * this.visibleItemCount;
+        return this.itemHeight * (this.visibleItemCount + 1);
       },
       valueIndex() {
         var valueKey = this.valueKey;

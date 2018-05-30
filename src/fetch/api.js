@@ -10,6 +10,9 @@ let xdapi = {}
 // 汽车拍卖主体
 let carapi = {}
 
+// 人才招聘
+let recruit = {}
+
 // Proxy ：这样我访问xdapi.fuck('shift')的时候，fuck就会作为key传过来，而shift就会作为data传过来。
 if (typeof(Proxy) == 'function') {
     xdapi = new Proxy({}, {
@@ -25,6 +28,11 @@ if (typeof(Proxy) == 'function') {
     wxapi = new Proxy({}, {
         get: (target, key, receiver) => (data, isQuiet = false) => { 
             return ajax.postData(key, data, isQuiet)
+        }
+    })
+    recruit = new Proxy({}, {
+        get: (target,key,receiver) => (data,isQuiet = true) =>{
+            return ajax.postData('recruit/' + key,data,isQuiet)
         }
     })
 
@@ -103,6 +111,17 @@ if (typeof(Proxy) == 'function') {
           return ajax.postData(ele, data, isQuiet)
       }
     }
+
+    //人才招聘
+    for(let [index,ele] of [
+        'recruitListApp',
+        'getProviceCity',
+        'getProviceCityApp'
+    ].entries()){
+        recruit[ele] = (data, isQuiet = true) => {
+            return ajax.postData('recruit/' + ele,data,isQuiet)
+        }
+    }
 }
 
 /**
@@ -114,9 +133,11 @@ export default {
   wxapi,
   xdapi,
   carapi,
+  recruit,
   install (Vue) {
     Vue.prototype.xdapi = xdapi
     Vue.prototype.carapi = carapi
     Vue.prototype.wxapi = wxapi
+    Vue.prototype.recruit = recruit
   }
 }

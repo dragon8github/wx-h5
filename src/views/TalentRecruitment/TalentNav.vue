@@ -4,6 +4,7 @@
         <div class="nav-logo"></div>
         <transition name="fade">
             <div class="nav-panel" v-show="navPanelVisiable">
+                <div class="nav-panel-modal" @click="hideModal"></div>
                 <router-link class="nav-item" :class="activated == item.name ? 'active': ''" v-for="item in navList" :key="item.path" :to="item.path">{{item.name}}</router-link>
             </div>
         </transition>
@@ -43,6 +44,16 @@
             position: absolute;
             top:1.253333rem;
             z-index: 100;
+            .nav-panel-modal{
+                width: 100%;
+                height: 100%;
+                background: transparent;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1;
+            }
             .nav-item{
                 display: block;
                 width: 100%;
@@ -50,6 +61,8 @@
                 font-size: .4rem;
                 color:#666;
                 border-bottom: .013333rem solid #ebebeb;
+                position: relative;
+                z-index: 10;
             }
             .nav-item.active{
                 color:#cfa972;
@@ -96,6 +109,9 @@
         methods: {
             showNavPanel() {
                 this.navPanelVisiable = !this.navPanelVisiable
+            },
+            hideModal() {
+                this.navPanelVisiable = false
             }
         },
         created() {

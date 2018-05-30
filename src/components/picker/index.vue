@@ -59,7 +59,9 @@ export default {
       return `#vux-picker-${this.uuid}-${i}`
     },
     render (data, value) {
+      console.log(123123, this.currentData);
       this.count = this.currentData.length
+      // console.log(123123123, this.count, data, value);
       const _this = this
       if (!data || !data.length) {
         return

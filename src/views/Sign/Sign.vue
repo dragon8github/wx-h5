@@ -59,18 +59,26 @@ export default {
        this.getData()
     },
     goinfo (no) {
+        var data = JSON.stringify({
+            businessId: this.businessId,
+            customerId: this.customerId,
+            id: this.$store.state.serviceagreement_id,
+            customerName: this.$store.state.serviceagreement_name,
+            companyname: this.$store.state.serviceagreement_companyname,
+            unifiedcode: this.$store.state.serviceagreement_unifiedcode,
+        })
         if (no == 1) { 
-            this.xdapi.buriedPoint({buriedPointType: '提供担保协议书', certificateNo: this.$store.buriedPointCertificateNo}, true);
+            this.xdapi.buriedPoint({buriedPointType: '提供担保协议书', data: data, certificateNo: this.$store.buriedPointCertificateNo}, true);
             this.$router.push('/GuaranteeProtocol')
         }
 
         if (no == 2) { 
-            this.xdapi.buriedPoint({buriedPointType: '信息咨询服务协议', certificateNo: this.$store.buriedPointCertificateNo}, true);
+            this.xdapi.buriedPoint({buriedPointType: '信息咨询服务协议', data: data,  certificateNo: this.$store.buriedPointCertificateNo}, true);
             this.$router.push('/InforeferProtocol')
         }
 
         if (no == 3) { 
-            this.xdapi.buriedPoint({buriedPointType: '团贷网服务协议', certificateNo: this.$store.buriedPointCertificateNo}, true);
+            this.xdapi.buriedPoint({buriedPointType: '团贷网服务协议', data: data,  certificateNo: this.$store.buriedPointCertificateNo}, true);
             this.$router.push('/TdServiceProtocol')
         }
 
@@ -161,6 +169,7 @@ export default {
     elStep,
   },
   activated () {
+      console.log(this.$store)
        this.getData()
   }
 }

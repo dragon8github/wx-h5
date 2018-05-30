@@ -47,6 +47,7 @@
             <mt-button :text="'确认'" @click="go" :disable="!agreement"></mt-button>
         </div>
     </div>
+
 </div>
 </template>
 
@@ -59,7 +60,6 @@ import Toast       from '@components/toast/index.js'
 import Loader      from '@components/loader/index.js'
 import elSteps     from '@components/steps/src/steps.vue'
 import elStep      from '@components/steps/src/step.vue'
-
 export default {
   name: 'Identity',
   data () {
@@ -146,7 +146,7 @@ export default {
          // 验证手机号码
          if (this.phone.trim() === '') {
              return Toast(this.phone_placeholder)
-         } else if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phone.trim())) {
+         } else if (!/^1\d{10}$/.test(this.phone.trim())) {
              return Toast('请输入正确的手机号码')
          }
 
@@ -246,7 +246,7 @@ export default {
         // 验证手机号码
         if (this.phone.trim() === '') {
             return Toast(this.phone_placeholder)
-        } else if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.phone.trim())) {
+        } else if (!/^1\d{10}$/.test(this.phone.trim())) {
             return Toast('请输入正确的手机号码')
         }
         

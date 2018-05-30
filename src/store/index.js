@@ -18,6 +18,7 @@ import CarInfoData from './modules/CarInfoData'
 import RepayHistoryInfo from './modules/RepayHistoryInfo'
 import RepayInfo from './modules/RepayInfo'
 import creditAuth from './modules/CreditAuth'
+import talentRecruit from './modules/TalentRecruit'
 
 
 Vue.use(Vuex)
@@ -36,7 +37,8 @@ const store = new Vuex.Store({
             namespaced: true,
             ...transition
         },
-        creditAuth
+        creditAuth,
+        talentRecruit
     },
     state,
     getters,

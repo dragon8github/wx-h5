@@ -65,13 +65,13 @@ export default {
   data () {
     return {
         activeStep: 0,
-        customerName: this.env('梁香桃'),     //  杨石雄
-        id: this.env('210302197808082265'),  //  441882199301206013
-        phone: this.env('13800138008'),      //  13717381378
-        enterpriseName: '',
+        customerName: this.env('万傲旋'),     //  杨石雄
+        id: this.env('130184197103281946'),  //  441882199301206013
+        phone: this.env('15999795945'),      //  13717381378
+        enterpriseName: this.env('梁愿华'),
         agreement: true,
         value: '1',
-        unifiedCode: '',
+        unifiedCode: '321315345553213123',
         validate: '',
         id_placeholder: '请输入证件号码',
         phone_placeholder: '请输入银行卡预留手机号码',
@@ -263,6 +263,7 @@ export default {
         }).then(data => {
             Loader.hideAll();
             if (data.returnCode == 0) {
+                if (process.env.NODE_ENV === 'development') this.validate = data.code
                 Toast("验证码已发送，请注意查收。")
                 cb()
             } else {

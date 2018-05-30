@@ -77,7 +77,7 @@
                 <span class="mint-datetime-action mint-datetime-cancel">取消</span>  
                 <span class="mint-datetime-action mint-datetime-confirm">确定</span>  
             </div>   -->
-            <mt-picker v-if="addressSlots" :slots="addressSlots" valueKey="name" :visible-item-count="3" @change="onCityValuesChange"></mt-picker>
+            <mt-picker :slots="addressSlots" valueKey="name" :visible-item-count="3" @change="onCityValuesChange"></mt-picker>
         </mt-popup>
     </div>
 </template>

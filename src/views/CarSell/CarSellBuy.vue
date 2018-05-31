@@ -259,7 +259,7 @@ export default {
         position: relative;
 
         &::after {
-            @include bg(33px, 2px, '~@assets/-.png');
+            @include bgImg(33px, 2px, '~@assets/-.png');
             @include center;
             content: '';
             position: absolute;
@@ -276,7 +276,7 @@ export default {
         position: relative;
 
         &::after {
-            @include bg(33px, 33px, '~@assets/+.png');
+            @include bgImg(33px, 33px, '~@assets/+.png');
             @include center;
             content: '';
             position: absolute;

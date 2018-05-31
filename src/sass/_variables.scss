@@ -10,3 +10,54 @@ $font-size-large: 36px;
 
 
 
+//鸿特金服app之H5页面变量
+
+//主题色
+
+$primary: #cfa972;
+
+//背景色
+$bg-primary:$primary;
+$bg-white:#fff;
+$bg-gray:#f2f2f2;
+
+//字体颜色
+$font-primary:$primary;
+$font-text:#222;
+$font-gray:#333;
+$font-txt-light:#666;
+$font-white:#fff;
+
+//字体大小
+$font-form-size:28px;
+$font-txt-size:28px;
+$font-btn-size:36px;
+
+//表单字体颜色
+$form-bg:#fff;
+$form-label:#333;
+$form-item:#333;
+$form-cont:#666;
+$form-tip:#999;
+$form-placeholder:#999;
+
+//页面突出内容tip
+$tip-primary:#cfa972;
+$tip-gray:#666;
+$tip-light-gray:#999;
+
+//按钮
+$btn-bg:$primary;
+$btn-font-primary:$primary;
+$btn-font-color:#fff;
+$btn-bd-color:$primary;
+$btn-disabled:#ccc;
+
+//页面状态
+$end-status:#999;
+$ing-status:#222;
+$err-status:#e60012;
+
+//border
+$border: 1px solid #F3F3F3;
+$border-color:#F3F3F3;

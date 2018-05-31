@@ -1,97 +1,72 @@
 <template>
-    <div class="CarSell">
+  <div class="car-sell">
+    <!--汽车拍卖的tab-->
+    <tabbar v-model="selected">
+      <tabitem id="tab-container1">车辆信息</tabitem>
+      <tabitem id="tab-container2">历史交易</tabitem>
+    </tabbar>
 
-        <navbar v-model="selected">
-            <tabitem id="tab-container1" :fontSize="'32'">即将拍卖</tabitem>
-            <tabitem id="tab-container2" :fontSize="'32'">拍卖进行</tabitem> 
-            <tabitem id="tab-container3" :fontSize="'32'">拍卖完成</tabitem> 
-        </navbar>
+    <!--消息及搜索-->
+    <!-- <div class="ad"> 重要提示:请在竞拍前报名交保证金，参与竞拍 </div> -->
 
-        <!-- <div class="ad" v-if="selected === 'tab-container1'"> 重要提示:请在竞拍前报名交保证金，参与竞拍 </div> -->
-        <div class="ad"> 重要提示:请在竞拍前报名交保证金，参与竞拍 </div>
-
-        <div class="search">
-            <div class="search__left">
-                <i class="search__icon"></i>
-                <input type="text" class="search__input" placeholder="请输入品牌/型号" v-model="search" @change="searchFn"/>
-            </div>
-            <div class="search__right" @click="searchFn"> 搜索 </div>
+    <div class="search">
+        <div class="search-left">
+            <i class="search-icon"></i>
+            <input type="text" class="search-input" placeholder="请输入品牌/型号" v-model="search" @change="searchFn"/>
         </div>
-
-        <tabcontainer  v-model="selected" swipeable>
-            <tabcontaineritem  id="tab-container1" >
-              <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_isError="tag['1']['isError']" :_bottomDisabled = "tag['1']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
-                  <div slot="body">
-                     <item v-for="(item,index) in tag['1']['list']" :key="index"    
-                           :id="item.businessId"
-                           :maindata="item"
-                           :image="item.docs && item.docs[0] && item.docs[0].docUrl"
-                           :name="item.vehicleBrand"
-                           :model="item.carModel"
-                           :money="item.startPrice"
-                           :starttime="item.startPriceDate"
-                           :city="item.vcehicleTerritory">
-                     </item>
-                  </div>
-              </panel>
-            </tabcontaineritem>
-
-            <tabcontaineritem id="tab-container2">
-              <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_isError="tag['2']['isError']" :_bottomDisabled = "tag['2']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
-                  <div slot="body">
-                      <item v-for="(item,index) in tag['2']['list']" :key="index"                            
-                            :id="item.businessId"
-                            :maindata="item"
-                            :image="item.docs && item.docs[0] && item.docs[0].docUrl"
-                            :name="item.vehicleBrand"
-                            :model="item.carModel"
-                            :money="item.startPrice"
-                            :starttime="item.startPriceDate"
-                            :city="item.vcehicleTerritory">
-                      </item>
-                  </div>
-              </panel>
-            </tabcontaineritem>
-
-            <tabcontaineritem id="tab-container3">
-              <panel ref="pannel3" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['3']['isEmpty']" :_isError="tag['3']['isError']" :_bottomDisabled = "tag['3']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
-                  <div slot="body">
-                      <item v-for="(item,index) in tag['3']['list']" :key="index"                            
-                            :id="item.businessId"
-                            :maindata="item"
-                            :image="item.docs && item.docs[0] && item.docs[0].docUrl"
-                            :name="item.vehicleBrand"
-                            :model="item.carModel"
-                            :money="item.startPrice"
-                            :city="item.vcehicleTerritory"
-                            :isFinish="true">
-                      </item>
-                  </div>
-              </panel>
-            </tabcontaineritem>
-        </tabcontainer>
+        <div class="search-right" @click="searchFn"> 搜索 </div>
     </div>
+
+    <!--内容模块-->
+    <tabcontainer v-model="selected">
+      <tabcontaineritem id="tab-container1">
+        <panel ref="pannel1" :_loadTop = "loadTop" :_loadBottom = "loadBottom" :_isEmpty="tag['1']['isEmpty']" :_isError="tag['1']['isError']" :_bottomDisabled = "tag['1']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
+                <div slot="body">
+                    <item v-for="(item,index) in tag['1']['list']" :key="index"    
+                          :type="where.type"
+                          :id="item.businessId"
+                          :maindata="item"
+                          :image="item.docs && item.docs[0] && item.docs[0].docUrl"
+                          :name="item.vehicleBrand"
+                          :model="item.carModel"
+                          :money="item.startPrice"
+                          :starttime="item.startPriceDate"
+                          :city="item.vcehicleTerritory">
+                    </item>
+                </div>
+            </panel>
+      </tabcontaineritem>
+      <tabcontaineritem id="tab-container2">
+        <panel ref="pannel2" :_loadTop = "loadTop" :_loadBottom = "loadBottom"  :_isEmpty="tag['2']['isEmpty']" :_isError="tag['2']['isError']" :_bottomDisabled = "tag['2']['bottomDisabled']" :noThingText="'暂时没有拍卖车辆'">
+            <div slot="body">
+                <item v-for="(item,index) in tag['2']['list']" :key="index"      
+                      :type="where.type"                      
+                      :id="item.businessId"
+                      :maindata="item"
+                      :image="item.docs && item.docs[0] && item.docs[0].docUrl"
+                      :name="item.vehicleBrand"
+                      :model="item.carModel"
+                      :money="item.startPrice"
+                      :starttime="item.startPriceDate"
+                      :city="item.vcehicleTerritory">
+                </item>
+            </div>
+        </panel>
+      </tabcontaineritem>
+    </tabcontainer>
+
+  </div>
 </template>
 
 <script>
- import item from '@myComponents/carsellitem.vue'
-
- // panel组件
- import panel from '@myComponents/panel.vue'
-
- // nav组件
- import navbar from '@components/navbar/navbar.vue'
- import tabitem from '@components/tabItem/tabItem.vue'
-
- // tabcontainer组件
- import tabcontainer from '@components/tabcontainer/tabcontainer.vue'
- import tabcontaineritem from '@components/tabContainerItem/tabContainerItem.vue'
-
- // Toast组件
- import Toast from '@components/toast/index.js'
-
- // 路由
- import Router from 'vue-router'
+  import item from '@myComponents/carsellitem.vue'
+  import tabbar from '@components/tabbar/tabbar.vue'
+  import tabitem from '@components/tabItem/tabItem.vue'
+  import tabcontainer from '@components/tabContainer/tabContainer.vue'
+  import tabcontaineritem from '@components/tabContainerItem/tabContainerItem.vue'
+  import panel from '@myComponents/panel.vue'
+  import Toast from '@components/toast/index.js'
+  import Router from 'vue-router'
 
 /**
  * 注意：type其实就是tag
@@ -105,7 +80,7 @@ export default {
         selected: 'tab-container1',
         search: '',
         where: {
-              type: '1',        // [1.即将拍卖，2进行中，3.拍卖完成]
+              type: '1',        // [1.车辆信息，2交易历史]
               page: 1,          // 分页索引，从1开始
               limit: 15,        // 每次获取的条数
               vehicleBrand: '', // 车辆品牌
@@ -114,18 +89,17 @@ export default {
         tag: {
             '1':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false },
             '2':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false },
-            '3':{ isSearch:false, isEmpty: false, bottomDisabled: false, list:[], isError: false }
         },
         oldTag: null
     }
   },
   components: {
         item,
-        navbar,
         tabitem,
         tabcontainer,
         tabcontaineritem,
         panel,
+        tabbar,
   },
   computed: {
       // 返回当前的tag对象
@@ -228,7 +202,7 @@ export default {
          // 【设置当前操作tag对象】
          this.where.type = curVal.substr(-1, 1)
          // 骚操作
-         this.setTitle(['即将拍卖','拍卖进行','拍卖完成'][+(this.where.type) - 1])
+         this.setTitle(['车辆信息','历史交易'][+(this.where.type) - 1])
 
          // 选项卡改变的时候，肯定需要进行fetch的，但如果原本的tag有值的话，那么就不需要更新了。先这样简单处理。
          // 这个页面，最好也加入active，就算更新出了问题，那也是以后的解决方案。
@@ -259,56 +233,37 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import "~@sass/_variables";
-@import "~@sass/_func";
 
-.CarSell {
-   overflow: visible;
-}
-
-.ad {
-  height: pxToRem(70px);
-  background-color: #fffde3;
-  line-height: pxToRem(70px);
-  padding-left: pxToRem(30px);
-  color: #666666;
-  font-size: pxToRem(24px);
-  margin-top: pxToRem(10px);
-}
-
-.search {
+<style lang="scss">
+  @import "../../sass/variables.scss";
+  @import "../../sass/func.scss";
+  .search {
     @include flex(b, center);
     padding: 0 pxToRem(30px);
     margin: pxToRem(10px) 0;
-    background: #fff;
+    background: $bg-white;
     font-size: pxToRem(32px);
     height: pxToRem(98px);
-
-    .search__left {
-        @include flex(b, center);
-        flex: 1;
-    } 
-
-    .search__right {
-        color: #0e6ae7;
-        margin-left: pxToRem(20px);
-    }
-
-    .search__icon {
-        @include bg(42px, 42px, '~@assets/carsell/search.png');
+    .search-left {
+      @include flex(b, center);
+      flex: 1;
+      .search-icon {
+        @include bgImg(42px, 42px, '~@assets/carsell/search.png');
         margin-right: pxToRem(36px);
-    }
-
-    .search__input {
+      }
+      .search-input {
         flex: 1;
-        appearance: none;
+        -webkit-appearance: none;
         background: transparent;
         border: 0;
         font-size: pxToRem(32px);
         outline: 0;
         letter-spacing: pxToRem(2px);
+      }
     }
-}
-
+    .search-right {
+      color: $btn-font-primary;
+      margin-left: pxToRem(20px);
+    }
+  }
 </style>

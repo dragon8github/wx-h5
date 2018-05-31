@@ -1,13 +1,13 @@
 <template>
-    <div id="RepayStatus">
-      
+    <div id="RepayBank">
+        
     </div>
 </template>
 
 <script>
 export default {
 
-  name: 'RepayStatus',
+  name: 'RepayBank',
 
   data () {
     return {

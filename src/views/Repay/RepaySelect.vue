@@ -1,65 +1,132 @@
 <template>
- <div id="ResetPwd">
-       <div class="form">
-            <mt-field topLabel = '设置新密码' errTopLabel='' type = "password" placeholder = '请输入6位数字或字母' v-model = 'pwd' :maxlength = '11'></mt-field>
-            <mt-field topLabel = '确认新密码' errTopLabel='' type = "password" placeholder = '请输入确认密码'      v-model = 'pwd2'  :maxlength = '16'></mt-field> 
-            <button class="button" :class="{disable: pwd === '' || pwd2 === ''}" @click="go">提交更新</button>
-       </div>
- </div>
+    <div id="RepaySelect">
+        <div class="RepaySelect">
+            <div class="RepaySelect__header">
+                <div>剩余4期</div>
+                <div>金额（元）</div>
+            </div>
+            <ul class="RepaySelect__ul">
+                <li>
+                    <label>
+                        <div class="RepaySelect__time">2017-08-28</div>
+                        <div class="RepaySelect__money">1900.40</div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <div class="RepaySelect__time">2017-08-28</div>
+                        <div class="RepaySelect__money">1900.40</div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <div class="RepaySelect__time">2017-08-28</div>
+                        <div class="RepaySelect__money">1900.40</div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <div class="RepaySelect__time">2017-08-28</div>
+                        <div class="RepaySelect__money">1900.40</div>
+                    </label>
+                </li>
+            </ul>
+            <div class="RepaySelect__footer">
+                <div class="RepaySelect__footer--text">未还共计：6254.60</div>
+            </div>
+        </div>
+
+        <!-- 提交按钮 -->
+        <div class="RepaySelect__sublime">
+            <mt-button :text="'确 认'" @click="go" ></mt-button>
+        </div>
+    </div>
 </template>
 
 <script>
-import mtField from '@components/field/field.vue'
-import Toast   from '@components/toast/index.js'
-import Loader  from '@components/loader/index.js'
-  export default {
-        name: 'ResetPwd',
-        data () {
-            return {
-              pwd: '',
-              pwd2: ''
-            }
-        },
-        methods: {
-            go () {
-                
-            }
-        },
-        components: {
-            mtField
-        }
+import mtButton    from '@myComponents/button.vue'
+
+export default {
+
+  name: 'RepaySelect',
+
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+    go () {
+
+    }
+  },
+  components: {
+    mtButton
   }
+}
 </script>
 
-
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "~@sass/_variables";
 @import "~@sass/_func";
 
-#ResetPwd {
-    background-color:#fff
+#RepaySelect {
+    background-color: #f2f2f2;
 }
 
-.form {
-    margin: pxToRem(100px) pxToRem(30px);
+.RepaySelect {
+    
 }
 
-.button {
-    width: 100%;
-    height: pxToRem(100px);
-    background-color: #0e6ae7;
-    border-radius: pxToRem(10px);
-    font-size: pxToRem(36px);
-    line-height: pxToRem(100px);
-    margin-bottom: pxToRem(30px);
-    color: #fff;
-    letter-spacing: pxToRem(2px);
-    border: 0;
-
-    &.disable {
-        background-color:#ccc;
+    .RepaySelect__header {
+        @include flex(b, c);
+        margin: 0 pxToRem(30px);
+        color: #999999;
+        font-size: pxToRem(28px);
+        height: pxToRem(68px);
     }
-}
 
+    .RepaySelect__ul {
+        background-color: #ffffff;
+        font-size: pxToRem(28px);
 
+        li {
+            position: relative;
+            margin: 0 pxToRem(30px);
+            list-style: none;
+        }
+
+        li > label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: pxToRem(88px);
+        }    
+        
+        .RepaySelect__time {
+            color: #022222;
+        }
+
+        .RepaySelect__money {
+            color: #0e6ae7;
+        }
+
+        li::after {
+            @include border( 'bottom', #e5e5e5);
+        }    
+    }
+
+    .RepaySelect__footer {
+        @include flex(e, c);
+        padding: 0 pxToRem(30px);
+        color: #999999;
+        font-size: pxToRem(28px);
+        height: pxToRem(68px);
+        background-color: #ffffff;
+    }
+
+    .RepaySelect__sublime {
+        margin: pxToRem(88px) pxToRem(30px);
+    }
+    
 </style>

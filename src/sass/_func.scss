@@ -112,6 +112,14 @@ $base-font-size: 75px; //design iphone6: 375px * 2 / 10 = 75px; --design
     }
 }
 
+@mixin bgImg ($width, $height, $url) {
+    width: pxToRem($width);
+    height: pxToRem($height);
+    background: url($url) center / 100% 100% no-repeat;
+    display: inline-block;
+}
+
+
 
 //border 
 @mixin border($pos, $color) {

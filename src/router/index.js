@@ -33,14 +33,23 @@ const ResetPwd  = r => require.ensure([], () => r(require('@/views/User/ResetPwd
 const Repay        = r => require.ensure([], () => r(require('@/views/Repay/Repay')), 'Repay')
 // 还款管理详情
 const RepayInfo    = r => require.ensure([], () => r(require('@/views/Repay/RepayInfo')), 'RepayInfo')
-// 还款选择
+// 历史账单
+const RepayHistory = r => require.ensure([], () => r(require('@/views/Repay/RepayHistory')), 'RepayHistory')
+// 还款账期选择
 const RepaySelect  = r => require.ensure([], () => r(require('@/views/Repay/RepaySelect')), 'RepaySelect')
 // 确认还款
 const RepayMoney   = r => require.ensure([], () => r(require('@/views/Repay/RepayMoney')), 'RepayMoney')
+// 还款记录
+const RepayRecord   = r => require.ensure([], () => r(require('@/views/Repay/RepayRecord')), 'RepayRecord')
+// 费用明细
+const RepayDetails  = r => require.ensure([], () => r(require('@/views/Repay/RepayDetails')), 'RepayDetails')
+// 银行卡列表
+const RepayBank     = r => require.ensure([], () => r(require('@/views/Repay/RepayBank')), 'RepayBank')
+// 添加银行卡
+const AddRepayBank = r => require.ensure([], () => r(require('@/views/Repay/AddRepayBank')), 'AddRepayBank')
 // 还款结果状态
 const RepayStatus  = r => require.ensure([], () => r(require('@/views/Repay/RepayStatus')), 'RepayStatus')
-// 还款历史
-const RepayHistory = r => require.ensure([], () => r(require('@/views/Repay/RepayHistory')), 'RepayHistory')
+
 
 
 // 我的借款（列表）
@@ -124,14 +133,17 @@ let router =  new Router({
         { path: '/ForgetPwd',  name: 'ForgetPwd', meta: { title: '忘记密码' },  component: ForgetPwd },
         { path: '/ResetPwd',   name: 'ResetPwd',  meta: { title: '重置密码' },  component: ResetPwd },
 
-        { path: '/Repay',                name: 'Repay',        meta: { title: '还款管理' },  component: Repay },
-        { path: '/RepayInfo/:afterid?',  name: 'RepayInfo',    meta: { title: '还款管理' },  component: RepayInfo },
-        { path: '/RepaySelect',          name: 'RepaySelect',  meta: { title: '还款选择' },  component: RepaySelect },
-        { path: '/RepayMoney',           name: 'RepayMoney',   meta: { title: '费用明细' },  component: RepayMoney },
-        { path: '/RepayStatus',          name: 'RepayStatus',  meta: { title: '还款成功' },  component: RepayStatus },
-        { path: '/RepayHistory',         name: 'RepayHistory', meta: { title: '还款记录' },  component: RepayHistory },
+        { path: '/Repay',                name: 'Repay',        meta: { title: '还款管理' },       component: Repay },
+        { path: '/RepayInfo/:afterid?',  name: 'RepayInfo',    meta: { title: '还款管理' },       component: RepayInfo },
+        { path: '/RepaySelect',          name: 'RepaySelect',  meta: { title: '还款选择' },       component: RepaySelect },
+        { path: '/RepayMoney',           name: 'RepayMoney',   meta: { title: '还款' },           component: RepayMoney },
+        { path: '/RepayStatus',          name: 'RepayStatus',  meta: { title: '还款成功' },       component: RepayStatus },
+        { path: '/RepayRecord',          name: 'RepayRecord',  meta: { title: '还款记录' },       component: RepayRecord },
+        { path: '/RepayDetails',         name: 'RepayDetails', meta: { title: '费用明细' },       component: RepayDetails },
+        { path: '/RepayBank',            name: 'RepayBank',    meta: { title: '默认支付方式' },    component: RepayBank },
+        { path: '/AddRepayBank',         name: 'AddRepayBank', meta: { title: '添加代扣银行卡' },  component: AddRepayBank },
 
-        { path: '/CarSell',                           name: 'CarSell',            meta: { title: '汽车拍卖' },     component: CarSell },
+        { path: '/CarSell',                           name: 'CarSell',            meta: { title: '汽车处置' },     component: CarSell },
         { path: '/CarSellInfo/:id?',                  name: 'CarSellInfo',        meta: { title: '汽车详情' },     component: CarSellInfo },
         { path: '/CarSellHistoryInfo/:id?/:afterid?', name: 'CarSellHistoryInfo', meta: { title: '汽车详情' },     component: CarSellHistoryInfo },
         { path: '/CarSellApply',                      name: 'CarSellApply',       meta: { title: '汽车拍卖报名' }, component: CarSellApply },

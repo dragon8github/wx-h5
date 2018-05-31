@@ -1,6 +1,25 @@
 <template>
     <div class="CarSellApply" v-if="d">
-        <div class="banner">
+        <div class="cur-car-info">
+            <item  
+                :type="d.type"
+                :id="d.businessId"
+                :maindata="d"
+                :image="d.docs && d.docs[0] && d.docs[0].docUrl"
+                :name="d.vehicleBrand"
+                :model="d.carModel"
+                :money="d.startPrice"
+                :starttime="d.startPriceDate"
+                :city="d.vcehicleTerritory">
+            </item>
+        </div>
+        <div class="warm">
+            <div class="warm__title">
+                <a class="warm__icon">!</a>
+                <article>温馨提示：请填写竞买人真实有效身份信息，标的物交接时将会核实此资料。</article>
+            </div>
+        </div>
+        <!-- <div class="banner">
             <div class="banner_text">保证金</div>
             <div class="banner__money">{{ d.bond }} <span class="banner__money--yuan">元</span></div>
             <div class="banner__price">起拍价： ¥ {{ d.startPrice }}</div>
@@ -19,24 +38,26 @@
         <div class="time">
             <div class="time__text">拍卖时间：</div>
             <div class="time__section">{{ date2date(d.startPriceDate) }} - {{ date2date(d.etartPriceDate) }}</div>
-        </div>
+        </div> -->
+
         <div class="form">
             <mt-field label="姓名："     placeholder="请输入姓名" v-model="username" :maxlength = '20'></mt-field>
             <mt-field label="身份证号：" placeholder="填写有效身份证信息" v-model="id" :maxlength = '18'></mt-field>
-            <mt-field label="手机号码：" v-model="phone" readonly></mt-field>
-            <mt-field label="转账银行：" placeholder="请选择转账银行" @click="goBankSelect" v-model="bank" readonly>
+            <mt-field style="margin-bottom:0.1rem;" label="手机号码：" v-model="phone" placeholder="输入本人手机号码"></mt-field>
+            <!-- <mt-field label="转账银行：" placeholder="请选择转账银行" @click="goBankSelect" v-model="bank" readonly>
                 <div class="form__bank--arrow"></div>
-            </mt-field>
-            <mt-field label="转账银行：" placeholder="请填入转账卡号" v-model="card" @keyup="cardkeyup" :maxlength = '25'></mt-field>
-        </div>
-        <div class="warm">
-            <div class="warm__title">
-                <a class="warm__icon">!</a>
-                <article>温馨提示：请填写竞买人真实有效身份信息，标的物交接时将会核实此资料。</article>
+            </mt-field> -->
+            <mt-field label="报价：" placeholder="请输入报价金额" v-model="card"  :maxlength = '25'></mt-field>
+            <mt-field label="备注：" placeholder="填写备注内容" v-model="remark" ></mt-field>
+            <div class="warm">
+                <div class="warm__title">
+                    <a class="warm__icon">!</a>
+                    <article>温馨提示：每台车只能报价三次。</article>
+                </div>
             </div>
-
-
-            <div class="warm__panel">
+        </div>
+        <!--<div class="warm">
+             <div class="warm__panel">
                 <div class="warm__text">请在<span class="warm__text--blue"> {{ d.starBidTime }} </span>前将<span class="warm__text--blue"> {{ d.bond }}元 </span>保证金打到如下账号，以获取竞拍资格，转账请备注注册账号和竞买车辆。如竞拍失败，保证金将如数退还。 </div>
                 <div class="warm__line"></div>
                 <div class="warm__address"> 
@@ -44,8 +65,8 @@
                     开户行： {{ d.bank }}<br>
                     账号： {{ d.cardNo }}
                 </div>
-            </div>
-        </div>
+            </div> 
+        </div>-->
         
         <div class="btn">
             <button class="btn--primary" @click="apply">报 名</button>
@@ -56,6 +77,7 @@
 <script>
  import mtField from '@components/field/field2.vue'
  import Toast from '@components/toast/index.js'
+ import item from '@/myComponents/carsellitem.vue'
 
 export default {
 
@@ -69,10 +91,12 @@ export default {
         card: '',                              // 银行卡号
         username: '',                                      // 用户名
         id: '',                                 // 身份证号
+        remark:''
     }
   },
   components: {
-    mtField
+    mtField,
+    item
   },
   methods: {
     goBankSelect () {
@@ -91,6 +115,7 @@ export default {
             return Toast('请输入正确的身份证号')
         }
 
+
         if (this.phone.trim() === '') {
             return Toast('请输入手机号码')
         } else if (!/^1\d{10}$/.test(this.phone.trim())) {
@@ -105,6 +130,7 @@ export default {
         if (this.card.trim().length < 12 || this.card.trim().length > 25 || !/\d+/.test(this.card.trim())) {
           return Toast('请输入正确的银行卡号')
         }
+
 
         this.carapi.auctionSign({
             priceID: this.d.priceID,
@@ -153,107 +179,112 @@ export default {
 <style lang="scss" scoped>
 @import "~@sass/_variables";
 @import "~@sass/_func";
-
-.banner {
-    @include flex(a, c, c);
-    height: pxToRem(302px);
-    background-color: #0e6ae7;
-    color: #fff;
-    padding: pxToRem(45px) 0;
-    margin: 0;
-
-    .banner_text {
-        font-size: pxToRem(28px);
-    }
-
-    .banner__money {
-        font-size: pxToRem(80px);
-    }
-
-    .banner__money--yuan {
-        font-size: pxToRem(28px);
-    }
-
-    .banner__price {
-        font-size: pxToRem(36px);
-    }
+.cur-car-info{
+    padding: .3rem 0.4rem 0.1rem 0.4rem;
+    background: $bg-white;
+    //border-bottom: 1px solid #ccc;
+    margin-top: .266667rem;
+    margin-bottom: .266667rem;
 }
+// .banner {
+//     @include flex(a, c, c);
+//     height: pxToRem(302px);
+//     background-color: #0e6ae7;
+//     color: #fff;
+//     padding: pxToRem(45px) 0;
+//     margin: 0;
 
-.navbar {
-    @include flex(a, c);
-    height: pxToRem(110px);
-    background-color: #075dd3;
-    margin: 0;
+//     .banner_text {
+//         font-size: pxToRem(28px);
+//     }
 
-    .navbar__block {
-        text-align: center;
-        flex: 1;
-    }
+//     .banner__money {
+//         font-size: pxToRem(80px);
+//     }
 
-    .navbar__line {
-        @include line(66px, #fff, col)
-    }
+//     .banner__money--yuan {
+//         font-size: pxToRem(28px);
+//     }
 
-    .navbar__text {
-        color: #b9c8ee;
-        font-size: pxToRem(28px);
-        margin-bottom: pxToRem(8px);
-    }
+//     .banner__price {
+//         font-size: pxToRem(36px);
+//     }
+// }
 
-    .navbar__money {
-         color: #ffffff;
-         font-size: pxToRem(32px);
-    }
-}
+// .navbar {
+//     @include flex(a, c);
+//     height: pxToRem(110px);
+//     background-color: #075dd3;
+//     margin: 0;
+
+//     .navbar__block {
+//         text-align: center;
+//         flex: 1;
+//     }
+
+//     .navbar__line {
+//         @include line(66px, #fff, col)
+//     }
+
+//     .navbar__text {
+//         color: #b9c8ee;
+//         font-size: pxToRem(28px);
+//         margin-bottom: pxToRem(8px);
+//     }
+
+//     .navbar__money {
+//          color: #ffffff;
+//          font-size: pxToRem(32px);
+//     }
+// }
 
 .time {
     @include flex(b, s, c);
     height: pxToRem(140px);
     margin-bottom: pxToRem(10px);
-    background-color: #fff;
+    background-color: $bg-white;
     padding: pxToRem(20px) pxToRem(30px);
 
     .time__text {
-        color: #222222;
+        color: $font-text;
         font-size: pxToRem(32px);
     }
 
     .time__section {
-        color: #0e6ae7;
+        color: $font-primary;
         font-size: pxToRem(32px);
     }
 }
 
 
 .form {
-    .form__bank--arrow::after {
-        border: pxToRem(2px) solid #c8c8cd;
-        border-bottom-width: 0;
-        border-left-width: 0;
-        content: " ";
-        position: absolute;
-        top: 50%;
-        right: pxToRem(20px * 2);
-        height: pxToRem(5px * 2);
-        width: pxToRem(5px * 2);
-        transform: translateY(-50%) rotate(45deg);
-    }
+    margin-top: .266667rem;
+    // .form__bank--arrow::after {
+    //     border: pxToRem(2px) solid #c8c8cd;
+    //     border-bottom-width: 0;
+    //     border-left-width: 0;
+    //     content: " ";
+    //     position: absolute;
+    //     top: 50%;
+    //     right: pxToRem(20px * 2);
+    //     height: pxToRem(5px * 2);
+    //     width: pxToRem(5px * 2);
+    //     transform: translateY(-50%) rotate(45deg);
+    // }
 }
 
 .warm {
-    background-color: #f2f2f2;
-    margin: pxToRem(30px) pxToRem(23px);
+    padding: .2rem 0.30667rem;
     color: #222222;
-    font-size: pxToRem(28px);
-    line-height: pxToRem(50px);
-
+    font-size: 0.37333rem;
+    background: $bg-white;
     .warm__title {
        @include flex(s);
-       margin: pxToRem(20px) auto;
+       //margin: pxToRem(20px) auto;
     }
 
     .warm__icon {
-        @include size(50px, 36px);
+        @include size(36px, 36px);
         background-color: #ffba00;
         border-radius: 100%;
         display: inline-block;
@@ -262,12 +293,11 @@ export default {
         line-height: pxToRem(36px);
         text-align: center;
         margin-right: pxToRem(20px);
-        position: relative;
-        top: pxToRem(5px);
+        flex-shrink: 0;
     }
 
     .warm__panel {
-        background: #fff;
+        background: $bg-white;
         padding: pxToRem(30px) pxToRem(40px);
         line-height: pxToRem(60px);
     }
@@ -277,7 +307,7 @@ export default {
     }
 
     .warm__text--blue {
-        color: #0e6ae7;
+        color: $tip-primary;
     }
 
     .warm__address {
@@ -298,11 +328,11 @@ export default {
        margin: auto;
        width: pxToRem(690px);
        height: pxToRem(100px);
-       background-color: #0e6ae7;
+       background-color: $btn-bg;
        border-radius: pxToRem(6px);
        text-align: center;
        line-height: pxToRem(100px);
-       color: #fff;
+       color: $btn-font-color;
        font-size: pxToRem(32px);
        border: 0;
    }

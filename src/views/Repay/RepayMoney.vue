@@ -1,35 +1,19 @@
 <template>
- <div id="">
-
- </div>
+    <div id="RepayMoney"></div>
 </template>
 
 <script>
-  import mtField from '@components/field/field.vue'
-  import Toast   from '@components/toast/index.js'
-  import Loader  from '@components/loader/index.js'
-  export default {
-        name: 'Login',
-        data () {
-            return {
+export default {
 
-            }
-        },
-        watch: {
+  name: 'RepayMoney',
 
-        },
-        methods: {
+  data () {
+    return {
 
-        },
-        components: {
-        }
+    }
   }
+}
 </script>
 
-
-<style scoped lang="scss">
-@import "~@sass/_variables";
-@import "~@sass/_func";
-
-
+<style lang="css" scoped>
 </style>

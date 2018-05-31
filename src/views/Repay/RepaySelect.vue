@@ -3,31 +3,47 @@
         <div class="RepaySelect">
             <div class="RepaySelect__header">
                 <div>剩余4期</div>
-                <div>金额（元）</div>
+                <div>金额(元)</div>
             </div>
             <ul class="RepaySelect__ul">
                 <li>
                     <label>
                         <div class="RepaySelect__time">2017-08-28</div>
-                        <div class="RepaySelect__money">1900.40</div>
+                        <div class="RepaySelect__money">
+                            <span class="checkboxlabel">1900.40</span>
+                            <input type="checkbox">
+                            <span class="mycheckbox"></span>
+                        </div>
                     </label>
                 </li>
                 <li>
                     <label>
                         <div class="RepaySelect__time">2017-08-28</div>
-                        <div class="RepaySelect__money">1900.40</div>
+                        <div class="RepaySelect__money">
+                            <span class="checkboxlabel">1900.40</span>
+                            <input type="checkbox">
+                            <span class="mycheckbox"></span>
+                        </div>
                     </label>
                 </li>
                 <li>
                     <label>
                         <div class="RepaySelect__time">2017-08-28</div>
-                        <div class="RepaySelect__money">1900.40</div>
+                        <div class="RepaySelect__money">
+                            <span class="checkboxlabel">1900.40</span>
+                            <input type="checkbox">
+                            <span class="mycheckbox"></span>
+                        </div>
                     </label>
                 </li>
                 <li>
                     <label>
                         <div class="RepaySelect__time">2017-08-28</div>
-                        <div class="RepaySelect__money">1900.40</div>
+                        <div class="RepaySelect__money">
+                            <span class="checkboxlabel">1900.40</span>
+                            <input type="checkbox">
+                            <span class="mycheckbox"></span>
+                        </div>
                     </label>
                 </li>
             </ul>
@@ -45,6 +61,7 @@
 
 <script>
 import mtButton    from '@myComponents/button.vue'
+import msg from '@components/messagebox/messagebox.js'
 
 export default {
 
@@ -57,7 +74,11 @@ export default {
   },
   methods: {
     go () {
-
+            msg.confirm(`<p>您确定要结清吗？</p>`, "").then(()=>{
+                
+            }).catch(() => {
+                return false;
+            });
     }
   },
   components: {
@@ -108,6 +129,8 @@ export default {
         }
 
         .RepaySelect__money {
+            display: flex;
+            align-items: center;
             color: #0e6ae7;
         }
 
@@ -128,5 +151,46 @@ export default {
     .RepaySelect__sublime {
         margin: pxToRem(88px) pxToRem(30px);
     }
-    
+
+    input[type=checkbox] {
+        display: none;
+    }
+
+    .checkboxlabel {
+        margin-right: pxToRem(20px);
+    }
+
+    /* 默认样式 */
+    .mycheckbox {
+        display: inline-block;
+        width: pxToRem(40px);
+        height: pxToRem(40px);
+        border-radius: 50%;
+        border: pxToRem(2px) solid #ccc;
+        position: relative;
+
+        &::before {
+            content: '';
+            transform: translate(-50%, -50%) scale(0);
+        }
+    }
+
+    /* 选中时的样式：可以选择背景图、字体图标都可以。 */
+    input[type=checkbox]:checked+.mycheckbox {
+        
+
+        &::before {
+            position: absolute;
+            content: '';
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: pxToRem(24px);
+            height: pxToRem(24px);
+            background-color: #ffba00;
+            border-radius: 50%;
+            transition: transform .2s;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
 </style>

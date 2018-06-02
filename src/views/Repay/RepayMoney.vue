@@ -30,6 +30,7 @@
 
 <script>
 import mtButton    from '@myComponents/button.vue'
+import msg from '@components/messagebox/messagebox.js'
 
 export default {
 
@@ -38,6 +39,15 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods: {
+    go () {
+            msg.confirm(`卡内余额不足，<br />您可以更换其他银行卡`, "").then(()=>{
+                
+            }).catch(() => {
+                return false;
+            });
     }
   },
   components: {

@@ -22,7 +22,7 @@ if (typeof(Proxy) == 'function') {
     })
     carapi = new Proxy({}, {
         get: (target, key, receiver) => (data, isQuiet = false) => {
-            return ajax.postData('carAction/' + key, data, isQuiet)
+            return ajax.postData('nonLogin/' + key, data, isQuiet)
         }
     })
     wxapi = new Proxy({}, {
@@ -84,21 +84,29 @@ if (typeof(Proxy) == 'function') {
 
     // 汽车拍卖
     for (let [index,ele] of [
+        // 我报过价的车辆
+        'myBidCars',
+        // 我的报价记录
+        'myBids',
         // 读取车辆拍卖信息
         'selectAuctionsPage',
         // 更新拍卖交易记录接口
-        'updateAuctions',
-        // 读取准入竞价用户信息
-        'selectBiddersPage',
-        // 读取拍卖最高价
-        'selectMaxOfferPriceByAuctionId',
-        // 拍卖记录查询
-        'selectAuctionReg',
-        // 拍卖报名
-        'auctionSign',
+        'updateAuctions'
+        // // 读取车辆拍卖信息
+        // 'selectAuctionsPage',
+        // // 更新拍卖交易记录接口
+        // 'updateAuctions',
+        // // 读取准入竞价用户信息
+        // 'selectBiddersPage',
+        // // 读取拍卖最高价
+        // 'selectMaxOfferPriceByAuctionId',
+        // // 拍卖记录查询
+        // 'selectAuctionReg',
+        // // 拍卖报名
+        // 'auctionSign',
     ].entries()) {
         carapi[ele] = (data, isQuiet = false) => { 
-          return ajax.postData('carAction/' + ele, data, isQuiet)
+          return ajax.postData('nonLogin/' + ele, data, isQuiet)
       }
     }
 

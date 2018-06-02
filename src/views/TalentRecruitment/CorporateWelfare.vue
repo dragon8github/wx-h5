@@ -15,8 +15,8 @@
                 <img src="~@assets/pic_1.png" alt="">
             </div>
             <div class="cc-img-side">
-                <img src="~@assets/pic_2.png" alt="">
-                <img src="~@assets/pic_3.png" alt="">
+                <div style="text-align:left;"><img src="~@assets/pic_2.png" alt=""></div>
+                <div style="text-align:right;"><img src="~@assets/pic_3.png" alt=""></div>
             </div>
             <h2 class="cc-title">企业福利</h2>
             <p class="cc-artical">
@@ -45,7 +45,7 @@
             width: 100%;
             height: 4.173333rem;
             img{
-                max-width: 100%;
+                width: 100%;
                 height: auto;
             }
         }
@@ -65,7 +65,7 @@
             height: 4.906667rem;
             margin:.533333rem auto .2rem;
             img{
-                max-width: 100%;
+                width: 100%;
                 height: auto;
             }
         }
@@ -74,6 +74,16 @@
             height: 2.413333rem;
             margin:0 auto;
             @include flex(b,center);
+            div {
+                flex:1;
+            }
+            div:first-child{
+                margin-right:.133333rem;
+            }
+            img{
+                width: 100%;
+                height: auto;
+            }
         }
         .cc-title{
             margin-top:.933333rem;

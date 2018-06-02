@@ -104,8 +104,8 @@ const throwError = (err) => {
  * isQuiet 为 treu 时表示偷偷的运行，不显示loading图.某些业务需要偷偷进行的
  */
 const handleFetch = async(api, params, isQuiet = false) => {
-    // 默认配置
-    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token, 'Authorization': window.Authorization || '', app:'WX' }}
+    // 默认配置 WX  CLS_APP
+    let header = { headers: { "Content-Type": "application/json", 'token': store.state.token, 'Authorization': window.Authorization || '', app:'CLS_APP' }}
 
     // 拼接默认配置，
     let option = Object.assign({}, params, header)

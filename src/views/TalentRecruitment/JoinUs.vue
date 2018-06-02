@@ -13,26 +13,28 @@
         <div class="join-content">
             <div class="job-search">
                 <input type="text" placeholder="请输入关键词" v-model="stationName"/>
-                <button class="">搜索</button>
+                <button class=""  @click="search">搜索</button>
             </div>
             <div class="job-classify">
                 <div class="jc-select" @click="selectJobClassify">
                     {{allType}}
+                    <span class="icon"></span>
                 </div>
                 <div class="jc-select" @click="filterCity">
                     {{selectCity}}
+                    <span class="icon"></span>
                 </div>
             </div>
             
         </div>
-        <div class="job-list-wrap">
+        <div class="job-list-wrap" v-show="job.list && job.list.length > 0">
             <div class="job-item" v-for="(item,index) in job.list" :key="index" @click="gotoInfo(item)">
-                <div class="ji-name">{{item.name}}</div>
+                <div class="ji-name">{{item.stationName}}</div>
                 <div class="jt-class">
                     <div class="jt-type">
-                        <span>{{item.type}}</span>
+                        <span>{{item.typeName}}</span>
                         <span>|</span>
-                        <span>{{item.addr}}</span>
+                        <span>{{item.stationPlaceName}}</span>
                     </div>
                     <!-- <div class="jt-date">{{item.date}}</div> -->
                 </div>
@@ -64,50 +66,84 @@
                 </div>
             </panel> -->
         </div>
+        <div v-show="job.list.length <= 0" class="job-item-nodata">
+          <p><img src="~@/assets/t_nodata.png" alt=""></p>
+          暂无数据
+        </div>
        <mt-popup
         v-model="typePopupVisiable"
         position="bottom">
-            <mt-picker :slots="jobTypes" valueKey="name" :visible-item-count="3" @change="onTypeValuesChange"></mt-picker>
+            <mt-picker v-if="jobTypes" :slots="jobTypes" valueKey="name"  :itemHeight="60" :visible-item-count="3" @change="onTypeValuesChange"></mt-picker>
         </mt-popup>
-
         <mt-popup
         v-model="cityPopupVisiable"
         position="bottom">
-            <!-- <div class="picker-toolbar">  
-                <span class="mint-datetime-action mint-datetime-cancel">取消</span>  
-                <span class="mint-datetime-action mint-datetime-confirm">确定</span>  
-            </div>   -->
-            <mt-picker :slots="addressSlots" valueKey="name" :visible-item-count="3" @change="onCityValuesChange"></mt-picker>
+            <div class="picker-toolbar">  
+              <span @click="cityPopupVisiable = false">确定</span>
+            </div>  
+            <mt-picker v-if="cityList" :slots="cityList" valueKey="name"  :itemHeight="60" :visible-item-count="3" @change="onCityValuesChange"></mt-picker>
         </mt-popup>
     </div>
 </template>
 <script>
-import TalentNav from "./TalentNav.vue";
-import mtSwipe from "@components/swipe/swipe.vue";
-import mtSwipeItem from "@components/swipe/swipe-item.vue";
-import mtPopup from "@components/popup/popup.vue";
-import mtPicker from "@components/picker2/picker.vue";
+import TalentNav from "./TalentNav.vue"
+import mtSwipe from "@components/swipe/swipe.vue"
+import mtSwipeItem from "@components/swipe/swipe-item.vue"
+import mtPopup from "@components/popup/popup.vue"
+import mtPicker from "@components/picker2/picker.vue"
+import Toast   from '@components/toast/index.js'
+import methods from '../../methods.js'
+// panel组件
 import panel from "@myComponents/panel.vue";
-import { mapGetters } from 'vuex'
+
 
 export default {
-  components: {TalentNav, mtSwipe, mtSwipeItem, mtPopup, mtPicker, panel },
+  components: {
+    TalentNav,
+    mtSwipe,
+    mtSwipeItem,
+    mtPopup,
+    mtPicker,
+    panel
+  },
   data() {
     return {
-      areaData: null,
-      addressSlots: null,
       typeId: "",
       cityId: "",
       allType: "所有分类",
       selectCity: "所有城市",
       activated: "加入我们",
-      jobTypes: [{flex: 1, values: [{ type: "0", name: "所有分类" }, { type: "1", name: "技术类" }, { type: "2", name: "职能类" }, { type: "3", name: "业务类" } ], className: "slot1"} ],
-      secondCity: [],
+      jobTypes: null,
+      cityList:null,
       stationName: "",
-      navList: [{path: "/JoinUs", name: "加入我们"}, {path: "/CorporateWelfare", name: "公司福利"}, {path: "/ContactUs", name: "联系我们"} ],
-      bannerList: ["https://m.360buyimg.com/babel/jfs/t20761/88/245681533/100771/4f482734/5b068167N03df1383.jpg", "https://m.360buyimg.com/babel/jfs/t20815/284/157613044/102231/f3bcf02c/5afed147Nef8c3eec.png", "https://img1.360buyimg.com/pop/jfs/t17959/164/2242151507/87295/c65ca4b6/5aec1384N41688de1.jpg"],
-      classifyList: [{value: "0", label: "职能类"}, {value: "1", label: "技术类"}, {value: "2", label: "销售类"} ],
-      job: {isTop: false, isError: false, isEmpty: false, bottomDisabled: false, overflow: "initial", background: "none", list: [{name: "UI设计师", type: "设计类", addr: "东莞市", date: "2018-5-14"}, {name: "UI设计师", type: "设计类", addr: "东莞市", date: "2018-5-14"}, {name: "UI设计师", type: "设计类", addr: "东莞市", date: "2018-5-14"} ] },
+      navList: [
+        {
+          path: "/JoinUs",
+          name: "加入我们"
+        },
+        {
+          path: "/CorporateWelfare",
+          name: "公司福利"
+        },
+        {
+          path: "/ContactUs",
+          name: "联系我们"
+        }
+      ],
+      bannerList: [
+        "https://m.360buyimg.com/babel/jfs/t20761/88/245681533/100771/4f482734/5b068167N03df1383.jpg",
+        "https://m.360buyimg.com/babel/jfs/t20815/284/157613044/102231/f3bcf02c/5afed147Nef8c3eec.png",
+        "https://img1.360buyimg.com/pop/jfs/t17959/164/2242151507/87295/c65ca4b6/5aec1384N41688de1.jpg"
+      ],
+      job: {
+        isTop: false,
+        isError: false,
+        isEmpty: false,
+        bottomDisabled: false,
+        overflow: "initial",
+        background: "none",
+        list: []
+      },
       typePopupVisiable: false,
       cityPopupVisiable: false
     };
@@ -122,25 +158,13 @@ export default {
     },
   },
   methods: {
-    setCityData (provinceId) {
-        let cityList = []
-        // 从所有数据中，找到对应省份id的城市
-        for (var i = 0; i < this.areaData.length; i++) {
-            // 找到对应省份id的城市
-            if (this.areaData[i].provinceId == provinceId) {
-                // 拿到该省份所有的城市
-                let cityList = this.areaData[i].citys
-                // 转化一下key的名字，我们约定必须为.name
-                for (var j = 0; j < cityList.length; j++) {
-                    // 我们约定必须为.name
-                    cityList[j].name = cityList[j].cityName
-                }
-                // 返回中断循环
-                return cityList
-            }
-        }
-        // 默认返回一个空数组
-        return cityList
+    search() {
+      console.log(this.stationName)
+      if(this.stationName == ''){
+        Toast('请输入搜索关键字！')
+      }else {
+        this.loadData()
+      }
     },
     selectJobClassify() {
       this.typePopupVisiable = true;
@@ -149,57 +173,94 @@ export default {
       this.cityPopupVisiable = true;
     },
     onTypeValuesChange(picker, values) {
-      this.allType = values[0].name;
-      this.typeId = values[0].type;
-      //this.typePopupVisiable = false;
-      //this.loadData(this.initParam);
-      // if (values[0] > values[1]) {
-      //     picker.setSlotValue(1, values[0]);
-      // }
+      this.allType = values[0].name
+      this.typeId = values[0].type
+      this.typePopupVisiable = false
+      this.loadData(this.initParam)
+      
     },
     onCityValuesChange(picker, values) {
-        var provinceId = values[0].provinceId
-        picker.setSlotValues(1, this.setCityData(provinceId));
+      if(values[0] && values[0].provinceId){
+        picker.setSlotValues(1, values[0].citys);
+      }
+      this.selectCity = values[1].name
+      this.cityId = values[1].cityId
+      //this.cityPopupVisiable = false
+      this.loadData(this.initParam)
     },
     loadData() {
+      if(this.initParam.cityId == '0') {
+        this.initParam.cityId = ''
+      }
       this.recruit.recruitListApp(this.initParam).then(res => {
-        console.log(res);
-      });
+        if(res.returnCode == 0){
+          this.job.list = res.data
+        }
+      })
+    },
+    gotoInfo(item) {
+      this.$store.dispatch('setStationInfo',item)
+      this.$router.push('/JobDetail')
     },
     loadTop() {
       //目前无需分页
     },
     loadBottom() {
       //目前无需分页
+    },
+    initPickerData() {
+      //职位类型
+      this.jobTypes = [{
+        flex: 1,
+        values: [
+          { type: "0", name: "所有分类" },
+          { type: "1", name: "技术类" },
+          { type: "2", name: "职能类" },
+          { type: "3", name: "业务类" }
+        ],
+        className: "slot1"
+      }]
+      //城市选择
+      this.recruit.getProviceCityApp().then(res => {
+        if (res.returnCode == 0) {
+          if (res.data && res.data.length > 0) {
+              let allProvince = {
+                provinceId: "0",
+                provinceName: "所有城市",
+                citys: [{
+                  cityId: "0",
+                  cityName: "所有城市"
+                }]
+              }
+              res.data.unshift(allProvince);
+              var newData =  methods.changeArrKey(res.data,'provinceName','cityName')
+              this.cityList = [{
+                  flex: 1,
+                  values: newData,
+                  defaultIndex:0,
+                  className: 'slot1',
+                  textAlign: 'center'
+                }, {
+                  divider: true,
+                  content: '-',
+                  className: 'slot2'
+                }, {
+                  flex: 1,
+                  values: newData[0].citys,
+                  defaultIndex:0,
+                  className: 'slot3',
+                  textAlign: 'center'
+              }]
+          }
+        }
+      })
     }
   },
   beforeMount() {
-    this.recruit.getProviceCityApp().then(res => {
-        if (res.returnCode == 0) {
-            // 初始区域数据
-            this.areaData = res.data
-            this.areaData.unshift({ provinceId:'0', provinceName:'所有城市', citys:[{cityId: '0', cityName: '所有城市'}] })
-
-            // 初始化省份列表
-            var provinceList = []
-            for (var i = 0; i <  this.areaData.length; i++) {
-                provinceList.push({name: this.areaData[i].provinceName, provinceId: this.areaData[i].provinceId})
-            }
-
-            // 初始化picker数据
-            this.addressSlots = [
-                {
-                  flex: 1,
-                  values: provinceList,
-                  className: "slot1"
-                },{
-                  flex: 1,
-                  values: [{cityId: '0', name: '所有城市'}],
-                  className: "slot3",
-                  textAlign: "center"
-            }]
-        }
-    })
+    this.initPickerData()
+  },
+  created() {
+    this.loadData(this.initParam)
   }
 };
 </script>
@@ -207,6 +268,9 @@ export default {
 <style lang="scss" scoped>
 @import "../../sass/variables";
 @import "../../sass/func";
+.picker-slot{
+  font-size: .6rem !important;
+}
 .talent-recruit {
   .join-us-swipe {
     width: 100%;
@@ -234,6 +298,7 @@ export default {
         background: #eee;
         border: 0.026667rem solid #eaeaea;
         border-right: none;
+        -webkit-appearance:none;
       }
       button {
         outline: none;
@@ -282,11 +347,13 @@ export default {
         //         border:.013333rem solid #ccc;
         //     }
         // }
-        &:after {
+        .icon {
+          display: block;
           content: "";
           width: 0.373333rem;
           height: 0.226667rem;
           background: url("~@assets/select_icon.png") no-repeat center;
+          background-size: 100% 100%;
           position: absolute;
           right: 20px;
           top: 50%;
@@ -315,5 +382,20 @@ export default {
       }
     }
   }
+  .job-item-nodata{
+    font-size: 0.45rem;
+    color: #666;
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+}
+.picker-toolbar{
+  text-align: right;
+  background: #f5f5f5;
+  padding-right:0.6rem;
+  color:$font-primary;
+  font-size: 0.48rem;
+  height: 1rem;
+  line-height: 1rem;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="CarSellHistoryItem" @click="goInfo(id)">
         <div class="CarSellHistoryItem__left">
-                <img class="CarSellHistoryItem__image" :src="getImg()">
+            <img class="CarSellHistoryItem__image" :src="getImg()">
         </div>
         <div class="CarSellHistoryItem__right">
             <div class="carinfo">
@@ -14,8 +14,9 @@
                         <span class="carinfo__moneysymbol">¥</span>
                         <span class="carinfo__money">{{ money }}</span>
                     </div>
-                    <div class="carinfo__time" v-if="endtime">{{ endtime }} 截止</div>
-                    <div class="carinfo__time" v-if="starttime">{{ starttime }} 开拍</div>
+                    <!-- <div class="carinfo__time" v-if="endtime">{{ endtime }} 截止</div> -->
+                    <div class="carinfo__time">活动时间</div>
+                    <div class="carinfo__time">{{ starttime }} - {{endtime}}</div>
                 </div>
                 <div class="carinfo__bottom">
                     <div class="carinfo__city">{{ city }}</div>
@@ -31,10 +32,15 @@ export default {
   name: 'callsellitem',
   data () {
     return {
-        moneyText: (this.endtime || this.starttime) ? '起拍价：' : '成交价：<p></p>'
+        isFinish: false, //根据活动时间跟当前系统时间对比得出
+        priceCount: this.maindata.priceCount, //报价次数
     }
   },
   props: {
+    //type
+    type: {
+        type: String,
+    },
     // 整个数据集
     maindata: { type: Object | Array, default: {} },
     // 拍卖编号
@@ -52,20 +58,36 @@ export default {
     // 截止时间，拍卖历史需要，可以为空
     endtime:  { type: String | Number, default: '' },
     // 汽车属地
-    city:     { type: String, default: '' },
+    city:     { type: String, default: '东莞' },
     // 订单是否完成（默认未完成）后端不肯给我加字段，所以只能自己加isFinish
-    isFinish: { type: Boolean, default: false }
+    //isFinish: { type: Boolean, default: false }
   },  
+  computed: {
+      moneyText() {
+          if(this.type == "04") {
+              return '最低价'
+          } else if(this.type == '05'){
+              return '交易价'
+          }else {
+              return '我的报价'
+          }
+          
+      }
+  },
   methods: {
-    goInfo () {
-        // 后端不肯给我加字段，所以只能自己加isFinish
-        console.log(this.isFinish)
-        this.$store.dispatch('setCarInfoData', Object.assign(this.maindata, { isFinish: this.isFinish })).then(_ => {
+    goInfo (id) {
+        //控制详情界面进行中跟已完成，取到当天的endtime 跟new Date()作对比,目前不作分类，只是详情显示内容模块不一样
+        // if(new Date(this.starttime).getTime() < new Date().getTime()) {
+        //     this.isFinish = true
+        //     console.log(this.isFinish)
+        // }
+        
+        this.$store.dispatch('setCarInfoData', Object.assign(this.maindata, {type:this.type,isFinish: this.isFinish})).then(_ => {
             // 前期为了迅速，我把他们分开来了。后期再融合在一起吧
             if (this.$route.name.trim() === 'CarSellHistory') {
-                this.$router.push(`/CarSellHistoryInfo/${this.maindata.priceID}`)
+                this.$router.push(`/CarSellHistoryInfo/${this.maindata.auctionId}`)
             } else {
-                this.$router.push(`/CarSellInfo/${this.maindata.priceID}`)
+                this.$router.push(`/CarSellInfo/${this.maindata.auctionId}`)
             }
         })
     },
@@ -82,13 +104,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@sass/_variables";
-@import "~@sass/_func";
+@import "../sass/_variables";
+@import "../sass/_func";
 
 
 .CarSellHistoryItem {
     @include flex(start);
-    background: #fff;
+    background: $bg-white;
     height: pxToRem(306px); 
     padding: pxToRem(7px) 0;   
     box-sizing: content-box;
@@ -125,34 +147,34 @@ export default {
 }
 
 .carinfo__price {
-    color: #222222;
+    color: $font-text;
 }
 
 .carinfo__moneysymbol {
     @include f20;
-    color: #f57f25;
+    color: $font-primary;
 }
 
 .carinfo__money {
     @include f38;
-    color: #f57f25;
+    color: $font-primary;
 }
 
 .carinfo__time {
     @include f28;
-    color: #222222;
+    color: $font-text;
     line-height: pxToRem(50px);
 }
 
 .carinfo__city {
     @include f24;
-    color: #999999;
+    color: $tip-light-gray;
     line-height: pxToRem(35px);
 }
 
 .carinfo__id {
     @include f24;
-    color: #999999;
+    color: $tip-light-gray;
 }
 
 </style>

@@ -36,6 +36,21 @@ Date.prototype.format = function(fmt) {
     return fmt; 
 }
 
+//批量修改多层数组中的key值
+const changeArrKey = function(arr,key1,key2){
+    for(var i = 0; i < arr.length; i++){
+        var item = arr[i]
+        item.name = item[key1]
+        delete item[key1]
+        if(item.citys &&　item.citys.length > 0){
+            for(var j = 0; j < item.citys.length; j++){
+                item.citys[j].name = item.citys[j][key2]
+                delete item.citys[j][key2]
+            }
+        }
+    }
+    return arr
+}
 
 const date2date = (time, style="yyyy/MM/dd") => {
     if (time) {
@@ -111,5 +126,6 @@ export default {
     setTitle,
     pad,
     upload,
-    env
+    env,
+    changeArrKey
 }

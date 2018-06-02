@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="$parent.swiping || id === $parent.currentActive"
     class="mint-tab-container-item">
     <slot></slot>
   </div>
@@ -22,22 +23,19 @@
  */
 export default {
   name: 'mt-tab-container-item',
-
   props: ['id']
 };
 </script>
 
-<style>
-    .mint-tab-container-item {
-      flex-shrink: 0;
-      width: 100%;
-    }
-/*
-  @component-namespace mint {
-    @component tab-container-item {
-      flex-shrink: 0;
-      width: 100%;
-    }
+<style lang="scss">
+  .mint-tab-container-item {
+    flex-shrink: 0;
+    width: 100%;
   }
-*/
+  // .component-namespace mint {
+  //   .component tab-container-item {
+  //     flex-shrink: 0;
+  //     width: 100%;
+  //   }
+  // }
 </style>

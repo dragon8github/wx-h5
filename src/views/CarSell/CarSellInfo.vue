@@ -8,21 +8,21 @@
                 </swipe>
             </div>
 
-            <div class="CarSellInfo__navbar" :class="{'an-ing': !d.isFinish}" v-if="d.priceCount !== 0">
+            <!-- <div class="CarSellInfo__navbar" :class="{'an-ing': !d.isFinish}" v-if="d.priceCount !== 0">
                  <div class="CarSellInfo__navbarleft">{{ d.isFinish ? '拍卖已完成' : '拍卖进行中' }} </div>
                  <div class="CarSellInfo__navbarright" v-if="!d.isFinish">{{ d.etartPriceDate }} 截止</div>
                  <div class="CarSellInfo__navbarright" v-if="d.isFinish">交易价：¥265,000</div>
-            </div>
+            </div> -->
 
             <div class="carMain">
                 <div class="carMain__type">{{ d.vehicleBrand + ' ' + d.carModel }}</div>
                 <div class="carMain__id">编号：{{ d.businessId }}</div>
-                <div class="carMain__id">车辆属地：{{ d.city }}</div>
-                <div class="carMain__start">最低价：<span :style="lowestStyle">¥ {{ d.startPrice }}</span></div>
-                <div class="carMain__start" v-if="d.personNum" style="color:#DF2323;">已有{{d.personNum ? d.personNum:'66'}}人报价</div>
+                <div class="carMain__id">车辆属地：{{ d.vehicleTerritory }}</div>
+                <div class="carMain__start">{{!theActivityHasExpired ? '最低价：':'交易价：'}}<span>¥ {{ d.startPrice }}</span></div>
+                <div class="carMain__start" v-if="!theActivityHasExpired" style="color:#DF2323;">已有{{d.bidderCount ? d.bidderCount:'66'}}人报价</div>
                 <!-- <div class="carMain__maxtext">当前最高出价：</div>
                 <div class="carMain__maxmoney">¥ {{ TopAmount  }}</div> -->
-                <div class="carMain__time"> 活动时间：{{ date2date(d.startPriceDate) }} - {{ date2date(d.etartPriceDate) }} </div>
+                <div class="carMain__time"> 活动时间：{{ date2date(d.startPriceDate) }} - {{ date2date(d.endPriceDate) }} </div>
                 <!-- <div class="carMain__line"></div> -->
                 <!-- <div class="carMain__money">
                     <div class="carMain__moneytop">
@@ -72,10 +72,10 @@
 
           <!--   <cell title="《 竞买公告 》"  is-link :clickHandle="goCarSellNotice" :style="{fontWeight: 'bold'}"></cell>
             <cell title="《 竞买须知 》"  is-link :clickHandle="goCarSellNeedKnow" :style="{fontWeight: 'bold'}"></cell> -->
-            <div class="subject__title">车辆介绍</div>
+            <div class="subject__title">{{d.type == '04'? '车辆介绍':'交易信息公示'}}</div>
             <div class="subject">
                 <div class="subject__item">
-                    <div class="subject__itemleft">最低报价：</div> <div class="subject__itemright">{{ d.startPrice ? d.startPrice:'232221' }}元</div>
+                    <div class="subject__itemleft">最低价：</div> <div class="subject__itemright">{{ d.startPrice ? d.startPrice:'232221' }}元</div>
                 </div>
                 <div class="subject__item">
                     <div class="subject__itemleft">车辆品牌：</div> <div class="subject__itemright">{{ d.vehicleBrand }}</div>
@@ -96,7 +96,7 @@
                    </div>
                </div>
 
-               <div class="subject__item" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__item" v-if="moduleVisiable">
                    <div class="leftitem">
                        <div class="leftitem__left">汽车产地：</div> <div class="leftitem__right">{{ d.carproduction }}</div>
                    </div>
@@ -105,7 +105,7 @@
                    </div>
                </div>
 
-               <div class="subject__item" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__item" v-if="moduleVisiable">
                    <div class="leftitem">
                        <div class="leftitem__left">车显里程：</div> <div class="leftitem__right">{{ d.mileage }} km </div>
                    </div>
@@ -114,7 +114,7 @@
                    </div>
                </div>
 
-               <div class="subject__item" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__item" v-if="moduleVisiable">
                    <div class="leftitem">
                        <div class="leftitem__left">保险到期日：</div> <div class="leftitem__right">{{ date2date(d.insuranceDate) }}</div>
                    </div>
@@ -123,7 +123,7 @@
                    </div>
                </div>
 
-               <div class="subject__item" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__item" v-if="moduleVisiable">
                    <div class="leftitem">
                        <div class="leftitem__left">年检到期日：</div> <div class="leftitem__right">{{ d.inspectionDate ? d.inspectionDate.replace(/\-/g, "/") : ''}}</div>
                    </div>
@@ -132,56 +132,56 @@
                    </div>
                </div>
 
-               <div class="subject__item" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__item" v-if="moduleVisiable">
                    <div class="subject__itemleft">首次登记年月：</div>
                    <div class="subject__itemright">{{ date2date(d.registerDate) }}</div>
                </div>
 
-               <div class="subject__item" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__item" v-if="moduleVisiable">
                    <div class="subject__itemleft">车辆抵押状态：</div>
                    <div class="subject__itemright">{{ d.mortgageState }}</div>
                </div>
 
 
-               <div class="carRule__rows mt38" v-if="!d.isFinish || d.type == '1'">
+               <div class="carRule__rows mt38" v-if="moduleVisiable">
                    <div class="carRule__rowsleft">交易税费：</div>
                    <div class="carRule__rowsright">{{ d.taxation }}</div>
                </div>
-               <div class="carRule__rows" v-if="!d.isFinish || d.type == '1'">
+               <div class="carRule__rows" v-if="moduleVisiable">
                    <div class="carRule__rowsleft">车辆位置：</div>
                    <div class="carRule__rowsright">{{ d.position  }}</div>
                </div>
 
-               <div class="carRule__rows" v-if="!d.isFinish || d.type == '1'">
+               <div class="carRule__rows" v-if="moduleVisiable">
                    <div class="carRule__rowsleft">提供文件：</div>
                    <div class="carRule__rowsright">{{ d.file  }}</div>
                </div>
 
-               <div class="carRule__rows" v-if="!d.isFinish || d.type == '1'">
+               <div class="carRule__rows" v-if="moduleVisiable">
                    <div class="carRule__rowsleft">随车工具：</div>
                    <div class="carRule__rowsright">{{ d.tools  }}</div>
                </div>
 
 
 
-               <div class="subject__last" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__last" v-if="moduleVisiable">
                    <div class="subject__lasttitle">违章未处理记录：</div>
                    <div class="subject__lasttext">{{ d.illegal }}</div>
                </div>
 
-               <div class="subject__last" v-if="!d.isFinish || d.type == '1'">
+               <div class="subject__last" v-if="moduleVisiable">
                    <div class="subject__lasttitle">{{ d.remarks ? '备注：' : '' }}</div>
                    <div class="subject__lasttext">{{ d.remarks }}</div>
                </div>
             </div>
 
-            <div class="buyneedknow" v-if="!d.isFinish || d.type == '1'">
+            <div class="buyneedknow" v-if="moduleVisiable">
                     <div class="buyneedknow__title buyneedknow--bold "> 车辆销售公告 </div>
                     <div>
                         <p class="buyneedknow--indent">现有车辆销售信息，公告如下：</p>
                         <!-- <p><span class="buyneedknow--bold">我方将于 {{ d.startPriceDate }} 至 {{ d.etartPriceDate }} 止进行公开竞买活动，</span> 现公告如下：</p> -->
                         <!--<p class="buyneedknow--indent">一、 活动时间：  车牌号： {{ d.licensePlateNumber }}； 车辆识别代号： {{ d.frameNumber }}； 发动机号： {{ d.engineNumber  }}； 初次登记日期：{{ date2date(d.registerDate)   }}； 行驶总里程： {{ d.mileage }}KM。</p>-->
-                        <p class="buyneedknow--indent">一、 活动时间：<span class="bi-time">{{ d.conStartDate }}至{{ d.conEndDate }}时止</span> </p>
+                        <p class="buyneedknow--indent">一、 活动时间：<span class="bi-time">{{ d.startPriceDate }}至{{ d.endPriceDate }}时止</span> </p>
                         <!-- <p>竞买起始价： {{ d.startPrice }}元， 增价幅度{{ d.priceincrease }}元（或整倍数）。</p> -->
                         <p class="buyneedknow--indent">二、参与人条件：<br/>凡具备完全民事行为能力的公民、法人和其他组织均可参加。不符合条件参加购买的，买受人自行承担相应的法律责任。</p>
                         <p class="buyneedknow--indent">三、参与渠道：参与人可根据意向报价，实际报价不低于最低报价。交易前请与相关人员确认标的物的情况，交易视为对标的物的确认，由参与人自行承担相应责任。</p>
@@ -194,7 +194,7 @@
                         <p class="buyneedknow--indent">七、 竞买成交买受人付清全部竞买价款后， 凭相关证件自行至标的物所在地接收车辆， 过户手续及风险请竞买人在竞买前自行到相关职能部门咨询确认， 过户费用由买受人自行承担。</p>
                         <p class="buyneedknow--indent">竞买人在竞价前请务必再仔细阅读我方发布的的竞价须知。</p> -->
                         <p class="buyneedknow--indent">五、付款方式：买卖双方实地交易。</p>
-                        <p class="buyneedknow--indent">六、交付地点：车辆所在地。</p>
+                        <p class="buyneedknow--indent">六、交易地点：{{d.position}}。</p>
                         <p class="buyneedknow--indent">七、相关费用说明：过户手续费、税费等相关费用均由买受人承担。过户手续及风险请报价人在报价前自行到相关职能部门咨询确认。</p>
                         <p class="buyneedknow--indent">八、参与人付清全部价款后的三个工作日内可领取证件办理相关过户手续。买受人付款后应及时提取标的物，并办理交接手续，逾期不办理的，买受人应支付由此产生的费用，并承担本标的物可能发生的损毁、灭失等后果。</p>
                         <p class="buyneedknow--indent">九、本次活动计价货币为人民币，购买时的起始价、成交价均不含买受人在购买标的物交割、过户时所发生的全部费用和税费。</p>
@@ -206,7 +206,7 @@
             </div>
             
             <div class="btnblock">
-                <button class="btn btn--primary" @click="go" v-if="d.priceCount !== 3 || !d.isFinish">我要报价</button>
+                <button class="btn btn--primary" @click="go()" v-if="moduleVisiable && !theActivityHasExpired">我要报价</button>
             </div>
         </div>
     </div>
@@ -230,13 +230,13 @@
         }
     },
     computed:{
-        lowestStyle() {
-            if(this.d.priceCount == 0) {
-                return {
-                    color:'#DF2323',
-                    fontSize:'.64rem'
-                }
-            }
+        moduleVisiable() {
+            return this.d.type == '04'
+        },
+        theActivityHasExpired() {
+            var nowtime = new Date().valueOf()
+            var endtime = new Date(this.d.endPriceDate.replace(/\-/g, "/")).valueOf()
+            return nowtime > endtime
         }
     },
     components: {
@@ -261,82 +261,13 @@
         },
         go () {
             // 获取开始时间的时间戳
-            // var starttime = new Date(this.d.starBidTime.replace(/\-/g, "/")).valueOf()
-            // var nowtime = new Date().valueOf()
-            // var endtime = new Date(this.d.endBidTime.replace(/\-/g, "/")).valueOf()
-            // if (nowtime < starttime) {
-            //     Toast('还未到活动时间，请耐心等待！')
-            // } else {
-            //     //是否有登录
-            //     if(!this.$store.getters.AppData.isLogin) {
-            //         //跳转至原生登录
-            //         let bridge = this.Bridge
-            //         // bridge 的初始化完成事件.必须在此事件之后再开始页面的生命周期，否则期间使用bridge 很可能由于未初始化完成而找不到插件函数报错
-            //         bridge.deviceReady(null, () => {
-            //             // 获取设备信息API
-            //             bridge.exec('Login', () => {
-            //                 // 登录成功之后返回
-            //                 console.log('success')
-            //                 this.$router.push('/carsellapply')
-            //             }, () => {
-            //                 console.log('err')
-            //             }, {
-            //                 'key': 'APP_DATA'
-            //             })
-            //         })
-            //     }
-            // }
-            
-            this.$router.push('/carsellapply')
-
-            // this.carapi.selectBiddersPage({
-            //     priceID: this.$route.params.id,
-            //     telephone: this.$store.state.phone
-            // }).then(_=>{
-            //     if ( _.returnCode == 0 ) {
-            //         // 返回的一定是一个数组，该数组要么为空，要么只有一个值
-            //         if (Object.prototype.toString.call(_.data) == '[object Array]') {
-            //         // 如果数组为空，说明用户没有交保证金
-            //         if (_.data.length == 0) {
-            //             // 缴纳保证金：否，跳转报名
-            //             this.$router.push('/carsellapply')
-            //         } else {
-            //             // 如果数组不为空，那么判断第一条数据（只会给我一条数据的），然后判断isPayDeposit是否为true，如果为true说明已经交钱了。
-            //             if ( _.data[0].isPayDeposit && _.data[0].isPayDeposit == true ) {
-            //             // 缴纳保证金：是，跳转竞买
-            //             this.$router.push('/carsellbuy')
-
-            //             // 报名了但没交钱
-            //             } else {
-
-            //             // 获取开始时间的时间戳
-            //             var starttime = new Date(this.d.starBidTime.replace(/\-/g, "/")).valueOf()
-            //             var nowtime = new Date().valueOf()
-            //             var endtime = new Date(this.d.endBidTime.replace(/\-/g, "/")).valueOf()
-
-            //             // 说明竞买未开始
-            //             if (nowtime < starttime) {
-            //                 msg.alert('已报名成功，请及时交保证金，否则无法参与竞拍', '警告').then(() => {
-            //                 return false
-            //                 })
-            //             // 说明竞价
-            //             } else if (nowtime >= starttime && nowtime <= endtime) {
-            //                 msg.alert('竞拍已开始，没有交保证金，无法参与竞拍!', '警告').then(() => {
-            //                 return false
-            //                 })
-            //             } else if (nowtime > endtime) {
-            //                 msg.alert('竞拍已结束', '警告').then(() => {
-            //                 return false
-            //                 })
-            //             }
-
-            //             }
-            //         }
-            //         }
-            //     } else {
-            //         Toast("获取拍卖状态失败：" + _.msg)
-            //     }
-            // })
+            var starttime = new Date(this.d.startPriceDate.replace(/\-/g, "/")).valueOf()
+            var nowtime = new Date().valueOf()
+            if (nowtime < starttime) {
+                Toast('还未到活动时间，请耐心等待！')
+            } else {
+               this.$router.push('/carsellapply')
+            }
         },
         goCarSellNeedKnow () {
             this.$router.push('/CarSellNeedKnow')
@@ -353,10 +284,9 @@
         next();
     },
     beforeMount () {
-        if (!this.$store.state.CarInfoData.CarInfoData.priceID) {
+        if (!this.d.auctionId) {
             return this.$router.push('/carsell')
         }
-
         // this.carapi.selectMaxOfferPriceByAuctionId({
         //     priceID: this.d.priceID
         // }).then(_=>{
@@ -369,7 +299,7 @@
         //     }
         // })
     }
-    }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -427,7 +357,7 @@
     @include flex(false, false, column);
     padding: pxToRem(30px);
     background: $bg-white;
-
+    margin-bottom: 0.1rem;
 
     .carMain__type {
         color: $font-text;

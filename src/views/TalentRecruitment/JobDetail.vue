@@ -2,27 +2,29 @@
     <div class="job-detail-wrap">
         <div class="job-detail">
             <h2 class="job-topic">
-                Java高级开发工程师
+                {{stationInfo.stationName}}
             </h2>
             <div class="job-type">
-                <p>职业类别:研发类</p>
-                <p>工作地点:东莞南城</p>
+                <p>职业类别:{{stationInfo.typeName}}</p>
+                <p>工作地点:{{stationInfo.stationPlaceName}}</p>
                 <!-- <p>发布时间:2018/05/06</p> -->
             </div>
             <h2 class="job-topic">
                 任职要求
             </h2>
             <div class="job-zz">
-                <p>1.负责系统的开发及维护工作，以及相关系统的架构及组件设计，制定开发方案；</p>
-                <p>2.负责功能模块的项目需求分析、设计、开发，配合测试人员对产品需求进行测试。</p>
+                <p v-html="stationInfo.stationSeniority"></p>
+                <!-- <p>{{stationInfo.stationDuty}}</p> -->
+                <!-- <p>2.负责功能模块的项目需求分析、设计、开发，配合测试人员对产品需求进行测试。</p> -->
             </div>
             <h2 class="job-topic">
                 任职资格
             </h2>
             <div class="job-zz">
-                <p>1.本科以上学历，计算机相关专业；</p>
-                <p>2.5年以上开发经验，2年互联网企业经验者，P2P平台，消费贷款系统优先；</p>
-                <p>3.理解Java反射机制和常用的设计模式，熟悉基于J2EE的相关开源技术以及框架（Spring,Struts2, Mybatis）熟练使用MYSQL数据库以及PL/SQL。</p>
+                <p v-html="stationInfo.stationSeniority"></p>
+                <!-- <p>{{stationInfo.stationSeniority}}</p> -->
+                <!-- <p>2.5年以上开发经验，2年互联网企业经验者，P2P平台，消费贷款系统优先；</p>
+                <p>3.理解Java反射机制和常用的设计模式，熟悉基于J2EE的相关开源技术以及框架（Spring,Struts2, Mybatis）熟练使用MYSQL数据库以及PL/SQL。</p> -->
             </div>
         </div>
         <div class="job-email">
@@ -30,6 +32,21 @@
         </div>
     </div>
 </template>
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+    computed: {
+        ...mapGetters([
+        'stationInfo',
+        ])
+    },
+    created() {
+        console.log(this.stationInfo)
+    }
+}
+</script>
+
 <style lang="scss" scoped>
     @import "../../sass/variables";
     @import "../../sass/func";

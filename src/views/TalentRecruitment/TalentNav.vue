@@ -1,11 +1,11 @@
 <template>
     <div class="nav">
-        <div class="nav-icon" @click="showNavPanel"></div>
+        <div class="nav-icon" v-on:click.stop="showNavPanel"></div>
         <div class="nav-logo"></div>
         <transition name="fade">
             <div class="nav-panel" v-show="navPanelVisiable">
-                <div class="nav-panel-modal" @click="hideModal"></div>
                 <router-link class="nav-item" :class="activated == item.name ? 'active': ''" v-for="item in navList" :key="item.path" :to="item.path">{{item.name}}</router-link>
+                <div class="nav-panel-modal" v-on:click.stop="hideModal"></div>
             </div>
         </transition>
     </div>
@@ -24,8 +24,8 @@
         .nav-icon {
             margin-left:0.4rem;
             flex-shrink:0;
-            width: .453333rem;
-            height: .346667rem;
+            width: .6rem;
+            height: .4rem;
             background: url('~@/assets/talent_nav_icon.png') no-repeat;
             background-size: 100% 100%;
         }
@@ -43,16 +43,18 @@
             background: #fff;
             position: absolute;
             top:1.253333rem;
-            z-index: 100;
+            left:0;
+            right:0;
+            z-index: 50;
             .nav-panel-modal{
                 width: 100%;
                 height: 100%;
                 background: transparent;
                 position: fixed;
-                top: 0;
+                top: 1.253333rem;
                 left: 0;
                 right: 0;
-                z-index: 1;
+                z-index: -1;
             }
             .nav-item{
                 display: block;
@@ -61,8 +63,6 @@
                 font-size: .4rem;
                 color:#666;
                 border-bottom: .013333rem solid #ebebeb;
-                position: relative;
-                z-index: 10;
             }
             .nav-item.active{
                 color:#cfa972;
@@ -113,11 +113,6 @@
             hideModal() {
                 this.navPanelVisiable = false
             }
-        },
-        created() {
-            document.addEventListener('click', (e) => {
-                
-            });
         }
         
     }

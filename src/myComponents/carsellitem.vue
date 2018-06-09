@@ -81,8 +81,9 @@ export default {
         //     this.isFinish = true
         //     console.log(this.isFinish)
         // }
-        
+        //弹回头部
         this.$store.dispatch('setCarInfoData', Object.assign(this.maindata, {type:this.type,isFinish: this.isFinish})).then(_ => {
+
             // 前期为了迅速，我把他们分开来了。后期再融合在一起吧
             if (this.$route.name.trim() === 'CarSellHistory') {
                 this.$router.push(`/CarSellHistoryInfo/${this.maindata.auctionId}`)

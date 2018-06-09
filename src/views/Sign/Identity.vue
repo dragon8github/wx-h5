@@ -71,7 +71,7 @@ export default {
         enterpriseName: this.env('梁愿华'),
         agreement: true,
         value: '1',
-        unifiedCode: '321315345553213123',
+        unifiedCode: this.env('321315345553213123'),
         validate: '',
         id_placeholder: '请输入证件号码',
         phone_placeholder: '请输入银行卡预留手机号码',

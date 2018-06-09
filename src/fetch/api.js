@@ -22,7 +22,7 @@ if (typeof(Proxy) == 'function') {
     })
     carapi = new Proxy({}, {
         get: (target, key, receiver) => (data, isQuiet = false) => {
-            return ajax.postData('nonLogin/' + key, data, isQuiet)
+            return ajax.postData('carAction/' + key, data, isQuiet)
         }
     })
     wxapi = new Proxy({}, {
@@ -32,7 +32,7 @@ if (typeof(Proxy) == 'function') {
     })
     recruit = new Proxy({}, {
         get: (target,key,receiver) => (data,isQuiet = true) =>{
-            return ajax.postData('recruit/' + key,data,isQuiet)
+            return ajax.postData('recruitWx/' + key,data,isQuiet)
         }
     })
 
@@ -127,7 +127,7 @@ if (typeof(Proxy) == 'function') {
         'getProviceCityApp'
     ].entries()){
         recruit[ele] = (data, isQuiet = true) => {
-            return ajax.postData('recruit/' + ele,data,isQuiet)
+            return ajax.postData('recruitWx/' + ele,data,isQuiet)
         }
     }
 }

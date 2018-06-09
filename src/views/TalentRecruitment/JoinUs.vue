@@ -1,18 +1,22 @@
 <template>
-    <div class="talent-recruit" style="margin-bottom:0.4rem;">
+    <div class="talent-recruit">
         <talent-nav :activated="activated"></talent-nav>
         <div class="join-us-swipe">
-            <mt-swipe >
-                <mt-swipe-item v-for="(banner,index) in bannerList" :key="index">
-                    <img :src="banner" />
+            <mt-swipe>
+                <mt-swipe-item>
+                  <img src="../../assets/pic.png" />
                 </mt-swipe-item>
-                <!-- <mt-swipe-item><img src="~@/assets/pic.png" /></mt-swipe-item>
-                <mt-swipe-item><img src="~@/assets/pic.png" /></mt-swipe-item> -->
+                <mt-swipe-item>
+                  <img src="../../assets/pic_4.png" />
+                </mt-swipe-item>
+                <mt-swipe-item>
+                  <img src="../../assets/pic_5.png" />
+                </mt-swipe-item>
             </mt-swipe>
         </div>
         <div class="join-content">
             <div class="job-search">
-                <input type="text" placeholder="请输入关键词" v-model="stationName"/>
+                <input type="text" @blur="blurSearchAll" placeholder="请输入关键词" v-model="stationName"/>
                 <button class=""  @click="search">搜索</button>
             </div>
             <div class="job-classify">
@@ -27,8 +31,8 @@
             </div>
             
         </div>
-        <div class="job-list-wrap" v-show="job.list && job.list.length > 0">
-            <div class="job-item" v-for="(item,index) in job.list" :key="index" @click="gotoInfo(item)">
+        <div class="job-list-wrap" v-show="list && list.length > 0">
+            <div class="job-item" v-for="(item,index) in list" :key="index" @click="gotoInfo(item)">
                 <div class="ji-name">{{item.stationName}}</div>
                 <div class="jt-class">
                     <div class="jt-type">
@@ -66,22 +70,25 @@
                 </div>
             </panel> -->
         </div>
-        <div v-show="job.list.length <= 0" class="job-item-nodata">
+        <div v-show="list.length <= 0" class="job-item-nodata">
           <p><img src="~@/assets/t_nodata.png" alt=""></p>
-          暂无数据
+          {{nodata}}
         </div>
        <mt-popup
         v-model="typePopupVisiable"
         position="bottom">
-            <mt-picker v-if="jobTypes" :slots="jobTypes" valueKey="name"  :itemHeight="60" :visible-item-count="3" @change="onTypeValuesChange"></mt-picker>
+            <div class="picker-toolbar">  
+              <span @click="typeUpdate">确定</span>
+            </div>  
+            <mt-picker v-if="jobTypes" :slots="jobTypes" valueKey="name"  :itemHeight="itemHeight" :visible-item-count="3" @change="onTypeValuesChange"></mt-picker>
         </mt-popup>
         <mt-popup
         v-model="cityPopupVisiable"
         position="bottom">
             <div class="picker-toolbar">  
-              <span @click="cityPopupVisiable = false">确定</span>
+              <span @click="cityUpdate">确定</span>
             </div>  
-            <mt-picker v-if="cityList" :slots="cityList" valueKey="name"  :itemHeight="60" :visible-item-count="3" @change="onCityValuesChange"></mt-picker>
+            <mt-picker v-if="cityList" :slots="cityList" valueKey="name"  :itemHeight="itemHeight" :visible-item-count="3" @change="onCityValuesChange"></mt-picker>
         </mt-popup>
     </div>
 </template>
@@ -108,7 +115,9 @@ export default {
   },
   data() {
     return {
-      typeId: "",
+      nodata:'加载中。。。',
+      itemHeight: 36 * window.dpr,
+      typeId: "0",
       cityId: "",
       allType: "所有分类",
       selectCity: "所有城市",
@@ -142,8 +151,8 @@ export default {
         bottomDisabled: false,
         overflow: "initial",
         background: "none",
-        list: []
       },
+      list: [],
       typePopupVisiable: false,
       cityPopupVisiable: false
     };
@@ -158,14 +167,19 @@ export default {
     },
   },
   methods: {
+    blurSearchAll() {
+      if(this.stationName == ''){
+        this.loadData()
+      }
+    },
     search() {
-      console.log(this.stationName)
       if(this.stationName == ''){
         Toast('请输入搜索关键字！')
       }else {
         this.loadData()
       }
     },
+    
     selectJobClassify() {
       this.typePopupVisiable = true;
     },
@@ -175,8 +189,8 @@ export default {
     onTypeValuesChange(picker, values) {
       this.allType = values[0].name
       this.typeId = values[0].type
-      this.typePopupVisiable = false
-      this.loadData(this.initParam)
+      // this.typePopupVisiable = false
+      // this.loadData(this.initParam)
       
     },
     onCityValuesChange(picker, values) {
@@ -185,16 +199,31 @@ export default {
       }
       this.selectCity = values[1].name
       this.cityId = values[1].cityId
-      //this.cityPopupVisiable = false
+    },
+    cityUpdate() {
       this.loadData(this.initParam)
+      this.cityPopupVisiable = false
+    },
+    typeUpdate() {
+      this.loadData(this.initParam)
+      this.typePopupVisiable = false
     },
     loadData() {
+      var that = this
       if(this.initParam.cityId == '0') {
         this.initParam.cityId = ''
       }
       this.recruit.recruitListApp(this.initParam).then(res => {
         if(res.returnCode == 0){
-          this.job.list = res.data
+          if(res.data && res.data.length > 0){
+            that.list = res.data
+          }else {
+            that.list = []
+            that.nodata = '暂无数据'
+          }
+          
+        }else {
+          that.nodata = '网络不给力，请检查'
         }
       })
     },
@@ -216,7 +245,8 @@ export default {
           { type: "0", name: "所有分类" },
           { type: "1", name: "技术类" },
           { type: "2", name: "职能类" },
-          { type: "3", name: "业务类" }
+          { type: "3", name: "业务类" },
+          { type: "4", name: '其他'}
         ],
         className: "slot1"
       }]
@@ -256,10 +286,8 @@ export default {
       })
     }
   },
-  beforeMount() {
-    this.initPickerData()
-  },
   created() {
+    this.initPickerData()
     this.loadData(this.initParam)
   }
 };
@@ -272,6 +300,9 @@ export default {
   font-size: .6rem !important;
 }
 .talent-recruit {
+  height: 100vh;
+  margin-bottom:0.4rem;
+  position: relative;
   .join-us-swipe {
     width: 100%;
     height: 5rem;
@@ -368,7 +399,7 @@ export default {
     padding-top: 0.36rem;
     .job-item {
       border-top: 0.026667rem solid #ebebeb;
-      padding: 0.533333rem 0.4rem 0.4rem 0.4rem;
+      padding: 0.2rem 0.4rem 0.2rem 0.4rem;
       background: #fff;
       line-height: 0.933333rem;
       .ji-name {
@@ -387,6 +418,14 @@ export default {
     color: #666;
     text-align: center;
     margin-top: 1.5rem;
+    p{
+      width: 4rem;
+      height: 4rem;
+      margin:0 auto;
+      img{
+        max-width: 100%;
+      }
+    }
   }
 }
 .picker-toolbar{

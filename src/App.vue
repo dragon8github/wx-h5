@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <transition :name="transitionName" @afterLeave="clearTransition">
-        <keep-alive include = "Fast,Borrow,Repay,CarSell,CarSellHistory,CarSellApply,Register,Sign,Identity">
-            <router-view class="view"></router-view>
-        </keep-alive> 
-    </transition>
+    <keep-alive include = "Fast,Borrow,Repay,CarSell,CarSellHistory,CarSellApply,Register,Sign,Identity">
+        <router-view class="view"></router-view>
+    </keep-alive> 
   </div>
 </template>
 
@@ -68,17 +66,17 @@ export default {
   @import "~@sass/_func";
 
   .view {
-      // height: 100vh;
-       height: 100%;
+       height: 100vh;
+       //height: 100%;
        margin: 0 auto;
-       transition: all .3s ease-in-out;
+       //transition: all .3s ease-in-out;
        box-sizing: border-box;
        background-color: #f2f2f2;
        position: absolute;
        left: 0;
        right: 0;
        top: 0;
-       // bottom: 0;
+       bottom: 0;
        z-index: 1;
        overflow-y: scroll;
   }

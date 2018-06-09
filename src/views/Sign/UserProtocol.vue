@@ -195,7 +195,7 @@ export default {
     word-break: break-all;
 
     ul li {
-        font-size: pxToRem(20px);
+        // font-size: pxToRem(20px);
     }
 
     h1 {

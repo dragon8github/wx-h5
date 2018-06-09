@@ -41,7 +41,7 @@
   .picker-center-highlight:after {
     content: '';
     position: absolute;
-    height: pxToRem(1px);
+    height: 1px;
     width: 100%;
     background-color: #eaeaea;
     display: block;

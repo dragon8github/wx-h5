@@ -22,6 +22,7 @@
       @click="myClick"
       @change="$emit('change', currentValue)"
       @keyup="myKeyup"
+      @blur="blur"
       :maxlength = "maxlength"
       ref="input"
       class="mint-field-core"
@@ -121,6 +122,9 @@ export default {
     },
     myKeyup () {
       this.$emit('keyup', this.currentValue)
+    },
+    blur() {
+      this.$emit('blur',this.currentValue)
     }
   },
   watch: {
@@ -178,7 +182,7 @@ export default {
     }
 
     .mint-field-core {
-        appearance: none;
+        -webkit-appearance: none;
         border-radius: 0;
         border: 0;
         flex: 1;
@@ -189,6 +193,9 @@ export default {
 
         &[readonly] {
             color: #999;
+        }
+        &[disabled] {
+          background: none;
         }
     }
 
@@ -224,7 +231,7 @@ export default {
     }
 
     .mintui-field-error {
-      @include bg(30px, 30px, "~@assets/close.png")
+      @include bgImg(30px, 30px, "~@assets/close.png")
     }
 }
 

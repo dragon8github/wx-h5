@@ -313,24 +313,8 @@ export default {
         if (nowtime < starttime) {
             Toast('还未到活动时间，请耐心等待！')
         } else {
-            //是否有登录
-            if(!this.$store.getters.AppData.isLogin) {
-                //跳转至原生登录
-                let bridge = this.Bridge
-                // bridge 的初始化完成事件.必须在此事件之后再开始页面的生命周期，否则期间使用bridge 很可能由于未初始化完成而找不到插件函数报错
-                bridge.deviceReady(null, () => {
-                    // 获取设备信息API
-                    bridge.exec('Login', () => {
-                        // 登录成功之后返回
-                        console.log('success')
-                        this.$router.push('/carsellapply')
-                    }, () => {
-                        console.log('err')
-                    }, {
-                        'key': 'APP_DATA'
-                    })
-                })
-            }
+            window.scrollTo(0, 0)
+            this.$router.push('/carsellapply')
         }
             
         // this.carapi.selectBiddersPage({

@@ -287,6 +287,8 @@ router.beforeEach((to, from, next) => {
             return router.push('/Identity')
         }
     }
+
+    // 猴子补丁:【电子签章项目】如果进入的是电子签章页面，那么需要根据情况无缝跳转到另外一些页面
     if (_to == 'autograph') {
         // 从signStatus页面归来之后，如果有多条订单，则需要继续跳转到sign页面，否则直接关闭微信页
         if (store.state.signStatus && _from == 'signstatus') {
@@ -298,7 +300,6 @@ router.beforeEach((to, from, next) => {
             return wxclose();
         }
     }
-
 
 
     // 设置标题

@@ -266,6 +266,7 @@
             if (nowtime < starttime) {
                 Toast('还未到活动时间，请耐心等待！')
             } else {
+              window.scrollTo(0, 0)
                this.$router.push('/carsellapply')
             }
         },

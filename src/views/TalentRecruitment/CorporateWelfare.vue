@@ -56,7 +56,7 @@
                 margin-top:0;
                 margin-bottom: .266667rem;
                 line-height: .8rem;
-                font-size: .4rem;
+                font-size: .36rem;
                 color:#666;
             }
         }

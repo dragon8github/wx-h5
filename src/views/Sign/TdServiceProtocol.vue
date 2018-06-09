@@ -158,7 +158,7 @@ export default {
     h1 {
       font-size: pxToRem($font-size-middle);
       color:$font-black-color;
-      text-align: center;
+      text-align: left;
       margin-top: pxToRem(60px);
       text-indent: pxToRem(0px);
 

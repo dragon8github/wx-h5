@@ -196,6 +196,7 @@ export default {
 
     ul li {
         // font-size: pxToRem(20px);
+        list-style: none;
     }
 
     h1 {

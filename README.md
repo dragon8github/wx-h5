@@ -23,11 +23,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### demo
 <p>
     <img
-      src="https://github.com/dragon8github/wx-h5/raw/master/static/1FFCF[EHVO_)B%NFW8FE`03.png" />
-</p>
-
-<p>
-    <img
       src="https://github.com/dragon8github/wx-h5/raw/master/static/K12H{J5F6W`RB~CJ_79955H.png" />
 </p>
 

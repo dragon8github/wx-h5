@@ -42,4 +42,3 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
       src="https://github.com/dragon8github/wx-h5/raw/master/static/`ED[S$0Z9JOI5V`JPG}_JUU.png" />
 </p>
 
-

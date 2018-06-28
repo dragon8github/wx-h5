@@ -21,38 +21,30 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ### demo
+<p>
+    <img
+      src="https://github.com/dragon8github/wx-h5/raw/master/static/1FFCF[EHVO_)B%NFW8FE`03.png" />
+</p>
 
-https://nodejs.org/">
+<p>
+    <img
+      src="https://github.com/dragon8github/wx-h5/raw/master/static/K12H{J5F6W`RB~CJ_79955H.png" />
+</p>
 
-https://github.com/dragon8github/wx-h5/raw/master/static/1FFCF[EHVO_)B%NFW8FE`03.png"
+<p>
+    <img
+      src="https://github.com/dragon8github/wx-h5/raw/master/static/OWQMLN8KD@9{7)RREJT]]AM.png" />
+</p>
 
-
-
-
-https://nodejs.org/">
-
-https://github.com/dragon8github/wx-h5/raw/master/static/K12H{J5F6W`RB~CJ_79955H.png"
-
-
-
-
-https://nodejs.org/">
-
-https://github.com/dragon8github/wx-h5/raw/master/static/OWQMLN8KD@9{7)RREJT]]AM.png"
-
-
-
-
-https://nodejs.org/">
-
-https://github.com/dragon8github/wx-h5/raw/master/static/WC8G})HB2%H(HURJCOE77RW.png"
+<p>
+    <img
+      src="https://github.com/dragon8github/wx-h5/raw/master/static/WC8G})HB2%H(HURJCOE77RW.png" />
+</p>
 
 
-
-
-
-https://nodejs.org/">
-
-https://github.com/dragon8github/wx-h5/raw/master/static/`ED[S$0Z9JOI5V`JPG}_JUU.png"
+<p>
+    <img
+      src="https://github.com/dragon8github/wx-h5/raw/master/static/`ED[S$0Z9JOI5V`JPG}_JUU.png" />
+</p>
 
 
